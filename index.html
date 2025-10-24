@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>长辈优惠直达车（MVP）</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="直达车">
+    <link rel="apple-touch-icon" href="/icon_192.png"> <link rel="manifest" href="/manifest.json">
+    <style>
+        /* CSS 样式：确保大字、高对比度、大按钮 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f7f7f7; /* 浅灰色背景 */
+            padding: 20px;
+            text-align: center;
+        }
+        .header {
+            font-size: 32px; /* 标题超大字 */
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .tip-box {
+            background-color: #ffdddd; /* 警告红色背景 */
+            color: #cc0000;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            font-size: 20px; /* 提示语也用大字 */
+            font-weight: bold;
+            line-height: 1.5;
+        }
+        .activity-btn {
+            display: block;
+            width: 100%;
+            padding: 25px 15px;
+            margin-bottom: 15px;
+            background-color: #007aff; /* iOS 蓝色系按钮 */
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 26px; /* 按钮字号更大 */
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s;
+        }
+        .activity-btn:active {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">长辈优惠直达车</div>
+    
+    <div class="tip-box">
+        🚨 **重要提示：** 点击按钮后，手机会弹出**「是否打开 XXX App」**的提示，请**务必点击「打开」或「确定」！** 才能领钱！
+    </div>
+
+    <a href="ccb://activity/checkin" class="activity-btn">
+        🏦 建设银行：每日签到领积分
+    </a>
+
+    <a href="pinduoduo://video/cash" class="activity-btn">
+        💰 拼多多：看视频领现金
+    </a>
+
+    <a href="alipay://app/couponcenter" class="activity-btn">
+        💳 支付宝：领生活缴费券
+    </a>
+
+    <script>
+        // JS 逻辑将用于 PWA 安装引导和数据读取
+    </script>
+</body>
+</html>
