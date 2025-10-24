@@ -3,76 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>长辈优惠直达车（MVP）</title>
+    <title>慧伴管家 - 长辈优惠直达车</title>
+
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="直达车">
-    <link rel="apple-touch-icon" href="/icon_192.png"> <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-title" content="慧伴管家">
+    <link rel="apple-touch-icon" href="/assets/icon_192.png"> 
+    <link rel="manifest" href="/manifest.json">
+
     <style>
-        /* CSS 样式：确保大字、高对比度、大按钮 */
+        /* ------------------------------------------- */
+        /* CSS样式：从您的 WXSS 移植并转换为 PX 单位 */
+        /* ------------------------------------------- */
+        
+        /* 页面基础样式和背景 */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f7f7f7; /* 浅灰色背景 */
-            padding: 20px;
-            text-align: center;
+            /* 适配小程序 page 样式 */
+            background: linear-gradient(180deg, #0f172a, #1e293b);
+            color: #fff;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 50px; /* 底部留出空间 */
+            margin: 0;
         }
+
+        /* 容器 */
+        .container {
+            width: 100%;
+            max-width: 500px; /* 限制最大宽度，保证移动端体验 */
+        }
+        
+        /* 顶部品牌栏 */
         .header {
-            font-size: 32px; /* 标题超大字 */
-            color: #333;
-            margin-bottom: 20px;
-            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 10px 15px; /* 20rpx 30rpx -> 10px 15px */
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 5px;
         }
+        
+        .logo {
+            width: 50px; /* 100rpx -> 50px */
+            height: 50px;
+            border-radius: 8px; /* 16rpx -> 8px */
+            margin-right: 10px; /* 20rpx -> 10px */
+        }
+        
+        .title-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .title {
+            font-size: 20px; /* 40rpx -> 20px */
+            font-weight: 600;
+            color: #ffffff;
+        }
+        
+        .subtitle {
+            font-size: 13px; /* 26rpx -> 13px */
+            color: #b0bec5;
+            margin-top: 4px; /* 8rpx -> 4px */
+        }
+
+        /* 核心提示：二次确认引导 */
         .tip-box {
-            background-color: #ffdddd; /* 警告红色背景 */
-            color: #cc0000;
+            background-color: #fca5a5; /* 警告红色背景，高对比度 */
+            color: #991b1b;
             padding: 15px;
-            margin-bottom: 25px;
+            margin: 20px 15px 0 15px;
             border-radius: 8px;
-            font-size: 20px; /* 提示语也用大字 */
+            font-size: 18px; 
             font-weight: bold;
             line-height: 1.5;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
-        .activity-btn {
+        
+        /* 签到和活动卡片通用样式 */
+        .signin-card, .card {
+            background: #ffffff;
+            border-radius: 12px; /* 24rpx -> 12px */
+            padding: 20px 15px; /* 40rpx 30rpx -> 20px 15px */
+            width: calc(100% - 30px); /* 适应 padding */
+            text-align: center;
+            margin: 0 auto;
+            box-sizing: border-box;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: block; /* 确保 a 标签可以撑满 */
+            text-decoration: none; /* 移除 a 标签下划线 */
+        }
+        
+        .signin-card {
+            margin-top: 20px; /* 40rpx -> 20px */
+        }
+
+        /* 卡片激活效果：使用 CSS 伪类替代小程序 :active */
+        .signin-card:active, .card:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        }
+        
+        .signin-title, .card-title {
+            font-size: 17px; /* 34rpx -> 17px */
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 5px; /* 10rpx -> 5px */
             display: block;
-            width: 100%;
-            padding: 25px 15px;
-            margin-bottom: 15px;
-            background-color: #007aff; /* iOS 蓝色系按钮 */
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            font-size: 26px; /* 按钮字号更大 */
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.2s;
         }
-        .activity-btn:active {
-            background-color: #0056b3;
+        
+        .signin-desc, .card-desc {
+            font-size: 14px; /* 28rpx -> 14px */
+            color: #4b5563;
+            margin-bottom: 12px; /* 25rpx -> 12px */
+            display: block;
+        }
+        
+        /* 按钮通用样式 (使用标准 button 标签) */
+        .signin-btn, .join-btn {
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+            border: none;
+            color: #fff;
+            border-radius: 20px; /* 40rpx -> 20px */
+            padding: 9px 0; /* 18rpx -> 9px */
+            font-size: 15px; /* 30rpx -> 15px */
+            width: 80%;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        /* 卡片区 */
+        .cards {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px; /* 30rpx -> 15px */
+            margin-top: 25px; /* 50rpx -> 25px */
+            width: 92%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* 分享按钮 (替换 open-type="share" 为普通按钮样式) */
+        .share-btn {
+            margin-top: 35px; /* 70rpx -> 35px */
+            background: linear-gradient(90deg, #8b5cf6, #6366f1);
+            color: #fff;
+            border: none;
+            border-radius: 20px; /* 40rpx -> 20px */
+            width: 70%;
+            padding: 11px 0; /* 22rpx -> 11px */
+            font-size: 15px; /* 30rpx -> 15px */
+            cursor: pointer;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">长辈优惠直达车</div>
-    
-    <div class="tip-box">
-        🚨 **重要提示：** 点击按钮后，手机会弹出**「是否打开 XXX App」**的提示，请**务必点击「打开」或「确定」！** 才能领钱！
+    <div class="container">
+        <div class="header">
+            <img class="logo" src="/assets/logo.png" alt="Logo"> 
+            <div class="title-box">
+                <span class="title">慧伴管家</span>
+                <span class="subtitle">每天一点小惊喜，让生活更有惠</span>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            🚨 **重要提醒：** 点击下方按钮后，手机会弹出**「是否打开 App」**的提示，请**务必点击「打开」或「确定」！** 才能直达活动页面。
+        </div>
+
+        <a href="ccb://activity/checkin" class="signin-card">
+            <span class="signin-title">📅 每日签到</span>
+            <span class="signin-desc">签到领积分，好礼不停！</span>
+            <button class="signin-btn" type="button">立即签到 (直达建行)</button>
+        </a>
+
+        <div class="cards">
+            <a href="pinduoduo://video/cash" class="card">
+                <span class="card-title">🎬 看视频领奖励</span>
+                <span class="card-desc">看视频即可领取现金或积分奖励</span>
+                <button class="join-btn" type="button">立即参加 (直达拼多多)</button>
+            </a>
+
+            <a href="boc://promotions/list" class="card">
+                <span class="card-title">🏦 银行优惠活动</span>
+                <span class="card-desc">各大银行红包、积分、抽奖活动</span>
+                <button class="join-btn" type="button">立即参加 (直达中行)</button>
+            </a>
+
+            <a href="jingdong://coupon/center" class="card">
+                <span class="card-title">🛍️ 购物优惠活动</span>
+                <span class="card-desc">超市电商领券返现活动汇总</span>
+                <button class="join-btn" type="button">立即参加 (直达京东)</button>
+            </a>
+        </div>
+
+        <button class="share-btn" type="button">分享给家人 (复制链接)</button>
     </div>
 
-    <a href="ccb://activity/checkin" class="activity-btn">
-        🏦 建设银行：每日签到领积分
-    </a>
-
-    <a href="pinduoduo://video/cash" class="activity-btn">
-        💰 拼多多：看视频领现金
-    </a>
-
-    <a href="alipay://app/couponcenter" class="activity-btn">
-        💳 支付宝：领生活缴费券
-    </a>
-
     <script>
-        // JS 逻辑将用于 PWA 安装引导和数据读取
+        // 未来 PWA 安装引导和数据读取的 JS 代码将放在这里
+        // 为了方便演示 Deep Link，这里直接使用了 <a> 标签跳转，无需 JS 介入。
     </script>
 </body>
 </html>
