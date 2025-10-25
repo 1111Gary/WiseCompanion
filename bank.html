@@ -4,21 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>活动列表 - 慧伴管家</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="manifest.json">
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="style.css"> <script src="list.js"></script>
+    <link rel="stylesheet" href="style.css"> 
+    
+    <script src="list.js"></script> 
+    
     <style>
         /* 保持深色背景和卡片样式与 index.html 一致 */
-        body { background-color: #0f172a; color: #f8f9fa; }
-        .header-bar { background-color: #1e293b; color: #f8f9fa; padding-top: calc(10px + env(safe-area-inset-top)); padding-bottom: 10px; }
-        .activity-card { display: flex; align-items: center; padding: 15px; border-radius: 12px; background-color: #1e293b; color: #f8f9fa; text-decoration: none; border: 1px solid #334155; }
-        .activity-icon-container { width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; border-radius: 8px; font-size: 18px; margin-right: 15px; }
-        .bg-info { background-color: #0d6efd !important; color: #fff; } /* 您的主题色 */
+        body { 
+            background-color: #0f172a; 
+            color: #f8f9fa; 
+            padding-bottom: 20px; /* 底部留白 */
+        }
+        .header-bar { 
+            background-color: #1e293b; 
+            color: #f8f9fa; 
+            padding-top: calc(10px + env(safe-area-inset-top)); 
+            padding-bottom: 10px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .activity-card { 
+            display: flex; 
+            align-items: center; 
+            padding: 15px; 
+            border-radius: 12px; 
+            background-color: #1e293b; 
+            color: #f8f9fa; 
+            text-decoration: none; 
+            border: 1px solid #334155;
+            transition: transform 0.2s; 
+        }
+        .activity-card:hover { text-decoration: none; color: #f8f9fa; }
+        .activity-icon-container { 
+            width: 45px; 
+            height: 45px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            border-radius: 10px; 
+            font-size: 24px;
+            margin-right: 15px; 
+        }
+        .bg-info { 
+            background: linear-gradient(45deg, #0d6efd, #00bfff); 
+            color: #fff; 
+        }
         .activity-content { flex-grow: 1; }
-        .activity-title { font-weight: 600; font-size: 1rem; }
+        .activity-title { font-weight: 600; font-size: 1.1rem; }
         .activity-desc { font-size: 0.8rem; color: #94a3b8; }
-        .filter-button { border-radius: 20px; color: #94a3b8; border-color: #334155; }
-        .filter-button.active { background-color: #0d6efd !important; color: #fff; border-color: #0d6efd !important; }
+        
+        /* 筛选按钮样式 */
+        .filter-button { 
+            border-radius: 20px; 
+            color: #94a3b8; 
+            border-color: #334155; 
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        .filter-button.active { 
+            background-color: #0d6efd !important; 
+            color: #fff; 
+            border-color: #0d6efd !important; 
+        }
+        .filter-container-scroll {
+             overflow-x: auto;
+             white-space: nowrap;
+             -webkit-overflow-scrolling: touch; /* iOS 弹性滚动 */
+             padding-bottom: 5px; /* 避免阴影被截断 */
+        }
+        .filter-container-scroll::-webkit-scrollbar {
+             display: none; /* 隐藏滚动条 */
+        }
     </style>
 </head>
 <body>
@@ -26,25 +86,27 @@
 <div class="header-bar sticky-top">
     <div class="container d-flex align-items-center">
         <a href="index.html" class="text-white me-3" style="font-size: 1.2rem;"><i class="fas fa-chevron-left"></i></a>
-        <h5 id="page-title" class="m-0 text-white flex-grow-1">活动列表</h5>
+        <h5 id="page-title" class="m-0 text-white flex-grow-1">活动列表加载中...</h5>
     </div>
 </div>
 
 <main class="container py-3">
-    <div id="filter-container" class="mb-3 d-flex flex-wrap">
-        </div>
+    <div class="filter-container-scroll">
+        <div id="filter-container" class="mb-3 d-flex">
+            </div>
+    </div>
 
     <div id="activity-list">
-        <div class="p-4 text-center text-gray">正在加载活动...</div>
+        <div class="p-4 text-center text-gray">数据加载中，请稍候...</div>
     </div>
 </main>
-<script src="list.js"></script>
+
 <script>
     // ----------------------------------------------------
     // ** 核心加载逻辑 **
     // ----------------------------------------------------
     
-    // 获取当前页面文件名，用于确定分类
+    // 获取当前页面文件名，用于确定Category
     const currentPath = window.location.pathname;
     let requiredCategory = '';
     let pageTitle = '活动列表';
@@ -68,26 +130,29 @@
 
     // 异步加载和渲染
     document.addEventListener('DOMContentLoaded', async () => {
+        // 确保 list.js 已加载，并调用其中的 loadActivities
+        if (typeof loadActivities === 'undefined') {
+            console.error('list.js 脚本未成功加载或定义。');
+            document.getElementById('activity-list').innerHTML = `<div class="p-4 text-center text-danger">脚本加载失败，请检查list.js路径。</div>`;
+            return;
+        }
+
         const data = await loadActivities();
         
         if (data.length > 0) {
-            // 1. 过滤出当前页面需要的活动列表 (例如 Category 包含 '银行' 的)
+            // 1. 过滤出当前页面需要的活动列表
             const initialActivities = filterActivities(requiredCategory);
             
             // 2. 渲染筛选按钮并绑定事件 (会触发第一次渲染)
             renderAppFilters(initialActivities, requiredCategory, 'filter-container', 'activity-list');
         } else {
-             document.getElementById('activity-list').innerHTML = `<div class="p-4 text-center text-gray">无法加载活动数据，请检查网络。</div>`;
+             document.getElementById('activity-list').innerHTML = `<div class="p-4 text-center text-gray">当前类别暂无活动。</div>`;
         }
     });
 
+    // 这里不再重复定义 handleActivityClick, filterActivities, renderActivities, renderAppFilters
+    // 这些函数都在 list.js 中定义
 </script>
+
 </body>
 </html>
-<script>
-    // ... 这里是识别页面类型和调用 loadActivities 的核心逻辑 ...
-    document.addEventListener('DOMContentLoaded', async () => {
-        const data = await loadActivities();
-        // ...
-    });
-</script>
