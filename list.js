@@ -7,7 +7,7 @@ const AIRTABLE_PAT = '<AIRTABLE_PAT>';
 const BASE_ID = '<AIRTABLE_BASE_ID>';
 // ----------------------------------------------------
 
-const TABLE_NAME = 'Activities'; // 确保您的 Airtable 表格名称是 'Activities'
+const TABLE_NAME = 'Wisecompanion'; // 确保您的 Airtable 表格名称是 'Activities'
 
 // Airtable API URL
 const AIRTABLE_URL = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
