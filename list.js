@@ -24,7 +24,8 @@ async function loadActivities() {
     // 检查 PAT/BASE_ID 是否被注入（避免部署失败导致的硬编码暴露）
     if (AIRTABLE_PAT.includes('<') || BASE_ID.includes('<')) {
         console.error('ERROR: Airtable 密钥或 Base ID 未被 GitHub Actions 正确注入。');
-        alert('配置错误：请检查 GitHub Actions Secret 和 YAML 文件。');
+        // 在生产环境中不应该弹出警报，但在调试阶段可以保留
+        // alert('配置错误：请检查 GitHub Actions Secret 和 YAML 文件。');
         return [];
     }
 
@@ -37,9 +38,8 @@ async function loadActivities() {
         });
 
         if (!response.ok) {
-            // 如果 API 返回错误（例如 401 Unauthorized, 404 Not Found），抛出错误
             const errorData = await response.json();
-            throw new Error(`Airtable API 错误 (Status: ${response.status})：${errorData.error.type}`);
+            throw new Error(`Airtable API 错误 (Status: ${response.status})：${errorData.error.type || response.statusText}`);
         }
 
         const data = await response.json();
@@ -51,11 +51,12 @@ async function loadActivities() {
             description: record.fields.Description || '暂无描述',
             icon: record.fields.Icon || '❓',
             deepLink: record.fields.DeepLink || '#',
-            // Category 字段必须是数组，即使只选了一个
+            // Category 字段必须是数组
             category: Array.isArray(record.fields.Category) ? record.fields.Category : [], 
             sourceApp: record.fields.SourceApp || '其他',
             specialNote: record.fields.SpecialNote || null,
-            targetApp: record.fields.TargetApp || record.fields.SourceApp || '目标 App' // 确保 TargetApp 存在
+            // 使用 SourceApp 作为 TargetApp 的回退值
+            targetApp: record.fields.TargetApp || record.fields.SourceApp || '目标 App' 
         }));
         
         console.log('活动数据加载成功:', allActivities.length, '条记录');
@@ -71,8 +72,6 @@ async function loadActivities() {
 
 /**
  * 过滤函数：根据页面需求过滤活动
- * @param {string} requiredCategory - 必需的 Category 标签 (例如: '银行', '签到')
- * @param {string|null} filterApp - 可选的 SourceApp 筛选名称 (例如: '交通银行')
  */
 function filterActivities(requiredCategory, filterApp = null) {
     let filteredList = allActivities.filter(activity => 
@@ -169,13 +168,45 @@ function renderAppFilters(activities, currentCategory, containerId = 'filter-con
     // 2. 生成按钮 HTML
     container.innerHTML = ''; // 清空旧内容
     
-    // 确保有按钮可渲染
+    // 如果只有一个 '全部' 按钮，且不是银行页面，则不渲染筛选器
     if (uniqueApps.size <= 1 && currentCategory !== '银行') {
-        // 如果只有一个 '全部' 按钮，且不是银行页面，则不渲染筛选器
+        // 不渲染筛选器，但确保主列表被渲染 (筛选器会调用 renderActivities，这里不做重复调用)
         return; 
     }
 
     uniqueApps.forEach(appName => {
         const isActive = (appName === '全部') ? 'active' : ''; // 默认全部激活
         const buttonHtml = `
-            <button class="filter-button
+            <button class="filter-button btn btn-sm btn-outline-info me-2 mb-2 ${isActive}" data-app="${appName}">
+                ${appName}
+            </button>
+        `;
+        container.innerHTML += buttonHtml;
+    });
+
+    // 3. 绑定点击事件
+    container.querySelectorAll('.filter-button').forEach(button => {
+        button.addEventListener('click', function() {
+            // 移除所有按钮的 active 状态
+            container.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
+            // 添加当前按钮的 active 状态
+            this.classList.add('active');
+
+            const selectedApp = this.getAttribute('data-app');
+            // 重新渲染列表，进行二级筛选
+            const filteredActivities = filterActivities(currentCategory, selectedApp);
+            renderActivities(filteredActivities, listContainerId);
+        });
+    });
+
+    // 默认执行一次筛选，显示全部
+    setTimeout(() => {
+        const defaultButton = document.querySelector(`#${containerId} .filter-button.active`);
+        if (defaultButton) {
+            defaultButton.click();
+        } else {
+            // 如果没有筛选按钮（例如 uniqueApps.size <= 1），确保主列表被渲染
+            renderActivities(filterActivities(currentCategory), listContainerId);
+        }
+    }, 0);
+}
