@@ -2,229 +2,143 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>慧伴管家 - 长辈优惠直达车</title>
-
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="慧伴管家">
-    <link rel="apple-touch-icon" href="/assets/icon_192.png"> 
-    <link rel="manifest" href="/manifest.json">
-
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icon_apple.png">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css"> 
+    
     <style>
-        /* ------------------------------------------- */
-        /* CSS样式：从您的 WXSS 移植并转换为 PX 单位 */
-        /* ------------------------------------------- */
+        /* 确保深色主题和主页卡片样式 */
+        body { background-color: #0f172a; color: #f8f9fa; }
+        .header-bar { padding-top: calc(30px + env(safe-area-inset-top)); padding-bottom: 20px; text-align: center; }
+        .logo-img { max-width: 120px; height: auto; }
+        .app-title { font-size: 1.8rem; font-weight: bold; margin-top: 10px; }
+        .alert-important { background-color: #dc3545; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 20px; }
         
-        /* 页面基础样式和背景 */
-        body {
-            /* 适配小程序 page 样式 */
-            background: linear-gradient(180deg, #0f172a, #1e293b);
-            color: #fff;
-            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-bottom: 50px; /* 底部留出空间 */
-            margin: 0;
+        /* 活动卡片基础样式 (与二级页 list_template.html 保持一致) */
+        .activity-card { 
+            display: flex; 
+            align-items: center; 
+            padding: 15px; 
+            border-radius: 12px; 
+            background-color: #1e293b; 
+            color: #f8f9fa; 
+            text-decoration: none; 
+            border: 1px solid #334155;
+            transition: transform 0.2s; /* 增加点击动画 */
         }
-
-        /* 容器 */
-        .container {
-            width: 100%;
-            max-width: 500px; /* 限制最大宽度，保证移动端体验 */
+        .activity-card:hover { 
+            transform: translateY(-2px); 
+            text-decoration: none;
+            color: #f8f9fa; 
         }
-        
-        /* 顶部品牌栏 */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 10px 15px; /* 20rpx 30rpx -> 10px 15px */
-            width: 100%;
-            box-sizing: border-box;
-            margin-top: 5px;
+        .activity-icon-container { 
+            width: 45px; 
+            height: 45px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            border-radius: 10px; 
+            font-size: 24px; /* 增大图标 */
+            margin-right: 15px; 
         }
-        
-        .logo {
-            width: 50px; /* 100rpx -> 50px */
-            height: 50px;
-            border-radius: 8px; /* 16rpx -> 8px */
-            margin-right: 10px; /* 20rpx -> 10px */
-        }
-        
-        .title-box {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .title {
-            font-size: 20px; /* 40rpx -> 20px */
-            font-weight: 600;
-            color: #ffffff;
-        }
-        
-        .subtitle {
-            font-size: 13px; /* 26rpx -> 13px */
-            color: #b0bec5;
-            margin-top: 4px; /* 8rpx -> 4px */
-        }
-
-        /* 核心提示：二次确认引导 */
-        .tip-box {
-            background-color: #fca5a5; /* 警告红色背景，高对比度 */
-            color: #991b1b;
-            padding: 15px;
-            margin: 20px 15px 0 15px;
-            border-radius: 8px;
-            font-size: 18px; 
-            font-weight: bold;
-            line-height: 1.5;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* 签到和活动卡片通用样式 */
-        .signin-card, .card {
-            background: #ffffff;
-            border-radius: 12px; /* 24rpx -> 12px */
-            padding: 20px 15px; /* 40rpx 30rpx -> 20px 15px */
-            width: calc(100% - 30px); /* 适应 padding */
-            text-align: center;
-            margin: 0 auto;
-            box-sizing: border-box;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: block; /* 确保 a 标签可以撑满 */
-            text-decoration: none; /* 移除 a 标签下划线 */
-        }
-        
-        .signin-card {
-            margin-top: 20px; /* 40rpx -> 20px */
-        }
-
-        /* 卡片激活效果：使用 CSS 伪类替代小程序 :active */
-        .signin-card:active, .card:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-        }
-        
-        .signin-title, .card-title {
-            font-size: 17px; /* 34rpx -> 17px */
-            font-weight: 600;
-            color: #111827;
-            margin-bottom: 5px; /* 10rpx -> 5px */
-            display: block;
-        }
-        
-        .signin-desc, .card-desc {
-            font-size: 14px; /* 28rpx -> 14px */
-            color: #4b5563;
-            margin-bottom: 12px; /* 25rpx -> 12px */
-            display: block;
-        }
-        
-        /* 按钮通用样式 (使用标准 button 标签) */
-        .signin-btn, .join-btn {
-            background: linear-gradient(90deg, #2563eb, #3b82f6);
-            border: none;
-            color: #fff;
-            border-radius: 20px; /* 40rpx -> 20px */
-            padding: 9px 0; /* 18rpx -> 9px */
-            font-size: 15px; /* 30rpx -> 15px */
-            width: 80%;
-            cursor: pointer;
-            display: block;
-            margin: 0 auto;
-        }
-        
-        /* 卡片区 */
-        .cards {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px; /* 30rpx -> 15px */
-            margin-top: 25px; /* 50rpx -> 25px */
-            width: 92%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        /* 分享按钮 (替换 open-type="share" 为普通按钮样式) */
-        .share-btn {
-            margin-top: 35px; /* 70rpx -> 35px */
-            background: linear-gradient(90deg, #8b5cf6, #6366f1);
-            color: #fff;
-            border: none;
-            border-radius: 20px; /* 40rpx -> 20px */
-            width: 70%;
-            padding: 11px 0; /* 22rpx -> 11px */
-            font-size: 15px; /* 30rpx -> 15px */
-            cursor: pointer;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
+        .bg-info { background: linear-gradient(45deg, #0d6efd, #00bfff); color: #fff; } /* 渐变色 */
+        .activity-content { flex-grow: 1; }
+        .activity-title { font-weight: 600; font-size: 1.1rem; }
+        .activity-desc { font-size: 0.8rem; color: #94a3b8; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="header">
-            <img class="logo" src="/assets/logo.png" alt="Logo"> 
-            <div class="title-box">
-                <span class="title">慧伴管家</span>
-                <span class="subtitle">每天一点小惊喜，让生活更有惠</span>
-            </div>
-        </div>
+<div class="header-bar">
+    <img src="assets/logo.png" alt="慧伴管家 Logo" class="logo-img">
+    <div class="app-title text-white">慧伴管家</div>
+</div>
 
-        <div class="tip-box">
-            🚨 **重要提醒：** 点击下方按钮后，手机会弹出**「是否打开 App」**的提示，请**务必点击「打开」或「确定」！** 才能直达活动页面。
-        </div>
+<main class="container py-3">
+    <div class="alert-important text-center">
+        🚨 重要提示：点击卡片将跳转到对应 App，请确认已安装。
+    </div>
 
+    <div id="activity-entrance-list">
+        
         <a href="checkin.html" class="activity-card mb-3">
-    <div class="activity-icon-container bg-info"><span class="activity-icon">✨</span></div>
-    <div class="activity-content">
-        <div class="activity-title text-white">签到/小任务总入口</div>
-        <div class="activity-desc text-gray">聚合所有平台每日签到及小任务</div>
-    </div>
-    <i class="fas fa-chevron-right text-white-50"></i>
-</a>
+            <div class="activity-icon-container bg-info"><span class="activity-icon">✨</span></div>
+            <div class="activity-content">
+                <div class="activity-title text-white">签到/小任务总入口</div>
+                <div class="activity-desc text-gray">聚合所有平台每日签到及小任务</div>
+            </div>
+            <i class="fas fa-chevron-right text-white-50"></i>
+        </a>
 
-<a href="video.html" class="activity-card mb-3">
-    <div class="activity-icon-container bg-info"><span class="activity-icon">🎬</span></div>
-    <div class="activity-content">
-        <div class="activity-title text-white">视频奖励聚合</div>
-        <div class="activity-desc text-gray">看视频领金币/立减金，随时提现</div>
-    </div>
-    <i class="fas fa-chevron-right text-white-50"></i>
-</a>
+        <a href="video.html" class="activity-card mb-3">
+            <div class="activity-icon-container bg-info"><span class="activity-icon">🎬</span></div>
+            <div class="activity-content">
+                <div class="activity-title text-white">视频奖励聚合</div>
+                <div class="activity-desc text-gray">看视频领金币/立减金，随时提现</div>
+            </div>
+            <i class="fas fa-chevron-right text-white-50"></i>
+        </a>
 
-<a href="bank.html" class="activity-card mb-3">
-    <div class="activity-icon-container bg-info"><span class="activity-icon">🏦</span></div>
-    <div class="activity-content">
-        <div class="activity-title text-white">银行优惠活动</div>
-        <div class="activity-desc text-gray">各大行立减金、红包、羊毛汇总</div>
-    </div>
-    <i class="fas fa-chevron-right text-white-50"></i>
-</a>
+        <a href="bank.html" class="activity-card mb-3">
+            <div class="activity-icon-container bg-info"><span class="activity-icon">🏦</span></div>
+            <div class="activity-content">
+                <div class="activity-title text-white">银行优惠活动</div>
+                <div class="activity-desc text-gray">各大行立减金、红包、羊毛汇总</div>
+            </div>
+            <i class="fas fa-chevron-right text-white-50"></i>
+        </a>
 
-<a href="shopping.html" class="activity-card mb-3">
-    <div class="activity-icon-container bg-info"><span class="activity-icon">🛍️</span></div>
-    <div class="activity-content">
-        <div class="activity-title text-white">购物/外卖优惠</div>
-        <div class="activity-desc text-gray">外卖、团购、电商优惠券，附带使用攻略</div>
-    </div>
-    <i class="fas fa-chevron-right text-white-50"></i>
-</a>
-
-        <button class="share-btn" type="button">分享给家人 (复制链接)</button>
+        <a href="shopping.html" class="activity-card mb-3">
+            <div class="activity-icon-container bg-info"><span class="activity-icon">🛍️</span></div>
+            <div class="activity-content">
+                <div class="activity-title text-white">购物/外卖优惠</div>
+                <div class="activity-desc text-gray">外卖、团购、电商优惠券，附带使用攻略</div>
+            </div>
+            <i class="fas fa-chevron-right text-white-50"></i>
+        </a>
     </div>
 
-    <script>
-        // 未来 PWA 安装引导和数据读取的 JS 代码将放在这里
-        // 为了方便演示 Deep Link，这里直接使用了 <a> 标签跳转，无需 JS 介入。
-    </script>
+    <div class="text-center mt-4">
+        <button onclick="copyLink()" class="btn btn-outline-light btn-lg" style="border-radius: 30px;">
+            <i class="fas fa-share-alt me-2"></i> 分享给更多长辈
+        </button>
+    </div>
+</main>
+
+<script>
+    // 复制链接功能 (替代原生分享)
+    function copyLink() {
+        // 使用 navigator.clipboard API 复制当前网址
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(window.location.href);
+            alert('网址已复制到剪贴板，快去分享给好友吧！');
+        } else {
+            // 兼容性回退
+            const textarea = document.createElement('textarea');
+            textarea.value = window.location.href;
+            textarea.style.position = 'fixed'; // 防止在屏幕上显示
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                alert('网址已复制到剪贴板，快去分享给好友吧！');
+            } catch (err) {
+                console.error('复制失败', err);
+                alert('复制失败，请手动复制地址栏网址。');
+            }
+            document.body.removeChild(textarea);
+        }
+    }
+</script>
+
 </body>
 </html>
-
