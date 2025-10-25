@@ -18,7 +18,7 @@
         body { 
             background-color: #0f172a; 
             color: #f8f9fa; 
-            padding-bottom: 20px; /* 底部留白 */
+            padding-bottom: 20px;
         }
         .header-bar { 
             background-color: #1e293b; 
@@ -26,6 +26,9 @@
             padding-top: calc(10px + env(safe-area-inset-top)); 
             padding-bottom: 10px; 
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
         .activity-card { 
             display: flex; 
@@ -73,17 +76,20 @@
         .filter-container-scroll {
              overflow-x: auto;
              white-space: nowrap;
-             -webkit-overflow-scrolling: touch; /* iOS 弹性滚动 */
-             padding-bottom: 5px; /* 避免阴影被截断 */
+             -webkit-overflow-scrolling: touch;
+             padding-bottom: 5px;
         }
         .filter-container-scroll::-webkit-scrollbar {
-             display: none; /* 隐藏滚动条 */
+             display: none;
         }
+        .d-flex { display: flex; }
+        .me-2 { margin-right: 0.5rem; }
+        .mb-3 { margin-bottom: 1rem; }
     </style>
 </head>
 <body>
 
-<div class="header-bar sticky-top">
+<div class="header-bar">
     <div class="container d-flex align-items-center">
         <a href="index.html" class="text-white me-3" style="font-size: 1.2rem;"><i class="fas fa-chevron-left"></i></a>
         <h5 id="page-title" class="m-0 text-white flex-grow-1">活动列表加载中...</h5>
@@ -106,52 +112,59 @@
     // ** 核心加载逻辑 **
     // ----------------------------------------------------
     
-    // 获取当前页面文件名，用于确定Category
-    const currentPath = window.location.pathname;
-    let requiredCategory = '';
-    let pageTitle = '活动列表';
-
-    if (currentPath.includes('checkin.html')) {
-        requiredCategory = '签到';
-        pageTitle = '✨ 签到/小任务总览';
-    } else if (currentPath.includes('bank.html')) {
-        requiredCategory = '银行';
-        pageTitle = '🏦 银行优惠活动';
-    } else if (currentPath.includes('video.html')) {
-        requiredCategory = '视频';
-        pageTitle = '🎬 视频奖励总览';
-    } else if (currentPath.includes('shopping.html')) {
-        requiredCategory = '购物';
-        pageTitle = '🛍️ 购物优惠汇总';
-    }
-
-    // 设置页面标题
-    document.getElementById('page-title').textContent = pageTitle;
-
-    // 异步加载和渲染
-    document.addEventListener('DOMContentLoaded', async () => {
-        // 确保 list.js 已加载，并调用其中的 loadActivities
-        if (typeof loadActivities === 'undefined') {
-            console.error('list.js 脚本未成功加载或定义。');
-            document.getElementById('activity-list').innerHTML = `<div class="p-4 text-center text-danger">脚本加载失败，请检查list.js路径。</div>`;
-            return;
-        }
-
-        const data = await loadActivities();
+    // 检查 list.js 中的核心函数是否已定义。
+    if (typeof loadActivities === 'undefined') {
+        // 如果未定义，说明 list.js 文件加载或内容有严重问题。
+        document.addEventListener('DOMContentLoaded', () => {
+             document.getElementById('page-title').textContent = '加载失败';
+             document.getElementById('activity-list').innerHTML = 
+                `<div class="p-4 text-center text-danger">⚠️ 错误：核心脚本 list.js 未能加载或定义函数，无法连接CMS。</div>`;
+        });
+    } else {
         
-        if (data.length > 0) {
-            // 1. 过滤出当前页面需要的活动列表
-            const initialActivities = filterActivities(requiredCategory);
-            
-            // 2. 渲染筛选按钮并绑定事件 (会触发第一次渲染)
-            renderAppFilters(initialActivities, requiredCategory, 'filter-container', 'activity-list');
-        } else {
-             document.getElementById('activity-list').innerHTML = `<div class="p-4 text-center text-gray">当前类别暂无活动。</div>`;
-        }
-    });
+        // 获取当前页面文件名，用于确定Category
+        const currentPath = window.location.pathname;
+        let requiredCategory = '';
+        let pageTitle = '活动列表';
 
-    // 这里不再重复定义 handleActivityClick, filterActivities, renderActivities, renderAppFilters
-    // 这些函数都在 list.js 中定义
+        if (currentPath.includes('checkin.html')) {
+            requiredCategory = '签到';
+            pageTitle = '✨ 签到/小任务总览';
+        } else if (currentPath.includes('bank.html')) {
+            requiredCategory = '银行';
+            pageTitle = '🏦 银行优惠活动';
+        } else if (currentPath.includes('video.html')) {
+            requiredCategory = '视频';
+            pageTitle = '🎬 视频奖励总览';
+        } else if (currentPath.includes('shopping.html')) {
+            requiredCategory = '购物';
+            pageTitle = '🛍️ 购物优惠汇总';
+        }
+
+        // 设置页面标题
+        document.getElementById('page-title').textContent = pageTitle;
+
+        // 异步加载和渲染
+        document.addEventListener('DOMContentLoaded', async () => {
+            const data = await loadActivities();
+            
+            if (data && data.length > 0) {
+                // 1. 过滤出当前页面需要的活动列表
+                const initialActivities = filterActivities(requiredCategory);
+                
+                // 2. 渲染筛选按钮并绑定事件 (会触发第一次渲染)
+                // 确保 renderAppFilters, filterActivities, renderActivities 都在 list.js 中
+                if (typeof renderAppFilters !== 'undefined') {
+                    renderAppFilters(initialActivities, requiredCategory, 'filter-container', 'activity-list');
+                } else {
+                    // 如果筛选函数未定义，至少渲染出未经筛选的列表
+                    renderActivities(initialActivities, 'activity-list');
+                }
+            } else {
+                 document.getElementById('activity-list').innerHTML = `<div class="p-4 text-center text-gray">当前类别暂无活动，请在 Airtable 中添加数据。</div>`;
+            }
+        });
+    }
 </script>
 
 </body>
