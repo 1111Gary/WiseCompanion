@@ -34,11 +34,11 @@
         body { 
             background-color: var(--color-bg-dark); 
             color: var(--color-text-light); 
-            padding-bottom: 80px; /* 为增高后的底部导航栏留出更多空间 */
+            padding-bottom: calc(85px + env(safe-area-inset-bottom)); /* 修复 PWA 遮挡问题：为增高后的底部导航栏和安全区域留出空间 */
             font-family: 'Inter', sans-serif;
         }
         
-        /* ------------------ 顶部 Header Bar (风格统一) ------------------ */
+        /* ------------------ 顶部 Header Bar (风格统一与Logo修复) ------------------ */
         .header-bar { 
             padding-top: calc(15px + env(safe-area-inset-top)); 
             padding-bottom: 15px; 
@@ -46,7 +46,7 @@
             position: sticky;
             top: 0;
             z-index: 10;
-            /* 新增：向下浮动的阴影，与卡片设计语言一致 */
+            /* 向下浮动的阴影，与卡片设计语言一致 */
             box-shadow: 0 4px 12px rgba(0, 191, 255, 0.15); 
         }
         .header-bar .container {
@@ -54,12 +54,31 @@
             justify-content: space-between;
             align-items: center;
         }
-        .brand-logo-with-text {
-            height: 38px; 
-            max-width: 150px; 
-            width: auto;
-            object-fit: contain; 
+
+        /* 新增 Logo 容器样式 */
+        .brand-logo-container {
+            display: flex;
+            align-items: center;
+            /* 确保 Logo 区域有足够的点击和视觉空间 */
+            padding: 5px 0;
+            transition: opacity 0.3s;
         }
+        /* 修复 Logo 图片路径和大小问题 */
+        .brand-logo-container img {
+            height: 38px; 
+            width: 38px; 
+            object-fit: contain; 
+            margin-right: 10px; /* Logo与文字间距 */
+            border-radius: 8px; /* 轻微圆角，与整体风格一致 */
+        }
+        /* Logo 文字样式 (更清晰，更融入设计) */
+        .brand-logo-container .logo-text {
+            font-size: 1.3rem;
+            font-weight: 800; /* 极粗字体 */
+            color: var(--color-text-light);
+            text-shadow: 0 0 5px rgba(224, 231, 255, 0.1); /* 轻微文字阴影 */
+        }
+
         .back-btn-large {
             font-size: 1.5rem; 
             padding: 5px; 
@@ -210,7 +229,7 @@
             color: var(--color-bg-dark);
         }
         
-        /* ------------------ 底部导航栏样式 (风格统一改造) ------------------ */
+        /* ------------------ 底部导航栏样式 (PWA 修复与统一风格) ------------------ */
         .tab-bar {
             display: flex;
             justify-content: space-around;
@@ -219,11 +238,11 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 65px; /* 增大高度以优化触控 */
-            background-color: var(--color-card-bg); /* 与卡片背景保持一致 */
-            border-top: none; /* 移除旧的硬边框 */
-            /* 向上发光的阴影，呼应页面主体设计 */
+            /* 关键修复点：增加高度并确保 safe-area 兼容性 */
+            height: calc(65px + env(safe-area-inset-bottom)); 
+            background-color: var(--color-card-bg); 
             box-shadow: 0 -8px 30px rgba(0, 191, 255, 0.3);
+            /* 确保内容在安全区域内 */
             padding-bottom: env(safe-area-inset-bottom);
             z-index: 1000;
         }
@@ -233,30 +252,34 @@
             align-items: center;
             color: var(--color-text-muted); 
             text-decoration: none;
-            font-size: 0.8rem; /* 增大文字 */
+            font-size: 0.8rem; 
             flex: 1;
-            padding-top: 8px; /* 调整内边距 */
+            padding-top: 8px; 
             transition: color 0.2s, transform 0.2s;
             min-width: 0; 
         }
         .tab-item.active {
             color: var(--color-primary); 
             font-weight: 700;
-            transform: translateY(-2px); /* 选中时轻微上浮 */
+            transform: translateY(-2px); 
         }
         .tab-icon {
-            font-size: 1.4rem; /* 增大图标 */
+            font-size: 1.4rem; 
             margin-bottom: 3px;
         }
     </style>
 </head>
 <body>
 
-    <!-- 顶部标题栏 - 左Logo + 右返回按钮 -->
+    <!-- 顶部标题栏 - 左Logo (已修复文字显示) + 右返回按钮 -->
     <div class="header-bar">
         <div class="container">
-            <!-- 左侧：Logo (带文字) -->
-            <img src="/WiseCompanion/assets/logo.png" alt="慧伴管家 Logo" class="brand-logo-with-text"> 
+            <!-- 左侧：Logo 和文字 (修复：使用 div 容器和 text) -->
+            <a href="/WiseCompanion/index.html" class="brand-logo-container text-decoration-none">
+                <!-- 假设 logo.png 是一个纯图标 -->
+                <img src="/WiseCompanion/assets/logo.png" alt="慧伴管家 Logo"> 
+                <span class="logo-text">慧伴管家</span>
+            </a>
             
             <!-- 中间占位符 -->
             <div style="flex-grow: 1;"></div> 
