@@ -4,11 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>慧伴管家 - 长辈优惠直达车</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <!-- 移除旧版且弃用的 apple-mobile-web-app-capable，以消除黄色警告 -->
+    <!-- <meta name="apple-mobile-web-app-capable" content="yes"> -->
+    
+    <!-- 保持其他 iOS 相关标签 -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="慧伴管家">
     
-    <!-- 路径修复: 将相对路径改为相对于项目根目录的绝对路径，以适配 GitHub Pages 子目录部署 -->
+    <!-- 新增/修正：根据控制台提示，使用推荐的 meta 标签，并添加 PWA 推荐的 mobile-web-app-capable -->
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- 路径修正 (保持上次修复结果) -->
     <link rel="manifest" href="/WiseCompanion/manifest.json">
     <link rel="apple-touch-icon" href="/WiseCompanion/assets/icon_apple.png">
     
