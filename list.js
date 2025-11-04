@@ -53,6 +53,26 @@ function displayErrorMessage(message) {
     }
 }
 
+/**
+ * 尝试从活动对象中安全获取指定字段的值。
+ * 优先检查 fields 对象 (Airtable API 常见结构)，然后检查根对象。
+ * @param {object} activity - 活动对象。
+ * @param {string} fieldName - 字段名称 (例如 'Name', 'Category')。
+ * @returns {string|undefined} 字段值或 undefined。
+ */
+function getFieldValue(activity, fieldName) {
+    // 1. 尝试从 fields 对象中获取 (最可能的情况)
+    if (activity.fields && activity.fields[fieldName]) {
+        return activity.fields[fieldName];
+    }
+    // 2. 尝试从活动对象根部获取 (次要情况)
+    if (activity[fieldName]) {
+        return activity[fieldName];
+    }
+    return undefined;
+}
+
+
 // --- 数据加载和渲染 ---
 
 /**
@@ -72,9 +92,6 @@ async function loadActivities() {
         if (!Array.isArray(data)) {
              throw new Error("JSON 数据格式错误，预期为数组。");
         }
-        
-        // 🚀 核心修复：移除所有强制标准化，使用 Airtable 原始键名
-        // 假设 fetch-data.js 生成的 JSON 键名与 Airtable 截图一致 (Name, Category, ...)
         
         // 缓存所有数据
         allActivitiesCache = data;
@@ -106,10 +123,10 @@ function renderFilteredActivities() {
         activitiesToRender = allActivitiesCache;
     } else {
         // 否则，只渲染当前类别下的活动
-        // 🚀 过滤修复：使用 Airtable 原始的首字母大写字段 'Category'
+        // 🚀 过滤修复：使用 getFieldValue 安全获取 'Category'
         activitiesToRender = allActivitiesCache.filter(
             // 使用 String() 确保比较类型一致
-            activity => String(activity.Category) === categoryFilterValue
+            activity => String(getFieldValue(activity, 'Category')) === categoryFilterValue
         );
     }
     
@@ -121,13 +138,13 @@ function renderFilteredActivities() {
         return;
     }
 
-    // 🚀 最终渲染修复：使用 Airtable 原始的首字母大写字段名 Name, Description, Icon, DeepLink
+    // 🚀 最终渲染修复：使用 getFieldValue 安全获取 Name, Description, Icon, DeepLink
     const html = activitiesToRender.map(activity => {
-        // 确定正确的字段名（取值逻辑）- 使用 Airtable 截图中的字段名
-        const name = activity.Name || '无标题活动';
-        const description = activity.Description || '点击查看详情';
-        const icon = activity.Icon || '📌';
-        const deepLink = activity.DeepLink || '#'; 
+        // 确定正确的字段名（取值逻辑）
+        const name = getFieldValue(activity, 'Name') || '无标题活动';
+        const description = getFieldValue(activity, 'Description') || '点击查看详情';
+        const icon = getFieldValue(activity, 'Icon') || '📌';
+        const deepLink = getFieldValue(activity, 'DeepLink') || '#'; 
 
         return `
             <a href="${deepLink}" 
