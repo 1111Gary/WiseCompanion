@@ -129,13 +129,13 @@ function renderFilteredActivities() {
     const currentCategory = getCurrentCategory();
     let activitiesToRender = [];
 
-    // 确定用于过滤的匹配值 (使用中文值，基于您的 Airtable 截图)
+    // 确定用于过滤的匹配值 (使用中文值，基于您的 Airtable 数据推测)
     let categoryFilterValue = '';
-    // 注意：这里的中文值 '银行', '签到', '生活', '美食' 必须与 Airtable Category 字段的值完全匹配
-    if (currentCategory === 'Bank') categoryFilterValue = '银行';
-    if (currentCategory === 'Shopping') categoryFilterValue = '签到';
-    if (currentCategory === 'Life') categoryFilterValue = '生活'; 
-    if (currentCategory === 'Food') categoryFilterValue = '美食'; 
+    // 🚀 过滤值修正：使用更具体的中文类别名称
+    if (currentCategory === 'Bank') categoryFilterValue = '银行优惠活动';
+    if (currentCategory === 'Shopping') categoryFilterValue = '购物外卖优惠';
+    if (currentCategory === 'Life') categoryFilterValue = '其他视频奖励'; 
+    if (currentCategory === 'Food') categoryFilterValue = '美食'; // 暂时保留美食，如果不对请告诉我具体值
 
     if (currentCategory === 'home') {
         // 如果在主页，渲染所有活动
@@ -168,6 +168,7 @@ function renderFilteredActivities() {
 
     if (activitiesToRender.length === 0) {
         listContainer.innerHTML = `<p class="text-gray-500 text-center py-8">在 **${currentCategory !== 'home' ? categoryFilterValue : '所有'}** 类别下暂无活动数据。</p>`;
+        // 如果没有匹配到，我们不再回退到显示所有活动，而是显示空消息
         return;
     }
 
