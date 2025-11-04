@@ -1,223 +1,238 @@
-/**
- * list.js
- * 负责从本地 activities.json 文件加载活动数据，并在 DOM 加载完成后渲染列表。
- */
+// --------------------------------------------------------------------------------
+// Firebase Setup (No changes needed, keeping placeholders for consistency)
+// --------------------------------------------------------------------------------
 
-// URL 用于本地加载活动数据
-const ACTIVITIES_JSON_URL = 'activities.json';
+const apiKey = ""; // ⚠️ 警告: 真实部署时，请确保此密钥由安全机制注入，不要在此处硬编码您的真实密钥。
+const baseId = "appvB8wO0F8F1Vz9W"; // 替换为你的 Base ID
+const tableName = "Activity List"; // 替换为你的 Table Name
+const apiUrl = `https://api.airtable.com/v0/${baseId}/${tableName}`;
+const activitiesFilePath = 'activities.json'; // 用于 GitHub Pages 的缓存文件路径
 
-// 定义应用中的所有有效类别（Category）
-// 这些类别必须与您的 URL hash 保持一致
-const ALL_CATEGORIES = ['Bank', 'Shopping', 'Life', 'Food'];
+// --------------------------------------------------------------------------------
+// 核心配置：不再需要映射，直接使用统一的英文 Category (URL Hash)
+// --------------------------------------------------------------------------------
 
-// 类别中文映射 (根据您的 Airtable 截图修正)
-const CATEGORY_MAP = {
-    'Bank': '银行',
-    'Shopping': '签到', // 映射到您的 "签到" 标签
-    'Life': '视频',    // 映射到您的 "视频" 标签
-    'Food': '美食',
-};
+// 假设 Airtable Category 值已统一为英文：
+// 'CheckIn', 'Bank', 'Video', 'Shopping' 等
 
-let allActivitiesCache = []; // 用于缓存加载后的全部活动数据
+// --------------------------------------------------------------------------------
+// 辅助函数：从 AirTable 加载数据
+// --------------------------------------------------------------------------------
 
-// --- 辅助函数 ---
-
-/**
- * 尝试从活动对象中安全地获取值，考虑大小写不一致。
- * @param {Object} activity - 活动记录对象。
- * @param {string} fieldName - 预期的字段名 (如 'Category', 'Name')。
- * @returns {any} 字段值或 null。
- */
-function getSafeValue(activity, fieldName) {
-    // 尝试所有可能的键名
-    const keysToTry = [
-        fieldName,
-        fieldName.toLowerCase(), // category
-        fieldName.charAt(0).toUpperCase() + fieldName.slice(1).toLowerCase(), // Category
-        '分类', // 常用中文名
-        '活动分类', // 备用中文名
-    ];
-
-    for (const key of keysToTry) {
-        if (activity && activity[key] !== undefined) {
-            // 找到匹配的键，返回其值
-            return activity[key];
+// 实现指数退避的 fetch 函数
+async function fetchWithRetry(url, options, maxRetries = 5) {
+    for (let i = 0; i < maxRetries; i++) {
+        try {
+            const response = await fetch(url, options);
+            if (!response.ok) {
+                // 仅对 4xx/5xx 错误抛出异常，以便重试
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response;
+        } catch (error) {
+            console.warn(`Fetch attempt ${i + 1} failed for ${url}: ${error.message}`);
+            if (i < maxRetries - 1) {
+                const delay = Math.pow(2, i) * 1000;
+                await new Promise(resolve => setTimeout(resolve, delay));
+            } else {
+                throw error; // 最后一次尝试失败，向上抛出
+            }
         }
     }
-    // 如果是 fetch-data.js 格式化后的数据，我们应该能直接拿到 'category'
-    if (activity && activity.category !== undefined) {
-        return activity.category;
-    }
-    return null;
 }
 
-/**
- * 从 URL hash 中获取当前的活动类别。
- * @returns {string} 当前的类别，如果未指定或为无效类别则返回 'home'。
- */
-function getCurrentCategory() {
-    // 获取 URL hash，并去除 # 符号
-    const hash = window.location.hash.slice(1);
+// 从 AirTable 获取数据并保存为 JSON 文件 (此函数主要用于后端或构建脚本)
+async function fetchAndCacheActivities() {
+    console.log("尝试从 AirTable 获取数据...");
+    const headers = new Headers({
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+    });
 
-    // 如果 hash 是 home 或空，或者 hash 不在定义的类别列表中，则返回 'home'
-    if (hash === '' || hash === 'home' || !ALL_CATEGORIES.includes(hash)) {
-        return 'home';
-    }
-    return hash;
-}
-
-/**
- * 显示错误信息（替换 alert()）。
- * @param {string} message - 要显示的消息。
- */
-function displayErrorMessage(message) {
-    const listContainer = document.getElementById('activity-list');
-    if (listContainer) {
-        listContainer.innerHTML = `
-            <div class="p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg shadow-inner text-center">
-                <p class="font-bold">错误:</p>
-                <p>${message}</p>
-            </div>
-        `;
-    } else {
-        console.error(`UI 错误提示无法显示: ${message}`);
-    }
-}
-
-// --- 数据加载和渲染 ---
-
-/**
- * 从本地 JSON 文件加载活动数据。
- * @returns {Promise<Array>} 活动数组。
- */
-async function loadActivities() {
-    const fullUrl = new URL(ACTIVITIES_JSON_URL, window.location.href).href;
-    console.log(`尝试从本地加载 activities.json。完整 URL: ${fullUrl}`);
+    const options = {
+        method: 'GET',
+        headers: headers
+    };
 
     try {
-        const response = await fetch(ACTIVITIES_JSON_URL);
-
-        if (!response.ok) {
-            throw new Error(`HTTP 错误 (Status: ${response.status})：无法获取 ${ACTIVITIES_JSON_URL}`);
-        }
-
+        const response = await fetchWithRetry(apiUrl, options);
         const data = await response.json();
-        if (!Array.isArray(data)) {
-             throw new Error("JSON 数据格式错误，预期为数组。");
-        }
-
-        // 缓存所有数据
-        allActivitiesCache = data;
-
-        // 🚀 调试日志：打印出实际 Category 字段的值
-        console.log("--- 🚀 DEBUG: JSON数据加载成功，开始打印类别值 ---");
-        data.forEach((activity, index) => {
-            const categoryValue = getSafeValue(activity, 'Category');
-            console.log(`[DEBUG - 实际类别值] 活动 #${index + 1} (${activity.name || '无名'}):`, categoryValue);
+        const activities = data.records.map(record => {
+            // 确保 category 是一个数组，并且值是统一后的英文标签
+            const category = Array.isArray(record.fields.Category) 
+                ? record.fields.Category.map(c => c.trim()) 
+                : (record.fields.Category ? [record.fields.Category.trim()] : []);
+            
+            return {
+                id: record.id,
+                name: record.fields.Name || '无名称',
+                description: record.fields.Description || '暂无描述',
+                icon: record.fields.Icon || '', 
+                deepLink: record.fields.DeepLink || '#',
+                category: category, // 此处应为统一后的英文标签，例如 ['CheckIn', 'Bank']
+                sourceApp: record.fields.SourceApp || '未知来源',
+                specialNote: record.fields.SpecialNote || ''
+            };
         });
-        console.log("--- 🚀 DEBUG: 类别值打印结束 ---");
-        // --------------------------------------------------------
 
-        return data;
-
+        return activities;
     } catch (error) {
-        console.error('加载活动数据失败:', error);
-        displayErrorMessage('活动数据加载失败，请检查 activities.json 文件是否存在或路径是否正确。');
+        console.error("从 AirTable 获取数据失败:", error);
+        return null;
+    }
+}
+
+// --------------------------------------------------------------------------------
+// 辅助函数：从本地 JSON 文件加载数据 (用于前端加载)
+// --------------------------------------------------------------------------------
+
+async function loadActivities() {
+    console.log(`尝试从本地 ${activitiesFilePath} 完整 URL: ${window.location.origin}/${activitiesFilePath}`);
+    try {
+        const response = await fetchWithRetry(activitiesFilePath, { method: 'GET' });
+        const activities = await response.json();
+        console.log("DEBUG - JSON加载成功，开始打印统一后的英文类别值...");
+        // DEBUG: 打印实际类别值，用于调试
+        activities.forEach((activity, index) => {
+            console.log(`[DEBUG - 统一类别值] 活动 #${index + 1} (${activity.name}): `, activity.category);
+        });
+        console.log("--- DEBUG - 统一类别值打印结束 ---");
+
+        // 缓存数据到全局变量
+        window.allActivities = activities; 
+        return activities;
+    } catch (error) {
+        console.error(`尝试从本地加载 ${activitiesFilePath} 失败，可能是文件不存在或权限问题:`, error);
         return [];
     }
 }
 
+
+// --------------------------------------------------------------------------------
+// 渲染核心逻辑
+// --------------------------------------------------------------------------------
+
 /**
- * 渲染活动列表到页面，并根据当前类别过滤。
+ * 渲染单个活动卡片。
+ * @param {Object} activity 活动对象
+ * @returns {string} HTML 字符串
  */
-function renderFilteredActivities() {
-    const currentCategory = getCurrentCategory();
-    let activitiesToRender = [];
+function renderActivityCard(activity) {
+    const deepLinkUrl = activity.deepLink && activity.deepLink !== '#' ? activity.deepLink : '#';
+    const cardClasses = "d-block p-3 mb-3 bg-secondary rounded-xl shadow-lg transform hover:scale-[1.02] transition duration-300 ease-in-out text-white no-underline";
+
+    let iconContent;
+    const iconValue = activity.icon;
     
-    if (currentCategory === 'home') {
-        // 如果在主页，渲染所有活动
-        activitiesToRender = allActivitiesCache;
+    // 检查是否是 PWA 图标路径（避免 404），并使用 Font Awesome 占位符
+    if (iconValue.includes('/assets/icon_')) {
+         iconContent = `<i class="fas fa-tasks"></i>`; 
     } else {
-        // 否则，只渲染当前类别下的活动
-        const categoryFilterValue = CATEGORY_MAP[currentCategory]; // 获取中文目标值 (如 '银行')
-
-        console.log(`[DEBUG] 正在过滤。目标类别 URL Hash: ${currentCategory} -> 中文目标值: ${categoryFilterValue}`);
-
-        // 🚀 最终的过滤逻辑：检查 Category 值是否包含目标中文值 (包括数组和字符串)
-        activitiesToRender = allActivitiesCache.filter(activity => {
-            const activityCategory = getSafeValue(activity, 'Category');
-            
-            // 如果数据是数组 (Airtable多选)，检查数组中是否包含目标中文值
-            if (Array.isArray(activityCategory)) {
-                // 强制将数组中的每个值去空格、小写化后，检查是否包含目标值
-                return activityCategory.some(val => 
-                    String(val).toLowerCase().trim().includes(categoryFilterValue.toLowerCase())
-                );
-            }
-
-            // 如果数据是字符串，检查字符串是否包含目标中文值
-            if (typeof activityCategory === 'string') {
-                return activityCategory.toLowerCase().trim().includes(categoryFilterValue.toLowerCase());
-            }
-
-            // 否则，不匹配
-            return false;
-        });
-
-        console.log(`[DEBUG] 过滤结果: 找到 ${activitiesToRender.length} 条活动。`);
+        if (iconValue.startsWith('fa')) {
+            iconContent = `<i class="${iconValue}"></i>`;
+        } else {
+            iconContent = iconValue || '📌'; // 确保总有内容
+        }
     }
 
-    const listContainer = document.getElementById('activity-list');
-    if (!listContainer) return;
-
-    if (activitiesToRender.length === 0 && currentCategory !== 'home') {
-        listContainer.innerHTML = `<p class="text-gray-500 text-center py-8">在 **${CATEGORY_MAP[currentCategory]}** 类别下暂无活动数据，或数据匹配失败。</p>`;
-        return;
-    }
-
-    if (activitiesToRender.length === 0 && currentCategory === 'home') {
-        listContainer.innerHTML = '<p class="text-gray-500 text-center py-8">暂无活动数据。</p>';
-        return;
-    }
-
-    // 假设活动数据结构是 { name, description, icon, deepLink, category, ... }
-    const html = activitiesToRender.map(activity => {
-        // 使用 fetch-data.js 中确定的字段名 (小写)
-        const name = activity.name || getSafeValue(activity, 'Name');
-        const icon = activity.icon || getSafeValue(activity, 'Icon');
-        const deepLink = activity.deepLink || getSafeValue(activity, 'DeepLink');
-        const description = activity.description || getSafeValue(activity, 'Description');
-
-        return `
-            <a href="${deepLink || '#'}" 
-                class="block p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5">
-                <div class="flex items-center space-x-4">
-                    <span class="text-3xl">${icon || '📌'}</span>
-                    <div>
-                        <p class="text-lg font-semibold text-gray-800">${name || '无标题活动'}</p>
-                        <p class="text-sm text-gray-500">${description || '点击查看详情'}</p>
-                    </div>
+    // 渲染标签 (Tags) - 直接显示 Airtable 中统一后的英文标签
+    const tagsHtml = (activity.category || [])
+        // 将英文标签（如 'CheckIn'）转换成更友好的中文显示
+        .map(tag => {
+            const displayMap = {
+                'CheckIn': '签到',
+                'Bank': '银行',
+                'Video': '视频',
+                'Shopping': '购物'
+            };
+            const displayText = displayMap[tag] || tag;
+            return `<span class="badge bg-primary me-2">${displayText}</span>`;
+        })
+        .join('');
+    
+    // 渲染卡片
+    return `
+        <a href="${deepLinkUrl}" class="${cardClasses}" target="_blank" rel="noopener noreferrer">
+            <div class="d-flex align-items-center">
+                <!-- 图标/Emoji 容器 -->
+                <div class="activity-icon-container bg-info text-white me-3" style="min-width: 40px; min-height: 40px;">
+                    ${iconContent}
                 </div>
-            </a>
-        `;
-    }).join('');
-
-    listContainer.innerHTML = html;
+                
+                <!-- 内容区域 -->
+                <div class="activity-content flex-grow-1">
+                    <div class="activity-title">${activity.name}</div>
+                    <div class="activity-desc">${activity.description}</div>
+                    <div class="mt-1">${tagsHtml}</div>
+                </div>
+            </div>
+            ${activity.specialNote ? `<div class="mt-2 text-warning text-sm font-semibold">${activity.specialNote}</div>` : ''}
+        </a>
+    `;
 }
 
-// --- 启动逻辑 ---
+/**
+ * 渲染过滤后的活动列表
+ * @param {string} categoryHash 要过滤的 URL Hash 值，例如 'CheckIn'
+ */
+function renderFilteredActivities(categoryHash) {
+    const listContainer = document.getElementById('activity-list');
+    
+    if (!window.allActivities) {
+        listContainer.innerHTML = `<div class="p-4 text-center text-warning">数据尚未完全加载，请稍候...</div>`;
+        return;
+    }
 
-// DOM 加载完成后启动
+    // 目标 Category 就是 URL Hash 值 (例如 'CheckIn')
+    const targetCategoryEn = categoryHash;
+    
+    console.log(`[DEBUG] 正在过滤: 目标 URL Hash (统一英文标签): ${targetCategoryEn}`);
+
+    // 2. 过滤活动：直接检查 activity.category 数组中是否包含目标英文标签
+    const filteredActivities = window.allActivities.filter(activity => 
+        activity.category && activity.category.includes(targetCategoryEn)
+    );
+    
+    console.log(`[DEBUG] 过滤结果: 找到 ${filteredActivities.length} 条活动。`);
+
+    // 3. 渲染结果
+    if (filteredActivities.length === 0) {
+        listContainer.innerHTML = `<div class="p-4 text-center text-gray">当前分类 (${targetCategoryEn}) 暂无活动。</div>`;
+    } else {
+        const html = filteredActivities.map(renderActivityCard).join('');
+        listContainer.innerHTML = html;
+    }
+}
+
+// --------------------------------------------------------------------------------
+// 事件监听器 (主入口)
+// --------------------------------------------------------------------------------
+
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. 加载数据并缓存
+    // 初始显示加载状态
+    const listContainer = document.getElementById('activity-list');
+    if (listContainer) {
+        listContainer.innerHTML = `<div class="p-4 text-center text-info">数据加载中，请稍候...</div>`;
+    }
+
+    // 1. 尝试加载数据
     await loadActivities();
 
-    // 2. 根据初始 URL 渲染列表
-    renderFilteredActivities();
-});
+    // 2. 监听 URL Hash 变化并进行渲染
+    function handleHashChange() {
+        // 移除 '#' 并获取 hash 值
+        const hash = window.location.hash.slice(1); 
+        if (hash && window.allActivities) {
+            renderFilteredActivities(hash);
+        } else if (window.allActivities) {
+             // 如果没有 hash，并且数据已加载 (通常在 index.html 上)
+             listContainer.innerHTML = `<div class="p-4 text-center text-gray">请选择一个分类开始浏览。</div>`;
+        }
+    }
 
-// 监听 URL hash 变化，实现简易路由
-window.addEventListener('hashchange', () => {
-    // 当 URL hash 变化时，重新过滤并渲染活动
-    renderFilteredActivities();
+    // 监听 hash 变化 (用于 index.html 的筛选)
+    window.addEventListener('hashchange', handleHashChange);
+
+    // 第一次加载页面时，立即调用处理函数
+    handleHashChange(); 
 });
