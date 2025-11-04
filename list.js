@@ -73,17 +73,22 @@ function getSafeValue(activity, englishName) {
     }
 
     // 3. 检查常见中文键名 (以防 fetch-data.js 保留中文)
+    // 🚀 键名修正：添加 '活动分类' 作为一个可能的键名
     const chineseMapping = {
         'Name': '活动名称', 
         'Description': '描述', 
         'Icon': '图标',
         'DeepLink': '链接',
-        'Category': '分类' 
+        'Category': '分类', // 常用中文键名
+        'ActivityCategory': '活动分类' // 尝试另一个可能的中文键名
     };
 
-    const chineseName = chineseMapping[englishName];
-    if (chineseName && activity[chineseName]) {
-        return activity[chineseName];
+    const chineseNames = [chineseMapping[englishName], chineseMapping['ActivityCategory']].filter(Boolean);
+    
+    for (const cnName of chineseNames) {
+         if (activity[cnName]) {
+             return activity[cnName];
+         }
     }
     
     // 如果找不到，返回 null
@@ -137,12 +142,15 @@ function renderFilteredActivities() {
     if (currentCategory === 'Life') categoryFilterValue = '视频'; // 对应“其他视频奖励”等
     if (currentCategory === 'Food') categoryFilterValue = '美食'; 
 
+    // 🚀 最终保险：将目标过滤值进行小写、去空格处理，确保匹配时不受大小写或前后空格影响
+    const finalFilterValue = String(categoryFilterValue).toLowerCase().trim();
+
     if (currentCategory === 'home') {
         // 如果在主页，渲染所有活动
         activitiesToRender = allActivitiesCache;
     } else {
         // 否则，只渲染当前类别下的活动
-        // 🚀 最终过滤修复：检查 Category 字段是否为数组，并进行匹配
+        // 🚀 最终过滤修复：对获取到的数据也进行小写、去空格处理
         activitiesToRender = allActivitiesCache.filter(
             activity => {
                 const activityCategory = getSafeValue(activity, 'Category');
@@ -152,13 +160,15 @@ function renderFilteredActivities() {
                 // 1. 如果是数组 (Airtable多选字段常见情况)
                 if (Array.isArray(activityCategory)) {
                     // 检查数组中是否包含目标中文值
-                    // 并且对数组中的每个元素也进行 trim()
-                    return activityCategory.some(item => String(item).trim() === categoryFilterValue);
+                    // 对数组中的每个元素也进行 trim() 和 toLowerCase()
+                    return activityCategory.some(
+                        item => String(item).toLowerCase().trim() === finalFilterValue
+                    );
                 } 
                 
                 // 2. 如果是字符串 (Airtable单选字段或Link/Lookup字段)
-                // 使用 trim() 移除空格，确保精确匹配
-                return String(activityCategory).trim() === categoryFilterValue;
+                // 对字符串也进行 trim() 和 toLowerCase()
+                return String(activityCategory).toLowerCase().trim() === finalFilterValue;
             }
         );
     }
@@ -167,8 +177,8 @@ function renderFilteredActivities() {
     if (!listContainer) return;
 
     if (activitiesToRender.length === 0) {
+        // 这里的 categoryFilterValue 仍然使用原始值，以便更好地显示给用户
         listContainer.innerHTML = `<p class="text-gray-500 text-center py-8">在 **${currentCategory !== 'home' ? categoryFilterValue : '所有'}** 类别下暂无活动数据。</p>`;
-        // 如果没有匹配到，我们不再回退到显示所有活动，而是显示空消息
         return;
     }
 
