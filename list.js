@@ -68,10 +68,22 @@ async function loadActivities() {
             throw new Error(`HTTP 错误 (Status: ${response.status})：无法获取 ${ACTIVITIES_JSON_URL}`);
         }
 
-        const data = await response.json();
+        let data = await response.json();
         if (!Array.isArray(data)) {
              throw new Error("JSON 数据格式错误，预期为数组。");
         }
+        
+        // 🚀 核心修复：数据标准化，将所有键名转换为小写
+        data = data.map(item => {
+            const standardizedItem = {};
+            for (const key in item) {
+                if (Object.prototype.hasOwnProperty.call(item, key)) {
+                    standardizedItem[key.toLowerCase()] = item[key];
+                }
+            }
+            return standardizedItem;
+        });
+        
         // 缓存所有数据
         allActivitiesCache = data;
         return data;
@@ -102,23 +114,14 @@ function renderFilteredActivities() {
         activitiesToRender = allActivitiesCache;
     } else {
         // 否则，只渲染当前类别下的活动
-        // 🚀 最终修复：使用中文值和首字母大写字段 'Category' 进行匹配
+        // 🚀 过滤修复：只使用标准化的全小写字段 'category' 进行匹配
         activitiesToRender = allActivitiesCache.filter(
-            activity => String(activity.Category) === categoryFilterValue
+            // 我们在 loadActivities 中已将所有键转换为小写
+            activity => String(activity.category) === categoryFilterValue
         );
-        
-        // 🚨 尝试使用小写字段名 'category' 进行第二次匹配，因为我们无法确定 fetch-data.js 的行为
-        if (activitiesToRender.length === 0) {
-             activitiesToRender = allActivitiesCache.filter(
-                activity => String(activity.category) === categoryFilterValue
-            );
-        }
     }
     
-    // ⚠️ 移除安全回退：防止过滤失败时渲染空白卡片，干扰判断
-    // if (activitiesToRender.length === 0 && currentCategory !== 'home') {
-    //      activitiesToRender = allActivitiesCache;
-    // }
+    // ⚠️ 移除安全回退：现在我们应该相信过滤逻辑是正确的
     
 
     const listContainer = document.getElementById('activity-list');
@@ -129,13 +132,14 @@ function renderFilteredActivities() {
         return;
     }
 
-    // 🚀 最终渲染修复：尝试同时检查首字母大写 (Name) 和全小写 (name)
+    // 🚀 最终渲染修复：只使用标准化的全小写字段名进行渲染
     const html = activitiesToRender.map(activity => {
         // 确定正确的字段名（取值逻辑）
-        const name = activity.Name || activity.name || '无标题活动';
-        const description = activity.Description || activity.description || '点击查看详情';
-        const icon = activity.Icon || activity.icon || '📌';
-        const deepLink = activity.DeepLink || activity.deepLink || '#';
+        // 此时所有字段都应该是小写的: name, description, icon, deepLink
+        const name = activity.name || '无标题活动';
+        const description = activity.description || '点击查看详情';
+        const icon = activity.icon || '📌';
+        const deepLink = activity.deeplink || '#'; // 注意 deeplink 也是全小写
 
         return `
             <a href="${deepLink}" 
