@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>慧伴管家 - 银行羊毛任务中心</title>
+    <!-- 【已更新】页面标题 -->
+    <title>慧伴管家 - 捡钱任务中心</title>
     
     <!-- PWA/移动端配置 (省略，保持不变) -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -249,7 +250,7 @@
             width: 80px;
         }
         
-        /* ------------------ 底部导航栏样式 (Tab Bar) 【已修复】 ------------------ */
+        /* ------------------ 底部导航栏样式 (Tab Bar) ------------------ */
         .tab-bar {
             position: fixed;
             bottom: 0;
@@ -342,7 +343,8 @@
             <p id="data-status-warning" class="text-sm font-semibold text-red-400 mb-3 p-2 border border-red-500 rounded-lg bg-red-900/20">
                 ⚠️ 提示：当前显示为内置模拟数据。
             </p>
-            <h1>银行羊毛任务中心</h1>
+            <!-- 【已更新】主标题 -->
+            <h1>捡钱任务中心</h1>
             <p class="text-sm text-gray-400 mt-2">点击下方按钮，仅显示您拥有的银行卡/平台活动</p>
         </div>
 
@@ -401,30 +403,32 @@
         
     </main>
     
-    <!-- 底部导航栏 (已修复样式) -->
+    <!-- 底部导航栏 (保持不变，已使用新名称) -->
     <nav class="tab-bar">
         <!-- 首页 -->
         <a href="/WiseCompanion/index.html" class="tab-item">
             <i class="fas fa-home tab-icon"></i>
             <span>首页</span>
         </a>
+        <!-- 天天有奖 (原签到) -->
         <a href="/WiseCompanion/checkin.html" class="tab-item">
-            <i class="fas fa-tasks tab-icon"></i>
-            <span>签到</span>
+            <i class="fas fa-gifts tab-icon"></i>
+            <span>天天有奖</span>
         </a>
-        <!-- 视频 -->
+        <!-- 看视频赚 (原视频) -->
         <a href="/WiseCompanion/video.html" class="tab-item">
-            <i class="fas fa-video tab-icon"></i>
-            <span>视频</span>
+            <i class="fas fa-play-circle tab-icon"></i>
+            <span>看视频赚</span>
         </a>
-        <!-- 银行 (当前页) -->
+        <!-- 捡钱任务 (原银行 - 当前页) -->
         <span class="tab-item active">
-            <i class="fas fa-piggy-bank tab-icon"></i>
-            <span>银行</span>
+            <i class="fas fa-hand-holding-usd tab-icon"></i>
+            <span>捡钱任务</span>
             </span>
+        <!-- 省钱秘籍 (原购物) -->
         <a href="/WiseCompanion/shopping.html" class="tab-item">
-            <i class="fas fa-shopping-bag tab-icon"></i>
-            <span>购物</span>
+            <i class="fas fa-tags tab-icon"></i>
+            <span>省钱秘籍</span>
         </a>
     </nav>
     
