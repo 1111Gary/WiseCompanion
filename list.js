@@ -129,13 +129,13 @@ function renderFilteredActivities() {
     const currentCategory = getCurrentCategory();
     let activitiesToRender = [];
 
-    // 确定用于过滤的匹配值 (使用中文值，基于您的 Airtable 数据推测)
+    // 确定用于过滤的匹配值 (使用中文值，根据用户最新的 Airtable 截图修正)
     let categoryFilterValue = '';
-    // 🚀 过滤值修正：使用更具体的中文类别名称
-    if (currentCategory === 'Bank') categoryFilterValue = '银行优惠活动';
-    if (currentCategory === 'Shopping') categoryFilterValue = '购物外卖优惠';
-    if (currentCategory === 'Life') categoryFilterValue = '其他视频奖励'; 
-    if (currentCategory === 'Food') categoryFilterValue = '美食'; // 暂时保留美食，如果不对请告诉我具体值
+    // 🚀 过滤值修正：使用 Airtable 截图中的精确中文值
+    if (currentCategory === 'Bank') categoryFilterValue = '银行';
+    if (currentCategory === 'Shopping') categoryFilterValue = '签到';
+    if (currentCategory === 'Life') categoryFilterValue = '视频'; // 对应“其他视频奖励”等
+    if (currentCategory === 'Food') categoryFilterValue = '美食'; 
 
     if (currentCategory === 'home') {
         // 如果在主页，渲染所有活动
