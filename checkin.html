@@ -23,7 +23,7 @@
         /* ------------------ 顶级设计师配色方案 ------------------ */
         :root {
             --color-bg-dark: #0A1322; /* 更深的背景蓝黑 */
-            --color-card-bg: #1A2233; /* 卡片深灰色 */
+            --color-card-bg: #1A2233; /* 卡片深灰色 (用于卡片和底部导航栏) */
             --color-primary: #00BFFF; /* 高饱和度青色/天蓝色 */
             --color-secondary: #FF69B4; /* 辅助色粉色，用于强调 */
             --color-text-light: #E0E7FF;
@@ -34,9 +34,11 @@
         body { 
             background-color: var(--color-bg-dark); 
             color: var(--color-text-light); 
-            padding-bottom: 70px; 
+            padding-bottom: 80px; /* 为增高后的底部导航栏留出更多空间 */
             font-family: 'Inter', sans-serif;
         }
+        
+        /* ------------------ 顶部 Header Bar (风格统一) ------------------ */
         .header-bar { 
             padding-top: calc(15px + env(safe-area-inset-top)); 
             padding-bottom: 15px; 
@@ -44,6 +46,8 @@
             position: sticky;
             top: 0;
             z-index: 10;
+            /* 新增：向下浮动的阴影，与卡片设计语言一致 */
+            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.15); 
         }
         .header-bar .container {
             display: flex;
@@ -70,16 +74,16 @@
         /* ------------------ 1. 页面主题标题卡片 (顶级设计 - 玻璃感) ------------------ */
         .page-title-card {
             background: rgba(26, 34, 51, 0.7); /* 半透明背景 */
-            backdrop-filter: blur(8px); /* 玻璃模糊效果 */
+            backdrop-filter: blur(8px); 
             -webkit-backdrop-filter: blur(8px);
             padding: 20px 25px; 
             margin-bottom: 2rem;
             border-radius: 20px; 
             text-align: center;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* 强阴影 */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); 
             
             font-size: 1.8rem; 
-            font-weight: 900; /* 更粗的字体 */
+            font-weight: 900; 
             color: var(--color-text-light);
             letter-spacing: 1px;
             
@@ -98,14 +102,13 @@
 
         /* ------------------ 2. 收益统计卡片 (焦点设计) ------------------ */
         .revenue-card {
-            background: linear-gradient(145deg, #183358, #0D2038); /* 深蓝渐变 */
+            background: linear-gradient(145deg, #183358, #0D2038); 
             padding: 25px;
             margin-bottom: 2rem;
             border-radius: 16px;
             text-align: center;
-            /* 显著的浮动阴影 */
             box-shadow: 0 10px 30px rgba(0, 191, 255, 0.25); 
-            border: 1px solid rgba(0, 191, 255, 0.3); /* 浅蓝色描边 */
+            border: 1px solid rgba(0, 191, 255, 0.3); 
         }
         .revenue-label {
             font-size: 1.1rem; 
@@ -113,9 +116,9 @@
             margin-bottom: 8px;
         }
         .revenue-amount {
-            font-size: 3.5rem; /* 进一步增大 */
+            font-size: 3.5rem; 
             font-weight: 900;
-            color: var(--color-primary); /* 使用主色突出金额 */
+            color: var(--color-primary); 
             line-height: 1;
             text-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
         }
@@ -139,7 +142,6 @@
             transition: all 0.3s ease-in-out;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
         }
-        /* 鼠标悬停时的立体感 */
         .activity-card:hover {
              box-shadow: 0 8px 25px rgba(0, 191, 255, 0.2); 
              transform: translateY(-2px);
@@ -158,27 +160,25 @@
             font-size: 36px; 
             margin-right: 18px;
             border-radius: 14px;
-            /* 图标背景使用辅助色渐变 */
             background: linear-gradient(135deg, var(--color-secondary), #FF33A0); 
             box-shadow: 0 4px 10px rgba(255, 105, 180, 0.5);
         }
 
         .activity-title {
             font-weight: 800;
-            font-size: 1.5rem; /* 进一步增大标题 */
+            font-size: 1.5rem; 
             color: var(--color-text-light);
         }
 
         .activity-desc {
-            font-size: 1.15rem; /* 进一步增大描述 */
+            font-size: 1.15rem; 
             color: var(--color-text-muted); 
             margin-top: 5px;
             margin-bottom: 18px;
         }
         
-        /* 签到进度条样式 */
         .checkin-progress {
-            font-size: 1.2rem; /* 进一步增大进度文字 */
+            font-size: 1.2rem; 
             font-weight: 700;
             color: var(--color-primary); 
             margin-bottom: 18px;
@@ -195,30 +195,58 @@
 
         /* ------------------ 4. 签到大按钮样式 (高光操作) ------------------ */
         .checkin-btn {
-            padding: 16px; /* 进一步增大内边距 */
+            padding: 16px; 
             border-radius: 12px;
-            font-size: 1.4rem; /* 进一步增大按钮文字 */
+            font-size: 1.4rem; 
             font-weight: bold;
-            color: var(--color-bg-dark); /* 按钮文字使用深色，高对比度 */
-            /* 按钮使用高饱和主色渐变 */
+            color: var(--color-bg-dark); 
             background: linear-gradient(45deg, var(--color-primary), #00FFFF);
-            box-shadow: 0 6px 20px rgba(0, 191, 255, 0.6); /* 强烈按钮阴影 */
+            box-shadow: 0 6px 20px rgba(0, 191, 255, 0.6); 
         }
 
         .checkin-btn:hover {
             background-color: #008CBA;
-            transform: scale(0.99); /* 轻微按下反馈 */
+            transform: scale(0.99); 
             color: var(--color-bg-dark);
         }
         
-        /* ------------------ 底部导航栏样式 (保持不变) ------------------ */
+        /* ------------------ 底部导航栏样式 (风格统一改造) ------------------ */
         .tab-bar {
-            background-color: #151D2A; /* 略微调整底部栏颜色 */
-            border-top: 1px solid #334155;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 65px; /* 增大高度以优化触控 */
+            background-color: var(--color-card-bg); /* 与卡片背景保持一致 */
+            border-top: none; /* 移除旧的硬边框 */
+            /* 向上发光的阴影，呼应页面主体设计 */
+            box-shadow: 0 -8px 30px rgba(0, 191, 255, 0.3);
+            padding-bottom: env(safe-area-inset-bottom);
+            z-index: 1000;
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--color-text-muted); 
+            text-decoration: none;
+            font-size: 0.8rem; /* 增大文字 */
+            flex: 1;
+            padding-top: 8px; /* 调整内边距 */
+            transition: color 0.2s, transform 0.2s;
+            min-width: 0; 
         }
         .tab-item.active {
             color: var(--color-primary); 
+            font-weight: 700;
+            transform: translateY(-2px); /* 选中时轻微上浮 */
+        }
+        .tab-icon {
+            font-size: 1.4rem; /* 增大图标 */
+            margin-bottom: 3px;
         }
     </style>
 </head>
