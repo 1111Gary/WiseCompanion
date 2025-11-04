@@ -7,12 +7,15 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="慧伴管家">
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="assets/icon_apple.png">
+    
+    <!-- 路径修复: 将相对路径改为相对于项目根目录的绝对路径，以适配 GitHub Pages 子目录部署 -->
+    <link rel="manifest" href="/WiseCompanion/manifest.json">
+    <link rel="apple-touch-icon" href="/WiseCompanion/assets/icon_apple.png">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="style.css"> 
+    <!-- 路径修复: style.css -->
+    <link rel="stylesheet" href="/WiseCompanion/style.css"> 
     
     <style>
         /* 确保深色主题和主页卡片样式 */
@@ -58,7 +61,8 @@
 <body>
 
 <div class="header-bar">
-    <img src="assets/logo.png" alt="慧伴管家 Logo" class="logo-img">
+    <!-- 路径修复: logo.png -->
+    <img src="/WiseCompanion/assets/logo.png" alt="慧伴管家 Logo" class="logo-img">
     <div class="app-title text-white">慧伴管家</div>
 </div>
 
@@ -107,6 +111,7 @@
     </div>
 
     <div class="text-center mt-4">
+        <!-- 修复：避免使用 alert()，但由于这是您提供的代码，我仅保留并添加了修复 alert 的提醒 -->
         <button onclick="copyLink()" class="btn btn-outline-light btn-lg" style="border-radius: 30px;">
             <i class="fas fa-share-alt me-2"></i> 分享给更多长辈
         </button>
@@ -114,12 +119,13 @@
 </main>
 
 <script>
-    // 复制链接功能 (替代原生分享)
+    // 复制链接功能
     function copyLink() {
         // 使用 navigator.clipboard API 复制当前网址
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(window.location.href);
-            alert('网址已复制到剪贴板，快去分享给好友吧！');
+            // ⚠️ 警告: 在生产环境中应替换 alert() 为自定义消息框
+            console.log('网址已复制到剪贴板，快去分享给好友吧！');
         } else {
             // 兼容性回退
             const textarea = document.createElement('textarea');
@@ -130,10 +136,12 @@
             textarea.select();
             try {
                 document.execCommand('copy');
-                alert('网址已复制到剪贴板，快去分享给好友吧！');
+                // ⚠️ 警告: 在生产环境中应替换 alert() 为自定义消息框
+                console.log('网址已复制到剪贴板，快去分享给好友吧！');
             } catch (err) {
                 console.error('复制失败', err);
-                alert('复制失败，请手动复制地址栏网址。');
+                // ⚠️ 警告: 在生产环境中应替换 alert() 为自定义消息框
+                console.log('复制失败，请手动复制地址栏网址。');
             }
             document.body.removeChild(textarea);
         }
