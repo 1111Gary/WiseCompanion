@@ -45,12 +45,22 @@
             height: 30px; 
             width: 30px; 
             border-radius: 6px;
+            background-color: #3b82f6; /* 即使图片不显示也有颜色可见 */
         }
 
         .app-title { 
             font-size: 1.25rem; 
             font-weight: bold; 
         }
+        
+        /* 新增：右上角大返回按钮样式 */
+        .back-btn-large {
+            font-size: 1.5rem; /* 显著增大图标 */
+            padding: 5px; /* 增加点击区域 */
+            color: #ffffff; /* 纯白色，高对比度 */
+            text-decoration: none;
+        }
+
 
         /* ------------------ 收益卡片样式 ------------------ */
         .revenue-card {
@@ -218,14 +228,17 @@
     <!-- 顶部标题栏 -->
     <div class="header-bar">
         <div class="container d-flex justify-content-between align-items-center">
-            <a href="/WiseCompanion/index.html" class="text-white-50"><i class="fas fa-arrow-left"></i></a>
+            <div></div> <!-- 左侧占位符 -->
             <!-- 居中的 Logo 和标题 -->
             <div class="d-flex align-items-center" style="position: absolute; left: 50%; transform: translateX(-50%);">
                 <!-- 引用 App logo，路径复用苹果触摸图标的路径 -->
                 <img src="/WiseCompanion/assets/icon_apple.png" alt="App Logo" class="app-logo me-2"> 
                 <div class="app-title text-white">签到/小任务总览</div>
             </div>
-            <div></div> <!-- 占位符 -->
+            <!-- 右上角的大返回按钮 -->
+            <a href="/WiseCompanion/index.html" class="back-btn-large">
+                <i class="fas fa-arrow-left"></i>
+            </a>
         </div>
     </div>
 
