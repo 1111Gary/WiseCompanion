@@ -9,19 +9,19 @@
 "theme_color": "#1e293b",
 "icons": [
 {
-"src": "/assets/icon_192.png",
+"src": "/WiseCompanion/assets/icon_192.png",
 "sizes": "192x192",
 "type": "image/png",
 "purpose": "any maskable"
 },
 {
-"src": "/assets/icon_512.png",
+"src": "/WiseCompanion/assets/icon_512.png",
 "sizes": "512x512",
 "type": "image/png",
 "purpose": "any maskable"
 },
 {
-"src": "/assets/icon_apple.png",
+"src": "/WiseCompanion/assets/icon_apple.png",
 "sizes": "180x180",
 "type": "image/png",
 "purpose": "apple-touch-icon"
