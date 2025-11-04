@@ -73,16 +73,8 @@ async function loadActivities() {
              throw new Error("JSON 数据格式错误，预期为数组。");
         }
         
-        // 🚀 核心修复：数据标准化，将所有键名转换为小写
-        data = data.map(item => {
-            const standardizedItem = {};
-            for (const key in item) {
-                if (Object.prototype.hasOwnProperty.call(item, key)) {
-                    standardizedItem[key.toLowerCase()] = item[key];
-                }
-            }
-            return standardizedItem;
-        });
+        // 🚀 核心修复：移除所有强制标准化，使用 Airtable 原始键名
+        // 假设 fetch-data.js 生成的 JSON 键名与 Airtable 截图一致 (Name, Category, ...)
         
         // 缓存所有数据
         allActivitiesCache = data;
@@ -106,24 +98,21 @@ function renderFilteredActivities() {
     let categoryFilterValue = '';
     if (currentCategory === 'Bank') categoryFilterValue = '银行';
     if (currentCategory === 'Shopping') categoryFilterValue = '签到';
-    if (currentCategory === 'Life') categoryFilterValue = '生活'; // 假设值
-    if (currentCategory === 'Food') categoryFilterValue = '美食'; // 假设值
+    if (currentCategory === 'Life') categoryFilterValue = '生活'; 
+    if (currentCategory === 'Food') categoryFilterValue = '美食'; 
 
     if (currentCategory === 'home') {
         // 如果在主页，渲染所有活动
         activitiesToRender = allActivitiesCache;
     } else {
         // 否则，只渲染当前类别下的活动
-        // 🚀 过滤修复：只使用标准化的全小写字段 'category' 进行匹配
+        // 🚀 过滤修复：使用 Airtable 原始的首字母大写字段 'Category'
         activitiesToRender = allActivitiesCache.filter(
-            // 我们在 loadActivities 中已将所有键转换为小写
-            activity => String(activity.category) === categoryFilterValue
+            // 使用 String() 确保比较类型一致
+            activity => String(activity.Category) === categoryFilterValue
         );
     }
     
-    // ⚠️ 移除安全回退：现在我们应该相信过滤逻辑是正确的
-    
-
     const listContainer = document.getElementById('activity-list');
     if (!listContainer) return;
 
@@ -132,14 +121,13 @@ function renderFilteredActivities() {
         return;
     }
 
-    // 🚀 最终渲染修复：只使用标准化的全小写字段名进行渲染
+    // 🚀 最终渲染修复：使用 Airtable 原始的首字母大写字段名 Name, Description, Icon, DeepLink
     const html = activitiesToRender.map(activity => {
-        // 确定正确的字段名（取值逻辑）
-        // 此时所有字段都应该是小写的: name, description, icon, deepLink
-        const name = activity.name || '无标题活动';
-        const description = activity.description || '点击查看详情';
-        const icon = activity.icon || '📌';
-        const deepLink = activity.deeplink || '#'; // 注意 deeplink 也是全小写
+        // 确定正确的字段名（取值逻辑）- 使用 Airtable 截图中的字段名
+        const name = activity.Name || '无标题活动';
+        const description = activity.Description || '点击查看详情';
+        const icon = activity.Icon || '📌';
+        const deepLink = activity.DeepLink || '#'; 
 
         return `
             <a href="${deepLink}" 
