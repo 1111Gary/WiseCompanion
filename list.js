@@ -9,11 +9,27 @@ const apiUrl = `https://api.airtable.com/v0/${baseId}/${tableName}`;
 const activitiesFilePath = 'activities.json'; // 用于 GitHub Pages 的缓存文件路径
 
 // --------------------------------------------------------------------------------
-// 核心配置：不再需要映射，直接使用统一的英文 Category (URL Hash)
+// 核心配置：中文 Airtable 标签与英文 URL Hash 的映射关系
 // --------------------------------------------------------------------------------
 
-// 假设 Airtable Category 值已统一为英文：
-// 'CheckIn', 'Bank', 'Video', 'Shopping' 等。过滤时直接使用这些英文值。
+// 目标英文标签（用于 URL Hash 和过滤）
+const TARGET_CATEGORIES = {
+    'CheckIn': '签到',
+    'Bank': '银行',
+    'Video': '视频',
+    'Shopping': '购物'
+};
+
+// 实际 Airtable 中文标签到目标英文标签的映射
+// 根据您提供的截图，您的 Airtable 字段值是中文，因此我们需要这个映射来统一数据格式。
+const CATEGORY_MAP = {
+    '签到': 'CheckIn',
+    '银行': 'Bank',
+    '视频': 'Video',
+    '购物': 'Shopping',
+    // 确保所有可能出现的中文标签都在这里映射到对应的大写英文标签
+};
+
 
 // --------------------------------------------------------------------------------
 // 辅助函数：从 AirTable 加载数据
@@ -58,10 +74,22 @@ async function fetchAndCacheActivities() {
         const response = await fetchWithRetry(apiUrl, options);
         const data = await response.json();
         const activities = data.records.map(record => {
-            // 确保 category 是一个数组，并且值是统一后的英文标签
-            const category = Array.isArray(record.fields.Category) 
-                ? record.fields.Category.map(c => c.trim()) 
-                : (record.fields.Category ? [record.fields.Category.trim()] : []);
+            // 确保 category 是一个数组，并且将 Airtable 中的中文值映射成英文值
+            let category = [];
+            const rawCategories = record.fields.Category;
+
+            if (Array.isArray(rawCategories)) {
+                // 遍历 Airtable 中的中文标签，并映射成大写英文标签
+                category = rawCategories
+                    .map(c => CATEGORY_MAP[c.trim()] || c.trim()) // 使用 CATEGORY_MAP 进行映射
+                    .filter(c => c); // 过滤掉无效值
+            } else if (rawCategories) {
+                 // 处理单个标签的情况
+                const mappedCategory = CATEGORY_MAP[rawCategories.trim()] || rawCategories.trim();
+                if (mappedCategory) {
+                    category.push(mappedCategory);
+                }
+            }
             
             return {
                 id: record.id,
@@ -69,7 +97,7 @@ async function fetchAndCacheActivities() {
                 description: record.fields.Description || '暂无描述',
                 icon: record.fields.Icon || '', 
                 deepLink: record.fields.DeepLink || '#',
-                category: category, // 此处应为统一后的英文标签，例如 ['CheckIn', 'Bank']
+                category: category, // **此处现在是统一后的英文标签**，例如 ['CheckIn', 'Bank']
                 sourceApp: record.fields.SourceApp || '未知来源',
                 specialNote: record.fields.SpecialNote || ''
             };
@@ -135,11 +163,11 @@ function renderActivityCard(activity) {
         }
     }
 
-    // 渲染标签 (Tags) - 直接显示 Airtable 中统一后的英文标签
+    // 渲染标签 (Tags) - 将英文标签转换回中文显示
     const tagsHtml = (activity.category || [])
         // 将英文标签（如 'CheckIn'）转换成更友好的中文显示
         .map(tag => {
-            // 这个 Map 负责将 Airtable 中的英文 Category 转换成页面上显示的中文
+            // 这个 Map 负责将内部英文 Category 转换成页面上显示的中文
             const displayMap = {
                 'CheckIn': '签到',
                 'Bank': '银行',
@@ -190,6 +218,7 @@ function renderFilteredActivities(categoryHash) {
     console.log(`[DEBUG] 正在过滤: 目标 URL Hash (统一英文标签): ${targetCategoryEn}`);
 
     // 2. 过滤活动：直接检查 activity.category 数组中是否包含目标英文标签
+    // 注意：这里的 activity.category 已经被 fetchAndCacheActivities 映射成了英文标签
     const filteredActivities = window.allActivities.filter(activity => 
         // 确保 category 存在且包含目标英文标签
         activity.category && Array.isArray(activity.category) && activity.category.includes(targetCategoryEn)
@@ -218,6 +247,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // 1. 尝试加载数据
+    // 注意：如果您的数据是预先生成的 activities.json，请确保该 JSON 文件的数据结构已经将 Category 从中文转换成了英文标签！
+    // 如果您直接从 AirTable API 加载，fetchAndCacheActivities 函数会完成这个转换。
     await loadActivities();
 
     // 2. 监听 URL Hash 变化并进行渲染
