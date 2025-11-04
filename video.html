@@ -73,6 +73,24 @@
             color: var(--color-text-light);
             text-shadow: 0 0 5px rgba(224, 231, 255, 0.1); 
         }
+
+        /* ------------------ 【统一风格】二级页面标题样式 ------------------ */
+        .section-heading {
+            font-weight: 800;
+            /* 关键：左侧高亮边框使用主色调 */
+            border-left: 5px solid var(--color-primary); 
+            padding-left: 15px; /* 增加一点内边距 */
+            color: var(--color-text-light);
+            margin-bottom: 0.5rem; 
+            font-size: 1.5rem;
+        }
+
+        .section-description {
+            color: var(--color-text-muted); /* 使用柔和的文字颜色 */
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            padding-left: 20px; /* 与标题对齐 */
+        }
         
         /* ------------------ 1. 外部平台入口 (核心区域) ------------------ */
         .portal-grid {
@@ -193,7 +211,6 @@
             
             <!-- 右侧：占位符（保持 Logo 和标题的对齐） -->
             <div style="width: 130px; text-align: right;">
-                <!-- 原奖励按钮位置，现留空 -->
             </div>
         </div>
     </div>
@@ -201,11 +218,11 @@
     <!-- 页面核心内容容器 -->
     <main class="container py-4">
         
-        <!-- **1. 外部平台任务入口卡片** -->
-        <h2 class="mb-3" style="font-weight: 800; border-left: 5px solid var(--color-primary); padding-left: 10px; color: var(--color-text-light);">
+        <!-- **1. 外部平台任务入口卡片 - 使用统一的 H2 风格** -->
+        <h2 class="section-heading">
             选择视频任务平台
         </h2>
-        <p class="small text-white-50 mb-4">
+        <p class="section-description">
             点击下方卡片，**直接跳转** 至相应 App/网页完成视频任务，任务奖励由对应平台直接发放和兑换。
         </p>
         
