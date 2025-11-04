@@ -21,9 +21,8 @@ const CATEGORY_MAP = {
 
 const AIRTABLE_PAT = process.env.AIRTABLE_PAT;
 const BASE_ID = process.env.AIRTABLE_BASE_ID;
-// ⚠️ 请务必与您的 Airtable 表名一致。根据您最新的截图，您可能需要再次确认这个 ID。
-// 我们暂时假设它是您之前使用的那个表，您可能需要根据实际情况调整。
-const TABLE_NAME = 'Activity List'; 
+// ⚠️ 已根据用户提供的 Table ID 更新
+const TABLE_NAME = 'tblPWwLrdoMuO1b7k'; 
 
 const AIRTABLE_URL = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
 const OUTPUT_FILE = path.join(__dirname, 'activities.json'); 
