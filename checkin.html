@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>签到/小任务 - 慧伴管家</title>
     <!-- 启用 PWA/WebApp 模式 -->
-        <!-- 恢复 manifest.json 引用 -->
-    <link rel="manifest" href="manifest.json">
-    <!-- 添加 iOS/Safari 的苹果触控图标 -->
-    <link rel="apple-touch-icon" href="/assets/icon_apple.png"> 
+    <!-- 恢复 manifest.json 引用 -->
+    <link rel="manifest" href="./manifest.json"> <!-- 使用相对路径 -->
+    <!-- 修复：将绝对路径改为相对路径，与 manifest.json 保持一致 -->
+    <link rel="apple-touch-icon" href="./assets/icon_apple.png"> 
     
     <!-- 使用 Tailwind CSS CDN 替代 Bootstrap 和 style.css，以保持一致的现代风格 -->
     <!-- ⚠️ 注意：为了保持您现有的样式（深色模式和activity-card），我保留了您提供的内联CSS，但建议未来统一使用Tailwind或Bootstrap。 -->
