@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>慧伴管家 - 首页</title>
+    <!-- 页面标题，突出 AI 概念 -->
+    <title>慧伴管家 - AI 智能入口</title>
     
     <!-- PWA/移动端配置 -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -13,308 +14,289 @@
     <link rel="apple-touch-icon" href="/WiseCompanion/assets/icon_apple.png">
     
     <!-- 依赖加载 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="/WiseCompanion/style.css"> 
     
     <style>
-        /* ------------------ 顶级设计师配色方案 (保持一致) ------------------ */
+        /* ------------------ 简洁科技配色方案 ------------------ */
         :root {
-            --color-bg-dark: #0A1322; /* 更深的背景蓝黑 */
-            --color-card-bg: #1A2233; /* 卡片深灰色 */
-            --color-primary: #00BFFF; /* 高饱和度青色/天蓝色 */
-            --color-secondary: #FF69B4; /* 辅助色粉色，用于强调 */
+            --color-bg-dark: #0A1322; 
+            --color-card-bg: #1A2233; 
+            --color-primary: #00BFFF; /* 主色调：科技蓝 */
+            --color-secondary: #00DFA2; /* 突出色：薄荷绿 */
             --color-text-light: #E0E7FF;
             --color-text-muted: #9CA3AF;
+            --color-highlight: #FF6B6B; /* 强调色：红色 */
         }
 
         /* ------------------ 通用布局和颜色 ------------------ */
         body { 
             background-color: var(--color-bg-dark); 
             color: var(--color-text-light); 
-            padding-bottom: calc(85px + env(safe-area-inset-bottom)); /* 底部Tab Bar安全区域 */
+            /* 底部留出 tab-bar 和安全区的高度 */
+            padding-bottom: calc(85px + env(safe-area-inset-bottom)); 
+            padding-top: calc(70px + env(safe-area-inset-top)); 
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
-
-        /* ------------------ 顶部 Header Bar (风格统一) ------------------ */
-        .header-bar { 
+        
+        /* ------------------ 顶部导航栏 ------------------ */
+        .header-bar-fixed { 
             padding-top: calc(15px + env(safe-area-inset-top)); 
-            padding-bottom: 15px; 
+            padding-bottom: 5px; 
             background-color: var(--color-bg-dark);
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 10;
-            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.15); /* 统一浮动阴影 */
-        }
-        .header-bar .container {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
+            height: 60px;
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
-        
-        /* Logo 容器样式 */
-        .brand-logo-container {
+        .header-logo-group {
             display: flex;
             align-items: center;
-            padding: 5px 0;
-            text-decoration: none;
-        }
-        .brand-logo-container img {
-            height: 38px; 
-            width: 38px; 
-            object-fit: contain; 
-            margin-right: 10px; 
-            border-radius: 8px; 
-        }
-        .brand-logo-container .logo-text {
-            font-size: 1.3rem;
-            font-weight: 800; 
-            color: var(--color-text-light);
-            text-shadow: 0 0 5px rgba(224, 231, 255, 0.1); 
-        }
-        
-        /* 右侧用户/设置按钮 */
-        .action-btn-large {
-            font-size: 1.5rem; 
-            padding: 5px; 
-            color: var(--color-primary); 
-            text-decoration: none;
-            transition: color 0.2s;
         }
 
-        /* ------------------ 1. 搜索/AI输入区域 (焦点设计) ------------------ */
-        .search-area {
-            margin-top: 2rem;
-            margin-bottom: 3rem;
-        }
-        .search-input-group {
-            position: relative;
-        }
-        .search-input {
-            width: 100%;
-            padding: 18px 25px;
-            padding-left: 60px; /* 为图标留出空间 */
-            border-radius: 30px; 
-            background-color: #121A2A; 
-            border: 2px solid rgba(0, 191, 255, 0.2);
-            color: var(--color-text-light);
-            font-size: 1.1rem;
-            box-shadow: 0 0 15px rgba(0, 191, 255, 0.1); /* 柔和的发光效果 */
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        .search-input:focus {
-            background-color: #0A1322; /* 聚焦时背景变深 */
-            border-color: var(--color-primary);
-            box-shadow: 0 0 20px rgba(0, 191, 255, 0.4); 
-            outline: none;
-        }
-        .search-icon {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--color-primary);
-            font-size: 1.3rem;
+        .header-logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
         }
 
-        /* ------------------ 2. 快捷功能区 (网格布局) ------------------ */
-        .quick-access-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
-            margin-bottom: 3rem;
-        }
-
-        .quick-access-card {
-            background-color: var(--color-card-bg); 
-            padding: 20px;
-            border-radius: 18px;
-            text-align: center;
-            text-decoration: none;
-            color: var(--color-text-light);
-            transition: all 0.3s ease-in-out;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
-        .quick-access-card:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 20px rgba(0, 191, 255, 0.2); 
-        }
-
-        .card-icon {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            /* 渐变图标颜色 */
-            background: linear-gradient(45deg, var(--color-primary), #00FFFF);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-        }
-
-        .card-title {
+        .header-title {
             font-size: 1.2rem;
             font-weight: 700;
-            line-height: 1.2;
+            color: var(--color-text-light);
         }
 
-        /* ------------------ 3. 底部导航栏样式 (Tab Bar - 统一且修复) ------------------ */
-        .tab-bar {
+        /* ------------------ 主功能卡片 ------------------ */
+        .main-function-card {
+            background-color: var(--color-card-bg);
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 191, 255, 0.2);
+            border: 1px solid rgba(0, 191, 255, 0.4);
+        }
+        .main-function-card h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 5px;
+        }
+        .main-function-card p {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ------------------ 主要功能导航 ------------------ */
+        .feature-nav a {
+            background-color: var(--color-card-bg);
+            padding: 20px 15px;
+            border-radius: 15px;
             display: flex;
-            justify-content: space-around;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            border-bottom: 3px solid var(--color-primary);
+        }
+        .feature-nav a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            border-color: var(--color-secondary);
+        }
+        .feature-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            color: var(--color-primary);
+            filter: drop-shadow(0 0 5px rgba(0, 191, 255, 0.5));
+        }
+        /* 针对特定图标的高亮颜色 */
+        .feature-icon-secondary {
+            color: var(--color-secondary);
+            filter: drop-shadow(0 0 5px rgba(0, 223, 162, 0.5));
+        }
+
+        .feature-text {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+        }
+
+        /* ------------------ 底部导航栏样式 ------------------ */
+        .tab-bar {
             position: fixed;
             bottom: 0;
             left: 0;
-            width: 100%;
-            /* 关键修复点：增加高度并确保 safe-area 兼容性 */
-            height: calc(65px + env(safe-area-inset-bottom)); 
-            background-color: var(--color-card-bg); 
-            /* 向上发光的阴影，呼应页面主体设计 */
-            box-shadow: 0 -8px 30px rgba(0, 191, 255, 0.3);
-            /* 确保内容在安全区域内 */
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 60px;
+            background-color: var(--color-bg-dark);
+            border-top: 1px solid #1A2233;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
             padding-bottom: env(safe-area-inset-bottom);
-            z-index: 1000;
+            z-index: 20;
         }
+
         .tab-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: var(--color-text-muted); 
+            justify-content: center;
             text-decoration: none;
-            font-size: 0.8rem; 
-            flex: 1;
-            padding-top: 8px; 
-            transition: color 0.2s, transform 0.2s;
-            min-width: 0; 
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            padding: 5px;
+            flex-grow: 1;
+            max-width: 20%;
         }
+
         .tab-item.active {
-            color: var(--color-primary); 
-            font-weight: 700;
-            transform: translateY(-2px); 
+            color: var(--color-primary);
         }
+
         .tab-icon {
-            font-size: 1.4rem; 
+            font-size: 1.2rem;
             margin-bottom: 3px;
         }
     </style>
 </head>
 <body>
 
-    <!-- 顶部标题栏 - 左Logo (已修复文字显示) + 右侧操作按钮 -->
-    <div class="header-bar">
-        <div class="container">
-            <!-- 左侧：Logo 和文字 -->
-            <a href="/WiseCompanion/index.html" class="brand-logo-container">
-                <!-- 假设 logo.png 是一个纯图标 -->
-                <img src="/WiseCompanion/assets/logo.png" onerror="this.onerror=null; this.src='https://placehold.co/38x38/00BFFF/ffffff?text=LOGO'" alt="慧伴管家 Logo"> 
-                <span class="logo-text">慧伴管家</span>
-            </a>
-            
-            <!-- 中间占位符 -->
-            <div style="flex-grow: 1;"></div> 
-
-            <!-- 右侧：用户中心/设置按钮 -->
-            <a href="/WiseCompanion/settings.html" class="action-btn-large">
-                <i class="fas fa-user-circle"></i>
-            </a>
+    <!-- 顶部导航栏 -->
+    <div class="header-bar-fixed">
+        <div class="header-logo-group">
+            <img src="/WiseCompanion/assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/00BFFF/0A1322?text=G'" alt="Logo" class="header-logo rounded-md shadow-lg">
+            <h1 class="header-title">慧伴管家</h1>
         </div>
+        <a href="#settings" class="text-xl text-gray-400 hover:text-white" title="设置">
+            <i class="fas fa-cog"></i>
+        </a>
     </div>
 
     <!-- 页面核心内容容器 -->
-    <main class="container py-3">
+    <main class="container mx-auto px-4 py-4">
         
-        <!-- **1. 搜索/AI输入区域** -->
-        <div class="search-area">
-            <h1 class="text-center mb-4" style="font-weight: 900; color: var(--color-primary); text-shadow: 0 0 10px rgba(0, 191, 255, 0.3);">
-                AI 智能管家
-            </h1>
-            <div class="search-input-group">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" class="form-control search-input" placeholder="输入您的问题或任务，让 AI 帮您搞定...">
-            </div>
-            
-            <div class="d-flex justify-content-center mt-3">
-                 <button class="btn btn-sm me-2" style="background-color: #1A2233; color: var(--color-text-muted); border-color: rgba(255,255,255,0.1); border-radius: 10px;">
-                    <i class="fas fa-microchip me-1"></i> 智能规划
-                </button>
-                 <button class="btn btn-sm" style="background-color: #1A2233; color: var(--color-text-muted); border-color: rgba(255,255,255,0.1); border-radius: 10px;">
-                    <i class="fas fa-pen-alt me-1"></i> 文案润色
-                </button>
+        <!-- **1. 主功能卡片 (已更新为 智能省赚 全能助手) ** -->
+        <div class="main-function-card">
+            <!-- 【新标题】 -->
+            <h2 class="text-3xl font-extrabold mb-3 text-white">智能省赚 全能助手</h2>
+            <!-- 【新副标题】 -->
+            <p>一站式聚合每日奖励、视频任务、金融理财及购物优惠服务。</p>
+        </div>
+
+        
+        <!-- **2. 主要功能导航 (名称保持统一) ** -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold mb-4 text-primary">⚙️ 核心工具</h2>
+            <div class="feature-nav grid grid-cols-2 gap-4">
+                
+                <!-- 天天有奖 -->
+                <a href="/WiseCompanion/checkin.html" title="天天有奖">
+                    <i class="fas fa-gift feature-icon feature-icon-secondary"></i>
+                    <span class="feature-text">天天有奖</span>
+                </a>
+
+                <!-- 看视频赚 -->
+                <a href="/WiseCompanion/video.html" title="看视频赚">
+                    <i class="fas fa-fire feature-icon"></i>
+                    <span class="feature-text">看视频赚</span>
+                </a>
+
+                <!-- 捡钱任务 -->
+                <a href="/WiseCompanion/bank.html" title="捡钱任务">
+                    <i class="fas fa-sack-dollar feature-icon"></i>
+                    <span class="feature-text">捡钱任务</span>
+                </a>
+
+                <!-- 省钱秘籍 -->
+                <a href="/WiseCompanion/shopping.html" title="省钱秘籍">
+                    <i class="fas fa-tags feature-icon feature-icon-secondary"></i>
+                    <span class="feature-text">省钱秘籍</span>
+                </a>
             </div>
         </div>
 
-        <!-- **2. 核心功能快捷入口** -->
-        <h2 class="mb-4" style="font-weight: 800; border-left: 5px solid var(--color-secondary); padding-left: 10px; color: var(--color-text-light);">
-            核心功能
-        </h2>
-
-        <div class="quick-access-grid">
-            
-            <!-- 签到/小任务 -->
-            <a href="/WiseCompanion/checkin.html" class="quick-access-card">
-                <i class="fas fa-tasks card-icon"></i>
-                <div class="card-title">每日签到</div>
-                <small style="color: var(--color-primary);">赚取收益</small>
-            </a>
-            
-            <!-- 视频/直播 -->
-            <a href="/WiseCompanion/video.html" class="quick-access-card">
-                <i class="fas fa-video card-icon"></i>
-                <div class="card-title">精选视频</div>
-                <small style="color: var(--color-primary);">内容推荐</small>
-            </a>
-            
-            <!-- 银行/金融 -->
-            <a href="/WiseCompanion/bank.html" class="quick-access-card">
-                <i class="fas fa-piggy-bank card-icon"></i>
-                <div class="card-title">银行特惠</div>
-                <small style="color: var(--color-primary);">金融助手</small>
-            </a>
-            
-            <!-- 购物/优惠 -->
-            <a href="/WiseCompanion/shopping.html" class="quick-access-card">
-                <i class="fas fa-shopping-bag card-icon"></i>
-                <div class="card-title">购物优惠</div>
-                <small style="color: var(--color-primary);">省钱攻略</small>
-            </a>
-        </div>
-        
-        <!-- **3. 信息流/动态区域 (占位符)** -->
-        <h2 class="mb-4" style="font-weight: 800; border-left: 5px solid var(--color-secondary); padding-left: 10px; color: var(--color-text-light);">
-            最新动态
-        </h2>
-        
-        <div class="alert text-center" style="background-color: #121A2A; border-color: rgba(255,255,255,0.1); color: var(--color-text-muted); border-radius: 12px;">
-            <i class="fas fa-spinner fa-spin me-2"></i> 正在加载个性化推荐和最新资讯...
+        <!-- **3. 底部信息提示 (强调 AI 前景) ** -->
+        <div class="mt-8 p-4 bg-gray-800/50 rounded-xl shadow-lg border border-gray-700">
+            <h2 class="text-lg font-bold mb-3 text-secondary flex items-center">
+                <i class="fas fa-brain mr-2"></i> 未来展望 (AI 赋能)
+            </h2>
+            <p class="text-sm text-gray-400">
+                慧伴管家旨在提供第三方应用的便捷跳转和信息整合服务。我们正在引入 AI 智能识别能力，未来将自动为您发现并推荐热门活动。
+            </p>
         </div>
         
     </main>
     
-    <!-- 底部导航栏 (Tab Bar) -->
+    <!-- 底部导航栏 -->
     <nav class="tab-bar">
-        <!-- 首页 (当前页) -->
+        <!-- 慧伴主页 (当前页 ACTIVE) -->
         <span class="tab-item active">
             <i class="fas fa-home tab-icon"></i>
-            <span>首页</span>
+            <span>慧伴主页</span>
         </span>
+        <!-- 天天有奖 -->
         <a href="/WiseCompanion/checkin.html" class="tab-item">
-            <i class="fas fa-tasks tab-icon"></i>
-            <span>签到</span>
+            <i class="fas fa-gift tab-icon"></i>
+            <span>天天有奖</span>
         </a>
+        <!-- 看视频赚 -->
         <a href="/WiseCompanion/video.html" class="tab-item">
-            <i class="fas fa-video tab-icon"></i>
-            <span>视频</span>
+            <i class="fas fa-fire tab-icon"></i>
+            <span>看视频赚</span>
         </a>
+        <!-- 捡钱任务 -->
         <a href="/WiseCompanion/bank.html" class="tab-item">
-            <i class="fas fa-piggy-bank tab-icon"></i>
-            <span>银行</span>
-        </a>
+            <i class="fas fa-sack-dollar tab-icon"></i>
+            <span>捡钱任务</span>
+            </a>
+        <!-- 省钱秘籍 -->
         <a href="/WiseCompanion/shopping.html" class="tab-item">
-            <i class="fas fa-shopping-bag tab-icon"></i>
-            <span>购物</span>
+            <i class="fas fa-tags tab-icon"></i>
+            <span>省钱秘籍</span>
         </a>
     </nav>
+    
+    <script>
+        // 模拟一个简单的提示 (代替 alert)
+        function showSimpleMessage(title, content) {
+            const message = document.createElement('div');
+            message.innerHTML = `
+                <div id="alert-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+                    <div class="bg-gray-800 p-6 rounded-xl text-center shadow-2xl border-4 border-blue-500 transform scale-0 transition-transform duration-300" style="min-width: 250px;">
+                        <i class="fas fa-info-circle text-4xl text-blue-400 mb-3"></i>
+                        <h2 class="text-xl font-bold text-white mb-2">${title}</h2>
+                        <p class="text-sm text-gray-400 mb-4">${content}</p>
+                        <button onclick="document.getElementById('alert-modal').remove()" class="mt-3 px-6 py-2 bg-blue-500 text-white font-bold rounded-full transition hover:bg-blue-400">
+                            关闭
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(message);
+            setTimeout(() => {
+                document.querySelector('#alert-modal > div').style.transform = 'scale(1)';
+            }, 10);
+        }
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', () => {
+             // 页面功能已简化，无需动态渲染任务
+        });
+    </script>
 
 </body>
 </html>
