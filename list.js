@@ -142,7 +142,7 @@ function renderFilteredActivities() {
         activitiesToRender = allActivitiesCache;
     } else {
         // 否则，只渲染当前类别下的活动
-        // 🚀 过滤修复：使用 getSafeValue 安全获取 'Category' 字段进行过滤
+        // 🚀 过滤：使用 getSafeValue 安全获取 'Category' 字段进行过滤
         activitiesToRender = allActivitiesCache.filter(
             // 使用 String() 确保比较类型一致
             activity => String(getSafeValue(activity, 'Category')) === categoryFilterValue
@@ -158,21 +158,32 @@ function renderFilteredActivities() {
     }
 
     // 🚀 最终渲染修复：使用 getSafeValue 安全获取所有字段
-    const html = activitiesToRender.map(activity => {
+    const html = activitiesToRender.map((activity, index) => {
         // 使用 getSafeValue 确保我们能取到 Name, Description, Icon, DeepLink
-        const name = getSafeValue(activity, 'Name') || '无标题活动';
-        const description = getSafeValue(activity, 'Description') || '点击查看详情';
-        const icon = getSafeValue(activity, 'Icon') || '📌';
-        const deepLink = getSafeValue(activity, 'DeepLink') || '#'; 
+        const name = getSafeValue(activity, 'Name');
+        const description = getSafeValue(activity, 'Description');
+        const icon = getSafeValue(activity, 'Icon');
+        const deepLink = getSafeValue(activity, 'DeepLink');
+        
+        // 检查 Name 字段是否缺失并打印警告
+        if (!name) {
+            console.warn(`活动数据缺失警告 (索引 ${index + 1}): 'Name' 字段未找到。当前活动数据:`, activity);
+        }
+        
+        // 使用回退值
+        const displayName = name || '无标题活动';
+        const displayDescription = description || '点击查看详情';
+        const displayIcon = icon || '📌';
+        const displayDeepLink = deepLink || '#'; 
 
         return `
-            <a href="${deepLink}" 
+            <a href="${displayDeepLink}" 
                class="block p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5">
                 <div class="flex items-center space-x-4">
-                    <span class="text-3xl">${icon}</span>
+                    <span class="text-3xl">${displayIcon}</span>
                     <div>
-                        <p class="text-lg font-semibold text-gray-800">${name}</p>
-                        <p class="text-sm text-gray-500">${description}</p>
+                        <p class="text-lg font-semibold text-gray-800">${displayName}</p>
+                        <p class="text-sm text-gray-500">${displayDescription}</p>
                     </div>
                 </div>
             </a>
