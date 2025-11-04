@@ -1,28 +1,30 @@
 {
-  "name": "慧伴管家 - 优惠直达",
-  "short_name": "慧伴管家",
-  "description": "长辈专用优惠活动直达工具，每天一点小惊喜",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#0f172a", 
-  "theme_color": "#1e293b",
-  "icons": [
-    {
-      "src": "/assets/icon_192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/assets/icon_512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "/assets/icon_apple.png",
-      "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "apple-touch-icon"
-    }
-  ]
+"name": "慧伴管家 - 优惠直达",
+"short_name": "慧伴管家",
+"description": "长辈专用优惠活动直达工具，每天一点小惊喜",
+"start_url": "./index.html",
+"display": "standalone",
+"orientation": "portrait",
+"background_color": "#0f172a",
+"theme_color": "#1e293b",
+"icons": [
+{
+"src": "/assets/icon_192.png",
+"sizes": "192x192",
+"type": "image/png",
+"purpose": "any"
+},
+{
+"src": "/assets/icon_512.png",
+"sizes": "512x512",
+"type": "image/png",
+"purpose": "any"
+},
+{
+"src": "/assets/icon_apple.png",
+"sizes": "180x180",
+"type": "image/png",
+"purpose": "apple-touch-icon"
+}
+]
 }
