@@ -7,7 +7,7 @@ const fetch = require('node-fetch');
 
 const AIRTABLE_PAT = process.env.AIRTABLE_PAT;
 const BASE_ID = process.env.AIRTABLE_BASE_ID;
-const TABLE_NAME = 'Wisecompanion'; // ⚠️ 请务必与您的 Airtable 表名一致
+const TABLE_NAME = 'tblPWwLrdoMuO1b7k'; // ⚠️ 请务必与您的 Airtable 表名一致
 
 const AIRTABLE_URL = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
 const OUTPUT_FILE = path.join(__dirname, 'activities.json'); 
