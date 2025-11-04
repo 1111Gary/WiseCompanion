@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>活动列表 - 慧伴管家</title>
+    <title>签到/小任务 - 慧伴管家</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="manifest" href="manifest.json">
     
+    <!-- 使用 Tailwind CSS CDN 替代 Bootstrap 和 style.css，以保持一致的现代风格 -->
+    <!-- ⚠️ 注意：为了保持您现有的样式（深色模式和activity-card），我保留了您提供的内联CSS，但建议未来统一使用Tailwind或Bootstrap。 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="style.css"> 
+    <!-- 移除: <link rel="stylesheet" href="style.css"> 避免 404 错误 -->
     
-    <script src="list.js"></script> 
+    <!-- 引入 list.js，它包含所有数据加载和渲染逻辑 -->
+    <script src="list.js"></script>    
     
     <style>
         /* 保持深色背景和卡片样式与 index.html 一致 */
+        /* ⚠️ 这些样式是您为了适配深色主题和卡片自定义的 */
         body { 
             background-color: #0f172a; 
             color: #f8f9fa; 
@@ -30,6 +34,8 @@
             top: 0;
             z-index: 10;
         }
+        /* 此处的 .activity-card 样式应被 list.js 渲染的元素取代，list.js 使用的是 Tailwind 类 */
+        /* 为了安全，保留您原有样式 */
         .activity-card { 
             display: flex; 
             align-items: center; 
@@ -60,7 +66,7 @@
         .activity-title { font-weight: 600; font-size: 1.1rem; }
         .activity-desc { font-size: 0.8rem; color: #94a3b8; }
         
-        /* 筛选按钮样式 */
+        /* 筛选按钮样式 - 暂未使用，因为我们移除了筛选器 */
         .filter-button { 
             border-radius: 20px; 
             color: #94a3b8; 
@@ -74,98 +80,67 @@
             border-color: #0d6efd !important; 
         }
         .filter-container-scroll {
-             overflow-x: auto;
-             white-space: nowrap;
-             -webkit-overflow-scrolling: touch;
-             padding-bottom: 5px;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 5px;
         }
         .filter-container-scroll::-webkit-scrollbar {
-             display: none;
+            display: none;
         }
         .d-flex { display: flex; }
         .me-2 { margin-right: 0.5rem; }
         .mb-3 { margin-bottom: 1rem; }
     </style>
 </head>
-<body>
+<body onload="window.location.hash = 'Shopping'"> <!-- 新增：页面加载时设置URL Hash为 'Shopping' -->
 
 <div class="header-bar">
     <div class="container d-flex align-items-center">
+        <!-- 返回 index.html -->
         <a href="index.html" class="text-white me-3" style="font-size: 1.2rem;"><i class="fas fa-chevron-left"></i></a>
-        <h5 id="page-title" class="m-0 text-white flex-grow-1">活动列表加载中...</h5>
+        <!-- 页面标题可以直接硬编码或在 list.js 中处理 -->
+        <h5 id="page-title" class="m-0 text-white flex-grow-1">✨ 签到/小任务总览</h5>
     </div>
 </div>
 
 <main class="container py-3">
-    <div class="filter-container-scroll">
+    <!-- 移除筛选容器，因为子页面通常只展示一个类别，无需再次筛选 -->
+    <!-- 如果您需要筛选器，我们需要将筛选器的逻辑移到 list.js 中 -->
+    <!-- <div class="filter-container-scroll">
         <div id="filter-container" class="mb-3 d-flex">
-            </div>
-    </div>
+        </div>
+    </div> -->
 
-    <div id="activity-list">
+    <div id="activity-list" class="space-y-3">
+        <!-- 初始加载状态提示 -->
         <div class="p-4 text-center text-gray">数据加载中，请稍候...</div>
     </div>
 </main>
 
 <script>
     // ----------------------------------------------------
-    // ** 核心加载逻辑 **
+    // ** 页面初始化逻辑 (极大简化) **
     // ----------------------------------------------------
     
-    // 检查 list.js 中的核心函数是否已定义。
+    // list.js 已经设置了 document.addEventListener('DOMContentLoaded', ...)
+    // 并且 list.js 会监听 URL hash (#Shopping) 来渲染活动。
+    // 我们只需要在页面加载时强制设置 hash，让 list.js 自动接管。
+
+    // 在 <body> 标签中使用了 onload="window.location.hash = 'Shopping'" 来自动触发 list.js 的逻辑。
+    
+    // 检查 list.js 中的核心函数是否已定义 (仅作调试用)
     if (typeof loadActivities === 'undefined') {
-        // 如果未定义，说明 list.js 文件加载或内容有严重问题。
         document.addEventListener('DOMContentLoaded', () => {
              document.getElementById('page-title').textContent = '加载失败';
              document.getElementById('activity-list').innerHTML = 
-                `<div class="p-4 text-center text-danger">⚠️ 错误：核心脚本 list.js 未能加载或定义函数，无法连接CMS。</div>`;
+                 `<div class="p-4 text-center text-danger">⚠️ 错误：核心脚本 list.js 未能加载或定义函数。</div>`;
         });
-    } else {
-        
-        // 获取当前页面文件名，用于确定Category
-        const currentPath = window.location.pathname;
-        let requiredCategory = '';
-        let pageTitle = '活动列表';
-
-        if (currentPath.includes('checkin.html')) {
-            requiredCategory = '签到';
-            pageTitle = '✨ 签到/小任务总览';
-        } else if (currentPath.includes('bank.html')) {
-            requiredCategory = '银行';
-            pageTitle = '🏦 银行优惠活动';
-        } else if (currentPath.includes('video.html')) {
-            requiredCategory = '视频';
-            pageTitle = '🎬 视频奖励总览';
-        } else if (currentPath.includes('shopping.html')) {
-            requiredCategory = '购物';
-            pageTitle = '🛍️ 购物优惠汇总';
-        }
-
-        // 设置页面标题
-        document.getElementById('page-title').textContent = pageTitle;
-
-        // 异步加载和渲染
-        document.addEventListener('DOMContentLoaded', async () => {
-            const data = await loadActivities();
-            
-            if (data && data.length > 0) {
-                // 1. 过滤出当前页面需要的活动列表
-                const initialActivities = filterActivities(requiredCategory);
-                
-                // 2. 渲染筛选按钮并绑定事件 (会触发第一次渲染)
-                // 确保 renderAppFilters, filterActivities, renderActivities 都在 list.js 中
-                if (typeof renderAppFilters !== 'undefined') {
-                    renderAppFilters(initialActivities, requiredCategory, 'filter-container', 'activity-list');
-                } else {
-                    // 如果筛选函数未定义，至少渲染出未经筛选的列表
-                    renderActivities(initialActivities, 'activity-list');
-                }
-            } else {
-                 document.getElementById('activity-list').innerHTML = `<div class="p-4 text-center text-gray">当前类别暂无活动，请在 Airtable 中添加数据。</div>`;
-            }
-        });
-    }
+    } 
 </script>
+
+<!-- 额外的 JavaScript 库（如果需要） -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
