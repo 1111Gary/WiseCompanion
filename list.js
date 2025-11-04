@@ -4,14 +4,52 @@
  */
 
 // URL 用于本地加载活动数据
-const ACTIVITIES_JSON_URL = 'activities.json'; 
+const ACTIVITIES_JSON_URL = 'activities.json';
 
 // 定义应用中的所有有效类别（Category）
-// 这些类别必须与您的 Airtable 表格中 Category 字段的值完全匹配
-const ALL_CATEGORIES = ['Bank', 'Shopping', 'Life', 'Food']; 
+// 这些类别必须与您的 URL hash 保持一致
+const ALL_CATEGORIES = ['Bank', 'Shopping', 'Life', 'Food'];
+
+// 类别中文映射 (根据您的 Airtable 截图修正)
+const CATEGORY_MAP = {
+    'Bank': '银行',
+    'Shopping': '签到', // 映射到您的 "签到" 标签
+    'Life': '视频',    // 映射到您的 "视频" 标签
+    'Food': '美食',
+};
+
 let allActivitiesCache = []; // 用于缓存加载后的全部活动数据
 
 // --- 辅助函数 ---
+
+/**
+ * 尝试从活动对象中安全地获取值，考虑大小写不一致。
+ * @param {Object} activity - 活动记录对象。
+ * @param {string} fieldName - 预期的字段名 (如 'Category', 'Name')。
+ * @returns {any} 字段值或 null。
+ */
+function getSafeValue(activity, fieldName) {
+    // 尝试所有可能的键名
+    const keysToTry = [
+        fieldName,
+        fieldName.toLowerCase(), // category
+        fieldName.charAt(0).toUpperCase() + fieldName.slice(1).toLowerCase(), // Category
+        '分类', // 常用中文名
+        '活动分类', // 备用中文名
+    ];
+
+    for (const key of keysToTry) {
+        if (activity && activity[key] !== undefined) {
+            // 找到匹配的键，返回其值
+            return activity[key];
+        }
+    }
+    // 如果是 fetch-data.js 格式化后的数据，我们应该能直接拿到 'category'
+    if (activity && activity.category !== undefined) {
+        return activity.category;
+    }
+    return null;
+}
 
 /**
  * 从 URL hash 中获取当前的活动类别。
@@ -20,19 +58,12 @@ let allActivitiesCache = []; // 用于缓存加载后的全部活动数据
 function getCurrentCategory() {
     // 获取 URL hash，并去除 # 符号
     const hash = window.location.hash.slice(1);
-    
-    // 如果 hash 是 home 或空，则返回 'home'
-    if (hash === '' || hash === 'home') {
+
+    // 如果 hash 是 home 或空，或者 hash 不在定义的类别列表中，则返回 'home'
+    if (hash === '' || hash === 'home' || !ALL_CATEGORIES.includes(hash)) {
         return 'home';
     }
-    
-    // 检查 hash 是否与我们定义的有效类别匹配
-    if (ALL_CATEGORIES.includes(hash)) {
-        return hash;
-    }
-
-    // 如果是无效类别，默认返回 home
-    return 'home';
+    return hash;
 }
 
 /**
@@ -53,49 +84,6 @@ function displayErrorMessage(message) {
     }
 }
 
-/**
- * 尝试从活动对象中安全获取指定字段的值。
- * 检查顺序：1. 全小写 2. 首字母大写 3. 常见中文键名
- * @param {object} activity - 活动对象。
- * @param {string} englishName - 字段名称 (例如 'Name', 'Category')。
- * @returns {string|null} 字段值或 null。
- */
-function getSafeValue(activity, englishName) {
-    // 1. 检查全小写 (假设 fetch-data.js 转换了)
-    const lowerCaseName = englishName.toLowerCase();
-    if (activity[lowerCaseName]) {
-        return activity[lowerCaseName];
-    }
-    
-    // 2. 检查首字母大写 (Airtable 原始)
-    if (activity[englishName]) {
-        return activity[englishName];
-    }
-
-    // 3. 检查常见中文键名 (以防 fetch-data.js 保留中文)
-    // 🚀 键名修正：添加 '活动分类' 作为一个可能的键名
-    const chineseMapping = {
-        'Name': '活动名称', 
-        'Description': '描述', 
-        'Icon': '图标',
-        'DeepLink': '链接',
-        'Category': '分类', // 常用中文键名
-        'ActivityCategory': '活动分类' // 尝试另一个可能的中文键名
-    };
-
-    const chineseNames = [chineseMapping[englishName], chineseMapping['ActivityCategory']].filter(Boolean);
-    
-    for (const cnName of chineseNames) {
-         if (activity[cnName]) {
-             return activity[cnName];
-         }
-    }
-    
-    // 如果找不到，返回 null
-    return null;
-}
-
-
 // --- 数据加载和渲染 ---
 
 /**
@@ -103,26 +91,38 @@ function getSafeValue(activity, englishName) {
  * @returns {Promise<Array>} 活动数组。
  */
 async function loadActivities() {
+    const fullUrl = new URL(ACTIVITIES_JSON_URL, window.location.href).href;
+    console.log(`尝试从本地加载 activities.json。完整 URL: ${fullUrl}`);
+
     try {
         const response = await fetch(ACTIVITIES_JSON_URL);
 
         if (!response.ok) {
-            // 如果文件不存在或服务器返回错误，抛出错误
             throw new Error(`HTTP 错误 (Status: ${response.status})：无法获取 ${ACTIVITIES_JSON_URL}`);
         }
 
-        let data = await response.json();
+        const data = await response.json();
         if (!Array.isArray(data)) {
              throw new Error("JSON 数据格式错误，预期为数组。");
         }
-        
+
         // 缓存所有数据
         allActivitiesCache = data;
+
+        // 🚀 调试日志：打印出实际 Category 字段的值
+        console.log("--- 🚀 DEBUG: JSON数据加载成功，开始打印类别值 ---");
+        data.forEach((activity, index) => {
+            const categoryValue = getSafeValue(activity, 'Category');
+            console.log(`[DEBUG - 实际类别值] 活动 #${index + 1} (${activity.name || '无名'}):`, categoryValue);
+        });
+        console.log("--- 🚀 DEBUG: 类别值打印结束 ---");
+        // --------------------------------------------------------
+
         return data;
 
     } catch (error) {
         console.error('加载活动数据失败:', error);
-        displayErrorMessage('活动数据加载失败，请检查部署是否成功或联系管理员。');
+        displayErrorMessage('活动数据加载失败，请检查 activities.json 文件是否存在或路径是否正确。');
         return [];
     }
 }
@@ -133,82 +133,69 @@ async function loadActivities() {
 function renderFilteredActivities() {
     const currentCategory = getCurrentCategory();
     let activitiesToRender = [];
-
-    // 确定用于过滤的匹配值 (使用中文值，根据用户最新的 Airtable 截图修正)
-    let categoryFilterValue = '';
-    // 🚀 过滤值修正：使用 Airtable 截图中的精确中文值
-    if (currentCategory === 'Bank') categoryFilterValue = '银行';
-    if (currentCategory === 'Shopping') categoryFilterValue = '签到';
-    if (currentCategory === 'Life') categoryFilterValue = '视频'; // 对应“其他视频奖励”等
-    if (currentCategory === 'Food') categoryFilterValue = '美食'; 
-
-    // 🚀 最终保险：将目标过滤值进行小写、去空格处理，确保匹配时不受大小写或前后空格影响
-    const finalFilterValue = String(categoryFilterValue).toLowerCase().trim();
-
+    
     if (currentCategory === 'home') {
         // 如果在主页，渲染所有活动
         activitiesToRender = allActivitiesCache;
     } else {
         // 否则，只渲染当前类别下的活动
-        // 🚀 最终过滤修复：对获取到的数据也进行小写、去空格处理
-        activitiesToRender = allActivitiesCache.filter(
-            activity => {
-                const activityCategory = getSafeValue(activity, 'Category');
+        const categoryFilterValue = CATEGORY_MAP[currentCategory]; // 获取中文目标值 (如 '银行')
 
-                if (!activityCategory) return false;
+        console.log(`[DEBUG] 正在过滤。目标类别 URL Hash: ${currentCategory} -> 中文目标值: ${categoryFilterValue}`);
 
-                // 1. 如果是数组 (Airtable多选字段常见情况)
-                if (Array.isArray(activityCategory)) {
-                    // 检查数组中是否包含目标中文值
-                    // 对数组中的每个元素也进行 trim() 和 toLowerCase()
-                    return activityCategory.some(
-                        item => String(item).toLowerCase().trim() === finalFilterValue
-                    );
-                } 
-                
-                // 2. 如果是字符串 (Airtable单选字段或Link/Lookup字段)
-                // 对字符串也进行 trim() 和 toLowerCase()
-                return String(activityCategory).toLowerCase().trim() === finalFilterValue;
+        // 🚀 最终的过滤逻辑：检查 Category 值是否包含目标中文值 (包括数组和字符串)
+        activitiesToRender = allActivitiesCache.filter(activity => {
+            const activityCategory = getSafeValue(activity, 'Category');
+            
+            // 如果数据是数组 (Airtable多选)，检查数组中是否包含目标中文值
+            if (Array.isArray(activityCategory)) {
+                // 强制将数组中的每个值去空格、小写化后，检查是否包含目标值
+                return activityCategory.some(val => 
+                    String(val).toLowerCase().trim().includes(categoryFilterValue.toLowerCase())
+                );
             }
-        );
+
+            // 如果数据是字符串，检查字符串是否包含目标中文值
+            if (typeof activityCategory === 'string') {
+                return activityCategory.toLowerCase().trim().includes(categoryFilterValue.toLowerCase());
+            }
+
+            // 否则，不匹配
+            return false;
+        });
+
+        console.log(`[DEBUG] 过滤结果: 找到 ${activitiesToRender.length} 条活动。`);
     }
-    
+
     const listContainer = document.getElementById('activity-list');
     if (!listContainer) return;
 
-    if (activitiesToRender.length === 0) {
-        // 这里的 categoryFilterValue 仍然使用原始值，以便更好地显示给用户
-        listContainer.innerHTML = `<p class="text-gray-500 text-center py-8">在 **${currentCategory !== 'home' ? categoryFilterValue : '所有'}** 类别下暂无活动数据。</p>`;
+    if (activitiesToRender.length === 0 && currentCategory !== 'home') {
+        listContainer.innerHTML = `<p class="text-gray-500 text-center py-8">在 **${CATEGORY_MAP[currentCategory]}** 类别下暂无活动数据，或数据匹配失败。</p>`;
         return;
     }
 
-    // 🚀 渲染：使用 getSafeValue 安全获取所有字段
-    const html = activitiesToRender.map((activity, index) => {
-        // 使用 getSafeValue 确保我们能取到 Name, Description, Icon, DeepLink
-        const name = getSafeValue(activity, 'Name');
-        const description = getSafeValue(activity, 'Description');
-        const icon = getSafeValue(activity, 'Icon');
-        const deepLink = getSafeValue(activity, 'DeepLink');
-        
-        // 检查 Name 字段是否缺失并打印警告
-        if (!name) {
-            console.warn(`活动数据缺失警告 (索引 ${index + 1}): 'Name' 字段未找到。当前活动数据:`, activity);
-        }
-        
-        // 使用回退值
-        const displayName = name || '无标题活动';
-        const displayDescription = description || '点击查看详情';
-        const displayIcon = icon || '📌';
-        const displayDeepLink = deepLink || '#'; 
+    if (activitiesToRender.length === 0 && currentCategory === 'home') {
+        listContainer.innerHTML = '<p class="text-gray-500 text-center py-8">暂无活动数据。</p>';
+        return;
+    }
+
+    // 假设活动数据结构是 { name, description, icon, deepLink, category, ... }
+    const html = activitiesToRender.map(activity => {
+        // 使用 fetch-data.js 中确定的字段名 (小写)
+        const name = activity.name || getSafeValue(activity, 'Name');
+        const icon = activity.icon || getSafeValue(activity, 'Icon');
+        const deepLink = activity.deepLink || getSafeValue(activity, 'DeepLink');
+        const description = activity.description || getSafeValue(activity, 'Description');
 
         return `
-            <a href="${displayDeepLink}" 
-               class="block p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5">
+            <a href="${deepLink || '#'}" 
+                class="block p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5">
                 <div class="flex items-center space-x-4">
-                    <span class="text-3xl">${displayIcon}</span>
+                    <span class="text-3xl">${icon || '📌'}</span>
                     <div>
-                        <p class="text-lg font-semibold text-gray-800">${displayName}</p>
-                        <p class="text-sm text-gray-500">${displayDescription}</p>
+                        <p class="text-lg font-semibold text-gray-800">${name || '无标题活动'}</p>
+                        <p class="text-sm text-gray-500">${description || '点击查看详情'}</p>
                     </div>
                 </div>
             </a>
@@ -224,7 +211,7 @@ function renderFilteredActivities() {
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. 加载数据并缓存
     await loadActivities();
-    
+
     // 2. 根据初始 URL 渲染列表
     renderFilteredActivities();
 });
