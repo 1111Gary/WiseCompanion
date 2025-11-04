@@ -11,7 +11,10 @@ const ACTIVITIES_JSON_URL = 'activities.json';
  * @returns {Promise<Array>} 活动数组。
  */
 async function loadActivities() {
-    console.log('尝试从本地加载 activities.json...');
+    // 打印出 fetch 的完整 URL，以便在浏览器开发者工具中检查网络请求
+    const fullUrl = new URL(ACTIVITIES_JSON_URL, window.location.href).href;
+    console.log(`尝试从本地加载 activities.json。完整 URL: ${fullUrl}`);
+
     try {
         const response = await fetch(ACTIVITIES_JSON_URL);
 
@@ -21,7 +24,12 @@ async function loadActivities() {
             throw new Error(`HTTP 错误 (Status: ${response.status})：无法获取 ${ACTIVITIES_JSON_URL}`);
         }
 
+        // 尝试解析 JSON
         const data = await response.json();
+        // 检查数据是否是数组
+        if (!Array.isArray(data)) {
+             throw new Error("JSON 数据格式错误，预期为数组。");
+        }
         return data;
 
     } catch (error) {
