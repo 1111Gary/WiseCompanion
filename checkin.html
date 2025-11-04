@@ -3,140 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>签到/小任务 - 慧伴管家</title>
-    <!-- 启用 PWA/WebApp 模式 -->
-    <!-- 恢复 manifest.json 引用 -->
-    <link rel="manifest" href="./manifest.json"> <!-- 使用相对路径 -->
-    <!-- 修复：将绝对路径改为相对路径，与 manifest.json 保持一致 -->
-    <link rel="apple-touch-icon" href="./assets/icon_apple.png"> 
+    <title>签到/小任务总览</title>
     
-    <!-- 使用 Tailwind CSS CDN 替代 Bootstrap 和 style.css，以保持一致的现代风格 -->
-    <!-- ⚠️ 注意：为了保持您现有的样式（深色模式和activity-card），我保留了您提供的内联CSS，但建议未来统一使用Tailwind或Bootstrap。 -->
+    <!-- 修正 PWA 警告：使用新的 mobile-web-app-capable -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="慧伴管家">
+
+    <!-- 路径修复: 使用绝对路径以适配 GitHub Pages 子目录部署 -->
+    <link rel="manifest" href="/WiseCompanion/manifest.json">
+    <link rel="apple-touch-icon" href="/WiseCompanion/assets/icon_apple.png">
+    
+    <!-- CSS 路径修复 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <!-- 移除: <link rel="stylesheet" href="style.css"> 避免 404 错误 -->
-    
-    <!-- 引入 list.js，它包含所有数据加载和渲染逻辑 -->
-    <script src="list.js"></script>    
+    <link rel="stylesheet" href="/WiseCompanion/style.css"> 
     
     <style>
-        /* 保持深色背景和卡片样式与 index.html 一致 */
-        /* ⚠️ 这些样式是您为了适配深色主题和卡片自定义的 */
+        /* ------------------ 通用布局和颜色 ------------------ */
         body { 
             background-color: #0f172a; 
             color: #f8f9fa; 
-            padding-bottom: 20px;
+            padding-bottom: 70px; /* 为底部导航栏留出空间 */
         }
         .header-bar { 
-            background-color: #1e293b; 
-            color: #f8f9fa; 
-            padding-top: calc(10px + env(safe-area-inset-top)); 
-            padding-bottom: 10px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            padding-top: calc(15px + env(safe-area-inset-top)); 
+            padding-bottom: 15px; 
+            text-align: center; 
+            background-color: #0f172a;
             position: sticky;
             top: 0;
             z-index: 10;
         }
-        /* 此处的 .activity-card 样式应被 list.js 渲染的元素取代，list.js 使用的是 Tailwind 类 */
-        /* 为了安全，保留您原有样式 */
-        .activity-card { 
-            display: flex; 
-            align-items: center; 
-            padding: 15px; 
-            border-radius: 12px; 
-            background-color: #1e293b; 
-            color: #f8f9fa; 
-            text-decoration: none; 
+        .app-title { 
+            font-size: 1.25rem; 
+            font-weight: bold; 
+        }
+
+        /* ------------------ 活动卡片列表样式 (核心) ------------------ */
+        .activity-card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            background-color: #1e293b; /* 卡片背景 */
+            color: #f8f9fa;
+            text-decoration: none;
             border: 1px solid #334155;
-            transition: transform 0.2s; 
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 增加深度感 */
         }
-        .activity-card:hover { text-decoration: none; color: #f8f9fa; }
-        .activity-icon-container { 
-            width: 45px; 
-            height: 45px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            border-radius: 10px; 
-            font-size: 24px;
-            margin-right: 15px; 
+
+        .activity-card:hover {
+            transform: translateY(-3px); /* 悬停/点击反馈 */
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.15); /* 提升阴影 */
+            color: #f8f9fa; 
         }
-        .bg-info { 
-            background: linear-gradient(45deg, #0d6efd, #00bfff); 
-            color: #fff; 
+
+        /* 卡片左侧图标容器 */
+        .activity-icon-container {
+            width: 50px;
+            height: 50px;
+            min-width: 50px; /* 确保不被挤压 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            font-size: 28px; /* 增大图标 */
+            margin-right: 15px;
+            background: linear-gradient(135deg, #3b82f6, #0d6efd); /* 蓝色渐变 */
+            box-shadow: 0 2px 5px rgba(59, 130, 246, 0.4);
         }
-        .activity-content { flex-grow: 1; }
-        .activity-title { font-weight: 600; font-size: 1.1rem; }
-        .activity-desc { font-size: 0.8rem; color: #94a3b8; }
-        
-        /* 筛选按钮样式 - 暂未使用，因为我们移除了筛选器 */
-        .filter-button { 
-            border-radius: 20px; 
-            color: #94a3b8; 
-            border-color: #334155; 
-            transition: all 0.2s;
-            font-size: 0.9rem;
+
+        .activity-content {
+            flex-grow: 1;
+            overflow: hidden; /* 防止文字溢出 */
         }
-        .filter-button.active { 
-            background-color: #0d6efd !important; 
-            color: #fff; 
-            border-color: #0d6efd !important; 
-        }
-        .filter-container-scroll {
-            overflow-x: auto;
+
+        .activity-title {
+            font-weight: 700;
+            font-size: 1.15rem;
             white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis; /* 标题溢出显示省略号 */
+            color: #ffffff;
         }
-        .filter-container-scroll::-webkit-scrollbar {
-            display: none;
+
+        .activity-desc {
+            font-size: 0.85rem;
+            color: #94a3b8; /* 描述文字颜色 */
+            line-height: 1.3;
         }
-        .d-flex { display: flex; }
-        .me-2 { margin-right: 0.5rem; }
-        .mb-3 { margin-bottom: 1rem; }
+        
+        /* 右侧箭头 */
+        .activity-card .fas.fa-chevron-right {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-left: 10px;
+        }
+
+
+        /* ------------------ 底部导航栏样式 (Tab Bar) ------------------ */
+        .tab-bar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #1e293b; /* 略浅于背景色 */
+            border-top: 1px solid #334155;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            padding-bottom: env(safe-area-inset-bottom);
+            z-index: 1000;
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #94a3b8; /* 默认颜色 */
+            text-decoration: none;
+            font-size: 0.75rem;
+            flex: 1;
+            padding-top: 5px;
+            transition: color 0.2s;
+        }
+        .tab-item.active {
+            color: #3b82f6; /* 选中颜色 */
+        }
+        .tab-icon {
+            font-size: 1.25rem;
+            margin-bottom: 3px;
+        }
     </style>
 </head>
-<body onload="window.location.hash = 'CheckIn'"> <!-- 确保这里是 'CheckIn' -->
+<body>
 
-<div class="header-bar">
-    <div class="container d-flex align-items-center">
-        <!-- 返回 index.html -->
-        <a href="index.html" class="text-white me-3" style="font-size: 1.2rem;"><i class="fas fa-chevron-left"></i></a>
-        <!-- 页面标题可以直接硬编码或在 list.js 中处理 -->
-        <h5 id="page-title" class="m-0 text-white flex-grow-1">✨ 签到/小任务总览</h5>
+    <!-- 顶部标题栏 -->
+    <div class="header-bar">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="/WiseCompanion/index.html" class="text-white-50"><i class="fas fa-arrow-left"></i></a>
+            <div class="app-title text-white">签到/小任务总览</div>
+            <div></div> <!-- 占位符 -->
+        </div>
     </div>
-</div>
 
-<main class="container py-3">
-    <div id="activity-list" class="space-y-3">
-        <!-- 初始加载状态提示 -->
-        <div class="p-4 text-center text-gray">数据加载中，请稍候...</div>
-    </div>
-</main>
-
-<script>
-    // ----------------------------------------------------
-    // ** 页面初始化逻辑 (极大简化) **
-    // ----------------------------------------------------
+    <!-- 活动列表容器 (注意：您的 list.js 脚本需要渲染到这里) -->
+    <main class="container py-3">
+        <!-- 引入一个提示信息，提高用户体验 -->
+        <div class="alert alert-info text-center" style="background-color: #1e293b; border-color: #334155; color: #a5c3ff;">
+            <i class="fas fa-info-circle me-2"></i> 点击下方卡片，直达对应平台活动页
+        </div>
+        
+        <div id="activity-list-container">
+            <!-- 活动列表将由 list.js 渲染在这里 -->
+            <p class="text-center text-gray-400">正在加载活动列表...</p>
+        </div>
+    </main>
     
-    // list.js 已经设置了 document.addEventListener('DOMContentLoaded', ...)
-    // 并且 list.js 会监听 URL hash (#CheckIn) 来渲染活动。
-    // 我们只需要在页面加载时强制设置 hash，让 list.js 自动接管。
-
-    // 在 <body> 标签中使用了 onload="window.location.hash = 'CheckIn'" 来自动触发 list.js 的逻辑。
+    <!-- 底部导航栏 (Tab Bar) -->
+    <nav class="tab-bar">
+        <a href="/WiseCompanion/index.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="/WiseCompanion/checkin.html" class="tab-item active">
+            <i class="fas fa-tasks tab-icon"></i>
+            <span>签到</span>
+        </a>
+        <a href="/WiseCompanion/video.html" class="tab-item">
+            <i class="fas fa-video tab-icon"></i>
+            <span>视频</span>
+        </a>
+        <a href="/WiseCompanion/bank.html" class="tab-item">
+            <i class="fas fa-piggy-bank tab-icon"></i>
+            <span>银行</span>
+        </a>
+    </nav>
     
-    // 检查 list.js 中的核心函数是否已定义 (仅作调试用)
-    if (typeof loadActivities === 'undefined') {
-        document.addEventListener('DOMContentLoaded', () => {
-             document.getElementById('page-title').textContent = '加载失败';
-             document.getElementById('activity-list').innerHTML = 
-                 `<div class="p-4 text-center text-danger">⚠️ 错误：核心脚本 list.js 未能加载或定义函数。</div>`;
-        });
-    } 
-</script>
-
-<!-- 额外的 JavaScript 库（如果需要） -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript 路径修复 (确保 list.js 正确加载) -->
+    <script src="/WiseCompanion/list.js"></script>
+    <!-- 移除了内联脚本，避免 ReferenceError -->
 
 </body>
 </html>
