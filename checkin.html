@@ -3,400 +3,501 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>签到/小任务总览</title>
+    <!-- 页面标题 -->
+    <title>慧伴管家 - 天天有奖</title>
     
-    <!-- 修正 PWA 警告 -->
+    <!-- PWA/移动端配置 (省略，保持不变) -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="慧伴管家">
-
-    <!-- 路径修复: 使用绝对路径以适配 GitHub Pages 子目录部署 -->
     <link rel="manifest" href="/WiseCompanion/manifest.json">
     <link rel="apple-touch-icon" href="/WiseCompanion/assets/icon_apple.png">
     
-    <!-- CSS 路径 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <!-- 依赖加载 -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="/WiseCompanion/style.css"> 
     
     <style>
-        /* ------------------ 顶级设计师配色方案 ------------------ */
+        /* ------------------ 顶级设计师配色方案 (统一变量) ------------------ */
         :root {
-            --color-bg-dark: #0A1322; /* 更深的背景蓝黑 */
-            --color-card-bg: #1A2233; /* 卡片深灰色 (用于卡片和底部导航栏) */
-            --color-primary: #00BFFF; /* 高饱和度青色/天蓝色 */
-            --color-secondary: #FF69B4; /* 辅助色粉色，用于强调 */
+            --color-bg-dark: #0A1322; 
+            --color-card-bg: #1A2233; 
+            --color-primary: #FFD700; /* 主色调改为金色，突出奖励感 */
+            --color-secondary: #00BFFF; /* 奖励突出色 */
             --color-text-light: #E0E7FF;
             --color-text-muted: #9CA3AF;
+            --color-highlight: #FF69B4; /* 奖励按钮粉色 */
+            --color-success: #34D399; /* 已完成/绿色 */
+            --color-pending: #FCD34D; /* 未完成/黄色 */
         }
 
         /* ------------------ 通用布局和颜色 ------------------ */
         body { 
             background-color: var(--color-bg-dark); 
             color: var(--color-text-light); 
-            padding-bottom: calc(85px + env(safe-area-inset-bottom)); /* 修复 PWA 遮挡问题：为增高后的底部导航栏和安全区域留出空间 */
+            /* 底部留出 tab-bar 和安全区的高度 */
+            padding-bottom: calc(85px + env(safe-area-inset-bottom)); 
             font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
         
-        /* ------------------ 顶部 Header Bar (风格统一与Logo修复) ------------------ */
-        .header-bar { 
+        /* ------------------ 顶部导航栏 ------------------ */
+        .header-bar-fixed { 
             padding-top: calc(15px + env(safe-area-inset-top)); 
-            padding-bottom: 15px; 
+            padding-bottom: 5px; 
             background-color: var(--color-bg-dark);
             position: sticky;
             top: 0;
             z-index: 10;
-            /* 向下浮动的阴影，与卡片设计语言一致 */
-            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.15); 
-        }
-        .header-bar .container {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
+            height: 60px;
         }
-
-        /* 新增 Logo 容器样式 */
-        .brand-logo-container {
+        .header-logo-group {
             display: flex;
             align-items: center;
-            /* 确保 Logo 区域有足够的点击和视觉空间 */
-            padding: 5px 0;
-            transition: opacity 0.3s;
-        }
-        /* 修复 Logo 图片路径和大小问题 */
-        .brand-logo-container img {
-            height: 38px; 
-            width: 38px; 
-            object-fit: contain; 
-            margin-right: 10px; /* Logo与文字间距 */
-            border-radius: 8px; /* 轻微圆角，与整体风格一致 */
-        }
-        /* Logo 文字样式 (更清晰，更融入设计) */
-        .brand-logo-container .logo-text {
-            font-size: 1.3rem;
-            font-weight: 800; /* 极粗字体 */
-            color: var(--color-text-light);
-            text-shadow: 0 0 5px rgba(224, 231, 255, 0.1); /* 轻微文字阴影 */
         }
 
-        .back-btn-large {
-            font-size: 1.5rem; 
-            padding: 5px; 
-            color: var(--color-primary); /* 返回按钮使用主色 */
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .back-btn-large:hover {
-            color: var(--color-secondary);
+        .header-logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
         }
 
-        /* ------------------ 1. 页面主题标题卡片 (顶级设计 - 玻璃感) ------------------ */
-        .page-title-card {
-            background: rgba(26, 34, 51, 0.7); /* 半透明背景 */
-            backdrop-filter: blur(8px); 
-            -webkit-backdrop-filter: blur(8px);
-            padding: 20px 25px; 
-            margin-bottom: 2rem;
-            border-radius: 20px; 
-            text-align: center;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); 
-            
-            font-size: 1.8rem; 
-            font-weight: 900; 
-            color: var(--color-text-light);
-            letter-spacing: 1px;
-            
-            /* 青色边框渐变 */
-            border: 2px solid transparent; 
-            background-image: linear-gradient(var(--color-card-bg), var(--color-card-bg)), 
-                              linear-gradient(135deg, var(--color-primary) 0%, #00FFFF 50%, var(--color-secondary) 100%);
-            background-origin: border-box;
-            background-clip: content-box, border-box;
-
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: ellipsis; 
-            line-height: 1.2;
-        }
-
-        /* ------------------ 2. 收益统计卡片 (焦点设计) ------------------ */
-        .revenue-card {
-            background: linear-gradient(145deg, #183358, #0D2038); 
-            padding: 25px;
-            margin-bottom: 2rem;
-            border-radius: 16px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 191, 255, 0.25); 
-            border: 1px solid rgba(0, 191, 255, 0.3); 
-        }
-        .revenue-label {
-            font-size: 1.1rem; 
-            color: var(--color-text-muted);
-            margin-bottom: 8px;
-        }
-        .revenue-amount {
-            font-size: 3.5rem; 
-            font-weight: 900;
-            color: var(--color-primary); 
-            line-height: 1;
-            text-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
-        }
-        .revenue-placeholder {
-            font-size: 1.5rem; 
-            font-weight: 600;
-            color: var(--color-text-light);
-            margin-top: 10px;
-        }
-
-        /* ------------------ 3. 活动卡片列表样式 ------------------ */
-        .activity-card {
-            display: flex;
-            flex-direction: column; 
-            padding: 20px; 
-            margin-bottom: 1.5rem;
-            border-radius: 18px; 
-            background-color: var(--color-card-bg); 
-            text-decoration: none;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
-        }
-        .activity-card:hover {
-             box-shadow: 0 8px 25px rgba(0, 191, 255, 0.2); 
-             transform: translateY(-2px);
-             border-color: var(--color-primary);
-        }
-
-        .card-header-content {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 12px;
-        }
-        .activity-icon-container {
-            width: 65px; 
-            height: 65px;
-            min-width: 65px;
-            font-size: 36px; 
-            margin-right: 18px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, var(--color-secondary), #FF33A0); 
-            box-shadow: 0 4px 10px rgba(255, 105, 180, 0.5);
-        }
-
-        .activity-title {
-            font-weight: 800;
-            font-size: 1.5rem; 
-            color: var(--color-text-light);
-        }
-
-        .activity-desc {
-            font-size: 1.15rem; 
-            color: var(--color-text-muted); 
-            margin-top: 5px;
-            margin-bottom: 18px;
-        }
-        
-        .checkin-progress {
-            font-size: 1.2rem; 
+        .header-title {
+            font-size: 1.2rem;
             font-weight: 700;
-            color: var(--color-primary); 
-            margin-bottom: 18px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .progress-text {
             color: var(--color-text-light);
         }
-        .progress-days {
-            color: var(--color-primary);
-        }
 
-
-        /* ------------------ 4. 签到大按钮样式 (高光操作) ------------------ */
-        .checkin-btn {
-            padding: 16px; 
-            border-radius: 12px;
-            font-size: 1.4rem; 
-            font-weight: bold;
-            color: var(--color-bg-dark); 
-            background: linear-gradient(45deg, var(--color-primary), #00FFFF);
-            box-shadow: 0 6px 20px rgba(0, 191, 255, 0.6); 
-        }
-
-        .checkin-btn:hover {
-            background-color: #008CBA;
-            transform: scale(0.99); 
-            color: var(--color-bg-dark);
+        .back-arrow-link {
+            color: var(--color-text-light);
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            border-radius: 50%;
+            background-color: var(--color-card-bg);
+            transition: background-color 0.2s;
         }
         
-        /* ------------------ 底部导航栏样式 (PWA 修复与统一风格) ------------------ */
-        .tab-bar {
+        /* ------------------ 【A. 页面主标题卡片】 ------------------ */
+        .main-banner-card {
+            background: linear-gradient(135deg, #201f11, #332d19);
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            border: 3px solid transparent; 
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+            border-image: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            border-image-slice: 1;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5), 0 0 30px rgba(255, 105, 180, 0.3);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        .main-banner-card h1 {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: var(--color-primary);
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.9);
+            margin-bottom: 5px;
+        }
+
+        /* ------------------ 任务活动卡片样式 (复用 bank.html 风格) ------------------ */
+        .task-list-card {
+            background-color: var(--color-card-bg);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
             display: flex;
-            justify-content: space-around;
             align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            border-left: 5px solid var(--color-primary); 
+            position: relative;
+        }
+        .task-list-card:hover {
+            background-color: #25334c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .task-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 9999px; /* 圆形图标 */
+            color: var(--color-bg-dark); 
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            background-color: var(--color-secondary);
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+        }
+
+        .task-content {
+            flex-grow: 1;
+            min-width: 0;
+        }
+
+        .task-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .task-subtitle {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            line-height: 1.4;
+            margin-top: 4px;
+        }
+        
+        .task-action {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+        .action-button {
+            font-weight: 700;
+            padding: 8px 15px;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+            text-align: center;
+            width: 100px; /* 统一宽度，增强视觉一致性 */
+        }
+
+        /* 状态样式 */
+        .status-pending {
+            background-color: var(--color-pending);
+            color: var(--color-bg-dark);
+            box-shadow: 0 2px 8px rgba(252, 211, 77, 0.5);
+        }
+        .status-completed {
+            background-color: var(--color-success);
+            color: var(--color-bg-dark);
+            box-shadow: 0 2px 8px rgba(52, 211, 153, 0.5);
+        }
+
+        /* ------------------ 底部导航栏样式 ------------------ */
+        .tab-bar {
             position: fixed;
             bottom: 0;
             left: 0;
-            width: 100%;
-            /* 关键修复点：增加高度并确保 safe-area 兼容性 */
-            height: calc(65px + env(safe-area-inset-bottom)); 
-            background-color: var(--color-card-bg); 
-            box-shadow: 0 -8px 30px rgba(0, 191, 255, 0.3);
-            /* 确保内容在安全区域内 */
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 60px;
+            background-color: var(--color-bg-dark);
+            border-top: 1px solid #1A2233;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
             padding-bottom: env(safe-area-inset-bottom);
-            z-index: 1000;
+            z-index: 20;
         }
+
         .tab-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: var(--color-text-muted); 
+            justify-content: center;
             text-decoration: none;
-            font-size: 0.8rem; 
-            flex: 1;
-            padding-top: 8px; 
-            transition: color 0.2s, transform 0.2s;
-            min-width: 0; 
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            padding: 5px;
+            flex-grow: 1;
+            max-width: 20%;
         }
+
         .tab-item.active {
-            color: var(--color-primary); 
-            font-weight: 700;
-            transform: translateY(-2px); 
+            color: var(--color-primary);
         }
+
         .tab-icon {
-            font-size: 1.4rem; 
+            font-size: 1.2rem;
             margin-bottom: 3px;
         }
     </style>
 </head>
 <body>
 
-    <!-- 顶部标题栏 - 左Logo (已修复文字显示) + 右返回按钮 -->
-    <div class="header-bar">
-        <div class="container">
-            <!-- 左侧：Logo 和文字 (修复：使用 div 容器和 text) -->
-            <a href="/WiseCompanion/index.html" class="brand-logo-container text-decoration-none">
-                <!-- 假设 logo.png 是一个纯图标 -->
-                <img src="/WiseCompanion/assets/logo.png" alt="慧伴管家 Logo"> 
-                <span class="logo-text">慧伴管家</span>
-            </a>
-            
-            <!-- 中间占位符 -->
-            <div style="flex-grow: 1;"></div> 
-
-            <!-- 右侧：大返回按钮 -->
-            <a href="/WiseCompanion/index.html" class="back-btn-large">
-                <i class="fas fa-arrow-left"></i>
-            </a>
+    <!-- 顶部导航栏 -->
+    <div class="header-bar-fixed px-4">
+        <div class="header-logo-group">
+            <img src="/WiseCompanion/assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/FFD700/0A1322?text=G'" alt="Logo" class="header-logo rounded-md shadow-lg">
+            <h1 class="header-title">慧伴管家</h1>
         </div>
+        <a href="/WiseCompanion/index.html" class="back-arrow-link" title="返回首页">
+            <i class="fas fa-arrow-left"></i>
+        </a>
     </div>
 
-    <!-- 活动列表容器 -->
-    <main class="container py-3">
-        <!-- **1. 页面主题标题卡片 (玻璃质感)** -->
-        <div class="page-title-card">
-            签到/小任务总览
+    <!-- 页面核心内容容器 -->
+    <main class="container mx-auto px-4 py-4">
+        
+        <!-- **1. 页面主标题卡片 ** -->
+        <div class="main-banner-card">
+            <p id="data-status-warning" class="text-sm font-semibold text-red-400 mb-3 p-2 border border-red-500 rounded-lg bg-red-900/20">
+                ⚠️ 提示：当前显示为内置模拟数据。
+            </p>
+            <h1>天天有奖 - 一键签到直达</h1>
+            <p class="text-sm text-gray-400 mt-2">点击下方按钮，直接跳转到对应 App 签到页面，轻松领奖！</p>
+        </div>
+
+        
+        <!-- **2. 任务列表 ** -->
+        <div id="daily-tasks-list">
+             <!-- 外部签到任务将由 JS 动态生成 -->
+        </div>
+
+        
+        <!-- **3. 操作说明 ** -->
+        <div class="mt-8 p-4 bg-gray-800/50 rounded-xl shadow-lg border border-gray-700">
+            <h2 class="text-lg font-bold mb-3 text-yellow-400 flex items-center">
+                <i class="fas fa-info-circle mr-2"></i> 操作说明
+            </h2>
+            <ul class="text-sm text-gray-400 list-disc ml-4 space-y-2">
+                <li>点击 **“去签到”** 按钮，将自动打开该平台 App 的签到页面。</li>
+                <li>签到完成后，请手动返回慧伴管家 App，并点击 **“已完成”** 更新状态。</li>
+                <li>每日任务状态会在次日自动重置。</li>
+            </ul>
         </div>
         
-        <!-- **2. 收益统计卡片 (焦点设计)** -->
-        <div class="revenue-card">
-            <div class="revenue-label">签到/小任务 累计收益 (人民币)</div>
-            <div class="revenue-amount">¥XX.XX</div>
-            <div class="revenue-placeholder">（功能正在开发中）</div>
-        </div>
-
-        <!-- 引入一个提示信息，高对比度 -->
-        <div class="alert text-center" style="background-color: #0d2038; border-color: #00BFFF; color: #00BFFF; margin-bottom: 2rem; font-size: 1.1rem; border-radius: 12px;">
-            <i class="fas fa-lightbulb me-2"></i> **提示：** 点击蓝色大按钮即可一键跳转领取优惠！
-        </div>
-        
-        <div id="activity-list-container">
-            <!-- 示例活动卡片 (将被 list.js 脚本替换) -->
-            <div class="activity-card">
-                <div class="card-header-content">
-                    <div class="activity-icon-container d-flex align-items-center justify-content-center">
-                        <i class="fas fa-calendar-check text-white"></i>
-                    </div>
-                    <div>
-                        <div class="activity-title">中国移动每日签到领流量/话费活动</div>
-                    </div>
-                </div>
-                
-                <div class="activity-desc">
-                    完成每日签到，即可获取少量流量包或话费奖励。适合高频次、低门槛任务。
-                </div>
-                
-                <div class="checkin-progress d-flex justify-content-between align-items-center">
-                    <span class="progress-text">本周期已签到:</span>
-                    <span class="progress-days">5 / 30 天</span>
-                </div>
-
-                <!-- 签到大按钮 -->
-                <a href="#" class="checkin-btn">
-                    立即签到/查看详情 <i class="fas fa-arrow-right ms-2"></i>
-                </a>
-            </div>
-            
-            <!-- 示例活动卡片 2 -->
-             <div class="activity-card">
-                <div class="card-header-content">
-                    <div class="activity-icon-container d-flex align-items-center justify-content-center">
-                        <i class="fas fa-coins text-white"></i>
-                    </div>
-                    <div>
-                        <div class="activity-title">支付宝免费领红包任务（每周更新）</div>
-                    </div>
-                </div>
-                
-                <div class="activity-desc">
-                    每周参与简单互动任务，即可获得支付宝消费红包，轻松抵扣日常开支。
-                </div>
-                
-                <div class="checkin-progress d-flex justify-content-between align-items-center">
-                    <span class="progress-text">本周已完成:</span>
-                    <span class="progress-days">1 / 5 个</span>
-                </div>
-
-                <!-- 签到大按钮 -->
-                <a href="#" class="checkin-btn">
-                    立即领取红包 <i class="fas fa-external-link-alt ms-2"></i>
-                </a>
-            </div>
-
-            <!-- 活动列表将由 list.js 渲染在这里 -->
-            <p class="text-center" style="color: var(--color-text-muted);">正在加载更多活动...</p>
-        </div>
     </main>
     
-    <!-- 底部导航栏 (Tab Bar) -->
+    <!-- 底部导航栏 (已更新名称和激活状态) -->
     <nav class="tab-bar">
+        <!-- 首页 -->
         <a href="/WiseCompanion/index.html" class="tab-item">
             <i class="fas fa-home tab-icon"></i>
             <span>首页</span>
         </a>
-        <!-- 签到页 (当前页): 使用 span 代替 a 标签使其不可点击 -->
+        <!-- 天天有奖 (当前页 ACTIVE) -->
         <span class="tab-item active">
-            <i class="fas fa-tasks tab-icon"></i>
-            <span>签到</span>
+            <i class="fas fa-gifts tab-icon"></i>
+            <span>天天有奖</span>
         </span>
+        <!-- 看视频赚 -->
         <a href="/WiseCompanion/video.html" class="tab-item">
-            <i class="fas fa-video tab-icon"></i>
-            <span>视频</span>
+            <i class="fas fa-play-circle tab-icon"></i>
+            <span>看视频赚</span>
         </a>
+        <!-- 捡钱任务 -->
         <a href="/WiseCompanion/bank.html" class="tab-item">
-            <i class="fas fa-piggy-bank tab-icon"></i>
-            <span>银行</span>
-        </a>
-        <!-- 新增：购物优惠页面 -->
+            <i class="fas fa-hand-holding-usd tab-icon"></i>
+            <span>捡钱任务</span>
+            </a>
+        <!-- 省钱秘籍 -->
         <a href="/WiseCompanion/shopping.html" class="tab-item">
-            <i class="fas fa-shopping-bag tab-icon"></i>
-            <span>购物</span>
+            <i class="fas fa-tags tab-icon"></i>
+            <span>省钱秘籍</span>
         </a>
     </nav>
     
-    <!-- JavaScript 路径修复 (确保 list.js 正确加载) -->
-    <script src="/WiseCompanion/list.js"></script>
-    <!-- 移除了内联脚本，避免 ReferenceError -->
+    <script>
+        // ----------------------------------------------------
+        // 模拟数据 (Mock Data) - 外部平台签到任务清单
+        // Status: "Pending" (未完成) | "Completed" (已完成)
+        // ----------------------------------------------------
+        const MOCK_DAILY_TASKS = [
+            {
+                Name: "微信支付：每日签到",
+                Platform: "微信支付",
+                Description: "任务：每日签到，随机获得 0.01~1.88 元立减金。",
+                Link: "#wechat-checkin-link", 
+                Reward: "随机立减金",
+                Status: "Pending" 
+            },
+            {
+                Name: "支付宝：蚂蚁庄园喂鸡",
+                Platform: "支付宝",
+                Description: "任务：每日给小鸡喂食，获得爱心捐赠。做公益得奖励。",
+                Link: "#alipay-farm-link",
+                Reward: "爱心/金币",
+                Status: "Pending"
+            },
+            {
+                Name: "招商银行：App 每日答题",
+                Platform: "招商银行",
+                Description: "任务：每日答对 3 题，随机获得 0.5~5 元支付宝立减金。",
+                Link: "#cmb-quiz-link",
+                Reward: "0.5~5元立减金",
+                Status: "Completed" // 模拟已完成
+            },
+            {
+                Name: "建设银行：龙支付签到",
+                Platform: "建设银行",
+                Description: "任务：龙支付App内每日签到，领取小积分兑换权益。",
+                Link: "#ccb-longpay-link",
+                Reward: "App积分",
+                Status: "Pending"
+            },
+             {
+                Name: "拼多多：签到领现金",
+                Platform: "拼多多",
+                Description: "任务：每日签到领现金券/金币，连续签到奖励更高。",
+                Link: "#pdd-checkin-link",
+                Reward: "金币/现金券",
+                Status: "Pending"
+            }
+        ];
+
+        // ----------------------------------------------------
+        // 任务渲染逻辑
+        // ----------------------------------------------------
+        
+        // 辅助函数：根据平台名称返回 Font Awesome 图标
+        function getPlatformIcon(platformName) {
+            if (platformName.includes('微信')) return 'fab fa-weixin';
+            if (platformName.includes('支付宝')) return 'fab fa-alipay';
+            if (platformName.includes('招商')) return 'fa-star';
+            if (platformName.includes('建设')) return 'fa-building-columns';
+            if (platformName.includes('拼多多')) return 'fa-shopping-bag';
+            return 'fa-gift'; // 默认图标
+        }
+
+        // 渲染单个任务卡片
+        function renderTaskCard(task, index) {
+            const isCompleted = task.Status === 'Completed';
+            
+            const buttonText = isCompleted ? '已完成' : '去签到';
+            const buttonClass = isCompleted ? 'status-completed' : 'status-pending';
+            const linkTarget = isCompleted ? '#' : task.Link; // 已完成时不跳转
+
+            const icon = getPlatformIcon(task.Platform);
+
+            return `
+                <div class="task-list-card" data-index="${index}">
+                    <div class="task-icon">
+                        <i class="fa-solid ${icon}"></i>
+                    </div>
+                    <div class="task-content">
+                        <div class="task-title">${task.Name}</div>
+                        <div class="task-subtitle">奖励：${task.Reward} | 平台：${task.Platform}</div>
+                        <div class="text-xs text-gray-500 mt-1">${task.Description}</div>
+                    </div>
+                    <div class="task-action">
+                        <a href="${linkTarget}" target="_blank" 
+                           class="action-button ${buttonClass} flex items-center justify-center" 
+                           ${isCompleted ? 'disabled' : ''} 
+                           data-action="${isCompleted ? 'toggle' : 'go'}">
+                            ${buttonText}
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 渲染所有任务
+        function renderDailyTasks() {
+            const listContainer = document.getElementById('daily-tasks-list');
+            listContainer.innerHTML = ''; 
+            
+            MOCK_DAILY_TASKS.forEach((task, index) => {
+                listContainer.innerHTML += renderTaskCard(task, index);
+            });
+            
+            // 绑定事件监听器
+            listContainer.querySelectorAll('.task-list-card').forEach(card => {
+                const index = card.getAttribute('data-index');
+                const button = card.querySelector('.action-button');
+                
+                // 监听按钮点击事件
+                button.addEventListener('click', (e) => {
+                    const task = MOCK_DAILY_TASKS[index];
+                    
+                    if (e.currentTarget.getAttribute('data-action') === 'toggle') {
+                        // 如果是“已完成”按钮（模拟点击后询问是否重置状态）
+                        showConfirmationMessage(index, task.Name);
+                    } else {
+                        // 如果是“去签到”按钮，则跳转，并提示用户回来手动确认
+                        // 真实的App环境会直接打开AppLink，这里使用浏览器跳转
+                        showGoToAppMessage(task.Platform, task.Link);
+                    }
+                });
+            });
+        }
+        
+        // 模拟一个简单的提示 (代替 alert)
+        function showGoToAppMessage(platformName, link) {
+            const message = document.createElement('div');
+            message.innerHTML = `
+                <div id="app-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+                    <div class="bg-gray-800 p-8 rounded-xl text-center shadow-2xl border-4 border-blue-500 transform scale-0 transition-transform duration-300" style="min-width: 280px;">
+                        <i class="fas fa-external-link-alt text-5xl text-blue-400 mb-4 animate-pulse"></i>
+                        <h2 class="text-2xl font-bold text-white mb-2">即将前往 ${platformName}</h2>
+                        <p class="text-sm text-gray-400 mb-4">请在新打开的 App 中完成签到！</p>
+                        <p class="text-sm text-yellow-400 mb-4">完成后请手动返回本页，点击任务卡片上的 **“已完成”**。</p>
+                        <button onclick="document.getElementById('app-modal').remove(); window.open('${link}', '_blank');" class="mt-5 px-6 py-2 bg-blue-500 text-white font-bold rounded-full transition hover:bg-blue-600">
+                            确认跳转
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(message);
+            setTimeout(() => {
+                document.querySelector('#app-modal > div').style.transform = 'scale(1)';
+            }, 10);
+        }
+
+        // 确认完成状态切换
+        function showConfirmationMessage(index, taskName) {
+            const task = MOCK_DAILY_TASKS[index];
+            const isCompleted = task.Status === 'Completed';
+
+            const message = document.createElement('div');
+            message.innerHTML = `
+                <div id="confirm-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+                    <div class="bg-gray-800 p-8 rounded-xl text-center shadow-2xl border-4 border-yellow-500 transform scale-0 transition-transform duration-300" style="min-width: 280px;">
+                        <i class="fas fa-question-circle text-5xl text-yellow-400 mb-4"></i>
+                        <h2 class="text-xl font-bold text-white mb-4">任务状态确认</h2>
+                        <p class="text-sm text-gray-400 mb-5">您确定要将任务 **${taskName}** 的状态设置为 ${isCompleted ? '“未完成”' : '“已完成”'} 吗？</p>
+                        <div class="flex justify-around">
+                            <button id="cancel-btn" class="px-6 py-2 bg-gray-600 text-white font-bold rounded-full transition hover:bg-gray-700">
+                                取消
+                            </button>
+                            <button id="confirm-btn" class="px-6 py-2 bg-yellow-500 text-gray-900 font-bold rounded-full transition hover:bg-yellow-400">
+                                确认
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(message);
+            setTimeout(() => {
+                document.querySelector('#confirm-modal > div').style.transform = 'scale(1)';
+            }, 10);
+
+            // 绑定确认/取消事件
+            document.getElementById('cancel-btn').addEventListener('click', () => {
+                document.getElementById('confirm-modal').remove();
+            });
+
+            document.getElementById('confirm-btn').addEventListener('click', () => {
+                // 切换状态
+                task.Status = isCompleted ? 'Pending' : 'Completed';
+                // 重新渲染列表以更新按钮状态
+                renderDailyTasks(); 
+                document.getElementById('confirm-modal').remove();
+            });
+        }
+
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDailyTasks();
+        });
+    </script>
 
 </body>
 </html>
