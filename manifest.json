@@ -2,7 +2,7 @@
 "name": "慧伴管家 - 优惠直达",
 "short_name": "慧伴管家",
 "description": "长辈专用优惠活动直达工具，每天一点小惊喜",
-"start_url": "./index.html",
+"start_url": "/WiseCompanion/index.html",
 "display": "standalone",
 "orientation": "portrait",
 "background_color": "#0f172a",
@@ -24,7 +24,7 @@
 "src": "/WiseCompanion/assets/icon_apple.png",
 "sizes": "180x180",
 "type": "image/png",
-"purpose": "apple-touch-icon"
+"purpose": "apple touch icon"
 }
 ]
 }
