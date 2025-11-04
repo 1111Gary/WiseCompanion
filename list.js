@@ -90,8 +90,9 @@ function renderFilteredActivities() {
         activitiesToRender = allActivitiesCache;
     } else {
         // 否则，只渲染当前类别下的活动
+        // ⚠️ 关键修改：将 Category 字段名称改为小写 'category'
         activitiesToRender = allActivitiesCache.filter(
-            activity => activity.Category === currentCategory
+            activity => activity.category === currentCategory
         );
     }
 
@@ -108,15 +109,15 @@ function renderFilteredActivities() {
         return;
     }
 
-    // 假设活动数据结构是 { name, description, icon, deepLink, Category }
+    // 假设活动数据结构是 { name, description, icon, deepLink, category }
     const html = activitiesToRender.map(activity => `
-        <a href="${activity.DeepLink || '#'}" 
+        <a href="${activity.deepLink || '#'}" 
            class="block p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5">
             <div class="flex items-center space-x-4">
-                <span class="text-3xl">${activity.Icon || '📌'}</span>
+                <span class="text-3xl">${activity.icon || '📌'}</span>
                 <div>
-                    <p class="text-lg font-semibold text-gray-800">${activity.Name || '无标题活动'}</p>
-                    <p class="text-sm text-gray-500">${activity.Description || '点击查看详情'}</p>
+                    <p class="text-lg font-semibold text-gray-800">${activity.name || '无标题活动'}</p>
+                    <p class="text-sm text-gray-500">${activity.description || '点击查看详情'}</p>
                 </div>
             </div>
         </a>
