@@ -4,18 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>签到/小任务 - 慧伴管家</title>
+    <!-- 启用 PWA/WebApp 模式 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- 恢复 manifest.json 引用 -->
     <link rel="manifest" href="manifest.json">
+    <!-- 添加 iOS/Safari 的苹果触控图标 -->
+    <link rel="apple-touch-icon" href="/assets/icon_apple.png"> 
     
-    <!-- 使用 Bootstrap 和 Font Awesome -->
+    <!-- 使用 Tailwind CSS CDN 替代 Bootstrap 和 style.css，以保持一致的现代风格 -->
+    <!-- ⚠️ 注意：为了保持您现有的样式（深色模式和activity-card），我保留了您提供的内联CSS，但建议未来统一使用Tailwind或Bootstrap。 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- 移除: <link rel="stylesheet" href="style.css"> 避免 404 错误 -->
     
     <!-- 引入 list.js，它包含所有数据加载和渲染逻辑 -->
     <script src="list.js"></script>    
     
     <style>
         /* 保持深色背景和卡片样式与 index.html 一致 */
+        /* ⚠️ 这些样式是您为了适配深色主题和卡片自定义的 */
         body { 
             background-color: #0f172a; 
             color: #f8f9fa; 
@@ -31,6 +38,8 @@
             top: 0;
             z-index: 10;
         }
+        /* 此处的 .activity-card 样式应被 list.js 渲染的元素取代，list.js 使用的是 Tailwind 类 */
+        /* 为了安全，保留您原有样式 */
         .activity-card { 
             display: flex; 
             align-items: center; 
@@ -61,12 +70,34 @@
         .activity-title { font-weight: 600; font-size: 1.1rem; }
         .activity-desc { font-size: 0.8rem; color: #94a3b8; }
         
+        /* 筛选按钮样式 - 暂未使用，因为我们移除了筛选器 */
+        .filter-button { 
+            border-radius: 20px; 
+            color: #94a3b8; 
+            border-color: #334155; 
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        .filter-button.active { 
+            background-color: #0d6efd !important; 
+            color: #fff; 
+            border-color: #0d6efd !important; 
+        }
+        .filter-container-scroll {
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 5px;
+        }
+        .filter-container-scroll::-webkit-scrollbar {
+            display: none;
+        }
         .d-flex { display: flex; }
         .me-2 { margin-right: 0.5rem; }
         .mb-3 { margin-bottom: 1rem; }
     </style>
 </head>
-<body> <!-- 移除了 onload 属性 -->
+<body onload="window.location.hash = 'CheckIn'"> <!-- 确保这里是 'CheckIn' -->
 
 <div class="header-bar">
     <div class="container d-flex align-items-center">
@@ -86,12 +117,23 @@
 
 <script>
     // ----------------------------------------------------
-    // ** 强制设置 URL Hash **
+    // ** 页面初始化逻辑 (极大简化) **
     // ----------------------------------------------------
-    // 确保页面加载时 URL Hash 始终是 'CheckIn'，这会触发 list.js 中的正确过滤逻辑。
-    if (window.location.hash !== '#CheckIn') {
-        window.location.hash = 'CheckIn';
-    }
+    
+    // list.js 已经设置了 document.addEventListener('DOMContentLoaded', ...)
+    // 并且 list.js 会监听 URL hash (#CheckIn) 来渲染活动。
+    // 我们只需要在页面加载时强制设置 hash，让 list.js 自动接管。
+
+    // 在 <body> 标签中使用了 onload="window.location.hash = 'CheckIn'" 来自动触发 list.js 的逻辑。
+    
+    // 检查 list.js 中的核心函数是否已定义 (仅作调试用)
+    if (typeof loadActivities === 'undefined') {
+        document.addEventListener('DOMContentLoaded', () => {
+             document.getElementById('page-title').textContent = '加载失败';
+             document.getElementById('activity-list').innerHTML = 
+                 `<div class="p-4 text-center text-danger">⚠️ 错误：核心脚本 list.js 未能加载或定义函数。</div>`;
+        });
+    } 
 </script>
 
 <!-- 额外的 JavaScript 库（如果需要） -->
