@@ -102,17 +102,23 @@ function renderFilteredActivities() {
         activitiesToRender = allActivitiesCache;
     } else {
         // 否则，只渲染当前类别下的活动
-        // 🚀 修复：只使用首字母大写字段名 'Category' 进行匹配
+        // 🚀 最终修复：使用中文值和首字母大写字段 'Category' 进行匹配
         activitiesToRender = allActivitiesCache.filter(
             activity => String(activity.Category) === categoryFilterValue
         );
+        
+        // 🚨 尝试使用小写字段名 'category' 进行第二次匹配，因为我们无法确定 fetch-data.js 的行为
+        if (activitiesToRender.length === 0) {
+             activitiesToRender = allActivitiesCache.filter(
+                activity => String(activity.category) === categoryFilterValue
+            );
+        }
     }
     
-    // 如果过滤后仍然失败，我们退回到显示所有活动（防止页面空白）
-    if (activitiesToRender.length === 0 && currentCategory !== 'home') {
-         // 增加安全回退：如果当前类别无数据，尝试显示所有活动
-         activitiesToRender = allActivitiesCache;
-    }
+    // ⚠️ 移除安全回退：防止过滤失败时渲染空白卡片，干扰判断
+    // if (activitiesToRender.length === 0 && currentCategory !== 'home') {
+    //      activitiesToRender = allActivitiesCache;
+    // }
     
 
     const listContainer = document.getElementById('activity-list');
@@ -123,19 +129,27 @@ function renderFilteredActivities() {
         return;
     }
 
-    // 🚀 最终渲染修复：统一使用首字母大写字段名 (Name, Description, Icon, DeepLink)
-    const html = activitiesToRender.map(activity => `
-        <a href="${activity.DeepLink || '#'}" 
-           class="block p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5">
-            <div class="flex items-center space-x-4">
-                <span class="text-3xl">${activity.Icon || '📌'}</span>
-                <div>
-                    <p class="text-lg font-semibold text-gray-800">${activity.Name || '无标题活动'}</p>
-                    <p class="text-sm text-gray-500">${activity.Description || '点击查看详情'}</p>
+    // 🚀 最终渲染修复：尝试同时检查首字母大写 (Name) 和全小写 (name)
+    const html = activitiesToRender.map(activity => {
+        // 确定正确的字段名（取值逻辑）
+        const name = activity.Name || activity.name || '无标题活动';
+        const description = activity.Description || activity.description || '点击查看详情';
+        const icon = activity.Icon || activity.icon || '📌';
+        const deepLink = activity.DeepLink || activity.deepLink || '#';
+
+        return `
+            <a href="${deepLink}" 
+               class="block p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5">
+                <div class="flex items-center space-x-4">
+                    <span class="text-3xl">${icon}</span>
+                    <div>
+                        <p class="text-lg font-semibold text-gray-800">${name}</p>
+                        <p class="text-sm text-gray-500">${description}</p>
+                    </div>
                 </div>
-            </div>
-        </a>
-    `).join('');
+            </a>
+        `;
+    }).join('');
 
     listContainer.innerHTML = html;
 }
