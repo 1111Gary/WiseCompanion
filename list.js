@@ -53,6 +53,43 @@ function displayErrorMessage(message) {
     }
 }
 
+/**
+ * 尝试从活动对象中安全获取指定字段的值。
+ * 检查顺序：1. 全小写 2. 首字母大写 3. 常见中文键名
+ * @param {object} activity - 活动对象。
+ * @param {string} englishName - 字段名称 (例如 'Name', 'Category')。
+ * @returns {string|null} 字段值或 null。
+ */
+function getSafeValue(activity, englishName) {
+    // 1. 检查全小写 (假设 fetch-data.js 转换了)
+    const lowerCaseName = englishName.toLowerCase();
+    if (activity[lowerCaseName]) {
+        return activity[lowerCaseName];
+    }
+    
+    // 2. 检查首字母大写 (Airtable 原始)
+    if (activity[englishName]) {
+        return activity[englishName];
+    }
+
+    // 3. 检查常见中文键名 (以防 fetch-data.js 保留中文)
+    const chineseMapping = {
+        'Name': '活动名称', 
+        'Description': '描述', 
+        'Icon': '图标',
+        'DeepLink': '链接',
+        'Category': '分类' 
+    };
+
+    const chineseName = chineseMapping[englishName];
+    if (chineseName && activity[chineseName]) {
+        return activity[chineseName];
+    }
+    
+    // 如果找不到，返回 null
+    return null;
+}
+
 
 // --- 数据加载和渲染 ---
 
@@ -105,11 +142,10 @@ function renderFilteredActivities() {
         activitiesToRender = allActivitiesCache;
     } else {
         // 否则，只渲染当前类别下的活动
-        // 🚀 过滤修复：直接使用全小写的 'category' 字段进行过滤
+        // 🚀 过滤修复：使用 getSafeValue 安全获取 'Category' 字段进行过滤
         activitiesToRender = allActivitiesCache.filter(
             // 使用 String() 确保比较类型一致
-            // 假设 fetch-data.js 脚本将 'Category' 转换为了 'category'
-            activity => String(activity.category) === categoryFilterValue
+            activity => String(getSafeValue(activity, 'Category')) === categoryFilterValue
         );
     }
     
@@ -121,13 +157,13 @@ function renderFilteredActivities() {
         return;
     }
 
-    // 🚀 最终渲染修复：直接使用全小写的 name, description, icon, deepLink 字段
+    // 🚀 最终渲染修复：使用 getSafeValue 安全获取所有字段
     const html = activitiesToRender.map(activity => {
-        // 假设 fetch-data.js 脚本将所有字段都转换为了小写
-        const name = activity.name || '无标题活动';
-        const description = activity.description || '点击查看详情';
-        const icon = activity.icon || '📌';
-        const deepLink = activity.deeplink || '#'; 
+        // 使用 getSafeValue 确保我们能取到 Name, Description, Icon, DeepLink
+        const name = getSafeValue(activity, 'Name') || '无标题活动';
+        const description = getSafeValue(activity, 'Description') || '点击查看详情';
+        const icon = getSafeValue(activity, 'Icon') || '📌';
+        const deepLink = getSafeValue(activity, 'DeepLink') || '#'; 
 
         return `
             <a href="${deepLink}" 
