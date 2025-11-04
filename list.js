@@ -53,25 +53,6 @@ function displayErrorMessage(message) {
     }
 }
 
-/**
- * 尝试从活动对象中安全获取指定字段的值。
- * 优先检查 fields 对象 (Airtable API 常见结构)，然后检查根对象。
- * @param {object} activity - 活动对象。
- * @param {string} fieldName - 字段名称 (例如 'Name', 'Category')。
- * @returns {string|undefined} 字段值或 undefined。
- */
-function getFieldValue(activity, fieldName) {
-    // 1. 尝试从 fields 对象中获取 (最可能的情况)
-    if (activity.fields && activity.fields[fieldName]) {
-        return activity.fields[fieldName];
-    }
-    // 2. 尝试从活动对象根部获取 (次要情况)
-    if (activity[fieldName]) {
-        return activity[fieldName];
-    }
-    return undefined;
-}
-
 
 // --- 数据加载和渲染 ---
 
@@ -113,6 +94,7 @@ function renderFilteredActivities() {
 
     // 确定用于过滤的匹配值 (使用中文值，基于您的 Airtable 截图)
     let categoryFilterValue = '';
+    // 注意：这里的中文值 '银行', '签到', '生活', '美食' 必须与 Airtable Category 字段的值完全匹配
     if (currentCategory === 'Bank') categoryFilterValue = '银行';
     if (currentCategory === 'Shopping') categoryFilterValue = '签到';
     if (currentCategory === 'Life') categoryFilterValue = '生活'; 
@@ -123,10 +105,11 @@ function renderFilteredActivities() {
         activitiesToRender = allActivitiesCache;
     } else {
         // 否则，只渲染当前类别下的活动
-        // 🚀 过滤修复：使用 getFieldValue 安全获取 'Category'
+        // 🚀 过滤修复：直接使用全小写的 'category' 字段进行过滤
         activitiesToRender = allActivitiesCache.filter(
             // 使用 String() 确保比较类型一致
-            activity => String(getFieldValue(activity, 'Category')) === categoryFilterValue
+            // 假设 fetch-data.js 脚本将 'Category' 转换为了 'category'
+            activity => String(activity.category) === categoryFilterValue
         );
     }
     
@@ -138,13 +121,13 @@ function renderFilteredActivities() {
         return;
     }
 
-    // 🚀 最终渲染修复：使用 getFieldValue 安全获取 Name, Description, Icon, DeepLink
+    // 🚀 最终渲染修复：直接使用全小写的 name, description, icon, deepLink 字段
     const html = activitiesToRender.map(activity => {
-        // 确定正确的字段名（取值逻辑）
-        const name = getFieldValue(activity, 'Name') || '无标题活动';
-        const description = getFieldValue(activity, 'Description') || '点击查看详情';
-        const icon = getFieldValue(activity, 'Icon') || '📌';
-        const deepLink = getFieldValue(activity, 'DeepLink') || '#'; 
+        // 假设 fetch-data.js 脚本将所有字段都转换为了小写
+        const name = activity.name || '无标题活动';
+        const description = activity.description || '点击查看详情';
+        const icon = activity.icon || '📌';
+        const deepLink = activity.deeplink || '#'; 
 
         return `
             <a href="${deepLink}" 
