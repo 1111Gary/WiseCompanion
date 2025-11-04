@@ -142,12 +142,23 @@ function renderFilteredActivities() {
         activitiesToRender = allActivitiesCache;
     } else {
         // 否则，只渲染当前类别下的活动
-        // 🚀 过滤修复：使用 trim() 移除从数据中获取的类别值两端的空格，确保精确匹配
+        // 🚀 最终过滤修复：检查 Category 字段是否为数组，并进行匹配
         activitiesToRender = allActivitiesCache.filter(
             activity => {
                 const activityCategory = getSafeValue(activity, 'Category');
-                // 确保 activityCategory 是字符串且移除空格后与目标值匹配
-                return activityCategory && String(activityCategory).trim() === categoryFilterValue;
+
+                if (!activityCategory) return false;
+
+                // 1. 如果是数组 (Airtable多选字段常见情况)
+                if (Array.isArray(activityCategory)) {
+                    // 检查数组中是否包含目标中文值
+                    // 并且对数组中的每个元素也进行 trim()
+                    return activityCategory.some(item => String(item).trim() === categoryFilterValue);
+                } 
+                
+                // 2. 如果是字符串 (Airtable单选字段或Link/Lookup字段)
+                // 使用 trim() 移除空格，确保精确匹配
+                return String(activityCategory).trim() === categoryFilterValue;
             }
         );
     }
