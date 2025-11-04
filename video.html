@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
     <style>
-        /* ------------------ 顶级设计师配色方案 (使用 Tailwind 惯例，但定义变量) ------------------ */
+        /* ------------------ 顶级设计师配色方案 (统一变量) ------------------ */
         :root {
             --color-bg-dark: #0A1322; /* 更深的背景蓝黑 */
             --color-card-bg: #1A2233; /* 卡片深灰色 */
@@ -36,106 +36,102 @@
             overflow-x: hidden;
         }
         
-        /* ------------------ 【最终版】卡片式标题栏 (Logo+标题+返回) ------------------ */
-        .card-header-bar-fixed { 
+        /* ------------------ 【导航栏 - 统一小长条固定】 ------------------ */
+        .header-bar-fixed { 
             /* 顶部安全区填充 */
             padding-top: calc(15px + env(safe-area-inset-top)); 
-            padding-bottom: 20px; 
+            padding-bottom: 5px; 
             background-color: var(--color-bg-dark);
             position: sticky;
             top: 0;
             z-index: 10;
-        }
-
-        .header-content-card {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
-            /* 整体卡片样式 */
-            background: linear-gradient(135deg, #1A2233, #223049); /* 渐变背景，更具深度 */
-            border: 2px solid var(--color-primary); /* 蓝色主色调边框 */
-            padding: 10px 15px;
-            margin: 0 15px; /* 左右内缩，形成卡片效果 */
-            border-radius: 15px; /* 大圆角 */
-            box-shadow: 0 5px 20px rgba(0, 191, 255, 0.3); /* 浮动阴影 */
-            height: 55px; /* 固定高度，增强专业感 */
+            height: 60px; /* 导航栏高度 */
         }
-        
-        /* 左侧容器：Logo + 品牌名 */
-        .logo-brand-container {
+        .header-logo-group {
             display: flex;
             align-items: center;
-            flex-shrink: 0; /* 不允许缩小 */
-            width: 130px; /* 固定左侧宽度 */
-            overflow: hidden; /* 隐藏超出部分 */
-            white-space: nowrap;
+            flex-shrink: 1; /* 允许缩小 */
+            min-width: 0;
         }
-
-        .logo-brand-container img {
-            height: 30px; 
-            width: 30px; 
-            object-fit: contain; 
-            margin-right: 8px; 
-            border-radius: 6px; 
+        .header-logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 8px;
         }
-
-        .logo-brand-container .brand-text {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--color-primary);
-        }
-
-        /* 中间容器：页面主标题 */
-        .center-page-title {
-            flex-grow: 1;
-            text-align: center;
-            font-size: 1.3rem;
-            font-weight: 800; 
+        .header-title {
+            font-size: 1.1rem;
+            font-weight: 800;
             color: var(--color-text-light);
-            /* 确保标题不会被挤压 */
-            white-space: nowrap; 
-            overflow: hidden; 
+            white-space: nowrap;
+            overflow: hidden;
             text-overflow: ellipsis;
-            line-height: 1.2;
-        }
-        
-        /* 右侧操作区域（固定宽度 130px，用于居中对齐） */
-        .header-action-area {
-            flex-shrink: 0;
-            width: 130px; /* 固定右侧宽度，与左侧对齐 */
-            text-align: right;
         }
 
-        .header-action-area a {
+        /* 返回箭头 */
+        .back-arrow-link {
             color: var(--color-primary);
             font-size: 1.4rem;
-            opacity: 0.9;
-            transition: opacity 0.2s;
-        }
-        .header-action-area a:hover {
-            opacity: 1;
+            flex-shrink: 0; /* 不允许缩小 */
         }
 
-
-        /* ------------------ 【统一风格】二级页面标题样式 ------------------ */
-        .section-heading {
-            font-weight: 800;
-            /* 关键：左侧高亮边框使用主色调 */
-            border-left: 5px solid var(--color-primary); 
-            padding-left: 15px; /* 增加一点内边距 */
+        /* ------------------ 【A. 页面主标题卡片】 (全尺寸，居中文字) ------------------ */
+        .main-banner-card {
+            background: linear-gradient(135deg, #0f1627, #1a2233);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            /* 模仿炫酷边框效果 */
+            border: 3px solid transparent; 
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+            border-image: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            border-image-slice: 1;
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.5), 0 0 30px rgba(255, 105, 180, 0.3);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        .main-banner-card h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 1px;
             color: var(--color-text-light);
-            margin-bottom: 0.5rem; 
-            font-size: 1.5rem;
+            text-shadow: 0 0 5px var(--color-primary);
+        }
+        
+        /* ------------------ 【B. 二级模块标题卡片】 (小尺寸，左对齐文字，统一风格) ------------------ */
+        .section-title-card {
+            background: linear-gradient(135deg, #0f1627, #1a2233);
+            border-radius: 12px;
+            padding: 15px 20px;
+            text-align: left; /* 左对齐 */
+            /* 模仿炫酷边框效果 - 使用更细的边框以区分主标题 */
+            border: 2px solid transparent; 
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+            border-image: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            border-image-slice: 1;
+            box-shadow: 0 0 8px rgba(0, 191, 255, 0.3);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .section-title-card h2 {
+            font-size: 1.25rem; /* 较小字体 */
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--color-text-light);
         }
 
         .section-description {
             color: var(--color-text-muted); /* 使用柔和的文字颜色 */
             font-size: 0.9rem;
             margin-bottom: 2rem;
-            padding-left: 20px; /* 与标题对齐 */
+            padding-left: 5px; /* 略微缩进 */
         }
         
-        /* ------------------ 1. 外部平台入口 (核心区域) ------------------ */
+        /* ------------------ 外部平台入口 (核心区域) ------------------ */
         .portal-grid {
             display: grid;
             /* 适配手机，每行放两个大卡片 */
@@ -198,7 +194,7 @@
         .icon-meituan { color: #FFC300; } /* 美团 */
         .icon-alipay { color: #00A0E9; } /* 支付宝 */
         
-        /* ------------------ 2. 底部导航栏样式 (Tab Bar) ------------------ */
+        /* ------------------ 底部导航栏样式 (Tab Bar) ------------------ */
         .tab-bar {
             display: flex;
             justify-content: space-around;
@@ -238,39 +234,37 @@
 </head>
 <body>
 
-    <!-- 顶部标题栏 - 【最终版：Logo+标题居中+返回箭头】 -->
-    <div class="card-header-bar-fixed">
-        <div class="header-content-card">
-            
-            <!-- 左侧：Logo 和品牌名 (固定宽度 130px) -->
-            <div class="logo-brand-container">
-                <!-- 注意：我使用的是 image_916d24.png 中看到的带字 Logo，如果找不到该路径，会fallback到蓝色占位符 -->
-                <img src="/WiseCompanion/assets/logo.png" onerror="this.onerror=null; this.src='https://placehold.co/30x30/00BFFF/ffffff?text=L'" alt="Logo"> 
-                <span class="brand-text">慧伴管家</span>
-            </div>
-            
-            <!-- 中间：页面主标题 (居中显示) -->
-            <div class="center-page-title">
-                任务视频入口
-            </div> 
-            
-            <!-- 右侧：返回/操作区域 (固定宽度 130px) -->
-            <div class="header-action-area">
-                <!-- 返回箭头，链接到首页 -->
-                <a href="/WiseCompanion/index.html" title="返回首页">
-                    <i class="fas fa-arrow-left"></i>
-                </a>
-            </div>
+    <!-- 顶部导航栏 - 【统一小长条固定】 左侧Logo/名称 + 右侧返回箭头 -->
+    <div class="header-bar-fixed px-4">
+        
+        <!-- 左侧：Logo 和 应用名称 -->
+        <div class="header-logo-group">
+            <img src="/WiseCompanion/assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/00BFFF/ffffff?text=L'" alt="Logo" class="header-logo rounded-md shadow-lg">
+            <h1 class="header-title">慧伴管家</h1>
         </div>
+        
+        <!-- 右侧：返回箭头 -->
+        <a href="/WiseCompanion/index.html" class="back-arrow-link" title="返回首页">
+            <i class="fas fa-arrow-left"></i>
+        </a>
     </div>
 
     <!-- 页面核心内容容器 -->
     <main class="container mx-auto px-4 py-4">
         
-        <!-- **1. 外部平台任务入口卡片 - 使用统一的 H2 风格** -->
-        <h2 class="section-heading">
-            选择视频任务平台
-        </h2>
+        <!-- **1. 【页面主标题卡片】 (沿用签到页全尺寸卡片风格) ** -->
+        <div class="main-banner-card">
+            <h1>任务视频入口</h1>
+        </div>
+
+        
+        <!-- **2. 【二级模块标题卡片】 (新统一风格 - 小尺寸，左对齐，渐变边框) ** -->
+        <div class="section-title-card">
+            <h2 class="flex items-center">
+                <i class="fas fa-tv mr-3 text-xl" style="color: var(--color-primary);"></i>
+                选择视频任务平台
+            </h2>
+        </div>
         <p class="section-description">
             点击下方卡片，**直接跳转** 至相应 App/网页完成视频任务，任务奖励由对应平台直接发放和兑换。
         </p>
