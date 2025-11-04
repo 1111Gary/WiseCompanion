@@ -142,10 +142,13 @@ function renderFilteredActivities() {
         activitiesToRender = allActivitiesCache;
     } else {
         // 否则，只渲染当前类别下的活动
-        // 🚀 过滤：使用 getSafeValue 安全获取 'Category' 字段进行过滤
+        // 🚀 过滤修复：使用 trim() 移除从数据中获取的类别值两端的空格，确保精确匹配
         activitiesToRender = allActivitiesCache.filter(
-            // 使用 String() 确保比较类型一致
-            activity => String(getSafeValue(activity, 'Category')) === categoryFilterValue
+            activity => {
+                const activityCategory = getSafeValue(activity, 'Category');
+                // 确保 activityCategory 是字符串且移除空格后与目标值匹配
+                return activityCategory && String(activityCategory).trim() === categoryFilterValue;
+            }
         );
     }
     
@@ -157,7 +160,7 @@ function renderFilteredActivities() {
         return;
     }
 
-    // 🚀 最终渲染修复：使用 getSafeValue 安全获取所有字段
+    // 🚀 渲染：使用 getSafeValue 安全获取所有字段
     const html = activitiesToRender.map((activity, index) => {
         // 使用 getSafeValue 确保我们能取到 Name, Description, Icon, DeepLink
         const name = getSafeValue(activity, 'Name');
