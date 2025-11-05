@@ -181,15 +181,16 @@
             <img src="/WiseCompanion/assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/00BFFF/0A1322?text=G'" alt="Logo" class="header-logo rounded-md shadow-lg">
             <h1 class="header-title">慧伴管家</h1>
         </div>
-        <a href="#settings" class="text-xl text-gray-400 hover:text-white" title="设置">
-            <i class="fas fa-cog"></i>
+        <!-- UPDATED: 更改为刷新按钮，并添加点击刷新页面的功能 -->
+        <a href="javascript:void(0);" onclick="location.reload();" class="text-xl text-gray-400 hover:text-white" title="刷新页面">
+            <i class="fas fa-sync-alt"></i>
         </a>
     </div>
 
     <!-- 页面核心内容容器 -->
     <main class="container mx-auto px-4 py-4">
         
-        <!-- **1. 主功能卡片 (已更新为 智能省赚 全能助手) ** -->
+        <!-- **1. 主功能卡片 (智能省赚 全能助手) ** -->
         <div class="main-function-card">
             <!-- 【新标题】 -->
             <h2 class="text-3xl font-extrabold mb-3 text-white">智能省赚 全能助手</h2>
@@ -198,7 +199,7 @@
         </div>
 
         
-        <!-- **2. 主要功能导航 (名称保持统一) ** -->
+        <!-- **2. 主要功能导航 ** -->
         <div class="mb-8">
             <h2 class="text-xl font-bold mb-4 text-primary">⚙️ 核心工具</h2>
             <div class="feature-nav grid grid-cols-2 gap-4">
@@ -243,10 +244,10 @@
     
     <!-- 底部导航栏 -->
     <nav class="tab-bar">
-        <!-- 慧伴主页 (当前页 ACTIVE) -->
+        <!-- UPDATED: 慧伴主页 (当前页 ACTIVE) -> 主页 -->
         <span class="tab-item active">
             <i class="fas fa-home tab-icon"></i>
-            <span>慧伴主页</span>
+            <span>主页</span>
         </span>
         <!-- 天天有奖 -->
         <a href="/WiseCompanion/checkin.html" class="tab-item">
