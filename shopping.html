@@ -3,169 +3,618 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>活动列表 - 慧伴管家</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="manifest" href="manifest.json">
+    <!-- 页面标题 -->
+    <title>慧伴管家 - 省钱秘籍</title>
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <!-- PWA/移动端配置 (与 bank.html 保持一致) -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="慧伴管家">
+    <link rel="manifest" href="/WiseCompanion/manifest.json">
+    <link rel="apple-touch-icon" href="/WiseCompanion/assets/icon_apple.png">
+    
+    <!-- 依赖加载 (与 bank.html 保持一致) -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="style.css"> 
-    
-    <script src="list.js"></script> 
     
     <style>
-        /* 保持深色背景和卡片样式与 index.html 一致 */
-        body { 
-            background-color: #0f172a; 
-            color: #f8f9fa; 
-            padding-bottom: 20px;
+        /* ------------------ 顶级设计师配色方案 (与 bank.html 完全一致) ------------------ */
+        :root {
+            --color-bg-dark: #0A1322; 
+            --color-card-bg: #1A2233; 
+            --color-primary: #00BFFF; /* 科技蓝 (用于支付优惠) */
+            --color-secondary: #FF69B4; /* 倒计时粉色 */
+            --color-text-light: #E0E7FF;
+            --color-text-muted: #9CA3AF;
+            --color-highlight: #FFD700; /* 高亮黄 (用于红包) */
+            --color-bank-bg: #1F2A40; /* 任务卡片背景 */
+            --color-success: #34D399; /* 成功绿 (用于任务) */
         }
-        .header-bar { 
-            background-color: #1e293b; 
-            color: #f8f9fa; 
-            padding-top: calc(10px + env(safe-area-inset-top)); 
-            padding-bottom: 10px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+
+        /* ------------------ 通用布局和颜色 (与 bank.html 完全一致) ------------------ */
+        body { 
+            background-color: var(--color-bg-dark); 
+            color: var(--color-text-light); 
+            padding-bottom: calc(85px + env(safe-area-inset-bottom)); 
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* ------------------ 顶部导航栏 (与 bank.html 完全一致) ------------------ */
+        .header-bar-fixed { 
+            padding-top: calc(15px + env(safe-area-inset-top)); 
+            padding-bottom: 5px; 
+            background-color: var(--color-bg-dark);
             position: sticky;
             top: 0;
             z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
         }
-        .activity-card { 
-            display: flex; 
-            align-items: center; 
-            padding: 15px; 
-            border-radius: 12px; 
-            background-color: #1e293b; 
-            color: #f8f9fa; 
-            text-decoration: none; 
-            border: 1px solid #334155;
-            transition: transform 0.2s; 
+
+        /* ------------------ 页面主标题卡片 (与 bank.html 完全一致) ------------------ */
+        .main-banner-card {
+            background: linear-gradient(135deg, #0f1627, #1a2233);
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            border: 3px solid transparent; 
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+            border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight));
+            border-image-slice: 1;
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.5), 0 0 30px rgba(255, 215, 0, 0.3);
+            margin-bottom: 2rem; /* 替换掉筛选器的间距 */
+            position: relative;
         }
-        .activity-card:hover { text-decoration: none; color: #f8f9fa; }
-        .activity-icon-container { 
-            width: 45px; 
-            height: 45px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            border-radius: 10px; 
-            font-size: 24px;
-            margin-right: 15px; 
+        .main-banner-card h1 {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: var(--color-text-light);
+            text-shadow: 0 0 5px var(--color-highlight);
+            margin-bottom: 5px;
         }
-        .bg-info { 
-            background: linear-gradient(45deg, #0d6efd, #00bfff); 
-            color: #fff; 
-        }
-        .activity-content { flex-grow: 1; }
-        .activity-title { font-weight: 600; font-size: 1.1rem; }
-        .activity-desc { font-size: 0.8rem; color: #94a3b8; }
         
-        /* 筛选按钮样式 */
-        .filter-button { 
-            border-radius: 20px; 
-            color: #94a3b8; 
-            border-color: #334155; 
-            transition: all 0.2s;
+        /* ------------------ (已移除 bank.html 的筛选器) ------------------ */
+
+        /* ------------------ 二级模块标题卡片 (与 bank.html 完全一致) ------------------ */
+        .section-title-card {
+            background: linear-gradient(135deg, #0f1627, #1a2233);
+            border-radius: 12px;
+            padding: 15px 20px;
+            text-align: left;
+            border: 2px solid transparent; 
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+            border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight));
+            border-image-slice: 1;
+            box-shadow: 0 0 8px rgba(0, 191, 255, 0.3);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .section-title-card h2 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--color-text-light);
+        }
+
+        .section-description {
+            color: var(--color-text-muted);
             font-size: 0.9rem;
+            margin-bottom: 1rem; 
+            padding-left: 5px;
         }
-        .filter-button.active { 
-            background-color: #0d6efd !important; 
-            color: #fff; 
-            border-color: #0d6efd !important; 
+        
+        /* ------------------ 任务活动卡片样式 (与 bank.html 完全一致) ------------------ */
+        .task-list-card {
+            background-color: var(--color-bank-bg);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            border-left: 5px solid; 
+            position: relative; /* 支撑倒计时徽章定位 */
         }
-        .filter-container-scroll {
-             overflow-x: auto;
-             white-space: nowrap;
-             -webkit-overflow-scrolling: touch;
-             padding-bottom: 5px;
+        .task-list-card:hover {
+            background-color: #25334c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
-        .filter-container-scroll::-webkit-scrollbar {
-             display: none;
+
+        /* 倒计时徽章 (与 bank.html 完全一致) */
+        .countdown-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--color-secondary);
+            color: var(--color-bg-dark);
+            padding: 4px 10px;
+            border-top-right-radius: 15px;
+            border-bottom-left-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            z-index: 5;
         }
-        .d-flex { display: flex; }
-        .me-2 { margin-right: 0.5rem; }
-        .mb-3 { margin-bottom: 1rem; }
+        .expired-badge {
+            background-color: #EF4444; /* Red for expired */
+            color: white;
+        }
+
+        /* * 【新增】为 shopping.html 增加新的强调色 
+         * (复用 bank.html 已有的颜色)
+        */
+        .task-payment-discount { border-left-color: var(--color-primary); } /* 支付优惠 - 蓝色 */
+        .task-voucher { border-left-color: var(--color-highlight); }  /* 抢红包 - 黄色 */
+        .task-mission { border-left-color: var(--color-success); }    /* 做任务 - 绿色 */
+
+        .task-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            color: var(--color-bg-dark); 
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        /* 【新增】新页面的图标背景色 */
+        .icon-payment-discount { background-color: var(--color-primary); }
+        .icon-voucher { background-color: var(--color-highlight); }
+        .icon-mission { background-color: var(--color-success); }
+
+
+        .task-content {
+            flex-grow: 1;
+            min-width: 0;
+        }
+
+        .task-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .task-subtitle {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            white-space: normal; 
+            overflow: visible;
+            text-overflow: clip;
+            line-height: 1.4;
+            margin-top: 4px;
+        }
+        
+        .task-action {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+        .action-button {
+            background-color: var(--color-primary);
+            color: var(--color-bg-dark);
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            transition: background-color 0.2s;
+            text-align: center;
+            width: 80px;
+        }
+        
+        /* ------------------ 底部导航栏样式 (与 bank.html 完全一致) ------------------ */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 60px;
+            background-color: var(--color-bg-dark);
+            border-top: 1px solid #1A2233;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            padding-bottom: env(safe-area-inset-bottom);
+            z-index: 20;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            padding: 5px;
+            flex-grow: 1;
+            max-width: 20%;
+        }
+
+        .tab-item.active {
+            /* 【注意】"省钱秘籍" 激活色使用高亮黄，使其区别于"捡钱任务"的蓝色 */
+            color: var(--color-highlight); 
+        }
+
+        .tab-icon {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+
+        /* ------------------ 顶部导航栏 Logo/返回 (与 bank.html 完全一致) ------------------ */
+        .header-logo-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+        }
+
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+        }
+
+        .back-arrow-link {
+            color: var(--color-text-light);
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            border-radius: 50%;
+            background-color: var(--color-card-bg);
+            transition: background-color 0.2s;
+        }
+        .back-arrow-link:hover {
+            background-color: #334466;
+        }
     </style>
 </head>
 <body>
 
-<div class="header-bar">
-    <div class="container d-flex align-items-center">
-        <a href="index.html" class="text-white me-3" style="font-size: 1.2rem;"><i class="fas fa-chevron-left"></i></a>
-        <h5 id="page-title" class="m-0 text-white flex-grow-1">活动列表加载中...</h5>
-    </div>
-</div>
-
-<main class="container py-3">
-    <div class="filter-container-scroll">
-        <div id="filter-container" class="mb-3 d-flex">
-            </div>
+    <!-- 顶部导航栏 (与 bank.html 完全一致) -->
+    <div class="header-bar-fixed px-4">
+        <div class="header-logo-group">
+            <img src="/WiseCompanion/assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/00BFFF/ffffff?text=L'" alt="Logo" class="header-logo rounded-md shadow-lg">
+            <h1 class="header-title">慧伴管家</h1>
+        </div>
+        <a href="/WiseCompanion/index.html" class="back-arrow-link" title="返回首页">
+            <i class="fas fa-arrow-left"></i>
+        </a>
     </div>
 
-    <div id="activity-list">
-        <div class="p-4 text-center text-gray">数据加载中，请稍候...</div>
-    </div>
-</main>
-
-<script>
-    // ----------------------------------------------------
-    // ** 核心加载逻辑 **
-    // ----------------------------------------------------
-    
-    // 检查 list.js 中的核心函数是否已定义。
-    if (typeof loadActivities === 'undefined') {
-        // 如果未定义，说明 list.js 文件加载或内容有严重问题。
-        document.addEventListener('DOMContentLoaded', () => {
-             document.getElementById('page-title').textContent = '加载失败';
-             document.getElementById('activity-list').innerHTML = 
-                `<div class="p-4 text-center text-danger">⚠️ 错误：核心脚本 list.js 未能加载或定义函数，无法连接CMS。</div>`;
-        });
-    } else {
+    <!-- 页面核心内容容器 (与 bank.html 完全一致) -->
+    <main class="container mx-auto px-4 py-4">
         
-        // 获取当前页面文件名，用于确定Category
-        const currentPath = window.location.pathname;
-        let requiredCategory = '';
-        let pageTitle = '活动列表';
+        <!-- **1. 【页面主标题卡片】 (样式复用，内容替换) ** -->
+        <div class="main-banner-card">
+            <p id="data-status-warning" class="text-sm font-semibold text-red-400 mb-3 p-2 border border-red-500 rounded-lg bg-red-900/20" style="display: none;">
+                <!-- 初始隐藏，JS中按需显示 -->
+                ⚠️ 提示：当前显示为内置模拟数据。
+            </p>
+            <!-- 【已更新】主标题 -->
+            <h1>省钱秘籍</h1>
+            <p class="text-sm text-gray-400 mt-2">聚合全网支付优惠、红包任务，让您省的更多！</p>
+        </div>
 
-        if (currentPath.includes('checkin.html')) {
-            requiredCategory = '签到';
-            pageTitle = '✨ 签到/小任务总览';
-        } else if (currentPath.includes('bank.html')) {
-            requiredCategory = '银行';
-            pageTitle = '🏦 银行优惠活动';
-        } else if (currentPath.includes('video.html')) {
-            requiredCategory = '视频';
-            pageTitle = '🎬 视频奖励总览';
-        } else if (currentPath.includes('shopping.html')) {
-            requiredCategory = '购物';
-            pageTitle = '🛍️ 购物优惠汇总';
+        
+        <!-- (已移除 bank.html 的银行筛选器) -->
+
+        
+        <!-- **【新增】1. 支付有优惠 ** -->
+        <div class="section-title-card">
+            <h2 class="flex items-center">
+                <i class="fas fa-credit-card mr-3 text-xl" style="color: var(--color-primary);"></i>
+                支付有优惠 (Payment Discounts)
+            </h2>
+        </div>
+        <p class="section-description">
+            使用指定银行卡或 App 支付，立享满减优惠。
+        </p>
+        <div id="payment-discounts-list">
+            <!-- 支付优惠加载位置 -->
+        </div>
+        
+        <!-- **【新增】2. 抢红包 / 立减金 ** -->
+        <div class="section-title-card">
+            <h2 class="flex items-center">
+                <i class="fas fa-gift mr-3 text-xl" style="color: var(--color-highlight);"></i>
+                抢红包 / 立减金 (Vouchers)
+            </h2>
+        </div>
+        <p class="section-description">
+            每日可领的平台红包和银行立减金，积少成多。
+        </p>
+        <div id="vouchers-list">
+            <!-- 红包加载位置 -->
+        </div>
+        
+        <!-- **【新增】3. 做任务领红包 ** -->
+        <div class="section-title-card">
+            <h2 class="flex items-center">
+                <i class="fas fa-list-check mr-3 text-xl" style="color: var(--color-success);"></i>
+                做任务领红包 (Mission Rewards)
+            </h2>
+        </div>
+        <p class="section-description">
+            通过签到、浏览等简单任务，换取现金或奖励。
+        </p>
+        <div id="mission-rewards-list">
+            <!-- 任务加载位置 -->
+        </div>
+        
+    </main>
+    
+    <!-- 底部导航栏 (已更新激活状态) -->
+    <nav class="tab-bar">
+        <!-- 首页 -->
+        <a href="/WiseCompanion/index.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <!-- 天天有奖 -->
+        <a href="/WiseCompanion/checkin.html" class="tab-item">
+            <i class="fas fa-gifts tab-icon"></i>
+            <span>天天有奖</span>
+        </a>
+        <!-- 看视频赚 -->
+        <a href="/WiseCompanion/video.html" class="tab-item">
+            <i class="fas fa-play-circle tab-icon"></i>
+            <span>看视频赚</span>
+        </a>
+        <!-- 捡钱任务 -->
+        <a href="/WiseCompanion/bank.html" class="tab-item">
+            <i class="fas fa-hand-holding-usd tab-icon"></i>
+            <span>捡钱任务</span>
+        </a>
+        <!-- 省钱秘籍 (当前页) -->
+        <span class="tab-item active">
+            <i class="fas fa-tags tab-icon"></i>
+            <span>省钱秘籍</span>
+        </span>
+    </nav>
+    
+    <script>
+        // ----------------------------------------------------
+        // 【新增】模拟数据 (Mock Data) - 专为 shopping.html 打造
+        // ----------------------------------------------------
+        const MOCK_SAVINGS_TASKS = [
+            // 1. 支付有优惠
+            {
+                Name: "全家便利店：满10减3元",
+                Description: "使用云闪付 App 支付，每日可享一次立减优惠。",
+                Platform: "云闪付",
+                Category: "支付有优惠",
+                Link: "#",
+                EndDate: "2025-11-10T23:59:59" // 即将过期
+            },
+            {
+                Name: "物美超市：满20减10元",
+                Description: "使用支付宝绑定邮储银行卡支付，每周六可用。",
+                Platform: "支付宝 / 邮储银行",
+                Category: "支付有优惠",
+                Link: "#",
+                EndDate: "2025-12-31T23:59:59"
+            },
+            
+            // 2. 抢红包 / 立减金
+            {
+                Name: "支付宝：每日领红包",
+                Description: "每日可领最高 88 元实体店通用红包，消费时自动抵扣。",
+                Platform: "支付宝",
+                Category: "抢红包 / 立减金",
+                Link: "#",
+                EndDate: "2026-01-31T23:59:59"
+            },
+            {
+                Name: "微信支付：摇一摇免单",
+                Description: "在指定商户使用微信支付后，可参与摇一摇抽奖，最高免单。",
+                Platform: "微信支付",
+                Category: "抢红包 / 立减金",
+                Link: "#",
+                EndDate: "2025-11-30T23:59:59"
+            },
+
+            // 3. 做任务领红包
+            {
+                Name: "招商银行：App 每日答题",
+                Description: "任务：每日答对 3 题，随机获得 0.5~5 元支付宝立减金。",
+                Platform: "招商银行",
+                Category: "做任务领红包",
+                Link: "#",
+                EndDate: "2025-12-31T23:59:59"
+            },
+            {
+                Name: "抖音极速版：看视频领金币",
+                Description: "任务：每日观看视频累计时长，金币可兑换现金红包。",
+                Platform: "抖音极速版",
+                Category: "做任务领红包",
+                Link: "#",
+                EndDate: "2026-03-31T23:59:59"
+            }
+        ];
+
+        // ----------------------------------------------------
+        // (复用 bank.html 的渲染和倒计时逻辑，稍作修改)
+        // ----------------------------------------------------
+
+        // 步骤 1: 筛选和渲染活动的主入口
+        function loadAndRenderActivities() {
+            // 1. 初始渲染 (移除 bank filter)
+            renderActivities();
+            
+            // 2. 启动倒计时更新器
+            startCountdownUpdater();
+
+            // 3. 显示模拟数据提示
+            document.getElementById('data-status-warning').style.display = 'block';
+        }
+        
+        // (已移除 bank.html 的 initBankFilters)
+
+        // 步骤 2: 渲染活动到对应的 DOM 容器
+        function renderActivities() {
+            // 【注意】使用新的 MOCK_SAVINGS_TASKS 数据
+            const filteredActivities = MOCK_SAVINGS_TASKS; 
+
+            // 1. 【注意】使用新的 DOM 容器 ID
+            const lists = {
+                '支付有优惠': document.getElementById('payment-discounts-list'),
+                '抢红包 / 立减金': document.getElementById('vouchers-list'),
+                '做任务领红包': document.getElementById('mission-rewards-list')
+            };
+            Object.values(lists).forEach(list => list.innerHTML = '');
+
+            // 2. 遍历并渲染
+            const hasActivities = { '支付有优惠': false, '抢红包 / 立减金': false, '做任务领红包': false };
+            
+            filteredActivities.forEach((activity, index) => {
+                const category = activity.Category;
+                const targetList = lists[category];
+
+                if (!targetList) return; // 跳过未知类别
+                
+                hasActivities[category] = true;
+                
+                const cardHtml = renderActivityCard(activity, index);
+                targetList.innerHTML += cardHtml;
+            });
+            
+            // 3. 处理空列表提示
+            Object.keys(lists).forEach(category => {
+                if (!hasActivities[category]) {
+                    lists[category].innerHTML = `<p class="text-gray-400 text-center p-4">该分类下暂无活动。</p>`;
+                }
+            });
+        }
+        
+        // 步骤 3: 单个活动卡片的 HTML 生成
+        function renderActivityCard(activity, index) {
+            // 【注意】使用新的分类 class
+            const categoryClass = {
+                '支付有优惠': 'task-payment-discount',
+                '抢红包 / 立减金': 'task-voucher',
+                '做任务领红包': 'task-mission'
+            }[activity.Category] || 'task-payment-discount';
+
+            // 【注意】使用新的图标 class
+            const iconClass = {
+                '支付有优惠': 'icon-payment-discount',
+                '抢红包 / 立减金': 'icon-voucher',
+                '做任务领红包': 'icon-mission'
+            }[activity.Category] || 'icon-payment-discount';
+            
+            // 【注意】使用新的 FA 图标
+            const iconFa = {
+                '支付有优惠': 'fa-credit-card',
+                '抢红包 / 立减金': 'fa-gift',
+                '做任务领红包': 'fa-list-check'
+            }[activity.Category] || 'fa-piggy-bank';
+
+            // 【注意】统一按钮文字
+            const actionButtonText = activity.Category === '做任务领红包' ? '去完成' : '去领取';
+
+            return `
+                <a href="${activity.Link || '#'}" target="_blank" class="task-list-card ${categoryClass}">
+                    <!-- 倒计时徽章 -->
+                    <span class="countdown-badge" data-endtime="${activity.EndDate}" id="timer-${index}">
+                        计算中...
+                    </span>
+
+                    <div class="task-icon ${iconClass}">
+                        <i class="fa-solid ${iconFa}"></i>
+                    </div>
+                    <div class="task-content">
+                        <div class="task-title">${activity.Name || '活动名称缺失'}</div>
+                        <!-- 【注意】副标题显示平台 -->
+                        <div class="task-subtitle">平台：${activity.Platform} | ${activity.Description || '暂无详细描述。'}</div>
+                    </div>
+                    <div class="task-action">
+                        <span class="action-button">${actionButtonText}</span>
+                    </div>
+                </a>
+            `;
         }
 
-        // 设置页面标题
-        document.getElementById('page-title').textContent = pageTitle;
+        // ----------------------------------------------------
+        // 步骤 4: 倒计时功能 (与 bank.html 完全一致，无需修改)
+        // ----------------------------------------------------
 
-        // 异步加载和渲染
-        document.addEventListener('DOMContentLoaded', async () => {
-            const data = await loadActivities();
-            
-            if (data && data.length > 0) {
-                // 1. 过滤出当前页面需要的活动列表
-                const initialActivities = filterActivities(requiredCategory);
-                
-                // 2. 渲染筛选按钮并绑定事件 (会触发第一次渲染)
-                // 确保 renderAppFilters, filterActivities, renderActivities 都在 list.js 中
-                if (typeof renderAppFilters !== 'undefined') {
-                    renderAppFilters(initialActivities, requiredCategory, 'filter-container', 'activity-list');
-                } else {
-                    // 如果筛选函数未定义，至少渲染出未经筛选的列表
-                    renderActivities(initialActivities, 'activity-list');
-                }
-            } else {
-                 document.getElementById('activity-list').innerHTML = `<div class="p-4 text-center text-gray">当前类别暂无活动，请在 Airtable 中添加数据。</div>`;
+        // 倒计时计算函数
+        function getRemainingTime(endDateString, badgeElement) {
+            const now = new Date().getTime();
+            const end = new Date(endDateString).getTime();
+            const distance = end - now;
+
+            if (distance < 0) {
+                // 已过期
+                badgeElement.textContent = '已过期';
+                badgeElement.classList.add('expired-badge');
+                return;
             }
-        });
-    }
-</script>
+            
+            // 计算时间单位
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // 格式化输出 (只显示天和小时，或不足一天的显示小时和分钟)
+            let timeString = '';
+            if (days > 0) {
+                timeString = `${days} 天 ${hours} 时`;
+            } else if (hours > 0) {
+                timeString = `${hours} 时 ${minutes} 分`;
+            } else {
+                timeString = `${minutes} 分 ${seconds} 秒`;
+            }
+
+            badgeElement.textContent = `剩余 ${timeString}`;
+            badgeElement.classList.remove('expired-badge');
+        }
+
+        // 倒计时启动器
+        function startCountdownUpdater() {
+            // 立即执行一次
+            updateAllCountdowns();
+
+            // 每秒更新一次所有倒计时
+            setInterval(updateAllCountdowns, 1000);
+        }
+
+        // 更新页面上所有倒计时徽章
+        function updateAllCountdowns() {
+            const timerElements = document.querySelectorAll('.countdown-badge');
+            timerElements.forEach(badge => {
+                const endDate = badge.getAttribute('data-endtime');
+                if (endDate) {
+                    getRemainingTime(endDate, badge);
+                }
+            });
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', loadAndRenderActivities);
+    </script>
 
 </body>
 </html>
