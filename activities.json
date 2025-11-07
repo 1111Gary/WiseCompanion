@@ -1,90 +1,78 @@
 [
   {
-    "id": "recTestCheckin1",
-    "name": "微信支付：每日签到得立减金 (微信支付)",
-    "description": "介绍: 每日签到，随机获得 0.01~3.88 元立减金。每日必做，积少成多。 | 玩法: 微信支付 > 首页搜索【微信支付有优惠】进入，点击【免费领取】完成签到。",
-    "platform": "微信支付",
-    "section": "日常活动 (Routine Tasks)",
-    "category": "checkin",
-    "countdown_days": 14,
-    "status": "pending",
-    "link": "https://wx.tenpay.com/payactsuite/actpage/discount/home.shtml"
+    "id": "rec2hPYI5LxSXyTUk",
+    "name": "网上国网APP签到",
+    "description": "每日签到领金币换电费优惠券",
+    "icon": "🏡",
+    "deepLink": "#",
+    "category": [
+      "CheckIn"
+    ],
+    "sourceApp": "网上国网APP",
+    "specialNote": null,
+    "targetApp": "网上国网APP"
   },
   {
-    "id": "recTestCheckin2",
-    "name": "支付宝：蚂蚁庄园喂鸡 (支付宝)",
-    "description": "介绍: 每日爱心早报、收饲料、喂小鸡即可。 | 玩法: 支付宝 App > 首页搜索【蚂蚁庄园】进入，点击收饲料、喂食。",
-    "platform": "支付宝",
-    "section": "日常活动 (Routine Tasks)",
-    "category": "checkin",
-    "countdown_days": 55,
-    "status": "completed",
-    "link": "https://ds.alipay.com/"
+    "id": "recDS8C3fC34GdeJQ",
+    "name": "中国建设银行APP签到",
+    "description": "每日签到领金币开宝箱抽微信立减金",
+    "icon": "🍔",
+    "deepLink": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=b7fbcbdcf9814297bdb479ebcd224419",
+    "category": [
+      "CheckIn"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP"
   },
   {
-    "id": "recTestBank1",
-    "name": "招商银行：App 每日答题 (招商银行)",
-    "description": "介绍: 每日参与 3 题，随机可获得 0.5~3 元碎片或宝石奖励，直接入账。 | 玩法: 招商银行 App > 首页搜索【每日答题】进入。",
-    "platform": "招商银行",
-    "section": "日常活动 (Routine Tasks)",
-    "category": "bank",
-    "countdown_days": 55,
-    "status": "pending",
-    "link": "https://www.cmbchina.com/"
+    "id": "recHsykt7FWAjum3F",
+    "name": "支付宝APP碰一下签到",
+    "description": "连续签到14天得3元碰一下红包",
+    "icon": "💰",
+    "deepLink": "cmbt://...",
+    "category": [
+      "CheckIn"
+    ],
+    "sourceApp": "支付宝APP",
+    "specialNote": null,
+    "targetApp": "支付宝APP"
   },
   {
-    "id": "recTestBank2",
-    "name": "建设银行：周末美食优惠券 (建设银行)",
-    "description": "介绍: 每周末餐饮门店优惠，在指定商户消费享受满 80 减 10 元。 | 玩法: 建设银行 App > 首页搜索【本地生活】进入。",
-    "platform": "建设银行",
-    "section": "日常活动 (Routine Tasks)",
-    "category": "bank",
-    "countdown_days": 4,
-    "status": "pending",
-    "link": "https://www.ccb.com/cn/v3/index.html"
+    "id": "recnzm5APSC2uy69A",
+    "name": "无标题活动",
+    "description": "暂无描述",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "目标 App"
   },
   {
-    "id": "recTestVideo1",
-    "name": "快手 App：观看指定视频 60 秒",
-    "description": "介绍: 观看视频 60 秒即可获得奖励。 | 玩法: 打开快手 App 内部活动页面。",
-    "platform": "快手 App",
-    "section": "每日精选活动",
-    "category": "video",
-    "countdown_days": 0,
-    "status": "pending",
-    "link": "https://www.kuaishou.com/"
+    "id": "recs5dX12KSsFUCEj",
+    "name": "多多视频",
+    "description": "看视频领金币，20元可提现微信",
+    "icon": "🛍️",
+    "deepLink": "https://mobile.yangkeduo.com/fyxmkief.html?_wv=41729&_wvx=10&needs_login=1&page_from=602277&shared_time=1759091032353&shared_sign=6d3c3575f68f63d9e6513732523467d8&invite_round_id=invite_money_1_10&channel=1&mission_code=invite&refer_share_uin=FOXYC5DMBVEMOFAZ6VIPQTZ4UI_GEXDA&activity_code=invite_money&feed_id=6749271945980328977&new_ui=1&refer_share_id=h5bepploxprsgd78xcrahpm14x4kbffe&refer_share_channel=message&__wls_rt=1&__wls_lt=1&__wls_fm=n",
+    "category": [
+      "Video"
+    ],
+    "sourceApp": "拼多多",
+    "specialNote": null,
+    "targetApp": "拼多多"
   },
   {
-    "id": "recTestShopping1",
-    "name": "淘宝 App：逛逛赚猫猫",
-    "description": "介绍: 逛店铺、浏览商品等即可获得淘宝喵币。 | 玩法: 淘宝 App 首页进入。",
-    "platform": "淘宝 App",
-    "section": "省钱购物任务",
-    "category": "shopping",
-    "countdown_days": 0,
-    "status": "completed",
-    "link": "https://www.taobao.com/"
-  },
-  {
-    "id": "recTestPayment1",
-    "name": "工商银行：信用卡还款立减金 (工商银行)",
-    "description": "介绍: 使用工行 App 首次还款满 1000 元，立减 5 元，每月限一次。 | 玩法: 工商银行 App > 信用卡还款。",
-    "platform": "工商银行",
-    "section": "缴费活动 (Payment Tasks)",
-    "category": "bank",
-    "countdown_days": 55,
-    "status": "pending",
-    "link": "http://www.icbc.com.cn/icbc/en/default.htm"
-  },
-  {
-    "id": "recTestPayment2",
-    "name": "支付宝：月度缴费积分 (支付宝)",
-    "description": "介绍: 每月使用支付宝进行水、电、燃、话费等缴费活动，根据次数和额度获得积分。 | 玩法: 支付宝 App > 首页搜索【生活缴费】。",
-    "platform": "支付宝",
-    "section": "缴费活动 (Payment Tasks)",
-    "category": "bank",
-    "countdown_days": 14,
-    "status": "pending",
-    "link": "https://ds.alipay.com/"
+    "id": "rectnNcX8juUmHqxQ",
+    "name": "中国银行APP签到",
+    "description": "福仔云游记连续签到7天得2支付宝红包",
+    "icon": "✨",
+    "deepLink": "pdd://checkin...",
+    "category": [
+      "CheckIn"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP"
   }
 ]
