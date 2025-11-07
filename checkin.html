@@ -6,12 +6,14 @@
     <!-- 页面标题 -->
     <title>慧伴管家 - 天天有奖</title>
     
-    <!-- PWA/移动端配置 (省略，保持不变) -->
+    <!-- PWA/移动端配置 -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="慧伴管家">
-    <link rel="manifest" href="/WiseCompanion/manifest.json">
-    <link rel="apple-touch-icon" href="/WiseCompanion/assets/icon_apple.png">
+    <!-- 修正 manifest.json 路径 -->
+    <link rel="manifest" href="./manifest.json">
+    <!-- 修正 apple-touch-icon 路径 -->
+    <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     
     <!-- 依赖加载 -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -230,15 +232,17 @@
     </style>
 </head>
 
-<body data-category="CheckIn"> <!-- 【修正点 1: 确保只有一个 body 标签，且在这里定义 data-category】 -->
+<body data-category="CheckIn">
     
     <!-- 顶部导航栏 -->
     <div class="header-bar-fixed px-4">
         <div class="header-logo-group">
-            <img src="/WiseCompanion/assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/FFD700/0A1322?text=G'" alt="Logo" class="header-logo rounded-md shadow-lg">
+            <!-- 修正 logo 路径：使用 ./assets/icon_apple.png -->
+            <img src="./assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/FFD700/0A1322?text=G'" alt="Logo" class="header-logo rounded-md shadow-lg">
             <h1 class="header-title">慧伴管家</h1>
         </div>
-        <a href="/WiseCompanion/index.html" class="back-arrow-link" title="返回首页">
+        <!-- 修正返回首页路径 -->
+        <a href="./index.html" class="back-arrow-link" title="返回首页">
             <i class="fas fa-arrow-left"></i>
         </a>
     </div>
@@ -249,7 +253,7 @@
         <!-- **1. 页面主标题卡片 ** -->
         <div class="main-banner-card">
             <p id="data-status-warning" class="text-sm font-semibold text-red-400 mb-3 p-2 border border-red-500 rounded-lg bg-red-900/20">
-                ⚠️ 提示：当前显示为内置模拟数据。
+                ⚠️ 提示：数据加载中...
             </p>
             <h1>天天有奖 - 一键签到直达</h1>
             <p class="text-sm text-gray-400 mt-2">点击下方按钮，直接跳转到对应 App 签到页面，轻松领奖！</p>
@@ -269,8 +273,8 @@
                 <i class="fas fa-info-circle mr-2"></i> 操作说明
             </h2>
             <ul class="text-sm text-gray-400 list-disc ml-4 space-y-2">
-                <li>点击 **“去签到”** 按钮，将自动打开该平台 App 的签到页面。</li>
-                <li>签到完成后，请手动返回慧伴管家 App，并点击 **“已完成”** 更新状态。</li>
+                <li>点击 **“去参与”** 按钮，将自动打开该平台 App 的签到页面。</li>
+                <li>完成任务后，状态管理（如果未来实现）将更新为 **“已完成”**。</li>
                 <li>每日任务状态会在次日自动重置。</li>
             </ul>
         </div>
@@ -279,8 +283,8 @@
     
     <!-- 底部导航栏 (已更新名称和激活状态) -->
     <nav class="tab-bar">
-        <!-- 首页 -->
-        <a href="/WiseCompanion/index.html" class="tab-item">
+        <!-- 首页 (修正路径) -->
+        <a href="./index.html" class="tab-item">
             <i class="fas fa-home tab-icon"></i>
             <span>首页</span>
         </a>
@@ -289,28 +293,26 @@
             <i class="fas fa-gifts tab-icon"></i>
             <span>天天有奖</span>
         </span>
-        <!-- 看视频赚 -->
-        <a href="/WiseCompanion/video.html" class="tab-item">
+        <!-- 看视频赚 (修正路径) -->
+        <a href="./video.html" class="tab-item">
             <i class="fas fa-play-circle tab-icon"></i>
             <span>看视频赚</span>
         </a>
-        <!-- 捡钱任务 -->
-        <a href="/WiseCompanion/bank.html" class="tab-item">
+        <!-- 捡钱任务 (修正路径) -->
+        <a href="./bank.html" class="tab-item">
             <i class="fas fa-hand-holding-usd tab-icon"></i>
             <span>捡钱任务</span>
             </a>
-        <!-- 省钱秘籍 -->
-        <a href="/WiseCompanion/shopping.html" class="tab-item">
+        <!-- 省钱秘籍 (修正路径) -->
+        <a href="./shopping.html" class="tab-item">
             <i class="fas fa-tags tab-icon"></i>
             <span>省钱秘籍</span>
         </a>
     </nav>
 
-    <!-- 【修正点 2: 移除了旧的 MOCK_DAILY_TASKS 脚本】 -->
-    <!-- 【修正点 3: 将 list.js 放在 body 底部，确保 DOM 完全加载后再运行】 -->
-    <script src="../list.js"></script> 
+    <!-- 【关键修正点】: list.js 在同一目录下，使用 ./ 引用 -->
+    <script src="./list.js"></script> 
     
-    <!-- 【修正点 4: 移除了旧的 showGoToAppMessage 和 showConfirmationMessage 函数，这些逻辑已迁移到 list.js】 -->
 
 </body>
 </html>
