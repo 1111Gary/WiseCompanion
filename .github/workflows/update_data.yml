@@ -1,54 +1,85 @@
-# .github/workflows/update_data.yml
-name: 自动更新 Airtable 数据并提交
+name: Update Airtable Data and Deploy Pages
 
 on:
   push:
     branches:
-      - main
-  # 允许手动在 GitHub 页面上触发这个工作流
-  workflow_dispatch:
+      - main # 1. 当您推送到 main 分支时触发
+  workflow_dispatch: # 2. 允许您在 GitHub Actions 页面手动触发
+  schedule:
+    - cron: '0 0 * * *' # 3. 每天凌晨0点 (UTC时间) 自动运行
+
+# 权限设置：允许读写代码和部署页面
+permissions:
+  contents: write # 允许 Action 修改仓库内容 (写入 activities.json)
+  pages: write  
+  id-token: write 
 
 jobs:
-  update_data:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }} # 部署后输出 URL
 
     steps:
-      - name: 检出代码 (Checkout repository)
+      # 步骤 1: 检出代码
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
-          # 允许 GitHub Action 提交更改
-          token: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: 设置 Node.js 环境 (Setup Node.js)
+          persist-credentials: false # 我们将使用 GITHUB_TOKEN
+
+      # 步骤 2: 设置 Node.js 环境
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '20' 
+      
+      # 步骤 3: 安装依赖 (package.json 中的 node-fetch)
+      - name: Install dependencies
+        run: npm install
 
-      - name: 安装依赖 (Install dependencies)
-        # 假设您的项目需要安装 node-fetch
-        run: npm install node-fetch
-
-      - name: 运行数据抓取脚本 (Run data fetch script)
-        # 这一步将执行 fetch-data.js，并将生成的 activities.json 提交回仓库
+      # ----------------------------------------------------
+      # 步骤 4: 运行脚本从 Airtable 获取数据
+      # ----------------------------------------------------
+      - name: Fetch data from Airtable and save as JSON
         run: node fetch-data.js
         env:
-          # ⚠️ 【关键】将新的 PAT 和 BASE_ID 作为环境变量传入脚本
-          # 这些值来自您在 GitHub Secret 中设置的内容
-          AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
+          # 使用您在 GitHub Settings -> Secrets 中设置的密钥
+          # 这会传递给 fetch-data.js 中的 process.env.AIRTABLE_PAT
+          AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }} 
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
 
-      - name: 提交更新后的 activities.json (Commit updated data)
+      # ----------------------------------------------------
+      # 步骤 5: 提交更新后的 activities.json
+      # ----------------------------------------------------
+      - name: Commit and push if data changed
         run: |
-          # 配置 Git 身份
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           
-          # 检查 activities.json 是否有实际变化
-          if git diff --exit-code activities.json; then
-            echo "activities.json 没有变化，无需提交。"
-          else
+          # 检查 activities.json 是否有变化
+          if ! git diff --quiet activities.json; then
+            echo "Data changed. Committing new activities.json..."
             git add activities.json
-            git commit -m "chore: 自动更新 Airtable 数据 [skip ci]"
-            git push
-            echo "已提交新的 activities.json。"
+            git commit -m "chore: [CI] 自动更新 Airtable 活动数据"
+            # 使用 GITHUB_TOKEN 推送
+            git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:${{ github.ref_name }}
+          else
+            echo "No data changes detected in activities.json."
           fi
+
+      # ----------------------------------------------------
+      # 步骤 6: 部署到 GitHub Pages
+      # ----------------------------------------------------
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        # 上传当前目录下所有文件，包括新生成的 activities.json 和所有 HTML 页面
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: . 
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
