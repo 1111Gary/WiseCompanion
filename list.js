@@ -1,7 +1,7 @@
 /**
  * list.js - 活动列表核心逻辑 (前端客户端)
  * 职责：
- * 1. 从 ../activities.json (根目录) 加载数据。
+ * 1. 从 ./activities.json (同目录) 加载数据。
  * 2. 根据当前 HTML 页面的 data-category 属性，过滤活动。
  * 3. 渲染活动卡片，样式与 HTML 模板一致。
  */
@@ -35,7 +35,7 @@ async function fetchWithRetry(url, options, maxRetries = 3) {
             const response = await fetch(url, options);
             if (!response.ok) {
                 if (response.status === 404) {
-                    throw new Error(`错误 404: 未找到 '${url}' 文件。请确保 GitHub Action 已成功运行并生成了此文件在根目录。`);
+                    throw new Error(`错误 404: 未找到 '${url}' 文件。请确保 'activities.json' 文件存在于同目录。`);
                 }
                 throw new Error(`HTTP 错误! Status: ${response.status}`);
             }
@@ -64,11 +64,8 @@ async function fetchWithRetry(url, options, maxRetries = 3) {
  */
 async function loadActivities() {
     
-    // 【关键修正】
-    // 您的 HTML 页面位于 /WiseCompanion/ 目录中。
-    // 您的 activities.json 位于 / (根目录) 中。
-    // 因此，HTML 页面必须使用 '../activities.json' 路径来访问它。
-    const filePath = '../activities.json'; 
+    // 【关键修正】: 所有文件都在同一目录下，使用相对路径 ./
+    const filePath = './activities.json'; 
 
     const listContainer = document.getElementById('daily-tasks-list'); // 对应您 checkin.html 的 ID
     if (listContainer) {
@@ -172,8 +169,8 @@ function renderActivityCard(activity) {
  * @param {HTMLElement} listContainer - 目标 DOM 容器
  */
 function renderFilteredActivities(targetCategoryEn, listContainer) {
-    if (!window.allActivitiesCache) {
-        listContainer.innerHTML = `<p class="text-gray-400 text-center p-4">数据尚未加载。</p>`;
+    if (!window.allActivitiesCache || window.allActivitiesCache.length === 0) {
+        listContainer.innerHTML = `<p class="text-gray-400 text-center p-4">数据为空或加载失败，请检查 activities.json 文件。</p>`;
         return;
     }
 
@@ -185,7 +182,7 @@ function renderFilteredActivities(targetCategoryEn, listContainer) {
     console.log(`[Render] 过滤 '${targetCategoryEn}': 找到 ${filteredActivities.length} 条活动。`);
 
     if (filteredActivities.length === 0) {
-        listContainer.innerHTML = `<p class="text-gray-400 text-center p-4">当前分类 (${targetCategoryEn}) 暂无活动。</p>`;
+        listContainer.innerHTML = `<p class="text-gray-400 text-center p-4">当前分类 (${CATEGORY_DISPLAY_MAP[targetCategoryEn] || targetCategoryEn}) 暂无活动。</p>`;
     } else {
         const html = filteredActivities.map(renderActivityCard).join('');
         listContainer.innerHTML = html;
