@@ -1,90 +1,54 @@
-[
-  {
-    "id": "recTestCheckin1",
-    "name": "微信支付：每日签到得立减金 (微信支付)",
-    "description": "介绍: 每日签到，随机获得 0.01~3.88 元立减金。每日必做，积少成多。 | 玩法: 微信支付 > 首页搜索【微信支付有优惠】进入，点击【免费领取】完成签到。",
-    "platform": "微信支付",
-    "section": "日常活动 (Routine Tasks)",
-    "category": "checkin",
-    "countdown_days": 14,
-    "status": "pending",
-    "link": "https://wx.tenpay.com/payactsuite/actpage/discount/home.shtml"
-  },
-  {
-    "id": "recTestCheckin2",
-    "name": "支付宝：蚂蚁庄园喂鸡 (支付宝)",
-    "description": "介绍: 每日爱心早报、收饲料、喂小鸡即可。 | 玩法: 支付宝 App > 首页搜索【蚂蚁庄园】进入，点击收饲料、喂食。",
-    "platform": "支付宝",
-    "section": "日常活动 (Routine Tasks)",
-    "category": "checkin",
-    "countdown_days": 55,
-    "status": "completed",
-    "link": "https://ds.alipay.com/"
-  },
-  {
-    "id": "recTestBank1",
-    "name": "招商银行：App 每日答题 (招商银行)",
-    "description": "介绍: 每日参与 3 题，随机可获得 0.5~3 元碎片或宝石奖励，直接入账。 | 玩法: 招商银行 App > 首页搜索【每日答题】进入。",
-    "platform": "招商银行",
-    "section": "日常活动 (Routine Tasks)",
-    "category": "bank",
-    "countdown_days": 55,
-    "status": "pending",
-    "link": "https://www.cmbchina.com/"
-  },
-  {
-    "id": "recTestBank2",
-    "name": "建设银行：周末美食优惠券 (建设银行)",
-    "description": "介绍: 每周末餐饮门店优惠，在指定商户消费享受满 80 减 10 元。 | 玩法: 建设银行 App > 首页搜索【本地生活】进入。",
-    "platform": "建设银行",
-    "section": "日常活动 (Routine Tasks)",
-    "category": "bank",
-    "countdown_days": 4,
-    "status": "pending",
-    "link": "https://www.ccb.com/cn/v3/index.html"
-  },
-  {
-    "id": "recTestVideo1",
-    "name": "快手 App：观看指定视频 60 秒",
-    "description": "介绍: 观看视频 60 秒即可获得奖励。 | 玩法: 打开快手 App 内部活动页面。",
-    "platform": "快手 App",
-    "section": "每日精选活动",
-    "category": "video",
-    "countdown_days": 0,
-    "status": "pending",
-    "link": "https://www.kuaishou.com/"
-  },
-  {
-    "id": "recTestShopping1",
-    "name": "淘宝 App：逛逛赚猫猫",
-    "description": "介绍: 逛店铺、浏览商品等即可获得淘宝喵币。 | 玩法: 淘宝 App 首页进入。",
-    "platform": "淘宝 App",
-    "section": "省钱购物任务",
-    "category": "shopping",
-    "countdown_days": 0,
-    "status": "completed",
-    "link": "https://www.taobao.com/"
-  },
-  {
-    "id": "recTestPayment1",
-    "name": "工商银行：信用卡还款立减金 (工商银行)",
-    "description": "介绍: 使用工行 App 首次还款满 1000 元，立减 5 元，每月限一次。 | 玩法: 工商银行 App > 信用卡还款。",
-    "platform": "工商银行",
-    "section": "缴费活动 (Payment Tasks)",
-    "category": "bank",
-    "countdown_days": 55,
-    "status": "pending",
-    "link": "http://www.icbc.com.cn/icbc/en/default.htm"
-  },
-  {
-    "id": "recTestPayment2",
-    "name": "支付宝：月度缴费积分 (支付宝)",
-    "description": "介绍: 每月使用支付宝进行水、电、燃、话费等缴费活动，根据次数和额度获得积分。 | 玩法: 支付宝 App > 首页搜索【生活缴费】。",
-    "platform": "支付宝",
-    "section": "缴费活动 (Payment Tasks)",
-    "category": "bank",
-    "countdown_days": 14,
-    "status": "pending",
-    "link": "https://ds.alipay.com/"
-  }
-]
+# .github/workflows/update_data.yml
+name: 自动更新 Airtable 数据并提交
+
+on:
+  push:
+    branches:
+      - main
+  # 允许手动在 GitHub 页面上触发这个工作流
+  workflow_dispatch:
+
+jobs:
+  update_data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出代码 (Checkout repository)
+        uses: actions/checkout@v4
+        with:
+          # 允许 GitHub Action 提交更改
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: 设置 Node.js 环境 (Setup Node.js)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 安装依赖 (Install dependencies)
+        # 假设您的项目需要安装 node-fetch
+        run: npm install node-fetch
+
+      - name: 运行数据抓取脚本 (Run data fetch script)
+        # 这一步将执行 fetch-data.js，并将生成的 activities.json 提交回仓库
+        run: node fetch-data.js
+        env:
+          # ⚠️ 【关键】将新的 PAT 和 BASE_ID 作为环境变量传入脚本
+          # 这些值来自您在 GitHub Secret 中设置的内容
+          AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+
+      - name: 提交更新后的 activities.json (Commit updated data)
+        run: |
+          # 配置 Git 身份
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # 检查 activities.json 是否有实际变化
+          if git diff --exit-code activities.json; then
+            echo "activities.json 没有变化，无需提交。"
+          else
+            git add activities.json
+            git commit -m "chore: 自动更新 Airtable 数据 [skip ci]"
+            git push
+            echo "已提交新的 activities.json。"
+          fi
