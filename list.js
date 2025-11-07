@@ -1,48 +1,40 @@
+/**
+ * list.js - 活动列表核心逻辑 (前端客户端)
+ * 职责：
+ * 1. 从 activities.json 加载数据 (使用指数退避确保稳定性)。
+ * 2. 根据 URL 路径（文件名）确定的中文主分类进行过滤。
+ * 3. 渲染 SourceApp (来源应用) 二级筛选按钮并处理点击事件。
+ * 4. 使用 Bootstrap 样式渲染活动卡片。
+ */
+
+const activitiesFilePath = 'activities.json';
+window.allActivities = []; // 全局存储所有活动数据
+
 // --------------------------------------------------------------------------------
-// Firebase Setup (No changes needed, keeping placeholders for consistency)
+// 核心配置与映射
 // --------------------------------------------------------------------------------
 
-const apiKey = ""; // ⚠️ 警告: 真实部署时，请确保此密钥由安全机制注入，不要在此处硬编码您的真实密钥。
-const baseId = "appvB8wO0F8F1Vz9W"; // 替换为你的 Base ID
-const tableName = "Activity List"; // 替换为你的 Table Name
-const apiUrl = `https://api.airtable.com/v0/${baseId}/${tableName}`;
-const activitiesFilePath = 'activities.json'; // 用于 GitHub Pages 的缓存文件路径
-
-// --------------------------------------------------------------------------------
-// 核心配置：中文 Airtable 标签与英文 URL Hash 的映射关系
-// --------------------------------------------------------------------------------
-
-// 目标英文标签（用于 URL Hash 和过滤）
-const TARGET_CATEGORIES = {
-    'CheckIn': '签到',
-    'Bank': '银行',
-    'Video': '视频',
-    'Shopping': '购物'
-};
-
-// 实际 Airtable 中文标签到目标英文标签的映射
-// 根据您提供的截图，您的 Airtable 字段值是中文，因此我们需要这个映射来统一数据格式。
-const CATEGORY_MAP = {
+// 定义中文分类（来自文件名/HTML）到英文 URL/数据标签（来自 activities.json）的映射
+const CHINESE_TO_ENGLISH_MAP = {
     '签到': 'CheckIn',
     '银行': 'Bank',
     '视频': 'Video',
-    '购物': 'Shopping',
-    // 确保所有可能出现的中文标签都在这里映射到对应的大写英文标签
+    '购物': 'Shopping'
 };
 
-
 // --------------------------------------------------------------------------------
-// 辅助函数：从 AirTable 加载数据
+// 辅助函数：数据加载 (保持指数退避)
 // --------------------------------------------------------------------------------
 
-// 实现指数退避的 fetch 函数
+/**
+ * 实现指数退避的 fetch 函数，用于增加加载稳定性
+ */
 async function fetchWithRetry(url, options, maxRetries = 5) {
     for (let i = 0; i < maxRetries; i++) {
         try {
             const response = await fetch(url, options);
             if (!response.ok) {
-                // 仅对 4xx/5xx 错误抛出异常，以便重试
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
             return response;
         } catch (error) {
@@ -51,221 +43,213 @@ async function fetchWithRetry(url, options, maxRetries = 5) {
                 const delay = Math.pow(2, i) * 1000;
                 await new Promise(resolve => setTimeout(resolve, delay));
             } else {
-                throw error; // 最后一次尝试失败，向上抛出
+                throw error;
             }
         }
     }
 }
 
-// 从 AirTable 获取数据并保存为 JSON 文件 (此函数主要用于后端或构建脚本)
-async function fetchAndCacheActivities() {
-    console.log("尝试从 AirTable 获取数据...");
-    const headers = new Headers({
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-    });
-
-    const options = {
-        method: 'GET',
-        headers: headers
-    };
-
-    try {
-        const response = await fetchWithRetry(apiUrl, options);
-        const data = await response.json();
-        const activities = data.records.map(record => {
-            // 确保 category 是一个数组，并且将 Airtable 中的中文值映射成英文值
-            let category = [];
-            const rawCategories = record.fields.Category;
-
-            if (Array.isArray(rawCategories)) {
-                // 遍历 Airtable 中的中文标签，并映射成大写英文标签
-                category = rawCategories
-                    .map(c => CATEGORY_MAP[c.trim()] || c.trim()) // 使用 CATEGORY_MAP 进行映射
-                    .filter(c => c); // 过滤掉无效值
-            } else if (rawCategories) {
-                 // 处理单个标签的情况
-                const mappedCategory = CATEGORY_MAP[rawCategories.trim()] || rawCategories.trim();
-                if (mappedCategory) {
-                    category.push(mappedCategory);
-                }
-            }
-            
-            return {
-                id: record.id,
-                name: record.fields.Name || '无名称',
-                description: record.fields.Description || '暂无描述',
-                icon: record.fields.Icon || '', 
-                deepLink: record.fields.DeepLink || '#',
-                category: category, // **此处现在是统一后的英文标签**，例如 ['CheckIn', 'Bank']
-                sourceApp: record.fields.SourceApp || '未知来源',
-                specialNote: record.fields.SpecialNote || ''
-            };
-        });
-
-        return activities;
-    } catch (error) {
-        console.error("从 AirTable 获取数据失败:", error);
-        return null;
-    }
-}
-
-// --------------------------------------------------------------------------------
-// 辅助函数：从本地 JSON 文件加载数据 (用于前端加载)
-// --------------------------------------------------------------------------------
-
+/**
+ * 从本地 JSON 文件加载数据
+ * @returns {Array} 活动列表数组
+ */
 async function loadActivities() {
-    console.log(`尝试从本地 ${activitiesFilePath} 完整 URL: ${window.location.origin}/${activitiesFilePath}`);
+    const listContainer = document.getElementById('activity-list');
+    // 显示加载中状态
+    if (listContainer) {
+        listContainer.innerHTML = `<div class="p-4 text-center text-secondary">数据加载中，请稍候...</div>`;
+    }
+
     try {
         const response = await fetchWithRetry(activitiesFilePath, { method: 'GET' });
         const activities = await response.json();
-        console.log("DEBUG - JSON加载成功，开始打印统一后的英文类别值...");
-        // DEBUG: 打印实际类别值，用于调试
-        activities.forEach((activity, index) => {
-            console.log(`[DEBUG - 统一类别值] 活动 #${index + 1} (${activity.name}): `, activity.category);
-        });
-        console.log("--- DEBUG - 统一类别值打印结束 ---");
-
-        // 缓存数据到全局变量
-        window.allActivities = activities; 
+        
+        window.allActivities = activities;
+        console.log(`[Load] 成功加载 ${activities.length} 条活动数据。`);
         return activities;
     } catch (error) {
-        console.error(`尝试从本地加载 ${activitiesFilePath} 失败，可能是文件不存在或权限问题:`, error);
+        console.error(`尝试从本地加载 ${activitiesFilePath} 失败:`, error);
+        if (listContainer) {
+            listContainer.innerHTML = `
+                <div class="alert alert-danger mt-4" role="alert" style="background-color: #dc354522; border-color: #dc3545; color: #dc3545;">
+                    <h5 class="alert-heading text-danger">数据加载失败</h5>
+                    <p>无法连接到或解析 ${activitiesFilePath} 文件。</p>
+                    <hr style="border-top: 1px solid #dc3545;">
+                    <p class="mb-0" style="font-size: 0.85rem;">错误信息: ${error.message}</p>
+                </div>`;
+        }
         return [];
     }
 }
 
-
 // --------------------------------------------------------------------------------
-// 渲染核心逻辑
+// 辅助函数：过滤与渲染
 // --------------------------------------------------------------------------------
 
 /**
- * 渲染单个活动卡片。
- * @param {Object} activity 活动对象
- * @returns {string} HTML 字符串
+ * 根据中文主分类过滤活动列表。
+ */
+function filterActivities(chineseCategory) {
+    const englishCategory = CHINESE_TO_ENGLISH_MAP[chineseCategory];
+
+    if (!englishCategory || !window.allActivities.length) {
+        return [];
+    }
+
+    const filtered = window.allActivities.filter(activity =>
+        activity.category && Array.isArray(activity.category) && activity.category.includes(englishCategory)
+    );
+    
+    return filtered;
+}
+
+
+/**
+ * 渲染单个活动卡片 (使用 Bootstrap 样式)。
  */
 function renderActivityCard(activity) {
     const deepLinkUrl = activity.deepLink && activity.deepLink !== '#' ? activity.deepLink : '#';
-    const cardClasses = "d-block p-3 mb-3 bg-secondary rounded-xl shadow-lg transform hover:scale-[1.02] transition duration-300 ease-in-out text-white no-underline";
-
-    let iconContent;
-    const iconValue = activity.icon;
     
-    // 检查是否是 PWA 图标路径（避免 404），并使用 Font Awesome 占位符
-    if (iconValue && iconValue.includes('/assets/icon_')) {
-         iconContent = `<i class="fas fa-tasks"></i>`; 
-    } else {
-        if (iconValue && iconValue.startsWith('fa')) {
-            iconContent = `<i class="${iconValue}"></i>`;
-        } else {
-            iconContent = iconValue || '📌'; // 确保总有内容
-        }
+    // 图标处理
+    let iconContent = activity.icon || '📌'; 
+    if (activity.icon && activity.icon.startsWith('fa')) {
+        iconContent = `<i class="${activity.icon}"></i>`;
     }
 
-    // 渲染标签 (Tags) - 将英文标签转换回中文显示
+    // 渲染标签
     const tagsHtml = (activity.category || [])
-        // 将英文标签（如 'CheckIn'）转换成更友好的中文显示
         .map(tag => {
-            // 这个 Map 负责将内部英文 Category 转换成页面上显示的中文
-            const displayMap = {
-                'CheckIn': '签到',
-                'Bank': '银行',
-                'Video': '视频',
-                'Shopping': '购物'
-            };
-            const displayText = displayMap[tag] || tag;
-            return `<span class="badge bg-primary me-2">${displayText}</span>`;
+            const displayText = Object.keys(CHINESE_TO_ENGLISH_MAP).find(key => CHINESE_TO_ENGLISH_MAP[key] === tag) || tag;
+            const pageTitleDisplay = document.getElementById('page-title-display')?.textContent || '';
+            const match = pageTitleDisplay.match(/[\u4e00-\u9fa5]+/);
+            const mainCategoryChinese = match ? match[0] : '';
+
+            // 避免重复显示主分类标签
+            if (displayText === mainCategoryChinese) {
+                 return '';
+            }
+            // 使用 Bootstrap 标签样式
+            return `<span class="badge rounded-pill text-bg-secondary me-2" style="background-color: #6366f1 !important;">${displayText}</span>`;
         })
         .join('');
-    
-    // 渲染卡片
+
     return `
-        <a href="${deepLinkUrl}" class="${cardClasses}" target="_blank" rel="noopener noreferrer">
-            <div class="d-flex align-items-center">
-                <!-- 图标/Emoji 容器 -->
-                <div class="activity-icon-container bg-info text-white me-3" style="min-width: 40px; min-height: 40px;">
-                    ${iconContent}
-                </div>
+        <a href="${deepLinkUrl}" class="activity-card mb-3" target="_blank" rel="noopener noreferrer">
+            <!-- 图标/Emoji 容器 -->
+            <div class="activity-icon-container bg-info text-white">
+                ${iconContent}
+            </div>
+            
+            <!-- 内容区域 -->
+            <div class="activity-content">
+                <div class="activity-title">${activity.name}</div>
+                <div class="activity-desc">${activity.description}</div>
                 
-                <!-- 内容区域 -->
-                <div class="activity-content flex-grow-1">
-                    <div class="activity-title">${activity.name}</div>
-                    <div class="activity-desc">${activity.description}</div>
-                    <div class="mt-1">${tagsHtml}</div>
+                <div class="d-flex align-items-center mt-2" style="min-height: 20px;">
+                    <small class="text-secondary me-3" style="color: #94a3b8 !important;">来源: ${activity.sourceApp || '未知'}</small>
+                    <div class="flex-grow-1 overflow-hidden">${tagsHtml}</div>
                 </div>
             </div>
-            ${activity.specialNote ? `<div class="mt-2 text-warning text-sm font-semibold">${activity.specialNote}</div>` : ''}
+            
+            <!-- 特别提醒 -->
+            ${activity.specialNote ? `<div class="ms-3 text-warning font-weight-bold text-end" style="font-size: 0.75rem; white-space: nowrap; color: #facc15 !important;">${activity.specialNote}</div>` : ''}
+            
+            <!-- 链接箭头 -->
+            <div class="ms-3 align-self-center text-muted" style="font-size: 1rem;"><i class="fas fa-chevron-right"></i></div>
         </a>
     `;
 }
 
 /**
- * 渲染过滤后的活动列表
- * @param {string} categoryHash 要过滤的 URL Hash 值，例如 'CheckIn'
+ * 渲染活动列表到指定容器
  */
-function renderFilteredActivities(categoryHash) {
-    const listContainer = document.getElementById('activity-list');
-    
-    if (!window.allActivities) {
-        listContainer.innerHTML = `<div class="p-4 text-center text-warning">数据尚未完全加载，请稍候...</div>`;
-        return;
-    }
+function renderActivities(activities, containerId) {
+    const listContainer = document.getElementById(containerId);
+    if (!listContainer) return;
 
-    // 目标 Category 就是 URL Hash 值 (例如 'CheckIn')
-    const targetCategoryEn = categoryHash;
-    
-    console.log(`[DEBUG] 正在过滤: 目标 URL Hash (统一英文标签): ${targetCategoryEn}`);
-
-    // 2. 过滤活动：直接检查 activity.category 数组中是否包含目标英文标签
-    // 注意：这里的 activity.category 已经被 fetchAndCacheActivities 映射成了英文标签
-    const filteredActivities = window.allActivities.filter(activity => 
-        // 确保 category 存在且包含目标英文标签
-        activity.category && Array.isArray(activity.category) && activity.category.includes(targetCategoryEn)
-    );
-    
-    console.log(`[DEBUG] 过滤结果: 找到 ${filteredActivities.length} 条活动。`);
-
-    // 3. 渲染结果
-    if (filteredActivities.length === 0) {
-        listContainer.innerHTML = `<div class="p-4 text-center text-gray">当前分类 (${targetCategoryEn}) 暂无活动。</div>`;
+    if (activities.length === 0) {
+        listContainer.innerHTML = `
+            <div class="alert alert-info text-center mt-4 bg-transparent border border-info text-white" role="alert" style="border-color: #0d6efd; color: #00bfff;">
+                <i class="fas fa-search-minus me-2"></i>
+                当前筛选条件下暂无活动。
+            </div>`;
     } else {
-        const html = filteredActivities.map(renderActivityCard).join('');
+        const html = activities.map(renderActivityCard).join('');
         listContainer.innerHTML = html;
     }
 }
 
-// --------------------------------------------------------------------------------
-// 事件监听器 (主入口)
-// --------------------------------------------------------------------------------
 
-document.addEventListener('DOMContentLoaded', async () => {
-    // 初始显示加载状态
-    const listContainer = document.getElementById('activity-list');
-    if (listContainer) {
-        listContainer.innerHTML = `<div class="p-4 text-center text-info">数据加载中，请稍候...</div>`;
-    }
+/**
+ * 渲染二级筛选按钮 (按 SourceApp) 并绑定点击事件。
+ */
+function renderAppFilters(initialActivities, mainCategory, filterContainerId, listContainerId) {
+    const filterContainer = document.getElementById(filterContainerId);
+    if (!filterContainer) return;
 
-    // 1. 尝试加载数据
-    // 注意：如果您的数据是预先生成的 activities.json，请确保该 JSON 文件的数据结构已经将 Category 从中文转换成了英文标签！
-    // 如果您直接从 AirTable API 加载，fetchAndCacheActivities 函数会完成这个转换。
-    await loadActivities();
-
-    // 2. 监听 URL Hash 变化并进行渲染
-    function handleHashChange() {
-        // 移除 '#' 并获取 hash 值
-        const hash = window.location.hash.slice(1); 
-        if (hash && window.allActivities) {
-            renderFilteredActivities(hash);
-        } else if (window.allActivities) {
-             // 如果没有 hash，并且数据已加载 (通常在 index.html 上)
-             listContainer.innerHTML = `<div class="p-4 text-center text-gray">请选择一个分类开始浏览。</div>`;
+    // 1. 提取所有 SourceApp (来源应用) 并去重
+    const uniqueApps = initialActivities.reduce((set, activity) => {
+        if (activity.sourceApp) {
+            set.add(activity.sourceApp);
         }
-    }
+        return set;
+    }, new Set());
 
-    // 监听 hash 变化 (用于 index.html 的筛选)
-    window.addEventListener('hashchange', handleHashChange);
+    const sortedApps = Array.from(uniqueApps).sort();
 
-    // 第一次加载页面时，立即调用处理函数
-    handleHashChange(); 
-});
+    const baseButtonClasses = "btn btn-outline-secondary filter-button me-2";
+    
+    // 添加 "全部" 按钮
+    let buttonsHtml = `
+        <button class="${baseButtonClasses} active" data-filter="all">
+            <i class="fas fa-list-ul me-1"></i> 全部 (${initialActivities.length})
+        </button>
+    `;
+
+    // 添加 SourceApp 按钮
+    sortedApps.forEach(app => {
+        const count = initialActivities.filter(a => a.sourceApp === app).length;
+        buttonsHtml += `
+            <button class="${baseButtonClasses}" data-filter="${app}">
+                ${app} (${count})
+            </button>
+        `;
+    });
+
+    filterContainer.innerHTML = buttonsHtml;
+    
+    // 2. 初始渲染 (渲染全部)
+    renderActivities(initialActivities, listContainerId);
+
+    // 3. 绑定点击事件
+    filterContainer.addEventListener('click', (event) => {
+        const button = event.target.closest('.filter-button');
+        if (!button) return;
+
+        const filterValue = button.getAttribute('data-filter');
+        
+        filterContainer.querySelectorAll('.filter-button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        button.classList.add('active');
+
+        let filteredList = [];
+
+        if (filterValue === 'all') {
+            filteredList = initialActivities;
+        } else {
+            filteredList = initialActivities.filter(activity => 
+                activity.sourceApp === filterValue
+            );
+        }
+
+        renderActivities(filteredList, listContainerId);
+    });
+}
+
+// --------------------------------------------------------------------------------
+// 暴露公共 API (供 HTML 内联脚本调用)
+// --------------------------------------------------------------------------------
+window.loadActivities = loadActivities;
+window.filterActivities = filterActivities;
+window.renderAppFilters = renderAppFilters;
