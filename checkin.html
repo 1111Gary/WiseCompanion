@@ -230,12 +230,7 @@
     </style>
 </head>
 
-<body data-category="CheckIn"> 
-<script src="../list.js"></script> 
-   
-</body>
-
-<body>
+<body data-category="CheckIn"> <!-- 【修正点 1: 确保只有一个 body 标签，且在这里定义 data-category】 -->
     
     <!-- 顶部导航栏 -->
     <div class="header-bar-fixed px-4">
@@ -263,7 +258,8 @@
         
         <!-- **2. 任务列表 ** -->
         <div id="daily-tasks-list">
-             <!-- 外部签到任务将由 JS 动态生成 -->
+             <!-- 外部签到任务将由 JS 动态生成，若加载失败会显示“正在加载” -->
+             <p class="text-gray-400 text-center p-4">正在加载活动数据...</p>
         </div>
 
         
@@ -309,201 +305,12 @@
             <span>省钱秘籍</span>
         </a>
     </nav>
+
+    <!-- 【修正点 2: 移除了旧的 MOCK_DAILY_TASKS 脚本】 -->
+    <!-- 【修正点 3: 将 list.js 放在 body 底部，确保 DOM 完全加载后再运行】 -->
+    <script src="../list.js"></script> 
     
-    <script>
-        // ----------------------------------------------------
-        // 模拟数据 (Mock Data) - 外部平台签到任务清单
-        // Status: "Pending" (未完成) | "Completed" (已完成)
-        // ----------------------------------------------------
-        const MOCK_DAILY_TASKS = [
-            {
-                Name: "微信支付：每日签到",
-                Platform: "微信支付",
-                Description: "任务：每日签到，随机获得 0.01~1.88 元立减金。",
-                Link: "#wechat-checkin-link", 
-                Reward: "随机立减金",
-                Status: "Pending" 
-            },
-            {
-                Name: "支付宝：蚂蚁庄园喂鸡",
-                Platform: "支付宝",
-                Description: "任务：每日给小鸡喂食，获得爱心捐赠。做公益得奖励。",
-                Link: "#alipay-farm-link",
-                Reward: "爱心/金币",
-                Status: "Pending"
-            },
-            {
-                Name: "招商银行：App 每日答题",
-                Platform: "招商银行",
-                Description: "任务：每日答对 3 题，随机获得 0.5~5 元支付宝立减金。",
-                Link: "#cmb-quiz-link",
-                Reward: "0.5~5元立减金",
-                Status: "Completed" // 模拟已完成
-            },
-            {
-                Name: "建设银行：龙支付签到",
-                Platform: "建设银行",
-                Description: "任务：龙支付App内每日签到，领取小积分兑换权益。",
-                Link: "#ccb-longpay-link",
-                Reward: "App积分",
-                Status: "Pending"
-            },
-             {
-                Name: "拼多多：签到领现金",
-                Platform: "拼多多",
-                Description: "任务：每日签到领现金券/金币，连续签到奖励更高。",
-                Link: "#pdd-checkin-link",
-                Reward: "金币/现金券",
-                Status: "Pending"
-            }
-        ];
-
-        // ----------------------------------------------------
-        // 任务渲染逻辑
-        // ----------------------------------------------------
-        
-        // 辅助函数：根据平台名称返回 Font Awesome 图标
-        function getPlatformIcon(platformName) {
-            if (platformName.includes('微信')) return 'fab fa-weixin';
-            if (platformName.includes('支付宝')) return 'fab fa-alipay';
-            if (platformName.includes('招商')) return 'fa-star';
-            if (platformName.includes('建设')) return 'fa-building-columns';
-            if (platformName.includes('拼多多')) return 'fa-shopping-bag';
-            return 'fa-gift'; // 默认图标
-        }
-
-        // 渲染单个任务卡片
-        function renderTaskCard(task, index) {
-            const isCompleted = task.Status === 'Completed';
-            
-            const buttonText = isCompleted ? '已完成' : '去签到';
-            const buttonClass = isCompleted ? 'status-completed' : 'status-pending';
-            const linkTarget = isCompleted ? '#' : task.Link; // 已完成时不跳转
-
-            const icon = getPlatformIcon(task.Platform);
-
-            return `
-                <div class="task-list-card" data-index="${index}">
-                    <div class="task-icon">
-                        <i class="fa-solid ${icon}"></i>
-                    </div>
-                    <div class="task-content">
-                        <div class="task-title">${task.Name}</div>
-                        <div class="task-subtitle">奖励：${task.Reward} | 平台：${task.Platform}</div>
-                        <div class="text-xs text-gray-500 mt-1">${task.Description}</div>
-                    </div>
-                    <div class="task-action">
-                        <a href="${linkTarget}" target="_blank" 
-                           class="action-button ${buttonClass} flex items-center justify-center" 
-                           ${isCompleted ? 'disabled' : ''} 
-                           data-action="${isCompleted ? 'toggle' : 'go'}">
-                            ${buttonText}
-                        </a>
-                    </div>
-                </div>
-            `;
-        }
-
-        // 渲染所有任务
-        function renderDailyTasks() {
-            const listContainer = document.getElementById('daily-tasks-list');
-            listContainer.innerHTML = ''; 
-            
-            MOCK_DAILY_TASKS.forEach((task, index) => {
-                listContainer.innerHTML += renderTaskCard(task, index);
-            });
-            
-            // 绑定事件监听器
-            listContainer.querySelectorAll('.task-list-card').forEach(card => {
-                const index = card.getAttribute('data-index');
-                const button = card.querySelector('.action-button');
-                
-                // 监听按钮点击事件
-                button.addEventListener('click', (e) => {
-                    const task = MOCK_DAILY_TASKS[index];
-                    
-                    if (e.currentTarget.getAttribute('data-action') === 'toggle') {
-                        // 如果是“已完成”按钮（模拟点击后询问是否重置状态）
-                        showConfirmationMessage(index, task.Name);
-                    } else {
-                        // 如果是“去签到”按钮，则跳转，并提示用户回来手动确认
-                        // 真实的App环境会直接打开AppLink，这里使用浏览器跳转
-                        showGoToAppMessage(task.Platform, task.Link);
-                    }
-                });
-            });
-        }
-        
-        // 模拟一个简单的提示 (代替 alert)
-        function showGoToAppMessage(platformName, link) {
-            const message = document.createElement('div');
-            message.innerHTML = `
-                <div id="app-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-                    <div class="bg-gray-800 p-8 rounded-xl text-center shadow-2xl border-4 border-blue-500 transform scale-0 transition-transform duration-300" style="min-width: 280px;">
-                        <i class="fas fa-external-link-alt text-5xl text-blue-400 mb-4 animate-pulse"></i>
-                        <h2 class="text-2xl font-bold text-white mb-2">即将前往 ${platformName}</h2>
-                        <p class="text-sm text-gray-400 mb-4">请在新打开的 App 中完成签到！</p>
-                        <p class="text-sm text-yellow-400 mb-4">完成后请手动返回本页，点击任务卡片上的 **“已完成”**。</p>
-                        <button onclick="document.getElementById('app-modal').remove(); window.open('${link}', '_blank');" class="mt-5 px-6 py-2 bg-blue-500 text-white font-bold rounded-full transition hover:bg-blue-600">
-                            确认跳转
-                        </button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(message);
-            setTimeout(() => {
-                document.querySelector('#app-modal > div').style.transform = 'scale(1)';
-            }, 10);
-        }
-
-        // 确认完成状态切换
-        function showConfirmationMessage(index, taskName) {
-            const task = MOCK_DAILY_TASKS[index];
-            const isCompleted = task.Status === 'Completed';
-
-            const message = document.createElement('div');
-            message.innerHTML = `
-                <div id="confirm-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-                    <div class="bg-gray-800 p-8 rounded-xl text-center shadow-2xl border-4 border-yellow-500 transform scale-0 transition-transform duration-300" style="min-width: 280px;">
-                        <i class="fas fa-question-circle text-5xl text-yellow-400 mb-4"></i>
-                        <h2 class="text-xl font-bold text-white mb-4">任务状态确认</h2>
-                        <p class="text-sm text-gray-400 mb-5">您确定要将任务 **${taskName}** 的状态设置为 ${isCompleted ? '“未完成”' : '“已完成”'} 吗？</p>
-                        <div class="flex justify-around">
-                            <button id="cancel-btn" class="px-6 py-2 bg-gray-600 text-white font-bold rounded-full transition hover:bg-gray-700">
-                                取消
-                            </button>
-                            <button id="confirm-btn" class="px-6 py-2 bg-yellow-500 text-gray-900 font-bold rounded-full transition hover:bg-yellow-400">
-                                确认
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(message);
-            setTimeout(() => {
-                document.querySelector('#confirm-modal > div').style.transform = 'scale(1)';
-            }, 10);
-
-            // 绑定确认/取消事件
-            document.getElementById('cancel-btn').addEventListener('click', () => {
-                document.getElementById('confirm-modal').remove();
-            });
-
-            document.getElementById('confirm-btn').addEventListener('click', () => {
-                // 切换状态
-                task.Status = isCompleted ? 'Pending' : 'Completed';
-                // 重新渲染列表以更新按钮状态
-                renderDailyTasks(); 
-                document.getElementById('confirm-modal').remove();
-            });
-        }
-
-
-        // 页面加载完成后执行
-        document.addEventListener('DOMContentLoaded', () => {
-            renderDailyTasks();
-        });
-    </script>
+    <!-- 【修正点 4: 移除了旧的 showGoToAppMessage 和 showConfirmationMessage 函数，这些逻辑已迁移到 list.js】 -->
 
 </body>
 </html>
