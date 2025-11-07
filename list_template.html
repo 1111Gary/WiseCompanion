@@ -1,157 +1,171 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>活动列表 - 慧伴管家</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="manifest" href="manifest.json">
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="style.css"> 
-    
-    <script src="list.js"></script> 
-    
-    <style>
-        /* 保持深色背景和卡片样式与 index.html 一致 */
-        body { 
-            background-color: #0f172a; 
-            color: #f8f9fa; 
-            padding-bottom: 20px; /* 底部留白 */
-        }
-        .header-bar { 
-            background-color: #1e293b; 
-            color: #f8f9fa; 
-            padding-top: calc(10px + env(safe-area-inset-top)); 
-            padding-bottom: 10px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .activity-card { 
-            display: flex; 
-            align-items: center; 
-            padding: 15px; 
-            border-radius: 12px; 
-            background-color: #1e293b; 
-            color: #f8f9fa; 
-            text-decoration: none; 
-            border: 1px solid #334155;
-            transition: transform 0.2s; 
-        }
-        .activity-card:hover { text-decoration: none; color: #f8f9fa; }
-        .activity-icon-container { 
-            width: 45px; 
-            height: 45px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            border-radius: 10px; 
-            font-size: 24px;
-            margin-right: 15px; 
-        }
-        .bg-info { 
-            background: linear-gradient(45deg, #0d6efd, #00bfff); 
-            color: #fff; 
-        }
-        .activity-content { flex-grow: 1; }
-        .activity-title { font-weight: 600; font-size: 1.1rem; }
-        .activity-desc { font-size: 0.8rem; color: #94a3b8; }
-        
-        /* 筛选按钮样式 */
-        .filter-button { 
-            border-radius: 20px; 
-            color: #94a3b8; 
-            border-color: #334155; 
-            transition: all 0.2s;
-            font-size: 0.9rem;
-        }
-        .filter-button.active { 
-            background-color: #0d6efd !important; 
-            color: #fff; 
-            border-color: #0d6efd !important; 
-        }
-        .filter-container-scroll {
-             overflow-x: auto;
-             white-space: nowrap;
-             -webkit-overflow-scrolling: touch; /* iOS 弹性滚动 */
-             padding-bottom: 5px; /* 避免阴影被截断 */
-        }
-        .filter-container-scroll::-webkit-scrollbar {
-             display: none; /* 隐藏滚动条 */
-        }
-    </style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+	<title id="doc-title">活动列表 - 慧伴管家</title>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<!-- 假设 manifest.json 存在 -->
+	<link rel="manifest" href="manifest.json">
+
+	<!-- 依赖的 CSS 库 -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+	<!-- 假设 style.css 存在 -->
+	<link rel="stylesheet" href="style.css">
+
+	<!-- 引入核心 JS 逻辑 -->
+	<script src="list.js"></script>
+
+	<style>
+		/* 保持深色背景和卡片样式与 index.html 一致 */
+		body {
+			background-color: #0f172a;
+			color: #f8f9fa;
+			padding-bottom: 20px; /* 底部留白 */
+		}
+		.header-bar {
+			background-color: #1e293b;
+			color: #f8f9fa;
+			/* 适配刘海屏的安全区域 */
+			padding-top: calc(10px + env(safe-area-inset-top));
+			padding-bottom: 10px;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+		}
+		.activity-card {
+			display: flex;
+			align-items: center;
+			padding: 15px;
+			border-radius: 12px;
+			background-color: #1e293b;
+			color: #f8f9fa;
+			text-decoration: none;
+			border: 1px solid #334155;
+			transition: transform 0.2s;
+		}
+		.activity-card:hover { text-decoration: none; color: #f8f9fa; transform: translateY(-2px); }
+		.activity-icon-container {
+			width: 45px;
+			height: 45px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border-radius: 10px;
+			font-size: 24px;
+			margin-right: 15px;
+		}
+		.bg-info {
+			background: linear-gradient(45deg, #0d6efd, #00bfff);
+			color: #fff;
+		}
+		.activity-content { flex-grow: 1; }
+		.activity-title { font-weight: 600; font-size: 1.1rem; }
+		.activity-desc { font-size: 0.8rem; color: #94a3b8; }
+
+		/* 筛选按钮样式 */
+		.filter-button {
+			border-radius: 20px;
+			color: #94a3b8;
+			border-color: #334155;
+			background-color: transparent;
+			transition: all 0.2s;
+			font-size: 0.9rem;
+			white-space: nowrap; /* 防止按钮文字换行 */
+		}
+		.filter-button:hover {
+			color: #fff;
+			border-color: #0d6efd;
+		}
+		.filter-button.active {
+			background-color: #0d6efd !important;
+			color: #fff;
+			border-color: #0d6efd !important;
+		}
+		.filter-container-scroll {
+			overflow-x: auto;
+			white-space: nowrap;
+			-webkit-overflow-scrolling: touch; /* iOS 弹性滚动 */
+			padding-bottom: 5px; /* 避免阴影被截断 */
+		}
+		.filter-container-scroll::-webkit-scrollbar {
+			display: none; /* 隐藏滚动条 */
+		}
+	</style>
 </head>
 <body>
 
 <div class="header-bar sticky-top">
-    <div class="container d-flex align-items-center">
-        <a href="index.html" class="text-white me-3" style="font-size: 1.2rem;"><i class="fas fa-chevron-left"></i></a>
-        <h5 id="page-title" class="m-0 text-white flex-grow-1">活动列表加载中...</h5>
-    </div>
+	<div class="container d-flex align-items-center">
+		<a href="index.html" class="text-white me-3" style="font-size: 1.2rem;"><i class="fas fa-chevron-left"></i></a>
+		<h5 id="page-title-display" class="m-0 text-white flex-grow-1">活动列表加载中...</h5>
+	</div>
 </div>
 
 <main class="container py-3">
-    <div class="filter-container-scroll">
-        <div id="filter-container" class="mb-3 d-flex">
-            </div>
-    </div>
+	<!-- 二级筛选按钮容器 -->
+	<div class="filter-container-scroll">
+		<div id="filter-container" class="mb-3 d-flex">
+			<!-- 筛选按钮将由 list.js 渲染到这里 -->
+		</div>
+	</div>
 
-    <div id="activity-list">
-        <div class="p-4 text-center text-gray">数据加载中，请稍候...</div>
-    </div>
+	<!-- 活动列表容器 -->
+	<div id="activity-list">
+		<div class="p-4 text-center text-secondary">数据加载中，请稍候...</div>
+	</div>
 </main>
 
 <script>
-    // ----------------------------------------------------
-    // ** 核心加载逻辑 **
-    // ----------------------------------------------------
-    
-    // 获取当前页面文件名，用于确定Category
-    const currentPath = window.location.pathname;
-    let requiredCategory = '';
-    let pageTitle = '活动列表';
+	// ----------------------------------------------------
+	// ** 核心加载逻辑 (内联脚本) **
+	// ----------------------------------------------------
 
-    if (currentPath.includes('checkin.html')) {
-        requiredCategory = '签到';
-        pageTitle = '✨ 签到/小任务总览';
-    } else if (currentPath.includes('bank.html')) {
-        requiredCategory = '银行';
-        pageTitle = '🏦 银行优惠活动';
-    } else if (currentPath.includes('video.html')) {
-        requiredCategory = '视频';
-        pageTitle = '🎬 视频奖励总览';
-    } else if (currentPath.includes('shopping.html')) {
-        requiredCategory = '购物';
-        pageTitle = '🛍️ 购物优惠汇总';
-    }
+	// 获取当前页面文件名，用于确定主分类 (中文)
+	const currentPath = window.location.pathname;
+	let requiredCategory = '';
+	let pageTitle = '活动列表';
 
-    // 设置页面标题
-    document.getElementById('page-title').textContent = pageTitle;
+	// 根据文件名设置中文主分类
+	if (currentPath.includes('checkin.html')) {
+		requiredCategory = '签到';
+		pageTitle = '✨ 签到/小任务总览';
+	} else if (currentPath.includes('bank.html')) {
+		requiredCategory = '银行';
+		pageTitle = '🏦 银行优惠活动';
+	} else if (currentPath.includes('video.html')) {
+		requiredCategory = '视频';
+		pageTitle = '🎬 视频奖励总览';
+	} else if (currentPath.includes('shopping.html')) {
+		requiredCategory = '购物';
+		pageTitle = '🛍️ 购物优惠汇总';
+	}
+	
+	// 设置浏览器标题栏和页面标题
+	document.getElementById('doc-title').textContent = pageTitle;
+	document.getElementById('page-title-display').textContent = pageTitle;
 
-    // 异步加载和渲染
-    document.addEventListener('DOMContentLoaded', async () => {
-        // 确保 list.js 已加载，并调用其中的 loadActivities
-        if (typeof loadActivities === 'undefined') {
-            console.error('list.js 脚本未成功加载或定义。');
-            document.getElementById('activity-list').innerHTML = `<div class="p-4 text-center text-danger">脚本加载失败，请检查list.js路径。</div>`;
-            return;
-        }
+	// 异步加载和渲染
+	document.addEventListener('DOMContentLoaded', async () => {
+		// 确保 list.js 中定义的函数已加载
+		if (typeof loadActivities === 'undefined') {
+			console.error('list.js 脚本未成功加载或定义。');
+			document.getElementById('activity-list').innerHTML = `<div class="alert alert-danger" role="alert">脚本加载失败，请检查 list.js 路径和内容。</div>`;
+			return;
+		}
 
-        const data = await loadActivities();
-        
-        if (data.length > 0) {
-            // 1. 过滤出当前页面需要的活动列表
-            const initialActivities = filterActivities(requiredCategory);
-            
-            // 2. 渲染筛选按钮并绑定事件 (会触发第一次渲染)
-            renderAppFilters(initialActivities, requiredCategory, 'filter-container', 'activity-list');
-        } else {
-             document.getElementById('activity-list').innerHTML = `<div class="p-4 text-center text-gray">当前类别暂无活动。</div>`;
-        }
-    });
+		// 1. 加载所有活动数据
+		const allData = await loadActivities();
 
-    // 这里不再重复定义 handleActivityClick, filterActivities, renderActivities, renderAppFilters
-    // 这些函数都在 list.js 中定义
+		if (allData.length > 0) {
+			// 2. 过滤出当前页面需要的活动列表
+			const initialActivities = filterActivities(requiredCategory);
+
+			// 3. 渲染筛选按钮并绑定事件 (这也会触发第一次活动列表的渲染)
+			renderAppFilters(initialActivities, requiredCategory, 'filter-container', 'activity-list');
+		} else {
+			document.getElementById('activity-list').innerHTML = `<div class="p-4 text-center text-secondary">当前类别暂无活动数据或数据加载失败。</div>`;
+		}
+	});
 </script>
 
 </body>
