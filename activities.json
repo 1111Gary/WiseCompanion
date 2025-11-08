@@ -1,5 +1,18 @@
 [
   {
+    "id": "rec0O6puIhGuig6H5",
+    "name": "支付宝视频",
+    "description": "看视频，领支付红包，每次今天视频金额随机",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Video"
+    ],
+    "sourceApp": "支付宝APP",
+    "specialNote": null,
+    "targetApp": "支付宝APP"
+  },
+  {
     "id": "rec2hPYI5LxSXyTUk",
     "name": "网上国网APP签到",
     "description": "每日签到领金币换电费优惠券",
@@ -26,6 +39,19 @@
     "targetApp": "中国建设银行APP"
   },
   {
+    "id": "recE0Zq4419HGoWSI",
+    "name": "京东视频",
+    "description": "看视频领金币，可提现到京东钱包",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Video"
+    ],
+    "sourceApp": "京东APP",
+    "specialNote": null,
+    "targetApp": "京东APP"
+  },
+  {
     "id": "recHsykt7FWAjum3F",
     "name": "支付宝APP碰一下签到",
     "description": "连续签到14天得3元碰一下红包",
@@ -40,14 +66,16 @@
   },
   {
     "id": "recnzm5APSC2uy69A",
-    "name": "无标题活动",
-    "description": "暂无描述",
+    "name": "淘宝视频",
+    "description": "看视频领金币，兑换优惠券",
     "icon": "❓",
     "deepLink": "#",
-    "category": [],
-    "sourceApp": "其他",
+    "category": [
+      "Video"
+    ],
+    "sourceApp": "淘宝APP",
     "specialNote": null,
-    "targetApp": "目标 App"
+    "targetApp": "淘宝APP"
   },
   {
     "id": "recs5dX12KSsFUCEj",
@@ -58,9 +86,9 @@
     "category": [
       "Video"
     ],
-    "sourceApp": "拼多多",
+    "sourceApp": "拼多多APP",
     "specialNote": null,
-    "targetApp": "拼多多"
+    "targetApp": "拼多多APP"
   },
   {
     "id": "rectnNcX8juUmHqxQ",
