@@ -6,19 +6,19 @@
     <!-- 页面标题 -->
     <title>慧伴管家 - 看视频赚</title>
     
-    <!-- PWA/移动端配置 (保留原样) -->
+    <!-- PWA/移动端配置 (路径已修正为 ./) -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="慧伴管家">
-    <link rel="manifest" href="/WiseCompanion/manifest.json">
-    <link rel="apple-touch-icon" href="/WiseCompanion/assets/icon_apple.png">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     
     <!-- 依赖加载 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
     <style>
-        /* ------------------ 简洁科技配色方案 ------------------ */
+        /* ------------------ 简洁科技配色方案 (与 checkin.html 保持一致) ------------------ */
         :root {
             --color-bg-dark: #0A1322; 
             --color-card-bg: #1A2233; 
@@ -31,18 +31,16 @@
             --color-pending: #FCD34D; /* 未完成/黄色 */
         }
 
-        /* ------------------ 通用布局和颜色 ------------------ */
+        /* ------------------ 通用布局和颜色 (与 checkin.html 保持一致) ------------------ */
         body { 
             background-color: var(--color-bg-dark); 
             color: var(--color-text-light); 
-            /* 底部留出 tab-bar 和安全区的高度 */
             padding-bottom: calc(85px + env(safe-area-inset-bottom)); 
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            min-height: 100vh;
         }
         
-        /* ------------------ 顶部导航栏 ------------------ */
+        /* ------------------ 顶部导航栏 (与 checkin.html 保持一致) ------------------ */
         .header-bar-fixed { 
             padding-top: calc(15px + env(safe-area-inset-top)); 
             padding-bottom: 5px; 
@@ -55,6 +53,22 @@
             justify-content: space-between;
             height: 60px;
         }
+         .header-logo-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+        }
+
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+        }
 
         .back-arrow-link {
             color: var(--color-text-light);
@@ -63,16 +77,6 @@
             border-radius: 50%;
             background-color: var(--color-card-bg);
             transition: background-color 0.2s;
-        }
-
-        /* 左上角 Logo 样式 */
-        .logo-area {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--color-primary);
-            text-shadow: 0 0 5px rgba(0, 191, 255, 0.4);
-            flex-shrink: 0;
-            margin-right: 1rem;
         }
         
         /* ------------------ 【A. 页面主标题卡片】 ------------------ */
@@ -86,7 +90,6 @@
             border: 1px solid rgba(0, 191, 255, 0.4);
         }
         .main-banner-card h1 {
-            /* 卡片主标题 */
             font-size: 1.5rem;
             font-weight: 900;
             letter-spacing: 1px;
@@ -105,7 +108,6 @@
             align-items: center;
             transition: all 0.3s ease;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-            /* 使用视频/热点主题色 */
             border-left: 5px solid var(--color-highlight); 
             position: relative;
         }
@@ -214,40 +216,29 @@
         }
 
         .tab-item.active {
-            color: var(--color-primary);
+            /* 【已修正】视频页高亮色改为科技蓝，与 checkin 的金色区分 */
+            color: var(--color-primary); 
         }
 
         .tab-icon {
             font-size: 1.2rem;
             margin-bottom: 3px;
         }
-
-        /* 模态框动画 */
-        .modal-content {
-            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-            transform: scale(0.8);
-            opacity: 0;
-        }
-        .modal-content.show {
-            transform: scale(1);
-            opacity: 1;
-        }
     </style>
 </head>
+<!-- 【关键修正 1】: 添加 data-category="Video" 告诉 list.js 加载视频分类 -->
 <body data-category="Video">
-    <!-- 顶部导航栏 -->
+
+    <!-- 【关键修正 2】: 替换为 checkin.html 一致的顶部栏 -->
     <div class="header-bar-fixed px-4">
-        <!-- 左侧：Logo/品牌名称 (慧伴管家) -->
-        <div class="logo-area flex items-center">
-            <i class="fas fa-gem mr-1 text-xl"></i> 慧伴
+        <div class="header-logo-group">
+            <!-- 修正 logo 路径 -->
+            <img src="./assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/00BFFF/0A1322?text=G'" alt="Logo" class="header-logo rounded-md shadow-lg">
+            <h1 class="header-title">慧伴管家</h1>
         </div>
-        
-        <!-- 页面主标题 (居中) -->
-        <h1 class="text-xl font-bold flex-grow text-center">看视频赚</h1>
-        
-        <!-- 右侧：返回首页 (使用 Home 图标) -->
-        <a href="/WiseCompanion/index.html" class="back-arrow-link" title="返回首页">
-            <i class="fas fa-home"></i>
+        <!-- 修正返回首页路径 -->
+        <a href="./index.html" class="back-arrow-link" title="返回首页">
+            <i class="fas fa-arrow-left"></i>
         </a>
     </div>
 
@@ -256,16 +247,20 @@
         
         <!-- **1. 页面主标题卡片 ** -->
         <div class="main-banner-card">
-            <!-- 卡片标题 -->
+            <!-- 【关键修正 3】: 添加 data-status-warning ID，以便 list.js 更新状态 -->
+             <p id="data-status-warning" class="text-sm font-semibold text-red-400 mb-3 p-2 border border-red-500 rounded-lg bg-red-900/20">
+                ⚠️ 提示：数据加载中...
+            </p>
             <h1>看视频赚：每日精选活动</h1>
-            <!-- 卡片副标题 -->
             <p class="text-sm text-gray-400 mt-2">一键直达短视频平台，通过观看或参与活动赚取奖励。</p>
         </div>
 
         
         <!-- **2. 任务列表 ** -->
-        <div id="video-task-list">
+        <!-- 【关键修正 4】: 更改 ID 为 'daily-tasks-list' 以匹配 list.js 的选择器 -->
+        <div id="daily-tasks-list">
              <!-- 外部视频/活动任务将由 JS 动态生成 -->
+             <p class="text-gray-400 text-center p-4">正在加载活动数据...</p>
         </div>
 
         
@@ -276,22 +271,21 @@
             </h2>
             <ul class="text-sm text-gray-400 list-disc ml-4 space-y-2">
                 <li>点击 **“去观看/参与”** 按钮，将自动打开外部平台链接。</li>
-                <li>完成活动后，请手动返回慧伴管家 App，已完成任务将自动更新为 **“已完成”** 状态。</li>
-                <li>**重要提示：** 任务状态仅作为本地记录提示，次日自动重置。</li>
+                <li>此列表数据由 Airtable 自动更新。</li>
             </ul>
         </div>
         
     </main>
     
-    <!-- 底部导航栏 -->
+    <!-- 底部导航栏 (路径和激活状态已修正) -->
     <nav class="tab-bar">
-        <!-- 主页 -->
-        <a href="/WiseCompanion/index.html" class="tab-item">
+        <!-- 首页 -->
+        <a href="./index.html" class="tab-item">
             <i class="fas fa-home tab-icon"></i>
-            <span>主页</span>
+            <span>首页</span>
         </a>
         <!-- 天天有奖 -->
-        <a href="/WiseCompanion/checkin.html" class="tab-item">
+        <a href="./checkin.html" class="tab-item">
             <i class="fas fa-gift tab-icon"></i>
             <span>天天有奖</span>
         </a>
@@ -301,233 +295,19 @@
             <span>看视频赚</span>
         </span>
         <!-- 捡钱任务 -->
-        <a href="/WiseCompanion/bank.html" class="tab-item">
+        <a href="./bank.html" class="tab-item">
             <i class="fas fa-sack-dollar tab-icon"></i>
             <span>捡钱任务</span>
             </a>
         <!-- 省钱秘籍 -->
-        <a href="/WiseCompanion/shopping.html" class="tab-item">
+        <a href="./shopping.html" class="tab-item">
             <i class="fas fa-tags tab-icon"></i>
             <span>省钱秘籍</span>
         </a>
     </nav>
     
-    <script>
-        // ----------------------------------------------------
-        // 模拟数据 (Mock Data) - 外部平台视频/活动任务清单
-        // 注意：在实际应用中，您应该使用 Firestore 或其他后端服务来存储和管理这些数据。
-        // ----------------------------------------------------
-        const MOCK_VIDEO_TASKS = [
-            {
-                id: 1,
-                Name: "快手 App：观看指定视频 60 秒",
-                Platform: "快手",
-                Description: "直达：快手 App 内的指定视频页面。",
-                Link: "#kuaishou-video-link", 
-                Reward: "+100 积分",
-                Status: "Pending" 
-            },
-            {
-                id: 2,
-                Name: "抖音极速版：看广告活动",
-                Platform: "抖音",
-                Description: "直达：抖音极速版活动中心。",
-                Link: "#douyin-ad-link",
-                Reward: "+2 元现金",
-                Status: "Pending"
-            },
-            {
-                id: 3,
-                Name: "淘宝 App：逛逛频道",
-                Platform: "淘宝",
-                Description: "直达：淘宝 App 逛逛频道页面。",
-                Link: "#taobao-guangguang-link",
-                Reward: "随机红包",
-                Status: "Completed" // 模拟已完成
-            },
-            {
-                id: 4,
-                Name: "拼多多：视频领现金",
-                Platform: "拼多多",
-                Description: "直达：拼多多 App 内视频活动页。",
-                Link: "#pdd-video-cash-link",
-                Reward: "现金助力",
-                Status: "Pending"
-            }
-        ];
+    <!-- 【关键修正 5】: 移除旧的 MOCK_VIDEO_TASKS 脚本，引用 list.js -->
+    <script src="./list.js"></script>
 
-        // ----------------------------------------------------
-        // 任务渲染逻辑
-        // ----------------------------------------------------
-        
-        // 辅助函数：根据平台名称返回 Font Awesome 图标
-        function getPlatformIcon(platformName) {
-            if (platformName.includes('快手')) return 'fa-video';
-            if (platformName.includes('抖音')) return 'fa-mobile-screen';
-            if (platformName.includes('淘宝')) return 'fa-store';
-            if (platformName.includes('拼多多')) return 'fa-coins';
-            return 'fa-fire'; // 默认图标
-        }
-
-        // 渲染单个任务卡片
-        function renderTaskCard(task, index) {
-            const isCompleted = task.Status === 'Completed';
-            
-            // 已完成的任务可以点击以“重置”或“查看详情”，未完成的任务点击跳转
-            const buttonText = isCompleted ? '✅ 已完成' : '🚀 去观看/参与';
-            const buttonClass = isCompleted ? 'status-completed' : 'status-pending';
-            const linkTarget = isCompleted ? '#' : task.Link; 
-
-            const icon = getPlatformIcon(task.Platform);
-
-            return `
-                <div class="task-list-card" data-index="${index}">
-                    <div class="task-icon">
-                        <i class="fa-solid ${icon}"></i>
-                    </div>
-                    <div class="task-content">
-                        <div class="task-title">${task.Name}</div>
-                        <div class="task-subtitle">预期奖励：<span class="font-bold text-secondary">${task.Reward}</span> | 平台：${task.Platform}</div>
-                        <div class="text-xs text-gray-500 mt-1">${task.Description}</div>
-                    </div>
-                    <div class="task-action">
-                        <a href="${linkTarget}" 
-                            class="action-button ${buttonClass} flex items-center justify-center" 
-                            data-index="${index}"
-                            data-action="${isCompleted ? 'toggle' : 'go'}">
-                            ${buttonText}
-                        </a>
-                    </div>
-                </div>
-            `;
-        }
-
-        // 渲染所有任务
-        function renderVideoTasks() {
-            const listContainer = document.getElementById('video-task-list');
-            listContainer.innerHTML = ''; 
-            
-            // 确保渲染顺序：Pending (未完成) 在前，Completed (已完成) 在后
-            const sortedTasks = [...MOCK_VIDEO_TASKS].sort((a, b) => {
-                if (a.Status === 'Pending' && b.Status === 'Completed') return -1;
-                if (a.Status === 'Completed' && b.Status === 'Pending') return 1;
-                return 0;
-            });
-
-            sortedTasks.forEach((task) => {
-                const index = MOCK_VIDEO_TASKS.findIndex(t => t.id === task.id); // 获取原始索引
-                listContainer.innerHTML += renderTaskCard(task, index);
-            });
-            
-            // 绑定事件监听器
-            listContainer.querySelectorAll('.action-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.preventDefault(); // 阻止默认跳转行为
-                    const index = e.currentTarget.getAttribute('data-index');
-                    const task = MOCK_VIDEO_TASKS[index];
-                    
-                    if (e.currentTarget.getAttribute('data-action') === 'toggle') {
-                        // 如果是“已完成”按钮，点击则询问是否重置状态
-                        showConfirmationMessage(index, task.Name, false);
-                    } else {
-                        // 如果是“去观看/参与”按钮，则跳转，并在用户返回后标记为已完成
-                        showGoToAppMessage(task.Platform, task.Link, index);
-                    }
-                });
-            });
-        }
-        
-        // ----------------------------------------------------
-        // 模态框逻辑 (代替 alert/confirm)
-        // ----------------------------------------------------
-
-        // 辅助函数：显示模态框
-        function showModal(contentHtml, modalId) {
-            const existingModal = document.getElementById(modalId);
-            if (existingModal) existingModal.remove();
-
-            const modalWrapper = document.createElement('div');
-            modalWrapper.innerHTML = contentHtml;
-            document.body.appendChild(modalWrapper);
-            
-            // 延迟添加 'show' 类以触发 CSS 动画
-            setTimeout(() => {
-                const modalContent = document.querySelector(`#${modalId} .modal-content`);
-                if (modalContent) modalContent.classList.add('show');
-            }, 10);
-        }
-
-        // 任务完成确认提示
-        function showGoToAppMessage(platformName, link, index) {
-            const modalId = 'app-modal';
-            const html = `
-                <div id="${modalId}" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-                    <div class="bg-gray-800 p-8 rounded-xl text-center shadow-2xl border-4 border-highlight max-w-sm modal-content">
-                        <i class="fas fa-external-link-alt text-5xl text-highlight mb-4 animate-pulse"></i>
-                        <h2 class="text-2xl font-bold text-white mb-2">即将前往 ${platformName}</h2>
-                        <p class="text-sm text-gray-400 mb-4">请在新打开的 App 中完成观看或活动！</p>
-                        <p class="text-sm text-yellow-400 mb-4 font-semibold">完成后请点击下方的“已完成”按钮来手动标记任务状态。</p>
-                        <div class="flex justify-between mt-5 gap-4">
-                            <button onclick="document.getElementById('${modalId}').remove();" class="flex-1 px-4 py-2 bg-gray-600 text-white font-bold rounded-full transition hover:bg-gray-700">
-                                取消跳转
-                            </button>
-                            <!-- 核心改动：点击跳转后，我们模拟用户“已看完并返回”，自动标记任务状态为完成，并立即跳转 -->
-                            <a href="${link}" target="_blank" onclick="setTimeout(() => { MOCK_VIDEO_TASKS[${index}].Status = 'Completed'; renderVideoTasks(); }, 100); document.getElementById('${modalId}').remove();" class="flex-1 px-4 py-2 bg-highlight text-white font-bold rounded-full transition hover:bg-red-500 flex items-center justify-center">
-                                确认跳转 & 标记完成
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            `;
-            showModal(html, modalId);
-        }
-
-        // 状态切换确认（用于重置任务）
-        function showConfirmationMessage(index, taskName) {
-            const task = MOCK_VIDEO_TASKS[index];
-            const isCompleted = task.Status === 'Completed';
-            const modalId = 'confirm-modal';
-
-            const html = `
-                <div id="${modalId}" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-                    <div class="bg-gray-800 p-8 rounded-xl text-center shadow-2xl border-4 border-yellow-500 max-w-xs modal-content">
-                        <i class="fas fa-undo-alt text-5xl text-yellow-400 mb-4"></i>
-                        <h2 class="text-xl font-bold text-white mb-4">重置任务确认</h2>
-                        <p class="text-sm text-gray-400 mb-5">您确定要将任务 **${taskName}** 的状态重置为 **“未完成”** 吗？</p>
-                        <div class="flex justify-around">
-                            <button id="cancel-btn" class="px-6 py-2 bg-gray-600 text-white font-bold rounded-full transition hover:bg-gray-700">
-                                取消
-                            </button>
-                            <button id="confirm-btn" class="px-6 py-2 bg-yellow-500 text-gray-900 font-bold rounded-full transition hover:bg-yellow-400">
-                                确认重置
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            showModal(html, modalId);
-
-            // 绑定确认/取消事件
-            document.getElementById('cancel-btn').addEventListener('click', () => {
-                document.getElementById(modalId).remove();
-            });
-
-            document.getElementById('confirm-btn').addEventListener('click', () => {
-                // 切换状态 (只能从完成切换为未完成)
-                if (task.Status === 'Completed') {
-                    task.Status = 'Pending';
-                }
-                // 重新渲染列表以更新按钮状态
-                renderVideoTasks(); 
-                document.getElementById(modalId).remove();
-            });
-        }
-
-
-        // 页面加载完成后执行
-        document.addEventListener('DOMContentLoaded', () => {
-            renderVideoTasks();
-        });
-    </script>
 </body>
 </html>
