@@ -65,6 +65,39 @@
     "targetApp": "支付宝APP"
   },
   {
+    "id": "recKYMUu0EKoVomVB",
+    "name": "无标题活动",
+    "description": "暂无描述",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "目标 App"
+  },
+  {
+    "id": "reca6vAdiqpehGYZn",
+    "name": "无标题活动",
+    "description": "暂无描述",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "目标 App"
+  },
+  {
+    "id": "recevjZ0xcvUS3WsQ",
+    "name": "无标题活动",
+    "description": "暂无描述",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "目标 App"
+  },
+  {
     "id": "recnzm5APSC2uy69A",
     "name": "淘宝视频",
     "description": "看视频领金币，兑换优惠券",
@@ -102,5 +135,16 @@
     "sourceApp": "中国银行APP",
     "specialNote": null,
     "targetApp": "中国银行APP"
+  },
+  {
+    "id": "recy2NQVCdAX8qu6M",
+    "name": "无标题活动",
+    "description": "暂无描述",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "目标 App"
   }
 ]
