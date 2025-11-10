@@ -97,22 +97,6 @@ function renderCountdown(endDate) {
     return `<span class="countdown-badge">剩余${diffDays}天</span>`;
 }
 
-function getCountdownBadge(endDate) {
-  if (!endDate) return ''; // 无截止日期 → 不显示倒计时
-  const now = new Date();
-  const end = new Date(endDate);
-  const diffTime = end - now;
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-  if (diffDays < 0) {
-    return `<div class="countdown-badge expired-badge">已结束</div>`;
-  } else if (diffDays === 0) {
-    return `<div class="countdown-badge">最后一天</div>`;
-  } else {
-    return `<div class="countdown-badge">剩余${diffDays}天</div>`;
-  }
-}
-
 
 function renderActivityCard(activity, categoryKey) {
     const icon = getPlatformIcon(activity.sourceApp);
@@ -162,21 +146,6 @@ function renderBankPage() {
 
     renderBankTasks('All');
 }
-
-taskList.innerHTML += `
-  <div class="task-list-card" style="border-left-color:${borderColor}">
-    ${getCountdownBadge(activity.endDate || '')}
-    <div class="task-icon" style="background-color:${borderColor}">${activity.icon || '🏦'}</div>
-    <div class="task-content">
-      <div class="task-title">${activity.name}</div>
-      <div class="task-subtitle">${activity.description}</div>
-    </div>
-    <div class="task-action">
-      <a href="${activity.deepLink || '#'}" target="_blank" class="action-button">去参与</a>
-    </div>
-  </div>
-`;
-
 
 function renderBankTasks(bankName) {
     const routineContainer = document.getElementById('routine-tasks-list');
