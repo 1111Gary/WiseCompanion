@@ -13,6 +13,20 @@
     "targetApp": "支付宝APP"
   },
   {
+    "id": "rec0bpCM3NqXMzmhY",
+    "name": "工商银行APP权益中心",
+    "description": "工银i豆乐园，点击更多，浇水有礼，每日登录浇水获得工银i豆",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "日常活动"
+    ],
+    "sourceApp": "工商银行APP",
+    "specialNote": null,
+    "targetApp": "工商银行APP"
+  },
+  {
     "id": "rec2hPYI5LxSXyTUk",
     "name": "网上国网APP签到",
     "description": "每日签到领金币换电费优惠券",
@@ -24,6 +38,17 @@
     "sourceApp": "网上国网APP",
     "specialNote": null,
     "targetApp": "网上国网APP"
+  },
+  {
+    "id": "rec6nEUJ2avZhetI5",
+    "name": "无标题活动",
+    "description": "暂无描述",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "目标 App"
   },
   {
     "id": "recDS8C3fC34GdeJQ",
@@ -52,6 +77,34 @@
     "targetApp": "京东APP"
   },
   {
+    "id": "recEXuyKINDBR3e1Q",
+    "name": "支付宝",
+    "description": "支付宝会员，会员购.品质甄选，搜索中行，99积分兑换中国银行借记卡转账立减金2元。每月限兑1次，兑换后7天内有效。",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "日常活动"
+    ],
+    "sourceApp": "支付宝APP",
+    "specialNote": null,
+    "targetApp": "支付宝APP"
+  },
+  {
+    "id": "recFyVvQbdF96KzSq",
+    "name": "农业银行APP",
+    "description": "我的小豆，每日签到抽小豆，去抽奖",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "CheckIn"
+    ],
+    "sourceApp": "中国农业银行APP",
+    "specialNote": null,
+    "targetApp": "中国农业银行APP"
+  },
+  {
     "id": "recHsykt7FWAjum3F",
     "name": "支付宝APP碰一下签到",
     "description": "连续签到14天得3元碰一下红包",
@@ -66,36 +119,45 @@
   },
   {
     "id": "recKYMUu0EKoVomVB",
-    "name": "无标题活动",
-    "description": "暂无描述",
+    "name": "交通银行APP“京”喜财富季",
+    "description": "资产提升1万元，领5元支付券，提升5万元，累计可领10元，提升10万，累计可领30元，提升20万元，累计可领60元，提升50万元，累计可领100元，提升200万元，累计可领200元",
     "icon": "❓",
     "deepLink": "#",
-    "category": [],
-    "sourceApp": "其他",
+    "category": [
+      "存款理财活动",
+      "Bank"
+    ],
+    "sourceApp": "交通银行APP",
     "specialNote": null,
-    "targetApp": "目标 App"
+    "targetApp": "交通银行APP"
   },
   {
     "id": "reca6vAdiqpehGYZn",
-    "name": "无标题活动",
-    "description": "暂无描述",
+    "name": "工商银行APP任务中心活动",
+    "description": "双线绘丰景布局正当时",
     "icon": "❓",
     "deepLink": "#",
-    "category": [],
-    "sourceApp": "其他",
+    "category": [
+      "Bank",
+      "日常活动"
+    ],
+    "sourceApp": "工商银行APP",
     "specialNote": null,
-    "targetApp": "目标 App"
+    "targetApp": "工商银行APP"
   },
   {
     "id": "recevjZ0xcvUS3WsQ",
-    "name": "无标题活动",
+    "name": "建设银行APP缴费",
     "description": "暂无描述",
     "icon": "❓",
     "deepLink": "#",
-    "category": [],
-    "sourceApp": "其他",
+    "category": [
+      "缴费活动",
+      "Bank"
+    ],
+    "sourceApp": "中国建设银行APP",
     "specialNote": null,
-    "targetApp": "目标 App"
+    "targetApp": "中国建设银行APP"
   },
   {
     "id": "recnzm5APSC2uy69A",
@@ -138,13 +200,16 @@
   },
   {
     "id": "recy2NQVCdAX8qu6M",
-    "name": "无标题活动",
-    "description": "暂无描述",
+    "name": "建设银行APP惠省钱",
+    "description": "精选活动，惠消费 开好礼。实名认证用户每月首次登录成功后可获得一次抽奖机会，100%中奖率，随机抽取1元~168元金额不等得微信立减金。",
     "icon": "❓",
     "deepLink": "#",
-    "category": [],
-    "sourceApp": "其他",
+    "category": [
+      "Bank",
+      "日常活动"
+    ],
+    "sourceApp": "中国建设银行APP",
     "specialNote": null,
-    "targetApp": "目标 App"
+    "targetApp": "中国建设银行APP"
   }
 ]
