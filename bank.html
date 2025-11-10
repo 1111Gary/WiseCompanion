@@ -4,13 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>慧伴管家 - 捡钱任务中心</title>
-
-<!-- 依赖 -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="慧伴管家">
+<link rel="manifest" href="/WiseCompanion/manifest.json">
+<link rel="apple-touch-icon" href="/WiseCompanion/assets/icon_apple.png">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <style>
-/* ====== 样式保持完全一致（省略重复注释） ====== */
 :root {
   --color-bg-dark: #0A1322;
   --color-card-bg: #1A2233;
@@ -22,43 +24,51 @@
   --color-bank-bg: #1F2A40;
   --color-success: #34D399;
 }
-body {
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-light);
-  padding-bottom: calc(85px + env(safe-area-inset-bottom));
-  font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
-}
-.header-bar-fixed { padding-top: calc(15px + env(safe-area-inset-top)); padding-bottom: 5px; background-color: var(--color-bg-dark); position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; height: 60px; }
-.main-banner-card { background: linear-gradient(135deg, #0f1627, #1a2233); border-radius: 20px; padding: 25px 20px; text-align: center; border: 3px solid transparent; background-clip: padding-box, border-box; background-origin: padding-box, border-box; border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight)); border-image-slice: 1; box-shadow: 0 0 15px rgba(0, 191, 255, 0.5), 0 0 30px rgba(255, 215, 0, 0.3); margin-bottom: 1.5rem; }
-.main-banner-card h1 { font-size: 1.5rem; font-weight: 900; color: var(--color-text-light); text-shadow: 0 0 5px var(--color-highlight); margin-bottom: 5px; }
-.filter-container { margin-bottom: 2rem; padding: 10px 0; overflow-x: auto; display: flex; gap: 10px; align-items: center; scrollbar-width: none; }
-.filter-container::-webkit-scrollbar { display: none; }
-.filter-button { display: inline-flex; align-items: center; padding: 8px 15px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; background-color: var(--color-card-bg); color: var(--color-text-muted); border: 2px solid var(--color-card-bg); transition: all 0.2s ease; flex-shrink: 0; }
-.filter-button.active { background-color: var(--color-primary); color: var(--color-bg-dark); border-color: var(--color-primary); box-shadow: 0 0 8px rgba(0, 191, 255, 0.8); }
-.section-title-card { background: linear-gradient(135deg, #0f1627, #1a2233); border-radius: 12px; padding: 15px 20px; border: 2px solid transparent; background-clip: padding-box, border-box; border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight)); border-image-slice: 1; box-shadow: 0 0 8px rgba(0, 191, 255, 0.3); margin-top: 2rem; margin-bottom: 1rem; }
-.task-list-card { background-color: var(--color-bank-bg); border-radius: 15px; padding: 15px 20px; margin-bottom: 15px; display: flex; align-items: center; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4); border-left: 5px solid; position: relative; }
-.countdown-badge { position: absolute; top: 0; right: 0; background-color: var(--color-secondary); color: var(--color-bg-dark); padding: 4px 10px; border-top-right-radius: 15px; border-bottom-left-radius: 15px; font-size: 0.75rem; font-weight: 700; }
-.expired-badge { background-color: #EF4444; color: white; }
+body { background-color: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: calc(85px + env(safe-area-inset-bottom)); font-family:'Inter',sans-serif; overflow-x:hidden; }
+.header-bar-fixed { padding-top: calc(15px + env(safe-area-inset-top)); padding-bottom:5px; background-color: var(--color-bg-dark); position: sticky; top:0; z-index:10; display:flex; align-items:center; justify-content:space-between; height:60px; }
+.main-banner-card { background: linear-gradient(135deg,#0f1627,#1a2233); border-radius:20px; padding:25px 20px; text-align:center; border:3px solid transparent; background-clip: padding-box, border-box; background-origin: padding-box, border-box; border-image: linear-gradient(to right,var(--color-primary),var(--color-highlight)); border-image-slice:1; box-shadow:0 0 15px rgba(0,191,255,0.5),0 0 30px rgba(255,215,0,0.3); margin-bottom:1.5rem; position: relative; }
+.main-banner-card h1 { font-size:1.5rem; font-weight:900; letter-spacing:1px; color: var(--color-text-light); text-shadow:0 0 5px var(--color-highlight); margin-bottom:5px; }
+.filter-container { margin-bottom:2rem; padding:10px 0; overflow-x:auto; white-space:nowrap; -webkit-overflow-scrolling:touch; scrollbar-width:none; display:flex; gap:10px; align-items:center; }
+.filter-container::-webkit-scrollbar { display:none; }
+.filter-button { display:inline-flex; align-items:center; padding:8px 15px; border-radius:9999px; font-size:0.85rem; font-weight:600; background-color: var(--color-card-bg); color: var(--color-text-muted); border:2px solid var(--color-card-bg); transition: all 0.2s ease; flex-shrink:0; }
+.filter-button.active { background-color: var(--color-primary); color: var(--color-bg-dark); border-color: var(--color-primary); box-shadow:0 0 8px rgba(0,191,255,0.8); }
+.filter-button i { margin-right:6px; }
+.section-title-card { background: linear-gradient(135deg,#0f1627,#1a2233); border-radius:12px; padding:15px 20px; text-align:left; border:2px solid transparent; background-clip: padding-box, border-box; background-origin: padding-box, border-box; border-image: linear-gradient(to right,var(--color-primary),var(--color-highlight)); border-image-slice:1; box-shadow:0 0 8px rgba(0,191,255,0.3); margin-top:2rem; margin-bottom:1rem; position:relative; }
+.section-title-card h2 { font-size:1.25rem; font-weight:800; letter-spacing:0.5px; color: var(--color-text-light); }
+.section-description { color: var(--color-text-muted); font-size:0.9rem; margin-bottom:1rem; padding-left:5px; }
+.task-list-card { background-color: var(--color-bank-bg); border-radius:15px; padding:15px 20px; margin-bottom:15px; display:flex; align-items:center; transition: all 0.3s ease; box-shadow:0 2px 10px rgba(0,0,0,0.4); border-left:5px solid; position:relative; }
+.task-list-card:hover { background-color:#25334c; transform:translateY(-2px); box-shadow:0 4px 15px rgba(0,0,0,0.5); }
+.countdown-badge { position:absolute; top:0; right:0; background-color: var(--color-secondary); color: var(--color-bg-dark); padding:4px 10px; border-top-right-radius:15px; border-bottom-left-radius:15px; font-size:0.75rem; font-weight:700; letter-spacing:0.5px; z-index:5; }
+.expired-badge { background-color:#EF4444; color:white; }
 .task-routine { border-left-color: var(--color-success); }
 .task-payment { border-left-color: var(--color-primary); }
 .task-savings { border-left-color: var(--color-highlight); }
-.task-icon { width: 40px; height: 40px; border-radius: 8px; color: var(--color-bg-dark); font-size: 1.2rem; display: flex; align-items: center; justify-content: center; margin-right: 15px; }
+.task-icon { width:40px; height:40px; border-radius:8px; color: var(--color-bg-dark); font-size:1.2rem; display:flex; align-items:center; justify-content:center; margin-right:15px; flex-shrink:0; }
 .icon-routine { background-color: var(--color-success); }
 .icon-payment { background-color: var(--color-primary); }
 .icon-savings { background-color: var(--color-highlight); }
-.action-button { background-color: var(--color-primary); color: var(--color-bg-dark); font-weight: 700; padding: 6px 12px; border-radius: 9999px; font-size: 0.8rem; }
-.tab-bar { position: fixed; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-around; align-items: center; height: 60px; background-color: var(--color-bg-dark); border-top: 1px solid #1A2233; box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); }
-.tab-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.75rem; text-decoration: none; }
+.task-content { flex-grow:1; min-width:0; }
+.task-title { font-size:1rem; font-weight:700; color: var(--color-text-light); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.task-subtitle { font-size:0.8rem; color: var(--color-text-muted); white-space:normal; overflow:visible; text-overflow:clip; line-height:1.4; margin-top:4px; }
+.task-action { display:flex; align-items:center; margin-left:10px; flex-shrink:0; }
+.action-button { background-color: var(--color-primary); color: var(--color-bg-dark); font-weight:700; padding:6px 12px; border-radius:9999px; font-size:0.8rem; transition:background-color 0.2s; text-align:center; width:80px; }
+.tab-bar { position: fixed; bottom:0; left:0; right:0; display:flex; justify-content:space-around; align-items:center; height:60px; background-color: var(--color-bg-dark); border-top:1px solid #1A2233; box-shadow:0 -2px 10px rgba(0,0,0,0.5); padding-bottom:env(safe-area-inset-bottom); z-index:20; }
+.tab-item { display:flex; flex-direction:column; align-items:center; justify-content:center; text-decoration:none; color: var(--color-text-muted); font-size:0.75rem; font-weight:500; transition: color 0.2s ease; padding:5px; flex-grow:1; max-width:20%; }
 .tab-item.active { color: var(--color-primary); }
+.tab-icon { font-size:1.2rem; margin-bottom:3px; }
+.header-logo-group { display:flex; align-items:center; }
+.header-logo { width:32px; height:32px; margin-right:10px; }
+.header-title { font-size:1.2rem; font-weight:700; color: var(--color-text-light); }
+.back-arrow-link { color: var(--color-text-light); font-size:1.2rem; padding:5px 10px; border-radius:50%; background-color: var(--color-card-bg); transition: background-color 0.2s; }
+.back-arrow-link:hover { background-color:#334466; }
 </style>
 </head>
-
 <body>
-<!-- 顶部栏 -->
+
+<!-- 顶部导航栏 -->
 <div class="header-bar-fixed px-4">
   <div class="header-logo-group">
-    <img src="/WiseCompanion/assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/00BFFF/fff?text=L'" class="header-logo rounded-md shadow-lg">
+    <img src="/WiseCompanion/assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/00BFFF/ffffff?text=L'" alt="Logo" class="header-logo rounded-md shadow-lg">
     <h1 class="header-title">慧伴管家</h1>
   </div>
   <a href="/WiseCompanion/index.html" class="back-arrow-link" title="返回首页">
@@ -67,138 +77,170 @@ body {
 </div>
 
 <main class="container mx-auto px-4 py-4">
+  <!-- 页面主标题 -->
   <div class="main-banner-card">
     <p id="data-status-warning" class="text-sm font-semibold text-red-400 mb-3 p-2 border border-red-500 rounded-lg bg-red-900/20">
-      ⚠️ 提示：当前显示为内置模拟数据。
+      ⚠️ 提示：数据加载中...
     </p>
     <h1>捡钱任务中心</h1>
     <p class="text-sm text-gray-400 mt-2">点击下方按钮，仅显示您拥有的银行卡/平台活动</p>
   </div>
 
+  <!-- 银行筛选器 -->
   <div class="filter-container" id="bank-filter-container">
-    <button class="filter-button active" data-bank="All"><i class="fas fa-layer-group"></i> 全部活动</button>
+    <button class="filter-button active" data-bank="All">
+      <i class="fas fa-layer-group"></i> 全部活动
+    </button>
   </div>
 
-  <div class="section-title-card"><h2><i class="fas fa-calendar-day mr-3 text-xl text-green-400"></i>日常活动</h2></div>
+  <!-- 日常活动 -->
+  <div class="section-title-card">
+    <h2 class="flex items-center">
+      <i class="fas fa-calendar-day mr-3 text-xl" style="color: var(--color-success);"></i> 日常活动 (Routine Tasks)
+    </h2>
+  </div>
+  <p class="section-description">每日、每周可重复参与的低门槛任务和立减金活动。</p>
   <div id="routine-tasks-list"></div>
 
-  <div class="section-title-card"><h2><i class="fas fa-file-invoice-dollar mr-3 text-xl text-blue-400"></i>缴费活动</h2></div>
+  <!-- 缴费活动 -->
+  <div class="section-title-card">
+    <h2 class="flex items-center">
+      <i class="fas fa-file-invoice-dollar mr-3 text-xl" style="color: var(--color-primary);"></i> 缴费活动 (Payment Tasks)
+    </h2>
+  </div>
+  <p class="section-description">水电煤、话费、信用卡还款等特定消费环节的优惠、积分或立减金。</p>
   <div id="payment-tasks-list"></div>
 
-  <div class="section-title-card"><h2><i class="fas fa-sack-dollar mr-3 text-xl text-yellow-400"></i>存款理财活动</h2></div>
+  <!-- 存款理财活动 -->
+  <div class="section-title-card">
+    <h2 class="flex items-center">
+      <i class="fas fa-sack-dollar mr-3 text-xl" style="color: var(--color-highlight);"></i> 存款理财活动 (Savings/Wealth Tasks)
+    </h2>
+  </div>
+  <p class="section-description">需要较长时间（月、季度）达标的存款、理财、借贷等高价值活动。</p>
   <div id="savings-tasks-list"></div>
 </main>
 
-<!-- 底部导航 -->
+<!-- 底部导航栏 -->
 <nav class="tab-bar">
-  <a href="/WiseCompanion/index.html" class="tab-item"><i class="fas fa-home tab-icon"></i><span>首页</span></a>
-  <a href="/WiseCompanion/checkin.html" class="tab-item"><i class="fas fa-gifts tab-icon"></i><span>天天有奖</span></a>
-  <a href="/WiseCompanion/video.html" class="tab-item"><i class="fas fa-play-circle tab-icon"></i><span>看视频赚</span></a>
-  <span class="tab-item active"><i class="fas fa-hand-holding-usd tab-icon"></i><span>捡钱任务</span></span>
-  <a href="/WiseCompanion/shopping.html" class="tab-item"><i class="fas fa-tags tab-icon"></i><span>省钱秘籍</span></a>
+  <a href="/WiseCompanion/index.html" class="tab-item">
+    <i class="fas fa-home tab-icon"></i> <span>首页</span>
+  </a>
+  <a href="/WiseCompanion/checkin.html" class="tab-item">
+    <i class="fas fa-gifts tab-icon"></i> <span>天天有奖</span>
+  </a>
+  <a href="/WiseCompanion/video.html" class="tab-item">
+    <i class="fas fa-play-circle tab-icon"></i> <span>看视频赚</span>
+  </a>
+  <span class="tab-item active">
+    <i class="fas fa-hand-holding-usd tab-icon"></i> <span>捡钱任务</span>
+  </span>
+  <a href="/WiseCompanion/shopping.html" class="tab-item">
+    <i class="fas fa-tags tab-icon"></i> <span>省钱秘籍</span>
+  </a>
 </nav>
 
 <script>
+// ------------------- 核心逻辑 -------------------
+let activitiesData = [];
 let selectedBank = 'All';
-let activities = [];
 
-async function loadActivities() {
-  try {
-    const res = await fetch('activities.json?_=' + Date.now());
-    if (!res.ok) throw new Error('network');
-    activities = await res.json();
-    document.getElementById('data-status-warning').style.display = 'none';
-  } catch (e) {
-    console.warn('加载失败，使用内置数据');
-    activities = MOCK_ACTIVITIES;
-  }
-  initFilters();
-  renderActivities();
-  startCountdown();
-}
-
-function initFilters() {
-  const container = document.getElementById('bank-filter-container');
-  const banks = [...new Set(activities.map(a => a.Bank))];
-  container.innerHTML = '<button class="filter-button active" data-bank="All"><i class="fas fa-layer-group"></i> 全部活动</button>';
-  banks.forEach(bank => {
-    const btn = document.createElement('button');
-    btn.className = 'filter-button';
-    btn.dataset.bank = bank;
-    btn.innerHTML = `<i class="fa-solid fa-piggy-bank"></i> ${bank}`;
-    btn.onclick = () => {
-      selectedBank = bank;
-      document.querySelectorAll('.filter-button').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      renderActivities();
-    };
-    container.appendChild(btn);
-  });
-  container.querySelector('[data-bank="All"]').onclick = e=>{
-    selectedBank = 'All';
-    document.querySelectorAll('.filter-button').forEach(b=>b.classList.remove('active'));
-    e.currentTarget.classList.add('active');
+async function initBankPage(){
+  try{
+    const res = await fetch('/WiseCompanion/activities.json');
+    const data = await res.json();
+    activitiesData = data;
+    document.getElementById('data-status-warning').textContent = '';
+    initBankFilters();
     renderActivities();
-  };
+    startCountdownUpdater();
+  }catch(err){
+    console.error(err);
+    document.getElementById('data-status-warning').textContent='⚠️ 数据加载失败，显示内置模拟数据。';
+  }
 }
 
-function renderActivities() {
-  const cats = {
-    '日常活动': document.getElementById('routine-tasks-list'),
-    '缴费活动': document.getElementById('payment-tasks-list'),
-    '存款理财活动': document.getElementById('savings-tasks-list')
+function initBankFilters(){
+  const container = document.getElementById('bank-filter-container');
+  const banks = new Set();
+  activitiesData.forEach(act => {
+    if(act.sourceApp) banks.add(act.sourceApp);
+  });
+  container.innerHTML='<button class="filter-button active" data-bank="All"><i class="fas fa-layer-group"></i> 全部活动</button>';
+  banks.forEach(bank=>{
+    const button = document.createElement('button');
+    button.className='filter-button';
+    button.setAttribute('data-bank',bank);
+    button.innerHTML=`<i class="fa-solid fa-building-columns"></i> ${bank}`;
+    button.addEventListener('click',()=>{selectedBank=bank;document.querySelectorAll('.filter-button').forEach(btn=>btn.classList.remove('active'));button.classList.add('active');renderActivities();});
+    container.appendChild(button);
+  });
+  container.querySelector('[data-bank="All"]').addEventListener('click',e=>{selectedBank='All';document.querySelectorAll('.filter-button').forEach(btn=>btn.classList.remove('active'));e.currentTarget.classList.add('active');renderActivities();});
+}
+
+function renderActivities(){
+  const lists = {
+    '日常活动':document.getElementById('routine-tasks-list'),
+    '缴费活动':document.getElementById('payment-tasks-list'),
+    '存款理财活动':document.getElementById('savings-tasks-list')
   };
-  Object.values(cats).forEach(c=>c.innerHTML='');
-  const filtered = activities.filter(a => selectedBank==='All'||a.Bank===selectedBank);
-  filtered.forEach((a,i)=>{
-    const el = makeCard(a,i);
-    cats[a.Category]?.appendChild(el);
+  Object.values(lists).forEach(el=>el.innerHTML='');
+  const hasActivities={'日常活动':false,'缴费活动':false,'存款理财活动':false};
+
+  activitiesData.forEach((act,idx)=>{
+    if(selectedBank!=='All' && act.sourceApp!==selectedBank) return;
+    if(!Array.isArray(act.category)) return;
+    act.category.forEach(tag=>{
+      if(lists[tag]){
+        hasActivities[tag]=true;
+        lists[tag].innerHTML += renderActivityCard(act,idx,tag);
+      }
+    });
+  });
+
+  Object.keys(lists).forEach(cat=>{
+    if(!hasActivities[cat]){
+      lists[cat].innerHTML=`<p class="text-gray-400 text-center p-4">该分类下${selectedBank!=='All'?'没有 '+selectedBank+' 的':''}活动。</p>`;
+    }
   });
 }
 
-function makeCard(a,i){
-  const div = document.createElement('a');
-  div.href = a.Link || '#';
-  div.target = '_blank';
-  div.className = `task-list-card ${getClass(a.Category)}`;
-  div.innerHTML = `
-    <span class="countdown-badge" data-end="${a.EndDate}" id="timer-${i}">计算中...</span>
-    <div class="task-icon ${getIconClass(a.Category)}"><i class="fa-solid ${getFa(a.Category)}"></i></div>
+function renderActivityCard(act,idx,category){
+  const categoryClass = {'日常活动':'task-routine','缴费活动':'task-payment','存款理财活动':'task-savings'}[category]||'task-routine';
+  const iconClass = {'日常活动':'icon-routine','缴费活动':'icon-payment','存款理财活动':'icon-savings'}[category]||'icon-routine';
+  const iconFa = {'日常活动':'fa-calendar-day','缴费活动':'fa-file-invoice-dollar','存款理财活动':'fa-sack-dollar'}[category]||'fa-piggy-bank';
+  const actionText = category==='存款理财活动'?'查看细则':'去领取';
+  return `<a href="${act.deepLink||'#'}" target="_blank" class="task-list-card ${categoryClass}">
+    <span class="countdown-badge" data-endtime="${act.endDate||''}" id="timer-${idx}">计算中...</span>
+    <div class="task-icon ${iconClass}"><i class="fa-solid ${iconFa}"></i></div>
     <div class="task-content">
-      <div class="task-title">${a.Name} (${a.Bank})</div>
-      <div class="task-subtitle">${a.Description||''}</div>
+      <div class="task-title">${act.name||'活动名称缺失'} (${act.sourceApp||''})</div>
+      <div class="task-subtitle">${act.description||'暂无描述'}</div>
     </div>
-    <div class="task-action"><span class="action-button">${a.Category==='存款理财活动'?'查看细则':'去领取'}</span></div>`;
-  return div;
-}
-function getClass(c){return c==='缴费活动'?'task-payment':c==='存款理财活动'?'task-savings':'task-routine';}
-function getIconClass(c){return c==='缴费活动'?'icon-payment':c==='存款理财活动'?'icon-savings':'icon-routine';}
-function getFa(c){return c==='缴费活动'?'fa-file-invoice-dollar':c==='存款理财活动'?'fa-sack-dollar':'fa-calendar-day';}
-
-function startCountdown(){
-  updateTimers();
-  setInterval(updateTimers,1000);
-}
-function updateTimers(){
-  document.querySelectorAll('.countdown-badge').forEach(b=>{
-    const end = new Date(b.dataset.end).getTime();
-    const now = Date.now();
-    const d = end - now;
-    if (d<0){b.textContent='已过期';b.classList.add('expired-badge');return;}
-    const days = Math.floor(d/86400000);
-    const hrs = Math.floor((d%86400000)/3600000);
-    const mins = Math.floor((d%3600000)/60000);
-    b.textContent = days>0?`剩余 ${days}天${hrs}时`:(hrs>0?`剩余 ${hrs}时${mins}分`:`剩余 ${mins}分`);
-  });
+    <div class="task-action"><span class="action-button">${actionText}</span></div>
+  </a>`;
 }
 
-// 模拟数据备用
-const MOCK_ACTIVITIES = [
-  { Name:"微信支付每日签到",Description:"随机立减金",Bank:"微信支付",Category:"日常活动",Link:"#",EndDate:"2025-11-20" },
-  { Name:"招商银行每日答题",Description:"得红包",Bank:"招商银行",Category:"日常活动",Link:"#",EndDate:"2025-12-31" }
-];
+// 倒计时功能
+function getRemainingTime(endDateString,badgeElement){
+  if(!endDateString) return badgeElement.textContent='';
+  const now=new Date().getTime();
+  const end=new Date(endDateString).getTime();
+  const distance=end-now;
+  if(distance<0){ badgeElement.textContent='已过期'; badgeElement.classList.add('expired-badge'); return;}
+  const days=Math.floor(distance/(1000*60*60*24));
+  const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+  const minutes=Math.floor((distance%(1000*60*60))/(1000*60));
+  const seconds=Math.floor((distance%(1000*60))/1000);
+  let str=days>0?`${days}天 ${hours}时`:hours>0?`${hours}时 ${minutes}分`:`${minutes}分 ${seconds}秒`;
+  badgeElement.textContent='剩余 '+str;
+  badgeElement.classList.remove('expired-badge');
+}
+function startCountdownUpdater(){updateAllCountdowns();setInterval(updateAllCountdowns,1000);}
+function updateAllCountdowns(){document.querySelectorAll('.countdown-badge').forEach(b=>getRemainingTime(b.getAttribute('data-endtime'),b));}
 
-document.addEventListener('DOMContentLoaded',loadActivities);
+document.addEventListener('DOMContentLoaded',initBankPage);
 </script>
+
 </body>
 </html>
