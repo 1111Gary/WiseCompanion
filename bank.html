@@ -1,296 +1,204 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>捡钱任务中心</title>
-    <script src="https://kit.fontawesome.com/a2e0e6ad62.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <style>
-        
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>慧伴管家 - 捡钱任务中心</title>
 
-        body {
-            background-color: #0B1120;
-            color: #E0E7FF;
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+<!-- 依赖 -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-        .bank-card {
-            background-color: #1E293B;
-            border: 1px solid #334155;
-            border-radius: 0.75rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            position: relative;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            transition: transform 0.2s ease;
-        }
-        .bank-card:hover {
-            transform: translateY(-3px);
-        }
-
-        .category-header {
-            background-color: #334155;
-            border-radius: 0.75rem;
-            padding: 0.75rem 1rem;
-            margin: 1.5rem 0 1rem 0;
-            display: flex;
-            align-items: center;
-            font-weight: 600;
-            border-left: 4px solid #60A5FA;
-        }
-
-        .filter-bar {
-            display: flex;
-            overflow-x: auto;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        .filter-bar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .filter-button {
-            background-color: #1E293B;
-            border: 1px solid #475569;
-            color: #E0E7FF;
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            white-space: nowrap;
-            transition: background-color 0.2s ease, border-color 0.2s ease;
-        }
-        .filter-button:hover {
-            background-color: #334155;
-        }
-        .filter-button.active {
-            background-color: #3B82F6;
-            border-color: #60A5FA;
-            color: white;
-        }
-
-        .countdown-badge {
-            position: absolute;
-            top: 6px;
-            right: 8px;
-            background-color: #10B981;
-            color: white;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            padding: 0.25rem 0.5rem;
-        }
-        .countdown-badge.expired {
-            background-color: #EF4444;
-        }
-
-        .back-arrow-link {
-            display: flex;
-            align-items: center;
-            background-color: #1E293B;
-            color: #E0E7FF;
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            text-decoration: none;
-            font-weight: 500;
-            margin-bottom: 1.5rem;
-            width: fit-content;
-        }
-        .back-arrow-link:hover {
-            background-color: #1E2B44;
-        }
-
-        .action-button {
-            background-color: #3B82F6;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: background-color 0.2s ease;
-        }
-        .action-button:hover {
-            background-color: #2563EB;
-        }
-        .action-button:active {
-            transform: scale(0.95);
-        }
-
-        @keyframes fade-in { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:none;} }
-        .animate-fade-in { animation: fade-in 0.3s ease forwards; }
-    </style>
+<style>
+/* ====== 样式保持完全一致（省略重复注释） ====== */
+:root {
+  --color-bg-dark: #0A1322;
+  --color-card-bg: #1A2233;
+  --color-primary: #00BFFF;
+  --color-secondary: #FF69B4;
+  --color-text-light: #E0E7FF;
+  --color-text-muted: #9CA3AF;
+  --color-highlight: #FFD700;
+  --color-bank-bg: #1F2A40;
+  --color-success: #34D399;
+}
+body {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+  padding-bottom: calc(85px + env(safe-area-inset-bottom));
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+.header-bar-fixed { padding-top: calc(15px + env(safe-area-inset-top)); padding-bottom: 5px; background-color: var(--color-bg-dark); position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.main-banner-card { background: linear-gradient(135deg, #0f1627, #1a2233); border-radius: 20px; padding: 25px 20px; text-align: center; border: 3px solid transparent; background-clip: padding-box, border-box; background-origin: padding-box, border-box; border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight)); border-image-slice: 1; box-shadow: 0 0 15px rgba(0, 191, 255, 0.5), 0 0 30px rgba(255, 215, 0, 0.3); margin-bottom: 1.5rem; }
+.main-banner-card h1 { font-size: 1.5rem; font-weight: 900; color: var(--color-text-light); text-shadow: 0 0 5px var(--color-highlight); margin-bottom: 5px; }
+.filter-container { margin-bottom: 2rem; padding: 10px 0; overflow-x: auto; display: flex; gap: 10px; align-items: center; scrollbar-width: none; }
+.filter-container::-webkit-scrollbar { display: none; }
+.filter-button { display: inline-flex; align-items: center; padding: 8px 15px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; background-color: var(--color-card-bg); color: var(--color-text-muted); border: 2px solid var(--color-card-bg); transition: all 0.2s ease; flex-shrink: 0; }
+.filter-button.active { background-color: var(--color-primary); color: var(--color-bg-dark); border-color: var(--color-primary); box-shadow: 0 0 8px rgba(0, 191, 255, 0.8); }
+.section-title-card { background: linear-gradient(135deg, #0f1627, #1a2233); border-radius: 12px; padding: 15px 20px; border: 2px solid transparent; background-clip: padding-box, border-box; border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight)); border-image-slice: 1; box-shadow: 0 0 8px rgba(0, 191, 255, 0.3); margin-top: 2rem; margin-bottom: 1rem; }
+.task-list-card { background-color: var(--color-bank-bg); border-radius: 15px; padding: 15px 20px; margin-bottom: 15px; display: flex; align-items: center; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4); border-left: 5px solid; position: relative; }
+.countdown-badge { position: absolute; top: 0; right: 0; background-color: var(--color-secondary); color: var(--color-bg-dark); padding: 4px 10px; border-top-right-radius: 15px; border-bottom-left-radius: 15px; font-size: 0.75rem; font-weight: 700; }
+.expired-badge { background-color: #EF4444; color: white; }
+.task-routine { border-left-color: var(--color-success); }
+.task-payment { border-left-color: var(--color-primary); }
+.task-savings { border-left-color: var(--color-highlight); }
+.task-icon { width: 40px; height: 40px; border-radius: 8px; color: var(--color-bg-dark); font-size: 1.2rem; display: flex; align-items: center; justify-content: center; margin-right: 15px; }
+.icon-routine { background-color: var(--color-success); }
+.icon-payment { background-color: var(--color-primary); }
+.icon-savings { background-color: var(--color-highlight); }
+.action-button { background-color: var(--color-primary); color: var(--color-bg-dark); font-weight: 700; padding: 6px 12px; border-radius: 9999px; font-size: 0.8rem; }
+.tab-bar { position: fixed; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-around; align-items: center; height: 60px; background-color: var(--color-bg-dark); border-top: 1px solid #1A2233; box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); }
+.tab-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.75rem; text-decoration: none; }
+.tab-item.active { color: var(--color-primary); }
+</style>
 </head>
 
-<body class="p-4">
+<body>
+<!-- 顶部栏 -->
+<div class="header-bar-fixed px-4">
+  <div class="header-logo-group">
+    <img src="/WiseCompanion/assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/00BFFF/fff?text=L'" class="header-logo rounded-md shadow-lg">
+    <h1 class="header-title">慧伴管家</h1>
+  </div>
+  <a href="/WiseCompanion/index.html" class="back-arrow-link" title="返回首页">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+</div>
 
-    <!-- 返回按钮 -->
-    <a href="checkin.html" class="back-arrow-link">
-        <i class="fas fa-arrow-left mr-2"></i> 返回签到中心
-    </a>
+<main class="container mx-auto px-4 py-4">
+  <div class="main-banner-card">
+    <p id="data-status-warning" class="text-sm font-semibold text-red-400 mb-3 p-2 border border-red-500 rounded-lg bg-red-900/20">
+      ⚠️ 提示：当前显示为内置模拟数据。
+    </p>
+    <h1>捡钱任务中心</h1>
+    <p class="text-sm text-gray-400 mt-2">点击下方按钮，仅显示您拥有的银行卡/平台活动</p>
+  </div>
 
-    <!-- 页标题 -->
-    <h1 class="text-3xl font-bold mb-4 text-center text-blue-400">💰 捡钱任务中心</h1>
-    <p class="text-center text-gray-400 mb-6">筛选银行活动，查看任务倒计时，轻松赚钱！</p>
+  <div class="filter-container" id="bank-filter-container">
+    <button class="filter-button active" data-bank="All"><i class="fas fa-layer-group"></i> 全部活动</button>
+  </div>
 
-    <!-- 筛选条 -->
-    <div id="bank-filters" class="filter-bar"></div>
+  <div class="section-title-card"><h2><i class="fas fa-calendar-day mr-3 text-xl text-green-400"></i>日常活动</h2></div>
+  <div id="routine-tasks-list"></div>
 
-    <!-- 分类区域 -->
-    <main>
-        <section>
-            <h2 class="category-header"><i class="fas fa-coins text-yellow-400 mr-2"></i> 日常任务</h2>
-            <div id="routine-list"></div>
-        </section>
-        <section>
-            <h2 class="category-header"><i class="fas fa-credit-card text-green-400 mr-2"></i> 支付任务</h2>
-            <div id="payment-list"></div>
-        </section>
-        <section>
-            <h2 class="category-header"><i class="fas fa-piggy-bank text-pink-400 mr-2"></i> 储蓄任务</h2>
-            <div id="savings-list"></div>
-        </section>
-    </main>
+  <div class="section-title-card"><h2><i class="fas fa-file-invoice-dollar mr-3 text-xl text-blue-400"></i>缴费活动</h2></div>
+  <div id="payment-tasks-list"></div>
 
-    <script>
-        // 模拟活动数据
-        const MOCK_ACTIVITIES = [
-            { title: "支付宝消费赢红包", bank: "支付宝", category: "payment", start: "2025-11-10", end: "2025-11-25", link: "https://www.alipay.com" },
-            { title: "微信步数达标领现金", bank: "微信", category: "routine", start: "2025-11-08", end: "2025-11-15", link: "https://www.wechat.com" },
-            { title: "建设银行理财返现活动", bank: "建设银行", category: "savings", start: "2025-11-01", end: "2025-11-20", link: "#" },
-            { title: "招商银行信用卡支付返现", bank: "招商银行", category: "payment", start: "2025-11-05", end: "2025-11-18", link: "#" },
-            { title: "工商银行每日签到赚积分", bank: "工商银行", category: "routine", start: "2025-11-09", end: "2025-11-30", link: "#" },
-            { title: "交通银行储蓄奖励计划", bank: "交通银行", category: "savings", start: "2025-11-01", end: "2025-11-19", link: "#" }
-        ];
+  <div class="section-title-card"><h2><i class="fas fa-sack-dollar mr-3 text-xl text-yellow-400"></i>存款理财活动</h2></div>
+  <div id="savings-tasks-list"></div>
+</main>
 
-        let selectedBank = null;
+<!-- 底部导航 -->
+<nav class="tab-bar">
+  <a href="/WiseCompanion/index.html" class="tab-item"><i class="fas fa-home tab-icon"></i><span>首页</span></a>
+  <a href="/WiseCompanion/checkin.html" class="tab-item"><i class="fas fa-gifts tab-icon"></i><span>天天有奖</span></a>
+  <a href="/WiseCompanion/video.html" class="tab-item"><i class="fas fa-play-circle tab-icon"></i><span>看视频赚</span></a>
+  <span class="tab-item active"><i class="fas fa-hand-holding-usd tab-icon"></i><span>捡钱任务</span></span>
+  <a href="/WiseCompanion/shopping.html" class="tab-item"><i class="fas fa-tags tab-icon"></i><span>省钱秘籍</span></a>
+</nav>
 
-        // 获取银行图标
-        function getBankIcon(bankName) {
-            const map = {
-                '微信': 'fab fa-weixin',
-                '支付宝': 'fab fa-alipay',
-                '建设': 'fa-landmark',
-                '招商': 'fa-star',
-                '工商': 'fa-briefcase',
-                '交通': 'fa-route'
-            };
-            for (const [k, v] of Object.entries(map)) {
-                if (bankName.includes(k)) return v;
-            }
-            return 'fa-university';
-        }
+<script>
+let selectedBank = 'All';
+let activities = [];
 
-        // 初始化筛选条
-        function initBankFilters(activities) {
-            const filtersContainer = document.getElementById('bank-filters');
-            filtersContainer.innerHTML = '';
-            const banks = [...new Set(activities.map(a => a.bank))];
+async function loadActivities() {
+  try {
+    const res = await fetch('activities.json?_=' + Date.now());
+    if (!res.ok) throw new Error('network');
+    activities = await res.json();
+    document.getElementById('data-status-warning').style.display = 'none';
+  } catch (e) {
+    console.warn('加载失败，使用内置数据');
+    activities = MOCK_ACTIVITIES;
+  }
+  initFilters();
+  renderActivities();
+  startCountdown();
+}
 
-            const allButton = document.createElement('button');
-            allButton.className = 'filter-button active';
-            allButton.textContent = '全部活动';
-            allButton.onclick = () => {
-                selectedBank = null;
-                document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
-                allButton.classList.add('active');
-                renderActivities(activities);
-            };
-            filtersContainer.appendChild(allButton);
+function initFilters() {
+  const container = document.getElementById('bank-filter-container');
+  const banks = [...new Set(activities.map(a => a.Bank))];
+  container.innerHTML = '<button class="filter-button active" data-bank="All"><i class="fas fa-layer-group"></i> 全部活动</button>';
+  banks.forEach(bank => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-button';
+    btn.dataset.bank = bank;
+    btn.innerHTML = `<i class="fa-solid fa-piggy-bank"></i> ${bank}`;
+    btn.onclick = () => {
+      selectedBank = bank;
+      document.querySelectorAll('.filter-button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderActivities();
+    };
+    container.appendChild(btn);
+  });
+  container.querySelector('[data-bank="All"]').onclick = e=>{
+    selectedBank = 'All';
+    document.querySelectorAll('.filter-button').forEach(b=>b.classList.remove('active'));
+    e.currentTarget.classList.add('active');
+    renderActivities();
+  };
+}
 
-            banks.forEach(bank => {
-                const button = document.createElement('button');
-                button.className = 'filter-button';
-                button.textContent = bank;
-                button.onclick = () => {
-                    selectedBank = bank;
-                    document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    renderActivities(activities.filter(a => a.bank === bank));
-                };
-                filtersContainer.appendChild(button);
-            });
-        }
+function renderActivities() {
+  const cats = {
+    '日常活动': document.getElementById('routine-tasks-list'),
+    '缴费活动': document.getElementById('payment-tasks-list'),
+    '存款理财活动': document.getElementById('savings-tasks-list')
+  };
+  Object.values(cats).forEach(c=>c.innerHTML='');
+  const filtered = activities.filter(a => selectedBank==='All'||a.Bank===selectedBank);
+  filtered.forEach((a,i)=>{
+    const el = makeCard(a,i);
+    cats[a.Category]?.appendChild(el);
+  });
+}
 
-        // 渲染活动卡片
-        function renderActivities(activities) {
-            const categories = {
-                routine: document.getElementById('routine-list'),
-                payment: document.getElementById('payment-list'),
-                savings: document.getElementById('savings-list')
-            };
-            Object.values(categories).forEach(c => c.innerHTML = '');
+function makeCard(a,i){
+  const div = document.createElement('a');
+  div.href = a.Link || '#';
+  div.target = '_blank';
+  div.className = `task-list-card ${getClass(a.Category)}`;
+  div.innerHTML = `
+    <span class="countdown-badge" data-end="${a.EndDate}" id="timer-${i}">计算中...</span>
+    <div class="task-icon ${getIconClass(a.Category)}"><i class="fa-solid ${getFa(a.Category)}"></i></div>
+    <div class="task-content">
+      <div class="task-title">${a.Name} (${a.Bank})</div>
+      <div class="task-subtitle">${a.Description||''}</div>
+    </div>
+    <div class="task-action"><span class="action-button">${a.Category==='存款理财活动'?'查看细则':'去领取'}</span></div>`;
+  return div;
+}
+function getClass(c){return c==='缴费活动'?'task-payment':c==='存款理财活动'?'task-savings':'task-routine';}
+function getIconClass(c){return c==='缴费活动'?'icon-payment':c==='存款理财活动'?'icon-savings':'icon-routine';}
+function getFa(c){return c==='缴费活动'?'fa-file-invoice-dollar':c==='存款理财活动'?'fa-sack-dollar':'fa-calendar-day';}
 
-            let hasActivities = false;
-            activities.forEach(act => {
-                if (!categories[act.category]) return;
-                hasActivities = true;
-                const icon = getBankIcon(act.bank);
-                const card = `
-                    <div class="bank-card animate-fade-in">
-                        <div class="flex items-center mb-2">
-                            <i class="${icon} text-xl mr-2 text-blue-400"></i>
-                            <h3 class="text-lg font-semibold flex-1">${act.title}</h3>
-                        </div>
-                        <p class="text-gray-400 text-sm mb-2">${act.bank}</p>
-                        <p class="text-xs text-gray-500 mb-2">活动时间：${act.start} ~ ${act.end}</p>
-                        <div class="countdown-badge" data-endtime="${act.end}"></div>
-                        <a href="${act.link}" class="action-button mt-2 inline-block" target="_blank">立即参与</a>
-                    </div>`;
-                categories[act.category].innerHTML += card;
-            });
+function startCountdown(){
+  updateTimers();
+  setInterval(updateTimers,1000);
+}
+function updateTimers(){
+  document.querySelectorAll('.countdown-badge').forEach(b=>{
+    const end = new Date(b.dataset.end).getTime();
+    const now = Date.now();
+    const d = end - now;
+    if (d<0){b.textContent='已过期';b.classList.add('expired-badge');return;}
+    const days = Math.floor(d/86400000);
+    const hrs = Math.floor((d%86400000)/3600000);
+    const mins = Math.floor((d%3600000)/60000);
+    b.textContent = days>0?`剩余 ${days}天${hrs}时`:(hrs>0?`剩余 ${hrs}时${mins}分`:`剩余 ${mins}分`);
+  });
+}
 
-            if (!hasActivities) {
-                Object.values(categories).forEach(c => {
-                    c.innerHTML = '<p class="text-gray-500 text-center mt-4">该分类下没有活动。</p>';
-                });
-            }
+// 模拟数据备用
+const MOCK_ACTIVITIES = [
+  { Name:"微信支付每日签到",Description:"随机立减金",Bank:"微信支付",Category:"日常活动",Link:"#",EndDate:"2025-11-20" },
+  { Name:"招商银行每日答题",Description:"得红包",Bank:"招商银行",Category:"日常活动",Link:"#",EndDate:"2025-12-31" }
+];
 
-            updateAllCountdowns();
-        }
-
-        // 倒计时计算
-        function getRemainingTime(endDate, badge) {
-            const now = new Date();
-            const end = new Date(endDate);
-            const diff = end - now;
-            if (diff <= 0) {
-                badge.textContent = "已结束";
-                badge.classList.add('expired');
-                return;
-            }
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diff / (1000 * 60)) % 60);
-            const seconds = Math.floor((diff / 1000) % 60);
-
-            badge.textContent = days > 0
-                ? `剩余 ${days}天 ${hours}小时`
-                : `剩余 ${hours}小时 ${minutes}分 ${seconds}秒`;
-        }
-
-        // 循环刷新倒计时
-        function updateAllCountdowns() {
-            document.querySelectorAll('.countdown-badge').forEach(badge => {
-                const endDate = badge.getAttribute('data-endtime');
-                if (endDate) getRemainingTime(endDate, badge);
-            });
-        }
-
-        function startCountdownUpdater() {
-            updateAllCountdowns();
-            setInterval(updateAllCountdowns, 1000);
-        }
-
-        // 主启动函数
-        document.addEventListener('DOMContentLoaded', () => {
-            initBankFilters(MOCK_ACTIVITIES);
-            renderActivities(MOCK_ACTIVITIES);
-            startCountdownUpdater();
-        });
-    </script>
+document.addEventListener('DOMContentLoaded',loadActivities);
+</script>
 </body>
 </html>
