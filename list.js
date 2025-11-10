@@ -1,70 +1,104 @@
 /**
  * list.js - 活动列表核心逻辑 (前端客户端)
- * 功能：
+ * 支持页面：CheckIn / Video / Bank / Shopping
  * 1. 从 ./activities.json 加载数据。
- * 2. 根据页面 data-category 过滤活动。
- * 3. 渲染活动卡片。
- * 4. 支持倒计时显示（Bank 页面）。
+ * 2. 根据 body 的 data-category 和可选 data-subcategory 过滤活动。
+ * 3. 渲染活动卡片，并显示倒计时（只到日期）。
  */
 
-// --------------------- 配置 ---------------------
+// ------------------------------
+// 核心映射配置
+// ------------------------------
 const CATEGORY_DISPLAY_MAP = {
-    'Checkin': '天天有奖',
+    'CheckIn': '天天有奖',
     'Video': '看视频赚',
     'Bank': '捡钱任务',
-    'Shopping': '省钱秘籍'
+    'Shopping': '省钱秘籍',
+    'DailyTask': '日常活动',
+    'Payment': '缴费活动',
+    'Deposit': '存款理财活动'
 };
 
 // 全局缓存
 window.allActivitiesCache = [];
 
-// --------------------- 辅助函数 ---------------------
+// ------------------------------
+// 数据加载
+// ------------------------------
+async function fetchWithRetry(url, options = {}, maxRetries = 3) {
+    for (let i = 0; i < maxRetries; i++) {
+        try {
+            const res = await fetch(url, { ...options, cache: 'no-cache' });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const contentType = res.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                const text = await res.text();
+                throw new Error(`不是 JSON: ${text}`);
+            }
+            return await res.json();
+        } catch (err) {
+            console.warn(`Fetch ${i + 1} 失败: ${err.message}`);
+            if (i < maxRetries - 1) await new Promise(r => setTimeout(r, Math.pow(2, i) * 1000));
+            else throw err;
+        }
+    }
+}
 
-// 获取平台图标
-function getPlatformIcon(platformName) {
-    if (!platformName) return 'fa-gift';
-    if (platformName.includes('微信')) return 'fab fa-weixin';
-    if (platformName.includes('支付宝')) return 'fab fa-alipay';
-    if (platformName.includes('招商')) return 'fa-star';
-    if (platformName.includes('建设')) return 'fa-building-columns';
-    if (platformName.includes('拼多多')) return 'fa-shopping-bag';
-    if (platformName.includes('快手')) return 'fa-video';
-    if (platformName.includes('抖音')) return 'fa-mobile-screen';
-    if (platformName.includes('淘宝')) return 'fa-store';
-    if (platformName.includes('网上国网')) return 'fa-bolt';
-    if (platformName.includes('中国银行')) return 'fa-university';
+async function loadActivities() {
+    const listContainer = document.getElementById('daily-tasks-list');
+    if (listContainer) listContainer.innerHTML = `<p class="text-gray-400 text-center p-4">正在加载活动数据...</p>`;
+    try {
+        const activities = await fetchWithRetry('./activities.json');
+        if (!Array.isArray(activities)) throw new Error('JSON 数据不是数组');
+        window.allActivitiesCache = activities;
+        return activities;
+    } catch (err) {
+        console.error('加载 activities.json 失败', err);
+        if (listContainer) {
+            listContainer.innerHTML = `<p class="text-red-400 text-center p-4">数据加载失败：${err.message}</p>`;
+        }
+        return [];
+    }
+}
+
+// ------------------------------
+// 渲染逻辑
+// ------------------------------
+function getPlatformIcon(appName) {
+    if (!appName) return 'fa-gift';
+    if (appName.includes('微信')) return 'fab fa-weixin';
+    if (appName.includes('支付宝')) return 'fab fa-alipay';
+    if (appName.includes('招商')) return 'fa-star';
+    if (appName.includes('建设')) return 'fa-building-columns';
+    if (appName.includes('拼多多')) return 'fa-shopping-bag';
+    if (appName.includes('快手')) return 'fa-video';
+    if (appName.includes('抖音')) return 'fa-mobile-screen';
+    if (appName.includes('淘宝')) return 'fa-store';
+    if (appName.includes('网上国网')) return 'fa-bolt';
+    if (appName.includes('中国银行')) return 'fa-university';
     return 'fa-gift';
 }
 
-// 倒计时计算（只到天）
-function calcCountdown(deadline) {
-    if (!deadline) return '';
-    const now = new Date();
-    const end = new Date(deadline);
-    const diff = end - now;
-    if (diff <= 0) return '已截止';
-    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-    return `剩余 ${days} 天`;
-}
-
-// 渲染单个卡片
 function renderActivityCard(activity) {
-    const deepLinkUrl = activity.deepLink || '#';
     const icon = getPlatformIcon(activity.sourceApp);
     const buttonText = '去参与';
     const buttonClass = 'status-pending';
-
-    // 左边框颜色
     let borderColor = 'var(--color-secondary)';
-    if (activity.category && activity.category.includes('Checkin')) borderColor = 'var(--color-primary)';
-    if (activity.category && activity.category.includes('Video')) borderColor = 'var(--color-highlight)';
-    if (activity.category && activity.category.includes('Bank')) borderColor = 'var(--color-success)';
-    if (activity.category && activity.category.includes('Shopping')) borderColor = 'var(--color-warning)';
-
-    // 倒计时显示（仅 Bank 页面）
+    if (activity.category.includes('CheckIn')) borderColor = 'var(--color-primary)';
+    else if (activity.category.includes('Video')) borderColor = 'var(--color-highlight)';
+    else if (activity.category.includes('Bank')) borderColor = 'var(--color-success)';
+    // 倒计时
     let countdownHtml = '';
-    if (activity.category && activity.category.includes('Bank') && activity.deadline) {
-        countdownHtml = `<div class="countdown text-xs text-red-500 mt-1">${calcCountdown(activity.deadline)}</div>`;
+    if (activity.endDate) {
+        const now = new Date();
+        const end = new Date(activity.endDate + 'T23:59:59'); // 只到日期
+        const diff = end - now;
+        if (diff > 0) {
+            const days = Math.ceil(diff / (1000*60*60*24));
+            countdownHtml = `<div class="text-xs text-red-500 mt-1">剩余 ${days} 天</div>`;
+        } else {
+            countdownHtml = `<div class="text-xs text-gray-400 mt-1">已结束</div>`;
+        }
     }
 
     return `
@@ -79,79 +113,48 @@ function renderActivityCard(activity) {
                 ${countdownHtml}
             </div>
             <div class="task-action">
-                <a href="${deepLinkUrl}" target="_blank" rel="noopener noreferrer" 
-                   class="action-button ${buttonClass} flex items-center justify-center">
-                    ${buttonText}
-                </a>
+                <a href="${activity.deepLink || '#'}" target="_blank" rel="noopener noreferrer" 
+                   class="action-button ${buttonClass} flex items-center justify-center">${buttonText}</a>
             </div>
         </div>
     `;
 }
 
-// --------------------- 数据加载 ---------------------
-async function fetchWithRetry(url, options, maxRetries = 3) {
-    for (let i = 0; i < maxRetries; i++) {
-        try {
-            const response = await fetch(url, options);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            return response.json();
-        } catch (err) {
-            console.warn(`Fetch attempt ${i + 1} failed: ${err.message}`);
-            if (i < maxRetries - 1) await new Promise(r => setTimeout(r, Math.pow(2, i) * 500));
-            else throw err;
-        }
-    }
-}
+function renderFilteredActivities(category, subcategory) {
+    const listContainer = document.getElementById('daily-tasks-list');
+    if (!listContainer) return;
 
-async function loadActivities() {
-    const filePath = './activities.json';
-    try {
-        const activities = await fetchWithRetry(filePath, { cache: 'no-cache' });
-        if (!Array.isArray(activities)) throw new Error('活动数据格式错误');
-        window.allActivitiesCache = activities;
-        console.log(`[Load] 成功加载 ${activities.length} 条活动`);
-        return activities;
-    } catch (err) {
-        console.error('加载活动失败', err);
-        return [];
-    }
-}
+    const filtered = window.allActivitiesCache.filter(act => {
+        if (!act.category || !Array.isArray(act.category)) return false;
+        if (subcategory) return act.category.includes(category) && act.category.includes(subcategory);
+        return act.category.includes(category);
+    });
 
-// --------------------- 渲染过滤 ---------------------
-function renderFilteredActivities(targetCategoryEn, listContainer) {
-    if (!window.allActivitiesCache.length) {
-        listContainer.innerHTML = `<p class="text-gray-400 text-center p-4">暂无数据</p>`;
+    if (filtered.length === 0) {
+        listContainer.innerHTML = `<p class="text-gray-400 text-center p-4">当前分类暂无活动。</p>`;
         return;
     }
 
-    const filtered = window.allActivitiesCache.filter(act => {
-        if (!act.category) return false;
-        const cats = Array.isArray(act.category) ? act.category : [act.category];
-        return cats.some(c => c.trim().toLowerCase() === targetCategoryEn.trim().toLowerCase());
-    });
-
-    if (!filtered.length) {
-        listContainer.innerHTML = `<p class="text-gray-400 text-center p-4">当前分类暂无活动</p>`;
-    } else {
-        listContainer.innerHTML = filtered.map(renderActivityCard).join('');
-    }
+    listContainer.innerHTML = filtered.map(renderActivityCard).join('');
 }
 
-// --------------------- 主入口 ---------------------
+// ------------------------------
+// 主入口
+// ------------------------------
 document.addEventListener('DOMContentLoaded', async () => {
     const listContainer = document.getElementById('daily-tasks-list');
-    const targetCategoryEn = document.body.getAttribute('data-category');
+    const category = document.body.getAttribute('data-category');       // 页面主分类
+    const subcategory = document.body.getAttribute('data-subcategory'); // 可选子分类
 
-    if (!listContainer || !targetCategoryEn) return;
-
-    // 状态提示
+    // 显示提示
     const statusWarning = document.getElementById('data-status-warning');
-    if (statusWarning) {
-        const catName = CATEGORY_DISPLAY_MAP[targetCategoryEn] || targetCategoryEn;
-        statusWarning.textContent = `⚠️ 正在显示 [${catName}] 分类活动`;
+    if (statusWarning && category) {
+        const catName = CATEGORY_DISPLAY_MAP[category] || category;
+        const subName = subcategory ? (CATEGORY_DISPLAY_MAP[subcategory] || subcategory) : '';
+        statusWarning.textContent = `⚠️ 提示：正在显示 [${catName}${subName ? ' > '+subName : ''}] 分类的活动`;
         statusWarning.style.display = 'block';
     }
 
     await loadActivities();
-    renderFilteredActivities(targetCategoryEn, listContainer);
+    renderFilteredActivities(category, subcategory);
 });
