@@ -34,7 +34,7 @@ async function fetchWithRetry(url, options = {}, maxRetries = 3) {
 }
 
 async function loadActivities() {
-    const filePath = '../activities.json';
+    const filePath = './activities.json';
     const listContainer = document.getElementById('daily-tasks-list');
     if (listContainer) listContainer.innerHTML = `<p class="text-gray-400 text-center p-4">正在加载活动数据...</p>`;
     try {
