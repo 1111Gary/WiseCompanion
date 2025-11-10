@@ -1,104 +1,153 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>慧伴管家 - 捡钱任务中心</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<style>
-:root {
-    --color-bg-dark: #0A1322;
-    --color-card-bg: #1A2233;
-    --color-primary: #00BFFF;
-    --color-secondary: #FF69B4;
-    --color-text-light: #E0E7FF;
-    --color-text-muted: #9CA3AF;
-    --color-highlight: #FFD700;
-    --color-bank-bg: #1F2A40;
-    --color-success: #34D399;
-}
-body { background-color: var(--color-bg-dark); color: var(--color-text-light); font-family: 'Inter', sans-serif; padding-bottom: calc(85px + env(safe-area-inset-bottom)); }
-.header-bar-fixed { padding-top: calc(15px + env(safe-area-inset-top)); padding-bottom: 5px; background-color: var(--color-bg-dark); position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; height: 60px; }
-.main-banner-card { background: linear-gradient(135deg, #0f1627, #1a2233); border-radius: 20px; padding: 25px 20px; text-align: center; border: 3px solid transparent; background-clip: padding-box, border-box; background-origin: padding-box, border-box; border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight)); border-image-slice: 1; box-shadow: 0 0 15px rgba(0, 191, 255, 0.5), 0 0 30px rgba(255, 215, 0, 0.3); margin-bottom: 1.5rem; position: relative; }
-.main-banner-card h1 { font-size: 1.5rem; font-weight: 900; color: var(--color-text-light); text-shadow: 0 0 5px var(--color-highlight); margin-bottom: 5px; }
-.filter-container { margin-bottom: 2rem; padding: 10px 0; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; display: flex; gap: 10px; align-items: center; }
-.filter-button { display: inline-flex; align-items: center; padding: 8px 15px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; background-color: var(--color-card-bg); color: var(--color-text-muted); border: 2px solid var(--color-card-bg); transition: all 0.2s ease; flex-shrink: 0; }
-.filter-button.active { background-color: var(--color-primary); color: var(--color-bg-dark); border-color: var(--color-primary); box-shadow: 0 0 8px rgba(0, 191, 255, 0.8); }
-.section-title-card { background: linear-gradient(135deg, #0f1627, #1a2233); border-radius: 12px; padding: 15px 20px; text-align: left; border: 2px solid transparent; background-clip: padding-box, border-box; background-origin: padding-box, border-box; border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight)); border-image-slice: 1; box-shadow: 0 0 8px rgba(0, 191, 255, 0.3); margin-top: 2rem; margin-bottom: 1rem; }
-.section-title-card h2 { font-size: 1.25rem; font-weight: 800; letter-spacing: 0.5px; color: var(--color-text-light); }
-.section-description { color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 1rem; padding-left: 5px; }
-.task-list-card { background-color: var(--color-bank-bg); border-radius: 15px; padding: 15px 20px; margin-bottom: 15px; display: flex; align-items: center; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4); border-left: 5px solid; position: relative; }
-.task-list-card:hover { background-color: #25334c; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); }
-.countdown-badge { position: absolute; top: 0; right: 0; background-color: var(--color-secondary); color: var(--color-bg-dark); padding: 4px 10px; border-top-right-radius: 15px; border-bottom-left-radius: 15px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; z-index: 5; }
-.expired-badge { background-color: #EF4444; color: white; }
-.task-icon { width: 40px; height: 40px; border-radius: 8px; color: var(--color-bg-dark); font-size: 1.2rem; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
-.task-content { flex-grow: 1; min-width: 0; }
-.task-title { font-size: 1rem; font-weight: 700; color: var(--color-text-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.task-subtitle { font-size: 0.8rem; color: var(--color-text-muted); white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.4; margin-top: 4px; }
-.task-action { display: flex; align-items: center; margin-left: 10px; flex-shrink: 0; }
-.action-button { background-color: var(--color-primary); color: var(--color-bg-dark); font-weight: 700; padding: 6px 12px; border-radius: 9999px; font-size: 0.8rem; transition: background-color 0.2s; text-align: center; width: 80px; }
-.tab-bar { position: fixed; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-around; align-items: center; height: 60px; background-color: var(--color-bg-dark); border-top: 1px solid #1A2233; box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); padding-bottom: env(safe-area-inset-bottom); z-index: 20; }
-.tab-item { display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; color: var(--color-text-muted); font-size: 0.75rem; font-weight: 500; transition: color 0.2s ease; padding: 5px; flex-grow: 1; max-width: 20%; }
-.tab-item.active { color: var(--color-primary); }
-.tab-icon { font-size: 1.2rem; margin-bottom: 3px; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>慧伴管家 - 捡钱任务</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <style>
+    :root {
+      --color-bg-dark: #0A1322;
+      --color-card-bg: #1A2233;
+      --color-primary: #00BFFF;
+      --color-text-light: #E0E7FF;
+      --color-text-muted: #9CA3AF;
+      --color-pending: #60A5FA;
+      --color-success: #34D399;
+    }
+
+    body {
+      background-color: var(--color-bg-dark);
+      color: var(--color-text-light);
+      font-family: 'Inter', sans-serif;
+      padding-bottom: calc(85px + env(safe-area-inset-bottom));
+    }
+
+    .header-bar-fixed {
+      position: sticky;
+      top: 0;
+      background-color: var(--color-bg-dark);
+      z-index: 10;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-title { font-weight: 700; font-size: 1.2rem; }
+
+    /* 筛选标签区域 */
+    #filter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 20px 0;
+    }
+    .tag-button {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--color-primary);
+      color: var(--color-primary);
+      font-size: 0.85rem;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .tag-button.active {
+      background-color: var(--color-primary);
+      color: var(--color-bg-dark);
+    }
+
+    /* 活动卡片样式 */
+    .task-list-card {
+      background-color: var(--color-card-bg);
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .task-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 9999px;
+      background-color: var(--color-primary);
+      color: var(--color-bg-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .task-content {
+      flex-grow: 1;
+    }
+
+    .task-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--color-text-light);
+    }
+
+    .task-subtitle {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      margin-top: 4px;
+    }
+
+    .task-action {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: space-between;
+      min-width: 100px;
+    }
+
+    .action-button {
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      background-color: var(--color-pending);
+      color: var(--color-bg-dark);
+      text-decoration: none;
+    }
+
+    .countdown {
+      font-size: 0.75rem;
+      margin-top: 6px;
+      color: #60A5FA;
+    }
+
+    .countdown.expired {
+      color: #F87171;
+    }
+  </style>
 </head>
+
 <body data-category="Bank">
+  <div class="header-bar-fixed">
+    <h1 class="header-title">捡钱任务</h1>
+    <a href="./index.html" class="text-gray-300"><i class="fas fa-arrow-left"></i></a>
+  </div>
 
-<!-- 顶部导航 -->
-<div class="header-bar-fixed px-4">
-    <div class="flex items-center">
-        <img src="/WiseCompanion/assets/icon_apple.png" class="w-8 h-8 mr-2 rounded-md">
-        <h1 class="text-lg font-bold text-white">慧伴管家</h1>
+  <main class="container mx-auto px-4 py-4">
+    <!-- 动态筛选标签 -->
+    <div id="filter-tags"></div>
+
+    <!-- 活动列表 -->
+    <div id="activity-list">
+      <p class="text-center text-gray-400">正在加载活动数据...</p>
     </div>
-</div>
+  </main>
 
-<main class="container mx-auto px-4 py-4">
-    <div class="main-banner-card">
-        <p id="data-status-warning" class="text-sm font-semibold text-red-400 mb-3 p-2 border border-red-500 rounded-lg bg-red-900/20">
-            ⚠️ 提示：当前显示为内置模拟数据。
-        </p>
-        <h1>捡钱任务中心</h1>
-        <p class="text-sm text-gray-400 mt-2">点击下方按钮，仅显示您拥有的银行卡/平台活动</p>
-    </div>
-
-    <!-- 筛选器 -->
-    <div class="filter-container" id="bank-filter-container">
-        <button class="filter-button active" data-bank="All">
-            <i class="fas fa-layer-group"></i> 全部活动
-        </button>
-    </div>
-
-    <!-- 三类任务 -->
-    <div class="section-title-card">
-        <h2 class="flex items-center"><i class="fas fa-calendar-day mr-3 text-xl" style="color: var(--color-success)"></i> 日常活动</h2>
-    </div>
-    <p class="section-description">每日、每周可重复参与的低门槛任务和立减金活动。</p>
-    <div id="routine-tasks-list"></div>
-
-    <div class="section-title-card">
-        <h2 class="flex items-center"><i class="fas fa-file-invoice-dollar mr-3 text-xl" style="color: var(--color-primary)"></i> 缴费活动</h2>
-    </div>
-    <p class="section-description">水电煤、话费、信用卡还款等优惠活动。</p>
-    <div id="payment-tasks-list"></div>
-
-    <div class="section-title-card">
-        <h2 class="flex items-center"><i class="fas fa-sack-dollar mr-3 text-xl" style="color: var(--color-highlight)"></i> 存款理财活动</h2>
-    </div>
-    <p class="section-description">需要较长时间达标的存款、理财活动。</p>
-    <div id="savings-tasks-list"></div>
-</main>
-
-<!-- 底部 Tab Bar -->
-<nav class="tab-bar">
-    <a href="/WiseCompanion/index.html" class="tab-item"><i class="fas fa-home tab-icon"></i><span>首页</span></a>
-    <a href="/WiseCompanion/checkin.html" class="tab-item"><i class="fas fa-gifts tab-icon"></i><span>天天有奖</span></a>
-    <a href="/WiseCompanion/video.html" class="tab-item"><i class="fas fa-play-circle tab-icon"></i><span>看视频赚</span></a>
-    <span class="tab-item active"><i class="fas fa-hand-holding-usd tab-icon"></i><span>捡钱任务</span></span>
-    <a href="/WiseCompanion/shopping.html" class="tab-item"><i class="fas fa-tags tab-icon"></i><span>省钱秘籍</span></a>
-</nav>
-
-<script src="./list.js"></script>
+  <script src="./list.js"></script>
 </body>
 </html>
