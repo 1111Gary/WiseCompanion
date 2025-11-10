@@ -27,6 +27,20 @@
     "targetApp": "工商银行APP"
   },
   {
+    "id": "rec2ST5QDPRjn5t5y",
+    "name": "中国银行APP ",
+    "description": "中行云网支付，满60-10，限1次，可冲京东E卡",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "目标 App"
+  },
+  {
     "id": "rec2hPYI5LxSXyTUk",
     "name": "网上国网APP签到",
     "description": "每日签到领金币换电费优惠券",
@@ -40,15 +54,31 @@
     "targetApp": "网上国网APP"
   },
   {
-    "id": "rec6nEUJ2avZhetI5",
-    "name": "无标题活动",
-    "description": "暂无描述",
+    "id": "rec38bDAc3EbhDaFv",
+    "name": "中国建设银行APP ",
+    "description": "搜建融家园，点惠消费开好礼，抽奖随机得1-168立减金 。每月1次",
     "icon": "❓",
     "deepLink": "#",
-    "category": [],
-    "sourceApp": "其他",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国建设银行APP",
     "specialNote": null,
-    "targetApp": "目标 App"
+    "targetApp": "中国建设银行APP"
+  },
+  {
+    "id": "rec6nEUJ2avZhetI5",
+    "name": "建行生活APP",
+    "description": "搜索数币消费达标礼：活动期间，用户点击“报名”按钮报名参加活动。报名后在【建行生活APP】使用本人建行数字人民币钱包（仅限一类、二类钱包）成功支付订单（限美食、商超、外卖或电影场景订单，购买有价券需在活动期间完成核销）使用建行数字人民币钱包支付。订单满2笔且金额满100元;订单满2笔且金额满300元",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP"
   },
   {
     "id": "recDS8C3fC34GdeJQ",
@@ -58,6 +88,20 @@
     "deepLink": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=b7fbcbdcf9814297bdb479ebcd224419",
     "category": [
       "CheckIn"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP"
+  },
+  {
+    "id": "recDoFz4DcToh3dia",
+    "name": "建行生活APP ",
+    "description": "点热门活动，往下翻点享“趣”玩车生活，领取加油充值立减卷",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
     ],
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
@@ -91,6 +135,17 @@
     "targetApp": "支付宝APP"
   },
   {
+    "id": "recEihTJhgAYkiCIh",
+    "name": "中国银行APP ",
+    "description": "暂无描述",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "目标 App"
+  },
+  {
     "id": "recFyVvQbdF96KzSq",
     "name": "农业银行APP",
     "description": "我的小豆，每日签到抽小豆，去抽奖",
@@ -118,6 +173,20 @@
     "targetApp": "支付宝APP"
   },
   {
+    "id": "recIJBRzkHi3NeKUQ",
+    "name": "建行生活APP",
+    "description": "搜索线上支付，活动信用卡消费至高得120立减金。点击相应月份“线上支付消费达标赠礼”，客户进入活动页面，点击“报名”按钮\n参与活动。报名仅限主卡持卡人，仅持附属卡的持卡人不能独立参与活动。活动期间仅需报名一次，自报名当月起统计达标情况，后续月份无需重复报名。活动期间，客户报名且每自然月使用建行信用\n卡通过支付宝、微信、抖音、美团、京东、多\n多和程支付7个支付渠道消费累计达到指定金\n额，次月可领取活动奖励。按达标最高档计算\n所得奖励，两档奖励不叠加。报名规则：信用卡线上消费达标1000领20，达标3000领60，两档不叠加，任选其一。奖励统计先达标先得（可某团达标），获得60立减一般需在1号10点前消费，20立减一般需在当月5号前消费，领取时间为次月20-31日。",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP"
+  },
+  {
     "id": "recKYMUu0EKoVomVB",
     "name": "交通银行APP“京”喜财富季",
     "description": "资产提升1万元，领5元支付券，提升5万元，累计可领10元，提升10万，累计可领30元，提升20万元，累计可领60元，提升50万元，累计可领100元，提升200万元，累计可领200元",
@@ -130,6 +199,73 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP"
+  },
+  {
+    "id": "recQvNXoBYA9zZv01",
+    "name": "中国建设银行APP ",
+    "description": "建行-信用卡-最新优惠，点更多，信用卡受邀用户添加企V，可获得1W积分",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "目标 App"
+  },
+  {
+    "id": "recSiD0FDZFulEAbm",
+    "name": "中国建设银行APP ",
+    "description": "建行搜数币缴费，满50抽2-10立减",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "Payment"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP"
+  },
+  {
+    "id": "recTv1KGxQUaD4M7U",
+    "name": "中国建设银行APP ",
+    "description": "搜低碳生活，一键领取使用绿色能量兑换1-20立减金。每天10点投放立减兑换名额，部分受邀\n用户可500能量兑换8-5立减金；完成页面下指定任务得能量折扣劵。每月1次",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP"
+  },
+  {
+    "id": "recYKT7IH23imO4i8",
+    "name": "建行生活APP ",
+    "description": "首页或热门活动，点1分购6立减",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP"
+  },
+  {
+    "id": "recZ2sCoxxFwhJaMN",
+    "name": "建行生活APP ",
+    "description": "首页-热门活动，拉到最底下，有个听港湾暖心房，可抽1立减",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP"
   },
   {
     "id": "reca6vAdiqpehGYZn",
@@ -146,14 +282,70 @@
     "targetApp": "工商银行APP"
   },
   {
+    "id": "recaT8bWOykQQFHZs",
+    "name": "建行生活APP ",
+    "description": "移动APP，首页充话费，金额自定义，输入1.01后选择立即支付，支付方式选择云闪付，再选建行生活支付（会显示减1，没有就是当天名额用完了，每天凌晨12点发放新的)，通过云网支付，选择建行生活支付；每月可减4次",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP"
+  },
+  {
+    "id": "recdzXln83KURzgQB",
+    "name": "建行生活APP",
+    "description": "活动期间，用户可登录“建行生活”App首页【会员有礼-热门活动】内点击活动广告栏、微信扫描活动海报二维码、或在微信公众号推文的活动动链接中打开活动页面参与“大江南\n见北的明星港湾”活动。\n2025年11月日至11月26日，7大区域各集齐1张及以上，即可合并湾宝卡，额外获得3次抽奖机会。用户每天默认有3次抽卡机会，抽取卡片后浏览15秒卡片内容即可获得1次抽奖机会。用户点击活动首页【抽奖中心】，前往抽奖页，点击【立即抽奖】。",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP"
+  },
+  {
     "id": "recevjZ0xcvUS3WsQ",
-    "name": "建设银行APP缴费",
+    "name": "中国建设银行APP 缴费",
     "description": "暂无描述",
     "icon": "❓",
     "deepLink": "#",
     "category": [
       "Bank",
       "Payment"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP"
+  },
+  {
+    "id": "recg0YQTXucrZm6SQ",
+    "name": "中国建设银行APP ",
+    "description": "建行首页底部财富点击，财富会员，财富等级礼、资产保有礼、等级晋升礼。每月10号，每月1次",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP"
+  },
+  {
+    "id": "recjuc7wii3jTW2Me",
+    "name": "建行生活APP ",
+    "description": "搜财富会员，点最底下“好礼”，找到专属陪伴礼，未添加建行企V的可添加后，领取6.6立减金",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
     ],
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
@@ -171,6 +363,33 @@
     "sourceApp": "淘宝APP",
     "specialNote": null,
     "targetApp": "淘宝APP"
+  },
+  {
+    "id": "recp7QrUCSQY7SYU6",
+    "name": "中国银行APP ",
+    "description": "中行首页滚动播放支付付超给利，点相应月活动报名。",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "目标 App"
+  },
+  {
+    "id": "recpZqlbZ4wBFGMNY",
+    "name": "中国建设银行APP ",
+    "description": "京东APP,京东联合会员，搜联合会员，每月都有支付卷",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Shopping"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP"
   },
   {
     "id": "recs5dX12KSsFUCEj",
@@ -199,8 +418,47 @@
     "targetApp": "中国银行APP"
   },
   {
+    "id": "recuQPpXW7zVQnURD",
+    "name": "中国建设银行APP ",
+    "description": "搜生意帮，点达标抽立减，做任务抽立减，可抽4次，每次抽2-5立减（非必中)",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP"
+  },
+  {
+    "id": "recvfq1AZknIf3vef",
+    "name": "中国建设银行APP ",
+    "description": "美团搜数字人民币，进去往下拉，有建行省钱卡，可1分领15，可还月付",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP"
+  },
+  {
+    "id": "recxoJEDk9wB1j9Bq",
+    "name": "中国银行APP ",
+    "description": "微信转账有福利，微信转账满1千可抽奖1次(1万比较大,1千基本都是1立减)，10次/月",
+    "icon": "❓",
+    "deepLink": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "目标 App"
+  },
+  {
     "id": "recy2NQVCdAX8qu6M",
-    "name": "建设银行APP惠省钱",
+    "name": "中国建设银行APP 惠省钱",
     "description": "精选活动，惠消费 开好礼。实名认证用户每月首次登录成功后可获得一次抽奖机会，100%中奖率，随机抽取1元~168元金额不等得微信立减金。",
     "icon": "❓",
     "deepLink": "#",
