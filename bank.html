@@ -701,7 +701,18 @@
             }
 
             const now = new Date().getTime();
-            const end = new Date(endDateString).getTime();
+
+            // [【【 核心修正 】】]
+            // 检查 endDateString 是否为 YYYY-MM-DD 格式 (Airtable ISO Date)
+            let endString = endDateString;
+            if (endString.length === 10 && endString.charAt(4) === '-' && endString.charAt(7) === '-') {
+                // 如果是纯日期, 强制设置为本地时间的 23:59:59 (当天结束)
+                // 这样 "2025-11-20" 会在 2025-11-20 23:59:59 (本地时间) 才过期
+                // 而不是在 2025-11-20 00:00:00 (UTC) 过期 (这会导致东八区用户提前8小时过期)
+                endString = endString + "T23:59:59";
+            }
+            
+            const end = new Date(endString).getTime();
             const distance = end - now;
 
             if (distance < 0) {
@@ -715,8 +726,9 @@
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            // const seconds = Math.floor((distance % (1000 * 60)) / 1000); // 移除了秒，太吵了
 
+            // [【 格式化修正 】]
             // 格式化输出 (只显示天和小时，或不足一天的显示小时和分钟)
             let timeString = '';
             if (days > 0) {
@@ -724,7 +736,8 @@
             } else if (hours > 0) {
                 timeString = `${hours} 时 ${minutes} 分`;
             } else {
-                timeString = `${minutes} 分 ${seconds} 秒`;
+                // 不足1小时，显示分钟
+                timeString = `${minutes} 分`; 
             }
 
             badgeElement.textContent = `剩余 ${timeString}`;
