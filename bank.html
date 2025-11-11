@@ -703,16 +703,12 @@
             const now = new Date().getTime();
 
             // [【【 核心修正 】】]
-            // 检查 endDateString 是否为 YYYY-MM-DD 格式 (Airtable ISO Date)
-            let endString = endDateString;
-            if (endString.length === 10 && endString.charAt(4) === '-' && endString.charAt(7) === '-') {
-                // 如果是纯日期, 强制设置为本地时间的 23:59:59 (当天结束)
-                // 这样 "2025-11-20" 会在 2025-11-20 23:59:59 (本地时间) 才过期
-                // 而不是在 2025-11-20 00:00:00 (UTC) 过期 (这会导致东八区用户提前8小时过期)
-                endString = endString + "T23:59:59";
-            }
+            // 移除 YYYY-MM-DD 格式的特殊处理。
+            // 我们现在假设 Airtable (根据您的新设置) 会提供
+            // 一个包含时间的完整日期字符串 (例如 "2025-11-20T23:59:00")，
+            // 这与您之前的模拟数据一致，JS 可以直接解析。
             
-            const end = new Date(endString).getTime();
+            const end = new Date(endDateString).getTime();
             const distance = end - now;
 
             if (distance < 0) {
