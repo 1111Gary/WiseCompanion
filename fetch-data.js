@@ -14,6 +14,11 @@ const CATEGORY_MAP = {
     '银行': 'Bank',
     '视频': 'Video',
     '购物': 'Shopping',
+    // 【【 新增 】】 增加 Bank 页面的三个英文子分类
+    // 确保 Airtable 里的 "日常活动", "缴费活动", "存款理财活动" 标签能被正确转换
+    '日常活动': 'DailyTask',
+    '缴费活动': 'Payment',
+    '存款理财活动': 'Deposit',
     // 如果您的 Airtable 中还有其他标签，请确保在这里添加映射！
 };
 
@@ -69,16 +74,24 @@ async function fetchData() {
                 }
             }
 
+            // [【【 核心修正 】】]
+            // 确保返回的对象字段与 bank.html 期望的一致
             return {
                 id: record.id,
                 name: record.fields.Name || '无标题活动',
                 description: record.fields.Description || '暂无描述',
                 icon: record.fields.Icon || '❓',
-                deepLink: record.fields.DeepLink || '#',
+                
+                // [已修正] 字段名从 deepLink 改为 link
+                link: record.fields.DeepLink || '#', 
+                
                 category: category, // **此处已经存储为统一后的英文标签**
                 sourceApp: record.fields.SourceApp || '其他',
                 specialNote: record.fields.SpecialNote || null,
-                targetApp: record.fields.TargetApp || record.fields.SourceApp || '目标 App' 
+                targetApp: record.fields.TargetApp || record.fields.SourceApp || '目标 App',
+                
+                // [【 已添加 】] 抓取您在 Airtable 中设置的 endDate 字段
+                endDate: record.fields.endDate || null 
             };
         });
         
