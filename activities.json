@@ -28,7 +28,7 @@
   },
   {
     "id": "rec2ST5QDPRjn5t5y",
-    "name": "中国银行APP ",
+    "name": "中行云网支付",
     "description": "中行云网支付，满60-10，限1次，可冲京东E卡",
     "icon": "❓",
     "deepLink": "#",
@@ -55,7 +55,7 @@
   },
   {
     "id": "rec38bDAc3EbhDaFv",
-    "name": "中国建设银行APP ",
+    "name": "惠消费开好礼",
     "description": "搜建融家园，点惠消费开好礼，抽奖随机得1-168立减金 。每月1次",
     "icon": "❓",
     "deepLink": "#",
@@ -69,7 +69,7 @@
   },
   {
     "id": "rec6nEUJ2avZhetI5",
-    "name": "建行生活APP",
+    "name": "数币消费达标礼",
     "description": "搜索数币消费达标礼：活动期间，用户点击“报名”按钮报名参加活动。报名后在【建行生活APP】使用本人建行数字人民币钱包（仅限一类、二类钱包）成功支付订单（限美食、商超、外卖或电影场景订单，购买有价券需在活动期间完成核销）使用建行数字人民币钱包支付。订单满2笔且金额满100元;订单满2笔且金额满300元",
     "icon": "❓",
     "deepLink": "#",
@@ -95,7 +95,7 @@
   },
   {
     "id": "recDoFz4DcToh3dia",
-    "name": "建行生活APP ",
+    "name": "享“趣”玩车生活",
     "description": "点热门活动，往下翻点享“趣”玩车生活，领取加油充值立减卷",
     "icon": "❓",
     "deepLink": "#",
@@ -227,7 +227,7 @@
   },
   {
     "id": "recTv1KGxQUaD4M7U",
-    "name": "中国建设银行APP ",
+    "name": "低碳生活",
     "description": "搜低碳生活，一键领取使用绿色能量兑换1-20立减金。每天10点投放立减兑换名额，部分受邀\n用户可500能量兑换8-5立减金；完成页面下指定任务得能量折扣劵。每月1次",
     "icon": "❓",
     "deepLink": "#",
@@ -241,7 +241,7 @@
   },
   {
     "id": "recYKT7IH23imO4i8",
-    "name": "建行生活APP ",
+    "name": "1分购6立减",
     "description": "首页或热门活动，点1分购6立减",
     "icon": "❓",
     "deepLink": "#",
@@ -255,7 +255,7 @@
   },
   {
     "id": "recZ2sCoxxFwhJaMN",
-    "name": "建行生活APP ",
+    "name": "听港湾暖心房",
     "description": "首页-热门活动，拉到最底下，有个听港湾暖心房，可抽1立减",
     "icon": "❓",
     "deepLink": "#",
@@ -366,7 +366,7 @@
   },
   {
     "id": "recp7QrUCSQY7SYU6",
-    "name": "中国银行APP ",
+    "name": "支付付超给利",
     "description": "中行首页滚动播放支付付超给利，点相应月活动报名。",
     "icon": "❓",
     "deepLink": "#",
@@ -380,16 +380,16 @@
   },
   {
     "id": "recpZqlbZ4wBFGMNY",
-    "name": "中国建设银行APP ",
+    "name": "京东联合会员",
     "description": "京东APP,京东联合会员，搜联合会员，每月都有支付卷",
     "icon": "❓",
     "deepLink": "#",
     "category": [
       "Shopping"
     ],
-    "sourceApp": "中国建设银行APP",
+    "sourceApp": "京东APP",
     "specialNote": null,
-    "targetApp": "中国建设银行APP"
+    "targetApp": "京东APP"
   },
   {
     "id": "recs5dX12KSsFUCEj",
@@ -444,8 +444,8 @@
   },
   {
     "id": "recxoJEDk9wB1j9Bq",
-    "name": "中国银行APP ",
-    "description": "微信转账有福利，微信转账满1千可抽奖1次(1万比较大,1千基本都是1立减)，10次/月",
+    "name": "微信转账有福利",
+    "description": "微信转账满1千可抽奖1次(1万比较大,1千基本都是1立减)，10次/月",
     "icon": "❓",
     "deepLink": "#",
     "category": [
