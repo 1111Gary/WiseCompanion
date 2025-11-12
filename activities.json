@@ -249,7 +249,7 @@
     "name": "交行幸运夹娃娃",
     "description": "“交通银行”微信小程序，活动抽奖奖励为2-18元不等微信立减金",
     "icon": "❓",
-    "link": "#",
+    "link": "#小程序://交通银行/I1u1GlJu7MxbLSu",
     "category": [
       "Bank",
       "DailyTask"
@@ -391,10 +391,11 @@
     "name": "建行低碳生活",
     "description": "搜低碳生活，一键领取使用绿色能量兑换1-20立减金。每天10点投放立减兑换名额，部分受邀\n用户可500能量兑换8-5立减金；完成页面下指定任务得能量折扣劵。每月1次",
     "icon": "❓",
-    "link": "#",
+    "link": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=d466d3c774db476eac7c5c8673c95974",
     "category": [
       "Bank",
-      "DailyTask"
+      "DailyTask",
+      "CheckIn"
     ],
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
@@ -418,10 +419,10 @@
   },
   {
     "id": "recZ2sCoxxFwhJaMN",
-    "name": "听港湾暖心房",
+    "name": "建行听港湾暖心房",
     "description": "首页-热门活动，拉到最底下，有个听港湾暖心房，可抽1立减",
     "icon": "❓",
-    "link": "#",
+    "link": "https://event.ccbft.com/ccbact/m3883/DP00652510111023QV02-act.html#/",
     "category": [
       "Bank",
       "DailyTask"
@@ -478,10 +479,10 @@
   },
   {
     "id": "recdzXln83KURzgQB",
-    "name": "建行生活APP",
+    "name": "建行大江南 见北的明星港湾",
     "description": "活动期间，用户可登录“建行生活”App首页【会员有礼-热门活动】内点击活动广告栏、微信扫描活动海报二维码、或在微信公众号推文的活动动链接中打开活动页面参与“大江南\n见北的明星港湾”活动。\n2025年11月日至11月26日，7大区域各集齐1张及以上，即可合并湾宝卡，额外获得3次抽奖机会。用户每天默认有3次抽卡机会，抽取卡片后浏览15秒卡片内容即可获得1次抽奖机会。用户点击活动首页【抽奖中心】，前往抽奖页，点击【立即抽奖】。",
     "icon": "❓",
-    "link": "#",
+    "link": "https://event.ccbft.com/ccbact/m3865/DP00672510271125XVB0-act.html",
     "category": [
       "Bank",
       "DailyTask"
@@ -556,7 +557,10 @@
     "description": "交通银行APP首页，搜周周领好礼，抽1-18，每周领支付宝搜银行卡优惠",
     "icon": "❓",
     "link": "#",
-    "category": [],
+    "category": [
+      "Shopping",
+      "MissionReward"
+    ],
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
@@ -572,6 +576,18 @@
     "sourceApp": "工银E生活APP",
     "specialNote": null,
     "targetApp": "工银E生活APP",
+    "endDate": null
+  },
+  {
+    "id": "recmIutYD5XeSFkpU",
+    "name": "无标题活动",
+    "description": "暂无描述",
+    "icon": "❓",
+    "link": "#",
+    "category": [],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "目标 App",
     "endDate": null
   },
   {
@@ -615,7 +631,7 @@
     "sourceApp": "京东APP",
     "specialNote": null,
     "targetApp": "京东APP",
-    "endDate": null
+    "endDate": "2025-11-30T15:30:00.000Z"
   },
   {
     "id": "recs5dX12KSsFUCEj",
