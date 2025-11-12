@@ -14,11 +14,18 @@ const CATEGORY_MAP = {
     '银行': 'Bank',
     '视频': 'Video',
     '购物': 'Shopping',
-    // 【【 新增 】】 增加 Bank 页面的三个英文子分类
+    
+    // --- Bank 子分类 ---
     // 确保 Airtable 里的 "日常活动", "缴费活动", "存款理财活动" 标签能被正确转换
     '日常活动': 'DailyTask',
     '缴费活动': 'Payment',
     '存款理财活动': 'Deposit',
+
+    // --- 【【 新增 Shopping 子分类 】】 ---
+    '支付有优惠': 'PaymentDiscount',
+    '抢红包 / 立减金': 'Voucher',
+    '做任务领红包': 'MissionReward',
+
     // 如果您的 Airtable 中还有其他标签，请确保在这里添加映射！
 };
 
