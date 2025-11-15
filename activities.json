@@ -11,7 +11,8 @@
     "sourceApp": "支付宝APP",
     "specialNote": null,
     "targetApp": "支付宝APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "rec0bpCM3NqXMzmhY",
@@ -26,7 +27,8 @@
     "sourceApp": "工商银行APP",
     "specialNote": null,
     "targetApp": "工商银行APP",
-    "endDate": "2025-11-29T16:00:00.000Z"
+    "endDate": "2025-11-29T16:00:00.000Z",
+    "StepsText": null
   },
   {
     "id": "rec1w5ghYBkkVV8ru",
@@ -40,7 +42,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "rec1zKnKIGI3UeR6R",
@@ -55,7 +58,8 @@
     "sourceApp": "工商银行APP",
     "specialNote": null,
     "targetApp": "工商银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "rec2QxxMUXHEWuCcM",
@@ -70,7 +74,8 @@
     "sourceApp": "中国农业银行APP",
     "specialNote": null,
     "targetApp": "中国农业银行APP",
-    "endDate": "2025-11-30T15:30:00.000Z"
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "rec2ST5QDPRjn5t5y",
@@ -85,7 +90,8 @@
     "sourceApp": "中国银行APP",
     "specialNote": null,
     "targetApp": "中国银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "rec2XC9PHVfrc08dd",
@@ -100,7 +106,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z"
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "rec2hPYI5LxSXyTUk",
@@ -114,7 +121,8 @@
     "sourceApp": "网上国网APP",
     "specialNote": null,
     "targetApp": "网上国网APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "rec38bDAc3EbhDaFv",
@@ -129,7 +137,8 @@
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
     "targetApp": "中国建设银行APP",
-    "endDate": "2025-11-30T15:30:00.000Z"
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "rec3SzEB2CwKeua0S",
@@ -141,7 +150,8 @@
     "sourceApp": "其他",
     "specialNote": null,
     "targetApp": "目标 App",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "rec58nWsQyLpcfhmq",
@@ -156,7 +166,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "rec5L1lYQL7GSb4Tj",
@@ -171,7 +182,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": "2025-11-30T15:30:00.000Z"
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "rec6nEUJ2avZhetI5",
@@ -185,7 +197,8 @@
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
     "targetApp": "中国建设银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z"
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "rec9DuXPXE4gQmg1v",
@@ -200,7 +213,8 @@
     "sourceApp": "建行生活APP",
     "specialNote": null,
     "targetApp": "建行生活APP",
-    "endDate": "2025-12-28T15:30:00.000Z"
+    "endDate": "2025-12-28T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recD7bZQKFepHsF9l",
@@ -214,7 +228,8 @@
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
     "targetApp": "中国建设银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recDS8C3fC34GdeJQ",
@@ -228,7 +243,8 @@
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
     "targetApp": "中国建设银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recDdnRzFC1muym36",
@@ -243,7 +259,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z"
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recDoFz4DcToh3dia",
@@ -258,7 +275,8 @@
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
     "targetApp": "中国建设银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recE0Zq4419HGoWSI",
@@ -272,7 +290,8 @@
     "sourceApp": "京东APP",
     "specialNote": null,
     "targetApp": "京东APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recECUwR6oiJfObXL",
@@ -287,7 +306,8 @@
     "sourceApp": "工商银行APP",
     "specialNote": null,
     "targetApp": "工商银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recEXuyKINDBR3e1Q",
@@ -302,7 +322,8 @@
     "sourceApp": "支付宝APP",
     "specialNote": null,
     "targetApp": "支付宝APP",
-    "endDate": "2025-11-29T16:00:00.000Z"
+    "endDate": "2025-11-29T16:00:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recEihTJhgAYkiCIh",
@@ -317,7 +338,8 @@
     "sourceApp": "微信小程序",
     "specialNote": null,
     "targetApp": "微信小程序",
-    "endDate": "2025-11-30T15:30:00.000Z"
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recF2IIll4CYhXEVy",
@@ -332,7 +354,8 @@
     "sourceApp": "微信小程序",
     "specialNote": null,
     "targetApp": "微信小程序",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recFyVvQbdF96KzSq",
@@ -346,7 +369,8 @@
     "sourceApp": "中国农业银行APP",
     "specialNote": null,
     "targetApp": "中国农业银行APP",
-    "endDate": "2025-11-30T15:30:00.000Z"
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recHsykt7FWAjum3F",
@@ -360,7 +384,8 @@
     "sourceApp": "支付宝APP",
     "specialNote": null,
     "targetApp": "支付宝APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recKDuXxLsZNFdiIY",
@@ -375,7 +400,8 @@
     "sourceApp": "中国农业银行APP",
     "specialNote": null,
     "targetApp": "中国农业银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recKYMUu0EKoVomVB",
@@ -390,7 +416,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z"
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recMxLzkUCHLpGMes",
@@ -402,7 +429,8 @@
     "sourceApp": "工银E生活APP",
     "specialNote": null,
     "targetApp": "工银E生活APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recPz45BomzPEBKC0",
@@ -417,7 +445,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z"
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recQvNXoBYA9zZv01",
@@ -429,7 +458,8 @@
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
     "targetApp": "中国建设银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recRThL4oThWd0UMi",
@@ -444,7 +474,8 @@
     "sourceApp": "中国农业银行APP",
     "specialNote": null,
     "targetApp": "中国农业银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recS8JVwT7d6BbEKo",
@@ -459,7 +490,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z"
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recTv1KGxQUaD4M7U",
@@ -475,7 +507,8 @@
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
     "targetApp": "中国建设银行APP",
-    "endDate": "2025-11-30T15:30:00.000Z"
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recUY8RVm3AdI3QF8",
@@ -490,7 +523,8 @@
     "sourceApp": "中国农业银行APP",
     "specialNote": null,
     "targetApp": "中国农业银行APP",
-    "endDate": "2025-12-31T15:57:00.000Z"
+    "endDate": "2025-12-31T15:57:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recZ2sCoxxFwhJaMN",
@@ -505,7 +539,8 @@
     "sourceApp": "建行生活APP",
     "specialNote": null,
     "targetApp": "建行生活APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "reca6vAdiqpehGYZn",
@@ -520,7 +555,8 @@
     "sourceApp": "工商银行APP",
     "specialNote": null,
     "targetApp": "工商银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recaT8bWOykQQFHZs",
@@ -535,7 +571,8 @@
     "sourceApp": "建行生活APP",
     "specialNote": null,
     "targetApp": "建行生活APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recd9IjJxJopmEhpN",
@@ -550,7 +587,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": "2025-12-24T07:00:00.000Z"
+    "endDate": "2025-12-24T07:00:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recdO7wDicStvJOQC",
@@ -565,7 +603,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": "2025-12-28T15:30:00.000Z"
+    "endDate": "2025-12-28T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recdzXln83KURzgQB",
@@ -580,7 +619,8 @@
     "sourceApp": "建行生活APP",
     "specialNote": null,
     "targetApp": "建行生活APP",
-    "endDate": "2025-11-16T16:00:00.000Z"
+    "endDate": "2025-11-16T16:00:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recebQ1qVVPkZJ05e",
@@ -595,7 +635,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": "2025-12-31T15:20:00.000Z"
+    "endDate": "2025-12-31T15:20:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recevjZ0xcvUS3WsQ",
@@ -610,7 +651,8 @@
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
     "targetApp": "中国建设银行APP",
-    "endDate": "2025-11-30T15:30:00.000Z"
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recg0YQTXucrZm6SQ",
@@ -625,7 +667,8 @@
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
     "targetApp": "中国建设银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "reciMVzNdQ6XpZnNg",
@@ -640,7 +683,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z"
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recj2xKtNp5RM0yaM",
@@ -655,7 +699,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z"
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recjMc4PWFJgh0BMt",
@@ -670,7 +715,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z"
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recjuc7wii3jTW2Me",
@@ -685,7 +731,8 @@
     "sourceApp": "建行生活APP",
     "specialNote": null,
     "targetApp": "建行生活APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "reckHP4e94zvMxwyQ",
@@ -700,7 +747,8 @@
     "sourceApp": "中国农业银行APP",
     "specialNote": null,
     "targetApp": "中国农业银行APP",
-    "endDate": "2025-11-30T15:49:00.000Z"
+    "endDate": "2025-11-30T15:49:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recl5zjIuPwbkKaC6",
@@ -715,7 +763,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "reclbJ14Zqp6PtVCJ",
@@ -730,7 +779,8 @@
     "sourceApp": "中国农业银行APP",
     "specialNote": null,
     "targetApp": "中国农业银行APP",
-    "endDate": "2025-11-30T15:42:00.000Z"
+    "endDate": "2025-11-30T15:42:00.000Z",
+    "StepsText": null
   },
   {
     "id": "reclfkSkxbRPMasGA",
@@ -742,7 +792,8 @@
     "sourceApp": "工银E生活APP",
     "specialNote": null,
     "targetApp": "工银E生活APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recmIutYD5XeSFkpU",
@@ -757,7 +808,8 @@
     "sourceApp": "其他",
     "specialNote": null,
     "targetApp": "目标 App",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recnzm5APSC2uy69A",
@@ -771,7 +823,8 @@
     "sourceApp": "淘宝APP",
     "specialNote": null,
     "targetApp": "淘宝APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recp7QrUCSQY7SYU6",
@@ -786,7 +839,8 @@
     "sourceApp": "中国银行APP",
     "specialNote": null,
     "targetApp": "中国银行APP",
-    "endDate": "2025-11-30T15:30:00.000Z"
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recpZqlbZ4wBFGMNY",
@@ -800,7 +854,8 @@
     "sourceApp": "京东APP",
     "specialNote": null,
     "targetApp": "京东APP",
-    "endDate": "2025-11-30T15:30:00.000Z"
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recrNGMUNkBAKQkHf",
@@ -815,7 +870,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z"
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recs5dX12KSsFUCEj",
@@ -829,7 +885,8 @@
     "sourceApp": "拼多多APP",
     "specialNote": null,
     "targetApp": "拼多多APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "rectnNcX8juUmHqxQ",
@@ -843,7 +900,8 @@
     "sourceApp": "中国银行APP",
     "specialNote": null,
     "targetApp": "中国银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recuQPpXW7zVQnURD",
@@ -855,7 +913,8 @@
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
     "targetApp": "中国建设银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recvK9WgG6RTeE6oD",
@@ -870,7 +929,8 @@
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z"
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recvfq1AZknIf3vef",
@@ -885,7 +945,8 @@
     "sourceApp": "美团APP",
     "specialNote": null,
     "targetApp": "美团APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recxoJEDk9wB1j9Bq",
@@ -900,7 +961,8 @@
     "sourceApp": "中国银行APP",
     "specialNote": null,
     "targetApp": "中国银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recy2NQVCdAX8qu6M",
@@ -915,7 +977,8 @@
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
     "targetApp": "中国建设银行APP",
-    "endDate": "2025-11-29T16:00:00.000Z"
+    "endDate": "2025-11-29T16:00:00.000Z",
+    "StepsText": null
   },
   {
     "id": "recyPZ3DcoWNmkkaI",
@@ -929,7 +992,8 @@
     "sourceApp": "其他",
     "specialNote": null,
     "targetApp": "目标 App",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "reczuIgBf7W93VKiE",
@@ -943,6 +1007,7 @@
     "sourceApp": "中国农业银行APP",
     "specialNote": null,
     "targetApp": "中国农业银行APP",
-    "endDate": null
+    "endDate": null,
+    "StepsText": null
   }
 ]
