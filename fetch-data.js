@@ -5,21 +5,11 @@ const CATEGORY_MAP = {
 // ... 现有代码 ...
 };
 
-
-const AIRTABLE_PAT = process.env.AIRTABLE_PAT;
-
-// [【【 核心修正 】】] 
-// 补上这行被我意外删除的 BASE_ID 定义！
-const BASE_ID = process.env.AIRTABLE_BASE_ID;
-
-const TABLE_NAME = 'tblPWwLrdoMuO1b7k'; 
-
-const AIRTABLE_URL = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
-// ... 现有代码 ...
 // --------------------------------------------------------------------------------
 
 const AIRTABLE_PAT = process.env.AIRTABLE_PAT;
 // ... 现有代码 ...
+const BASE_ID = process.env.AIRTABLE_BASE_ID;
 const TABLE_NAME = 'tblPWwLrdoMuO1b7k'; 
 
 const AIRTABLE_URL = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
