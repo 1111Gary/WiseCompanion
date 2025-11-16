@@ -249,15 +249,18 @@
   },
   {
     "id": "recDRGvwqpkgrNsXp",
-    "name": "无标题活动",
-    "description": "暂无描述",
+    "name": "支付宝数字人民币月享节",
+    "description": "16日准时抢16元满减券包，消费16元天天减，16日开始每天12点抽支付红包",
     "icon": "❓",
-    "link": "#",
-    "category": [],
-    "sourceApp": "其他",
-    "specialNote": null,
-    "targetApp": "目标 App",
-    "endDate": null,
+    "link": "https://ur.alipay.com/_2k6EtGOShdjOn35TzZYzy",
+    "category": [
+      "Shopping",
+      "Voucher"
+    ],
+    "sourceApp": "支付宝APP",
+    "specialNote": "16日12:00准时抢",
+    "targetApp": "支付宝APP",
+    "endDate": "2025-11-30T15:30:00.000Z",
     "StepsText": null
   },
   {
@@ -427,7 +430,7 @@
       "Voucher"
     ],
     "sourceApp": "中国农业银行APP",
-    "specialNote": null,
+    "specialNote": "每周四10:00抢",
     "targetApp": "中国农业银行APP",
     "endDate": null,
     "StepsText": null
@@ -473,7 +476,7 @@
       "CheckIn"
     ],
     "sourceApp": "光大银行APP",
-    "specialNote": null,
+    "specialNote": "每日10:00准时抢",
     "targetApp": "光大银行APP",
     "endDate": null,
     "StepsText": null
@@ -1069,7 +1072,7 @@
     "specialNote": null,
     "targetApp": "美团APP",
     "endDate": null,
-    "StepsText": null
+    "StepsText": "进入美团APP，搜索数字人民币，点击进去往下拉，看到建行省钱卡，可1分领15元，可以还美团月付"
   },
   {
     "id": "recxN4HnN4L17AkKx",
