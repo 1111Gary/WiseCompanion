@@ -217,6 +217,22 @@
     "StepsText": null
   },
   {
+    "id": "rec9IUk6KnF9BkmGe",
+    "name": "京东农行日 首绑专享优惠",
+    "description": "登录京东，在“京东支付”首次绑定农行信用卡立减5元，满5.01可用。或一分购包邮好物。两项活动不可同享",
+    "icon": "❓",
+    "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=M9L77AgUYJo%3D&dynamicData=UkdtOrPiSdavA3m6UGLdDvRUyyEBojKcC4krMtY%2FSxs%3D&displayParam=UkdtOrPiSdavA3m6UGLdDvRUyyEBojKcC4krMtY%2FSxs%3D",
+    "category": [
+      "Shopping",
+      "MissionReward"
+    ],
+    "sourceApp": "中国农业银行APP",
+    "specialNote": null,
+    "targetApp": "中国农业银行APP",
+    "endDate": "2025-12-31T15:59:00.000Z",
+    "StepsText": null
+  },
+  {
     "id": "recD7bZQKFepHsF9l",
     "name": "建行社保卡福利日",
     "description": "受邀客户每周三15：00报名，有机会参与报名领银联60-20优惠券，每个自热月领1张",
@@ -228,6 +244,19 @@
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
     "targetApp": "中国建设银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recDRGvwqpkgrNsXp",
+    "name": "无标题活动",
+    "description": "暂无描述",
+    "icon": "❓",
+    "link": "#",
+    "category": [],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "目标 App",
     "endDate": null,
     "StepsText": null
   },
@@ -433,6 +462,23 @@
     "StepsText": null
   },
   {
+    "id": "recNuTbQsXyRkkihy",
+    "name": "光大阳光值 天天兑",
+    "description": "每日签到，10点抢1元、2元、5元、10元微信立减金",
+    "icon": "❓",
+    "link": "https://wap.cebbank.com/wx_skip.html?id=newyangguanghuayuan",
+    "category": [
+      "Shopping",
+      "Voucher",
+      "CheckIn"
+    ],
+    "sourceApp": "光大银行APP",
+    "specialNote": null,
+    "targetApp": "光大银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
     "id": "recPz45BomzPEBKC0",
     "name": "交行财运多多资产达标礼",
     "description": "达标5-180元支付贴金券",
@@ -459,6 +505,22 @@
     "specialNote": null,
     "targetApp": "中国建设银行APP",
     "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recR7rWTyjCBcsira",
+    "name": "邮储银行 星级专享月月领",
+    "description": "二星至七星级客户，每月9号、19号、29号，10点开抢微信/支付宝立减金，每月一次。",
+    "icon": "❓",
+    "link": "https://wap.psbc.com/wxbank/h5/rousePage/#/?pageId=2063&type=month",
+    "category": [
+      "Shopping",
+      "Voucher"
+    ],
+    "sourceApp": "邮储银行APP",
+    "specialNote": null,
+    "targetApp": "邮储银行APP",
+    "endDate": "2026-05-31T15:30:00.000Z",
     "StepsText": null
   },
   {
@@ -523,7 +585,23 @@
     "sourceApp": "中国农业银行APP",
     "specialNote": null,
     "targetApp": "中国农业银行APP",
-    "endDate": "2025-12-31T15:57:00.000Z",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recWRrBDZdt3C2FRk",
+    "name": "邮储银行 微信银行查询赢好礼",
+    "description": "点击“中国邮政储蓄银行”服务号，成功查询账户余额，有机会领取1.16元-66元微信立减金。",
+    "icon": "❓",
+    "link": "https://wap.psbc.com/mobilebank/skipCellPhoneAPPToActivityPage.do?pageId=1145&isLinkShared=1&source=0&activityId=168005490933760",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "邮储银行APP",
+    "specialNote": null,
+    "targetApp": "邮储银行APP",
+    "endDate": null,
     "StepsText": null
   },
   {
@@ -572,6 +650,22 @@
     "specialNote": null,
     "targetApp": "建行生活APP",
     "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "reccRyYKbO7XKP7fN",
+    "name": "农行云游神州",
+    "description": "每日点击获取里程，完成5个打开点，分别获得2元，3元和10元立减金",
+    "icon": "❓",
+    "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=b6%2Bl20Ji0tI%3D&dynamicData=az29P1VLOKOTSAops4p8AuGN%2B8aq0ihv%2BbK%2B06TREM2FlSwJSkIHo3oKfuLWfF4OvM%2BKqbhrOlEeWcfrMRq9vIK4UXi%2BgQpBK%2FiAY3qBakwdyi8ir%2Bw1e7AUxyra1jl29dEfnkPoyLo9XSq7UM39w%2Fu2Ak8LEFX6YJc%2Fr1zRDb7YCdRP1ilV9P3vnEqo8DxGrdMfPuz7MuQ%3D",
+    "category": [
+      "Shopping",
+      "MissionReward"
+    ],
+    "sourceApp": "中国农业银行APP",
+    "specialNote": null,
+    "targetApp": "中国农业银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
     "StepsText": null
   },
   {
@@ -735,6 +829,19 @@
     "StepsText": null
   },
   {
+    "id": "reckCZPYiFScXaxG4",
+    "name": "无标题活动",
+    "description": "暂无描述",
+    "icon": "❓",
+    "link": "#",
+    "category": [],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "目标 App",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
     "id": "reckHP4e94zvMxwyQ",
     "name": "农行月月领",
     "description": "北京地区领5元话费、生活缴费立减金",
@@ -747,7 +854,7 @@
     "sourceApp": "中国农业银行APP",
     "specialNote": null,
     "targetApp": "中国农业银行APP",
-    "endDate": "2025-11-30T15:49:00.000Z",
+    "endDate": "2025-11-30T15:30:00.000Z",
     "StepsText": null
   },
   {
@@ -767,6 +874,22 @@
     "StepsText": null
   },
   {
+    "id": "reclPal3uQ4F6HVRl",
+    "name": "邮储银行 惊喜福袋月月领",
+    "description": "100%中奖，1分购0.88-188元支付宝立减金，完成任务增加抽奖机会",
+    "icon": "❓",
+    "link": "https://wap.psbc.com/wxbank/h5/rousePage/#/?pageId=1145&isLinkShared=1&source=0&activityId=228131567427584&urlTypeNo=3",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "邮储银行APP",
+    "specialNote": null,
+    "targetApp": "邮储银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
     "id": "reclbJ14Zqp6PtVCJ",
     "name": "农行数币新时代",
     "description": "线下0.01元购买50-20数币立减券，线上15-10数币立减券",
@@ -779,7 +902,7 @@
     "sourceApp": "中国农业银行APP",
     "specialNote": null,
     "targetApp": "中国农业银行APP",
-    "endDate": "2025-11-30T15:42:00.000Z",
+    "endDate": "2025-11-30T15:30:00.000Z",
     "StepsText": null
   },
   {
@@ -946,6 +1069,22 @@
     "specialNote": null,
     "targetApp": "美团APP",
     "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recxN4HnN4L17AkKx",
+    "name": "邮储银行 攒钱小目标",
+    "description": "攒钱到达升金挡位后领取时点礼、满月礼立减金",
+    "icon": "❓",
+    "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=b6%2Bl20Ji0tI%3D&dynamicData=az29P1VLOKOTSAops4p8AuGN%2B8aq0ihv%2BbK%2B06TREM2FlSwJSkIHo3oKfuLWfF4OvM%2BKqbhrOlEeWcfrMRq9vIK4UXi%2BgQpBK%2FiAY3qBakwdyi8ir%2Bw1e7AUxyra1jl29dEfnkPoyLo9XSq7UM39w%2Fu2Ak8LEFX6YJc%2Fr1zRDb7YCdRP1ilV9P3vnEqo8DxGrdMfPuz7MuQ%3D",
+    "category": [
+      "Bank",
+      "Deposit"
+    ],
+    "sourceApp": "邮储银行APP",
+    "specialNote": null,
+    "targetApp": "邮储银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
     "StepsText": null
   },
   {
