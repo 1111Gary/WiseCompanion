@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>慧伴管家 - 看视频赚</title>
     
-    <!-- [【 核心 】] Umami 统计 (已集成您的 ID) -->
+    <!-- Umami 统计 -->
     <script async defer 
         data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" 
         src="https://umami.example.com/script.js" 
@@ -15,6 +15,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
+    <!-- PWA -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="慧伴管家">
@@ -36,6 +37,7 @@
             --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4);
             /* Video 颜色 */
             --color-video: #A78BFA; /* 紫色 */
+            --color-other: #9CA3AF; /* 其他 */
         }
         body { 
             /* ... 基础样式 ... */
@@ -83,8 +85,9 @@
             color: var(--color-text-light);
         }
         
-        /* [【 核心 】] 状态筛选器 */
+        /* 状态筛选器 */
         .status-filter-bar {
+            /* ... 样式 ... */
             display: flex;
             justify-content: space-around;
             background-color: var(--color-card-bg);
@@ -94,6 +97,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0, 0.3);
         }
         .status-filter-btn {
+            /* ... 样式 ... */
             flex-grow: 1;
             padding: 8px 12px;
             border-radius: 9999px;
@@ -109,14 +113,14 @@
             gap: 6px;
             cursor: pointer;
         }
-        .status-filter-btn:hover {
-            color: var(--color-text-light);
-        }
+        .status-filter-btn:hover { color: var(--color-text-light); }
         .status-filter-btn.active {
             background-color: var(--color-video); /* 配合页面主色 */
             color: var(--color-bg-dark);
             box-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
         }
+        
+        /* (此页面没有类别筛选器) */
         
         .section-description {
             color: var(--color-text-muted);
@@ -140,8 +144,13 @@
         /* ... :hover ... */
 
         /* 徽章 */
+        .special-note-badge { /* ... 样式 ... */ }
+        .countdown-badge { /* ... 样式 ... */ }
+        .special-note-badge + .countdown-badge { /* ... 样式 ... */ }
+        .expired-badge { /* ... 样式 ... */ }
+        .upcoming-badge { /* ... 样式 ... */ }
+        /* ... (徽章样式保持不变) ... */
         .special-note-badge {
-            /* ... 样式 ... */
             position: absolute;
             top: 15px;
             right: 15px;
@@ -155,7 +164,6 @@
             box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
         }
         .countdown-badge {
-            /* ... 样式 ... */
             position: absolute;
             top: 0;
             right: 0;
@@ -182,13 +190,13 @@
             color: var(--color-bg-dark);
         }
 
-        /* Video 强调色 */
-        .task-video { border-left-color: var(--color-video); } 
+        /* [【 核心 】] 类别强调色 (已更新) */
+        .task-video { border-left-color: var(--color-video); }
+        .task-other { border-left-color: var(--color-other); }
 
         .task-main-content { display: flex; align-items: center; width: 100%; }
 
-        .task-icon {
-            /* ... 样式 ... */
+        .task-icon { /* ... 样式 ... */ 
             width: 40px;
             height: 40px;
             border-radius: 8px;
@@ -200,26 +208,22 @@
             margin-right: 15px;
             flex-shrink: 0;
         }
+        /* [【 核心 】] 类别图标 (已更新) */
         .icon-video { background-color: var(--color-video); }
+        .icon-other { background-color: var(--color-other); }
 
         .task-content { flex-grow: 1; min-width: 0; }
-
-        .task-title {
-            /* ... 样式 ... */
+        .task-title { /* ... 样式 ... */ 
             font-size: 1rem;
             font-weight: 700;
             color: var(--color-text-light);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            padding-right: 90px; 
+            padding-right: 90px;
         }
-        .has-special-note .task-title {
-            padding-right: 120px;
-        }
-
-        .task-subtitle {
-            /* ... 样式 ... */
+        .has-special-note .task-title { padding-right: 120px; }
+        .task-subtitle { /* ... 样式 ... */
             font-size: 0.8rem;
             color: var(--color-text-muted);
             white-space: normal; 
@@ -227,8 +231,7 @@
             margin-top: 4px;
         }
         
-        .task-action-bar {
-            /* ... 样式 ... */
+        .task-action-bar { /* ... 样式 ... */ 
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -236,9 +239,7 @@
             padding-top: 10px;
             border-top: 1px solid var(--color-card-bg);
         }
-        
-        .share-button {
-            /* ... 样式 ... */
+        .share-button { /* ... 样式 ... */
             background-color: var(--color-card-bg);
             color: var(--color-primary);
             border: 1px solid var(--color-primary);
@@ -253,9 +254,7 @@
             cursor: pointer;
         }
         /* ... :hover ... */
-
-        .action-button {
-            /* ... 样式 ... */
+        .action-button { /* ... 样式 ... */
             background-color: var(--color-primary);
             color: var(--color-bg-dark);
             font-weight: 700;
@@ -272,6 +271,7 @@
             cursor: pointer;
         }
         /* ... :hover ... */
+        /* [【 核心 】] 语音按钮样式 (已修复) */
         .action-button-voice {
             background-color: var(--color-success);
         }
@@ -286,8 +286,7 @@
         }
 
         /* 底部导航栏样式 (Tab Bar) */
-        .tab-bar {
-            /* ... 样式 ... */
+        .tab-bar { /* ... 样式 ... */
             position: fixed;
             bottom: 0;
             left: 0;
@@ -302,8 +301,7 @@
             padding-bottom: env(safe-area-inset-bottom);
             z-index: 20;
         }
-        .tab-item {
-            /* ... 样式 ... */
+        .tab-item { /* ... 样式 ... */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -327,8 +325,7 @@
         .header-logo-group { display: flex; align-items: center; }
         .header-logo { width: 32px; height: 32px; margin-right: 10px; }
         .header-title { font-size: 1.2rem; font-weight: 700; color: var(--color-text-light); }
-        .back-arrow-link {
-            /* ... 样式 ... */
+        .back-arrow-link { /* ... 样式 ... */
             color: var(--color-text-light);
             font-size: 1.2rem;
             padding: 5px 10px;
@@ -338,8 +335,7 @@
         }
         
         /* 付费会员诱饵卡片 */
-        .premium-card {
-            /* ... 样式 ... */
+        .premium-card { /* ... 样式 ... */
             background: var(--color-card-bg);
             border-radius: 20px;
             padding: 25px 20px;
@@ -358,8 +354,7 @@
             transition: all 0.3s ease;
         }
         /* ... :hover ... */
-        .premium-card h2 {
-            /* ... 样式 ... */
+        .premium-card h2 { /* ... 样式 ... */
             font-size: 1.3rem;
             font-weight: 800;
             background: var(--color-premium-border);
@@ -374,7 +369,7 @@
         }
 
         /* 空状态 */
-        .empty-state {
+        .empty-state { /* ... 样式 ... */
             text-align: center;
             padding: 40px 20px;
             background-color: var(--color-bank-bg);
@@ -414,12 +409,11 @@
         
         <!-- **1. 【页面主标题卡片】 ** -->
         <div class="main-banner-card">
-            <!-- [【 核心 】] 标题已修改 -->
             <h1>看视频赚</h1>
             <p class="text-sm text-gray-400 mt-2">观看视频，轻松获取奖励</p>
         </div>
         
-        <!-- **2. 【 [【 核心 】] 状态筛选器】 ** -->
+        <!-- **2. 【状态筛选器】 ** -->
         <div class="status-filter-bar">
             <button class="status-filter-btn active" data-status="ongoing" onclick="umami.track('filter_status_ongoing', { from: 'video' })">
                 <i class="fas fa-play-circle"></i> 正在进行
@@ -454,27 +448,23 @@
     
     <!-- 底部导航栏 -->
     <nav class="tab-bar">
-        <!-- 首页 -->
+        <!-- ... (tab bar items) ... -->
         <a href="./index.html" class="tab-item">
             <i class="fas fa-home tab-icon"></i>
             <span>首页</span>
         </a>
-        <!-- 天天有奖 -->
         <a href="./checkin.html" class="tab-item">
             <i class="fas fa-gifts tab-icon"></i>
             <span>天天有奖</span>
         </a>
-        <!-- 看视频赚 (当前页) -->
         <span class="tab-item active">
             <i class="fas fa-play-circle tab-icon"></i>
             <span>看视频赚</span>
         </span>
-        <!-- 捡钱任务 -->
         <a href="./bank.html" class="tab-item">
             <i class="fas fa-hand-holding-usd tab-icon"></i>
             <span>捡钱任务</span>
         </a>
-        <!-- 省钱秘籍 -->
         <a href="./shopping.html" class="tab-item">
             <i class="fas fa-tags tab-icon"></i>
             <span>省钱秘籍</span>
@@ -485,17 +475,26 @@
         // ----------------------------------------------------
         // 全局状态和数据
         // ----------------------------------------------------
-        let ALL_ACTIVITIES = [];
-        // [【 核心 】] 新增状态过滤器，默认为“进行中”
+        let ALL_ACTIVITIES = []; // L1 过滤后的原始数据
+        // (此页面没有 L2 类别筛选)
         let CURRENT_STATUS_FILTER = 'ongoing';
 
+        // [【 核心 】] 类别样式映射 (Video 页)
         const CATEGORY_MAP = {
             'Video': {
                 borderClass: 'task-video',
                 iconClass: 'icon-video',
                 faIcon: 'fa-play-circle'
+            },
+            'Other': { // 备用
+                borderClass: 'task-other',
+                iconClass: 'icon-other',
+                faIcon: 'fa-box'
             }
         };
+        
+        // [【 核心 】] L1 页面路由（此页面包含哪些 L1 标签）
+        const PAGE_L1_CATEGORIES = ['Video'];
 
         // [【 核心 】] 原生语音 API (Web Speech API)
         const synth = window.speechSynthesis;
@@ -507,29 +506,11 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadAndFetchActivities();
             startCountdownUpdater();
-            
-            // [【 核心 】] 绑定新增的状态筛选按钮
             bindStatusFilterButtons();
         });
 
-        // [【 核心Bug修复 】] 页面加载时，必须“预热”语音引擎 (iOS/Mobile Safari 限制)
-        function primeSpeechEngine() {
-            if (synth.speaking) return; 
-            if (currentUtterance) return;
-            const ut = new SpeechSynthesisUtterance(' '); // 播放一个空字符串
-            ut.volume = 0; // 静音
-            ut.rate = 3; // 极速
-             try {
-                synth.speak(ut);
-            } catch (e) {
-                console.warn("语音引擎预热失败 (可能在桌面端)", e);
-            }
-        }
-        // 第一次点击页面任意位置时触发预热
-        document.addEventListener('click', primeSpeechEngine, { once: true });
-        document.addEventListener('touchstart', primeSpeechEngine, { once: true });
-
-
+        // [【 核心BUG修复 】] 移除 primeSpeechEngine
+        
         // ----------------------------------------------------
         // 步骤 2: 加载和获取数据
         // ----------------------------------------------------
@@ -539,13 +520,14 @@
                 if (!response.ok) {
                     throw new Error('网络响应错误，无法加载 activities.json');
                 }
-                const data = await response.json();
+                const rawData = await response.json();
                 
-                // [【 核心 】] 过滤出所有 Video 相关的活动
-                ALL_ACTIVITIES = data.filter(act => 
-                    act.category && act.category.includes('Video')
+                // 1. [L1 过滤] 过滤出所有 "Video" 相关的活动
+                ALL_ACTIVITIES = rawData.filter(act => 
+                    act.category && act.category.some(cat => PAGE_L1_CATEGORIES.includes(cat))
                 );
 
+                // 2. 渲染
                 renderActivities();
                 
             } catch (error) {
@@ -555,19 +537,15 @@
         }
         
         // ----------------------------------------------------
-        // [【 核心 】] 步骤 3: 绑定状态筛选器
+        // 步骤 3: 绑定状态筛选器
         // ----------------------------------------------------
         function bindStatusFilterButtons() {
             const container = document.querySelector('.status-filter-bar');
             container.querySelectorAll('.status-filter-btn').forEach(button => {
                 button.addEventListener('click', (e) => {
                     CURRENT_STATUS_FILTER = e.currentTarget.getAttribute('data-status');
-                    
-                    // 更新按钮激活状态
                     container.querySelectorAll('.status-filter-btn').forEach(btn => btn.classList.remove('active'));
                     e.currentTarget.classList.add('active');
-                    
-                    // 重新渲染活动列表
                     renderActivities();
                 });
             });
@@ -580,9 +558,10 @@
             const listContainer = document.getElementById('video-tasks-list');
             listContainer.innerHTML = '';
             
-            // [【 核心 】] 1. 按状态筛选
+            // 1. 按状态筛选
             const now = new Date();
             const filteredActivities = ALL_ACTIVITIES.filter(act => {
+                // ... (状态筛选逻辑不变) ...
                 const startDate = act.startDate ? new Date(act.startDate) : null;
                 const endDate = act.endDate ? new Date(act.endDate) : null;
 
@@ -597,9 +576,11 @@
                 if (CURRENT_STATUS_FILTER === 'ended') {
                     return endDate && endDate < now;
                 }
-                return false; // 默认不显示
+                return false;
             });
             
+            // (此页面没有 L2 类别筛选)
+
             if (filteredActivities.length === 0) {
                 listContainer.innerHTML = `
                     <div class="empty-state">
@@ -615,17 +596,18 @@
             });
             
             bindActionButtons();
-            updateAllCountdowns(); // 确保新渲染的卡片有倒计时
+            updateAllCountdowns();
         }
 
         // ----------------------------------------------------
         // 步骤 5: 单个活动卡片的 HTML 生成
         // ----------------------------------------------------
         function renderActivityCard(activity) {
+            // L1 标签 "Video" 是唯一的样式
             const styles = CATEGORY_MAP['Video'];
             
             let actionButtonHtml = '';
-            
+            // ... (动作按钮逻辑不变) ...
             if (activity.link && activity.link !== '#') {
                 actionButtonHtml = `
                     <a href="${activity.link}" 
@@ -670,7 +652,6 @@
                     
                     ${specialNoteBadge}
 
-                    <!-- 倒计时徽章 -->
                     <span class="countdown-badge" 
                           data-endtime="${activity.endDate}" 
                           data-starttime="${activity.startDate}" 
@@ -706,25 +687,21 @@
         // 步骤 6: 绑定事件
         // ----------------------------------------------------
         function bindActionButtons() {
-            // 绑定语音按钮
+            // ... (绑定逻辑不变) ...
             document.querySelectorAll('.action-button-voice').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const btn = e.currentTarget;
                     const steps = btn.getAttribute('data-steps');
                     const name = btn.getAttribute('data-activity-name');
-                    
                     umami.track('play_voice_guide', { name: name });
                     playSpeech(steps, btn);
                 });
             });
-
-            // 绑定分享按钮
             document.querySelectorAll('.share-button').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const btn = e.currentTarget;
                     const id = btn.getAttribute('data-activity-id');
                     const name = btn.getAttribute('data-activity-name');
-                    
                     umami.track('click_share', { name: name });
                     shareActivity(id, btn);
                 });
@@ -732,28 +709,43 @@
         }
         
         // ----------------------------------------------------
-        // 步骤 7: 语音播放 (Web Speech API)
+        // 步骤 7: [【 核心BUG修复 】] 语音播放 (已修复)
         // ----------------------------------------------------
         function playSpeech(text, buttonElement) {
-            if (synth.speaking && currentUtterance && currentUtterance.text === text) {
-                stopSpeech();
-                setTimeout(() => playSpeech(text, buttonElement), 100);
+            const isCurrentlySpeaking = synth.speaking;
+            const isSameText = currentUtterance && currentUtterance.text === text;
+
+            if (isCurrentlySpeaking) {
+                synth.cancel();
+            }
+            if (isCurrentlySpeaking && isSameText) {
                 return;
             }
-            stopSpeech();
-
+            
             currentUtterance = new SpeechSynthesisUtterance(text);
             currentUtterance.lang = 'zh-CN';
+            currentUtterance.rate = 0.8;
             
-            // [【 核心 】] 降低语速
-            currentUtterance.rate = 0.8; 
-            
+            document.querySelectorAll('.action-button-voice.speaking').forEach(btn => {
+                btn.classList.remove('speaking');
+                btn.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+            });
+
             if (buttonElement) {
                 buttonElement.classList.add('speaking');
                 buttonElement.innerHTML = `<i class="fas fa-wave-square"></i> 播放中...`;
             }
 
             currentUtterance.onend = () => {
+                if (buttonElement) {
+                    buttonElement.classList.remove('speaking');
+                    buttonElement.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+                }
+                currentUtterance = null;
+            };
+            
+            currentUtterance.onerror = (event) => {
+                console.error('SpeechSynthesis 错误:', event);
                 if (buttonElement) {
                     buttonElement.classList.remove('speaking');
                     buttonElement.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
@@ -776,11 +768,11 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 8: 分享功能 (go.html 网关)
+        // 步骤 8: 分享功能
         // ----------------------------------------------------
         function shareActivity(activityId, buttonElement) {
+            // ... (分享逻辑不变) ...
             const shareUrl = `${window.location.origin}${window.location.pathname.replace('video.html', 'go.html')}?id=${activityId}`;
-            
             try {
                 const tempInput = document.createElement('textarea');
                 tempInput.value = `快来看看这个活动！\n${shareUrl}`;
@@ -802,23 +794,21 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 9: 倒计时功能 (已更新)
+        // 步骤 9: 倒计时功能
         // ----------------------------------------------------
         function getRemainingTime(activity, badgeElement) {
+            // ... (倒计时逻辑不变) ...
             const now = new Date().getTime();
             const startDate = activity.startDate ? new Date(activity.startDate).getTime() : null;
             const endDate = activity.endDate ? new Date(activity.endDate).getTime() : null;
 
             badgeElement.classList.remove('expired-badge', 'upcoming-badge');
 
-            // 1. 检查是否已结束
             if (endDate && endDate < now) {
                 badgeElement.textContent = '已过期';
                 badgeElement.classList.add('expired-badge');
                 return;
             }
-
-            // 2. 检查是否即将开始
             if (startDate && startDate > now) {
                 const distance = startDate - now;
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -826,14 +816,13 @@
                 
                 let timeString = '';
                 if (days > 1) timeString = `${days} 天后`;
-                else timeString = `${hours} 小时后`;
-                
-                badgeElement.textContent = `即将 ${timeString}`;
+                else if (days === 1 || hours > 1) timeString = `${days * 24 + hours} 小时后`;
+                else timeString = `即将开始`;
+
+                badgeElement.textContent = `${timeString}`;
                 badgeElement.classList.add('upcoming-badge');
                 return;
             }
-
-            // 3. 检查进行中的结束时间
             if (endDate) {
                 const distance = endDate - now;
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -848,8 +837,6 @@
                 badgeElement.textContent = `剩余 ${timeString}`;
                 return;
             }
-            
-            // 4. 长期活动
             badgeElement.textContent = '长期';
         }
 
