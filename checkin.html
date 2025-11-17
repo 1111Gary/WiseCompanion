@@ -22,6 +22,7 @@
     
     <style>
         :root {
+            /* ... 颜色变量 ... */
             --color-bg-dark: #0A1322; 
             --color-card-bg: #1A2233; 
             --color-primary: #00BFFF; 
@@ -33,10 +34,11 @@
             --color-success: #34D399; 
             --color-special-note: #F59E0B; 
             --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4);
-            /* [新增] CheckIn 颜色 */
+            /* CheckIn 颜色 */
             --color-checkin: var(--color-success); /* 使用绿色 */
         }
         body { 
+            /* ... 基础样式 ... */
             background-color: var(--color-bg-dark); 
             color: var(--color-text-light); 
             padding-bottom: calc(85px + env(safe-area-inset-bottom)); 
@@ -46,6 +48,7 @@
         
         /* 顶部导航栏 */
         .header-bar-fixed { 
+            /* ... 样式 ... */
             padding-top: calc(15px + env(safe-area-inset-top)); 
             padding-bottom: 5px; 
             background-color: var(--color-bg-dark);
@@ -60,6 +63,7 @@
 
         /* 页面主标题卡片 */
         .main-banner-card {
+            /* ... 样式 ... */
             background: linear-gradient(135deg, #0f1627, #1a2233);
             border-radius: 20px;
             padding: 25px 20px;
@@ -79,6 +83,41 @@
             color: var(--color-text-light);
         }
         
+        /* [【 核心 】] 状态筛选器 */
+        .status-filter-bar {
+            display: flex;
+            justify-content: space-around;
+            background-color: var(--color-card-bg);
+            border-radius: 9999px;
+            padding: 5px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0, 0.3);
+        }
+        .status-filter-btn {
+            flex-grow: 1;
+            padding: 8px 12px;
+            border-radius: 9999px;
+            background-color: transparent;
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        .status-filter-btn:hover {
+            color: var(--color-text-light);
+        }
+        .status-filter-btn.active {
+            background-color: var(--color-checkin); /* 配合页面主色 */
+            color: var(--color-bg-dark);
+            box-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
+        }
+        
         .section-description {
             color: var(--color-text-muted);
             font-size: 0.9rem;
@@ -88,6 +127,7 @@
         
         /* 任务活动卡片样式 */
         .task-list-card {
+            /* ... 样式 ... */
             background-color: var(--color-bank-bg);
             border-radius: 15px;
             padding: 15px 20px;
@@ -97,14 +137,11 @@
             border-left: 5px solid; 
             position: relative;
         }
-        .task-list-card:hover {
-            background-color: #25334c;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-        }
+        /* ... :hover ... */
 
-        /* 抢购提醒徽章 */
+        /* 徽章 */
         .special-note-badge {
+            /* ... 样式 ... */
             position: absolute;
             top: 15px;
             right: 15px;
@@ -117,9 +154,8 @@
             z-index: 5;
             box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
         }
-
-        /* 倒计时徽章 */
         .countdown-badge {
+            /* ... 样式 ... */
             position: absolute;
             top: 0;
             right: 0;
@@ -141,17 +177,18 @@
             background-color: #EF4444;
             color: white;
         }
+        .upcoming-badge {
+            background-color: var(--color-highlight);
+            color: var(--color-bg-dark);
+        }
 
         /* CheckIn 强调色 */
         .task-checkin { border-left-color: var(--color-checkin); } 
 
-        .task-main-content {
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
+        .task-main-content { display: flex; align-items: center; width: 100%; }
 
         .task-icon {
+            /* ... 样式 ... */
             width: 40px;
             height: 40px;
             border-radius: 8px;
@@ -165,12 +202,10 @@
         }
         .icon-checkin { background-color: var(--color-checkin); }
 
-        .task-content {
-            flex-grow: 1;
-            min-width: 0;
-        }
+        .task-content { flex-grow: 1; min-width: 0; }
 
         .task-title {
+            /* ... 样式 ... */
             font-size: 1rem;
             font-weight: 700;
             color: var(--color-text-light);
@@ -184,6 +219,7 @@
         }
 
         .task-subtitle {
+            /* ... 样式 ... */
             font-size: 0.8rem;
             color: var(--color-text-muted);
             white-space: normal; 
@@ -192,6 +228,7 @@
         }
         
         .task-action-bar {
+            /* ... 样式 ... */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -201,6 +238,7 @@
         }
         
         .share-button {
+            /* ... 样式 ... */
             background-color: var(--color-card-bg);
             color: var(--color-primary);
             border: 1px solid var(--color-primary);
@@ -212,13 +250,12 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            cursor: pointer;
         }
-        .share-button:hover {
-            background-color: var(--color-primary);
-            color: var(--color-bg-dark);
-        }
+        /* ... :hover ... */
 
         .action-button {
+            /* ... 样式 ... */
             background-color: var(--color-primary);
             color: var(--color-bg-dark);
             font-weight: 700;
@@ -232,17 +269,13 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
+            cursor: pointer;
         }
-        .action-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(0, 191, 255, 0.7);
-        }
+        /* ... :hover ... */
         .action-button-voice {
             background-color: var(--color-success);
         }
-        .action-button-voice:hover {
-            box-shadow: 0 0 10px rgba(52, 211, 153, 0.7);
-        }
+        /* ... :hover ... */
         .action-button-voice.speaking {
             background-color: var(--color-secondary);
             animation: pulse 1s infinite;
@@ -254,6 +287,7 @@
 
         /* 底部导航栏样式 (Tab Bar) */
         .tab-bar {
+            /* ... 样式 ... */
             position: fixed;
             bottom: 0;
             left: 0;
@@ -269,6 +303,7 @@
             z-index: 20;
         }
         .tab-item {
+            /* ... 样式 ... */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -289,21 +324,11 @@
         }
 
         /* 顶部 Logo 组 */
-        .header-logo-group {
-            display: flex;
-            align-items: center;
-        }
-        .header-logo {
-            width: 32px;
-            height: 32px;
-            margin-right: 10px;
-        }
-        .header-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--color-text-light);
-        }
+        .header-logo-group { display: flex; align-items: center; }
+        .header-logo { width: 32px; height: 32px; margin-right: 10px; }
+        .header-title { font-size: 1.2rem; font-weight: 700; color: var(--color-text-light); }
         .back-arrow-link {
+            /* ... 样式 ... */
             color: var(--color-text-light);
             font-size: 1.2rem;
             padding: 5px 10px;
@@ -314,6 +339,7 @@
         
         /* 付费会员诱饵卡片 */
         .premium-card {
+            /* ... 样式 ... */
             background: var(--color-card-bg);
             border-radius: 20px;
             padding: 25px 20px;
@@ -331,11 +357,9 @@
             display: block;
             transition: all 0.3s ease;
         }
-        .premium-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 105, 180, 0.4);
-        }
+        /* ... :hover ... */
         .premium-card h2 {
+            /* ... 样式 ... */
             font-size: 1.3rem;
             font-weight: 800;
             background: var(--color-premium-border);
@@ -348,6 +372,26 @@
             font-size: 0.9rem;
             margin-top: 10px;
         }
+        
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--color-bank-bg);
+            border-radius: 15px;
+            margin-top: 1rem;
+        }
+        .empty-state-icon {
+            font-size: 3rem;
+            color: var(--color-checkin);
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        .empty-state p {
+            font-size: 1rem;
+            color: var(--color-text-muted);
+            font-weight: 500;
+        }
 
     </style>
 </head>
@@ -355,6 +399,7 @@
 
     <!-- 顶部导航栏 -->
     <div class="header-bar-fixed px-4">
+        <!-- ... Logo ... -->
         <div class="header-logo-group">
             <img src="./assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/00BFFF/ffffff?text=L'" alt="Logo" class="header-logo rounded-md shadow-lg">
             <h1 class="header-title">慧伴管家</h1>
@@ -369,11 +414,25 @@
         
         <!-- **1. 【页面主标题卡片】 ** -->
         <div class="main-banner-card">
-            <h1>天天有奖 (CheckIn)</h1>
+            <!-- [【 核心 】] 标题已修改 -->
+            <h1>天天有奖</h1>
             <p class="text-sm text-gray-400 mt-2">每日签到，领取您的专属奖励</p>
         </div>
         
-        <!-- **2. 【签到任务列表】 ** -->
+        <!-- **2. 【 [【 核心 】] 状态筛选器】 ** -->
+        <div class="status-filter-bar">
+            <button class="status-filter-btn active" data-status="ongoing" onclick="umami.track('filter_status_ongoing', { from: 'checkin' })">
+                <i class="fas fa-play-circle"></i> 正在进行
+            </button>
+            <button class="status-filter-btn" data-status="upcoming" onclick="umami.track('filter_status_upcoming', { from: 'checkin' })">
+                <i class="fas fa-hourglass-start"></i> 即将开始
+            </button>
+            <button class="status-filter-btn" data-status="ended" onclick="umami.track('filter_status_ended', { from: 'checkin' })">
+                <i class="fas fa-check-circle"></i> 已结束
+            </button>
+        </div>
+        
+        <!-- **3. 【签到任务列表】 ** -->
         <p class="section-description">
             所有可用的签到和每日奖励任务。
         </p>
@@ -381,7 +440,7 @@
              <!-- 任务加载位置 -->
         </div>
 
-        <!-- **3. 【 付费会员诱饵 】 ** -->
+        <!-- **4. 【 付费会员诱饵 】 ** -->
         <a href="./premium.html" class="premium-card" 
             onclick="umami.track('click_premium_card', { from: 'checkin' })">
             <h2 class="flex items-center justify-center">
@@ -427,8 +486,9 @@
         // 全局状态和数据
         // ----------------------------------------------------
         let ALL_ACTIVITIES = [];
+        // [【 核心 】] 新增状态过滤器，默认为“进行中”
+        let CURRENT_STATUS_FILTER = 'ongoing';
 
-        // [【 核心 】] 映射 (为 CheckIn 简化)
         const CATEGORY_MAP = {
             'CheckIn': {
                 borderClass: 'task-checkin',
@@ -447,8 +507,31 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadAndFetchActivities();
             startCountdownUpdater();
+            
+            // [【 核心 】] 绑定新增的状态筛选按钮
+            bindStatusFilterButtons();
         });
 
+        // [【 核心Bug修复 】] 页面加载时，必须“预热”语音引擎 (iOS/Mobile Safari 限制)
+        function primeSpeechEngine() {
+            if (synth.speaking) return; 
+            if (currentUtterance) return;
+            const ut = new SpeechSynthesisUtterance(' '); // 播放一个空字符串
+            ut.volume = 0; // 静音
+            ut.rate = 3; // 极速
+             try {
+                synth.speak(ut);
+            } catch (e) {
+                console.warn("语音引擎预热失败 (可能在桌面端)", e);
+            }
+        }
+        // 第一次点击页面任意位置时触发预热
+        document.addEventListener('click', primeSpeechEngine, { once: true });
+        document.addEventListener('touchstart', primeSpeechEngine, { once: true });
+
+        // ----------------------------------------------------
+        // 步骤 2: 加载和获取数据
+        // ----------------------------------------------------
         async function loadAndFetchActivities() {
             try {
                 const response = await fetch('./activities.json');
@@ -469,29 +552,73 @@
                 document.getElementById('checkin-tasks-list').innerHTML = `<p class="text-red-400 p-4 text-center">加载活动数据失败。请检查网络或 activities.json 文件。</p>`;
             }
         }
+        
+        // ----------------------------------------------------
+        // [【 核心 】] 步骤 3: 绑定状态筛选器
+        // ----------------------------------------------------
+        function bindStatusFilterButtons() {
+            const container = document.querySelector('.status-filter-bar');
+            container.querySelectorAll('.status-filter-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    CURRENT_STATUS_FILTER = e.currentTarget.getAttribute('data-status');
+                    
+                    // 更新按钮激活状态
+                    container.querySelectorAll('.status-filter-btn').forEach(btn => btn.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    
+                    // 重新渲染活动列表
+                    renderActivities();
+                });
+            });
+        }
 
         // ----------------------------------------------------
-        // 步骤 2: 渲染活动 (简化版)
+        // 步骤 4: 渲染活动 (已更新筛选逻辑)
         // ----------------------------------------------------
         function renderActivities() {
             const listContainer = document.getElementById('checkin-tasks-list');
             listContainer.innerHTML = '';
             
-            if (ALL_ACTIVITIES.length === 0) {
-                listContainer.innerHTML = `<p class="text-gray-400 text-center p-4">暂无签到活动。</p>`;
+            // [【 核心 】] 1. 按状态筛选
+            const now = new Date();
+            const filteredActivities = ALL_ACTIVITIES.filter(act => {
+                const startDate = act.startDate ? new Date(act.startDate) : null;
+                const endDate = act.endDate ? new Date(act.endDate) : null;
+
+                if (CURRENT_STATUS_FILTER === 'ongoing') {
+                    const hasStarted = !startDate || startDate <= now;
+                    const hasNotEnded = !endDate || endDate >= now;
+                    return hasStarted && hasNotEnded;
+                }
+                if (CURRENT_STATUS_FILTER === 'upcoming') {
+                    return startDate && startDate > now;
+                }
+                if (CURRENT_STATUS_FILTER === 'ended') {
+                    return endDate && endDate < now;
+                }
+                return false; // 默认不显示
+            });
+            
+            if (filteredActivities.length === 0) {
+                 listContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="empty-state-icon fas fa-folder-open"></i>
+                        <p>这个分类下暂无活动</p>
+                    </div>`;
                 return;
             }
 
-            ALL_ACTIVITIES.forEach(activity => {
+            filteredActivities.forEach(activity => {
                 const cardHtml = renderActivityCard(activity);
                 listContainer.innerHTML += cardHtml;
             });
             
             bindActionButtons();
+            updateAllCountdowns(); // 确保新渲染的卡片有倒计时
         }
 
         // ----------------------------------------------------
-        // 步骤 3: 单个活动卡片的 HTML 生成
+        // 步骤 5: 单个活动卡片的 HTML 生成
         // ----------------------------------------------------
         function renderActivityCard(activity) {
             // [修改] 始终使用 CheckIn 样式
@@ -507,7 +634,7 @@
                        data-umami-event="click_deep_link"
                        data-umami-event-name="${activity.name}">
                         <i class="fas fa-rocket"></i>
-                        去签到
+                        ${activity.actionText || '去签到'}
                     </a>`;
             } else if (activity.StepsText) {
                 const steps = activity.StepsText.replace(/"/g, '&quot;');
@@ -543,8 +670,12 @@
                     
                     ${specialNoteBadge}
 
-                    <span class="countdown-badge" data-endtime="${activity.endDate}" id="timer-${activity.id}">
-                        长期
+                    <!-- 倒计时徽章 -->
+                    <span class="countdown-badge" 
+                          data-endtime="${activity.endDate}" 
+                          data-starttime="${activity.startDate}" 
+                          id="timer-${activity.id}">
+                        计算中...
                     </span>
 
                     <div class="task-main-content">
@@ -572,7 +703,7 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 4: 绑定事件
+        // 步骤 6: 绑定事件
         // ----------------------------------------------------
         function bindActionButtons() {
             // 绑定语音按钮
@@ -601,7 +732,7 @@
         }
         
         // ----------------------------------------------------
-        // 步骤 5: 语音播放 (Web Speech API)
+        // 步骤 7: 语音播放 (Web Speech API)
         // ----------------------------------------------------
         function playSpeech(text, buttonElement) {
             // [修改] 如果正在播放同一个，先停止 (允许用户点击两次来“重复播放”)
@@ -648,7 +779,7 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 6: 分享功能 (go.html 网关)
+        // 步骤 8: 分享功能 (go.html 网关)
         // ----------------------------------------------------
         function shareActivity(activityId, buttonElement) {
             const shareUrl = `${window.location.origin}${window.location.pathname.replace('checkin.html', 'go.html')}?id=${activityId}`;
@@ -674,52 +805,69 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 7: 倒计时功能
+        // 步骤 9: 倒计时功能 (已更新)
         // ----------------------------------------------------
-        function getRemainingTime(endDateString, badgeElement) {
-            if (!endDateString || endDateString === 'null') {
-                badgeElement.textContent = '长期';
-                badgeElement.classList.remove('expired-badge');
-                return;
-            }
-
+        function getRemainingTime(activity, badgeElement) {
             const now = new Date().getTime();
-            const end = new Date(endDateString).getTime();
-            const distance = end - now;
+            const startDate = activity.startDate ? new Date(activity.startDate).getTime() : null;
+            const endDate = activity.endDate ? new Date(activity.endDate).getTime() : null;
 
-            if (distance < 0) {
+            badgeElement.classList.remove('expired-badge', 'upcoming-badge');
+
+            // 1. 检查是否已结束
+            if (endDate && endDate < now) {
                 badgeElement.textContent = '已过期';
                 badgeElement.classList.add('expired-badge');
                 return;
             }
-            
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 
-            let timeString = '';
-            if (days > 1) {
-                timeString = `${days} 天`;
-            } else if (days === 1 || hours > 0) {
-                timeString = `${days * 24 + hours} 时`;
-            } else {
-                timeString = `${minutes} 分`;
+            // 2. 检查是否即将开始
+            if (startDate && startDate > now) {
+                const distance = startDate - now;
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                
+                let timeString = '';
+                if (days > 1) timeString = `${days} 天后`;
+                else timeString = `${hours} 小时后`;
+                
+                badgeElement.textContent = `即将 ${timeString}`;
+                badgeElement.classList.add('upcoming-badge');
+                return;
             }
 
-            badgeElement.textContent = `剩余 ${timeString}`;
-            badgeElement.classList.remove('expired-badge');
+            // 3. 检查进行中的结束时间
+            if (endDate) {
+                const distance = endDate - now;
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+                let timeString = '';
+                if (days > 1) timeString = `${days} 天`;
+                else if (days === 1 || hours > 0) timeString = `${days * 24 + hours} 时`;
+                else timeString = `${minutes} 分`;
+
+                badgeElement.textContent = `剩余 ${timeString}`;
+                return;
+            }
+            
+            // 4. 长期活动
+            badgeElement.textContent = '长期';
         }
 
         function startCountdownUpdater() {
             setInterval(updateAllCountdowns, 60000); 
-            setTimeout(updateAllCountdowns, 500);
         }
 
         function updateAllCountdowns() {
             const timerElements = document.querySelectorAll('.countdown-badge');
             timerElements.forEach(badge => {
-                const endDate = badge.getAttribute('data-endtime');
-                getRemainingTime(endDate, badge);
+                const activity = {
+                    endDate: badge.getAttribute('data-endtime'),
+                    startDate: badge.getAttribute('data-starttime')
+                };
+                getRemainingTime(activity, badge);
             });
         }
     </script>
