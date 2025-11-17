@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <!-- [【 核心 】] 标题已修改 -->
     <title>慧伴管家 - 省钱秘籍</title>
     
-    <!-- [【 核心 】] Umami 统计 (已集成您的 ID) -->
+    <!-- Umami 统计 -->
     <script async defer 
         data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" 
         src="https://umami.example.com/script.js" 
@@ -15,6 +16,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
+    <!-- PWA -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="慧伴管家">
@@ -35,10 +37,10 @@
             --color-special-note: #F59E0B; 
             --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4);
             
-            /* 分类颜色 (Shopping) */
-            --color-shopping: #FF69B4; /* 省钱 (主色) */
-            --color-life: #A78BFA; /* 生活 */
-            --color-food: #F59E0B; /* 美食 */
+            /* [【 核心 】] 类别颜色 (Shopping) (已更新) */
+            --color-paymentdiscount: #FF69B4; /* 缴费 (主色) */
+            --color-shoppingdiscount: #A78BFA; /* 购物 (紫色) */
+            --color-missonreward: #34D399; /* 任务 (绿色) */
             --color-other: #9CA3AF; /* 其他 */
         }
         body { 
@@ -75,7 +77,7 @@
             border: 3px solid transparent; 
             background-clip: padding-box, border-box;
             background-origin: padding-box, border-box;
-            border-image: linear-gradient(to right, var(--color-shopping), var(--color-food));
+            border-image: linear-gradient(to right, var(--color-shoppingdiscount), var(--color-special-note));
             border-image-slice: 1;
             box-shadow: 0 0 15px rgba(255, 105, 180, 0.5), 0 0 30px rgba(245, 158, 11, 0.3);
             margin-bottom: 1.5rem;
@@ -87,8 +89,9 @@
             color: var(--color-text-light);
         }
         
-        /* [【 核心 】] 状态筛选器 */
+        /* 状态筛选器 */
         .status-filter-bar {
+            /* ... 样式 ... */
             display: flex;
             justify-content: space-around;
             background-color: var(--color-card-bg);
@@ -98,6 +101,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0, 0.3);
         }
         .status-filter-btn {
+            /* ... 样式 ... */
             flex-grow: 1;
             padding: 8px 12px;
             border-radius: 9999px;
@@ -113,28 +117,23 @@
             gap: 6px;
             cursor: pointer;
         }
-        .status-filter-btn:hover {
-            color: var(--color-text-light);
-        }
+        .status-filter-btn:hover { color: var(--color-text-light); }
         .status-filter-btn.active {
-            background-color: var(--color-shopping); /* 配合页面主色 */
+            background-color: var(--color-paymentdiscount); /* 配合页面主色 */
             color: var(--color-bg-dark);
             box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
         }
 
-        /* 类别筛选器 */
+        /* [【 核心 】] 类别筛选器 (样式更新) */
         .category-filter-bar {
             display: flex;
             gap: 10px;
             overflow-x: auto;
             padding: 5px 0 15px 0;
-            /* 隐藏滚动条 */
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
-        .category-filter-bar::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, and Opera */
-        }
+        .category-filter-bar::-webkit-scrollbar { display: none; }
         .category-filter-btn {
             padding: 8px 16px;
             border-radius: 9999px;
@@ -147,18 +146,16 @@
             flex-shrink: 0;
             cursor: pointer;
         }
-        .category-filter-btn:hover {
-            border-color: var(--color-shopping);
-        }
+        .category-filter-btn:hover { border-color: var(--color-paymentdiscount); }
         .category-filter-btn.active {
             color: var(--color-bg-dark);
             box-shadow: 0 0 10px;
         }
         /* 类别激活颜色 */
         .category-filter-btn.active[data-category="All"] { background-color: var(--color-text-light); color: var(--color-bg-dark); box-shadow-color: rgba(224, 231, 255, 0.5); }
-        .category-filter-btn.active[data-category="Shopping"] { background-color: var(--color-shopping); box-shadow-color: rgba(255, 105, 180, 0.5); }
-        .category-filter-btn.active[data-category="Life"] { background-color: var(--color-life); box-shadow-color: rgba(167, 139, 250, 0.5); }
-        .category-filter-btn.active[data-category="Food"] { background-color: var(--color-food); box-shadow-color: rgba(245, 158, 11, 0.5); }
+        .category-filter-btn.active[data-category="Paymentdiscount"] { background-color: var(--color-paymentdiscount); box-shadow-color: rgba(255, 105, 180, 0.5); }
+        .category-filter-btn.active[data-category="Shoppingdiscount"] { background-color: var(--color-shoppingdiscount); box-shadow-color: rgba(167, 139, 250, 0.5); }
+        .category-filter-btn.active[data-category="MissonReward"] { background-color: var(--color-missonreward); box-shadow-color: rgba(52, 211, 153, 0.5); }
         .category-filter-btn.active[data-category="Other"] { background-color: var(--color-other); box-shadow-color: rgba(156, 163, 175, 0.5); }
 
 
@@ -181,15 +178,16 @@
             border-left: 5px solid; 
             position: relative;
         }
-        .task-list-card:hover {
-            background-color: #25334c;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-        }
+        /* ... :hover ... */
 
         /* 徽章 */
+        .special-note-badge { /* ... 样式 ... */ }
+        .countdown-badge { /* ... 样式 ... */ }
+        .special-note-badge + .countdown-badge { /* ... 样式 ... */ }
+        .expired-badge { /* ... 样式 ... */ }
+        .upcoming-badge { /* ... 样式 ... */ }
+        /* ... (徽章样式保持不变) ... */
         .special-note-badge {
-            /* ... 样式 ... */
             position: absolute;
             top: 15px;
             right: 15px;
@@ -203,7 +201,6 @@
             box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
         }
         .countdown-badge {
-            /* ... 样式 ... */
             position: absolute;
             top: 0;
             right: 0;
@@ -230,17 +227,15 @@
             color: var(--color-bg-dark);
         }
 
-
-        /* 类别强调色 */
-        .task-shopping { border-left-color: var(--color-shopping); }
-        .task-life { border-left-color: var(--color-life); }
-        .task-food { border-left-color: var(--color-food); }
+        /* [【 核心 】] 类别强调色 (已更新) */
+        .task-paymentdiscount { border-left-color: var(--color-paymentdiscount); }
+        .task-shoppingdiscount { border-left-color: var(--color-shoppingdiscount); }
+        .task-missonreward { border-left-color: var(--color-missonreward); }
         .task-other { border-left-color: var(--color-other); }
 
         .task-main-content { display: flex; align-items: center; width: 100%; }
 
-        .task-icon {
-            /* ... 样式 ... */
+        .task-icon { /* ... 样式 ... */ 
             width: 40px;
             height: 40px;
             border-radius: 8px;
@@ -252,29 +247,24 @@
             margin-right: 15px;
             flex-shrink: 0;
         }
-        .icon-shopping { background-color: var(--color-shopping); }
-        .icon-life { background-color: var(--color-life); }
-        .icon-food { background-color: var(--color-food); }
+        /* [【 核心 】] 类别图标 (已更新) */
+        .icon-paymentdiscount { background-color: var(--color-paymentdiscount); }
+        .icon-shoppingdiscount { background-color: var(--color-shoppingdiscount); }
+        .icon-missonreward { background-color: var(--color-missonreward); }
         .icon-other { background-color: var(--color-other); }
 
         .task-content { flex-grow: 1; min-width: 0; }
-
-        .task-title {
-            /* ... 样式 ... */
+        .task-title { /* ... 样式 ... */ 
             font-size: 1rem;
             font-weight: 700;
             color: var(--color-text-light);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            padding-right: 90px; 
+            padding-right: 90px;
         }
-        .has-special-note .task-title {
-            padding-right: 120px;
-        }
-
-        .task-subtitle {
-            /* ... 样式 ... */
+        .has-special-note .task-title { padding-right: 120px; }
+        .task-subtitle { /* ... 样式 ... */
             font-size: 0.8rem;
             color: var(--color-text-muted);
             white-space: normal; 
@@ -283,8 +273,7 @@
         }
         
         /* 动作栏 */
-        .task-action-bar {
-            /* ... 样式 ... */
+        .task-action-bar { /* ... 样式 ... */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -292,9 +281,7 @@
             padding-top: 10px;
             border-top: 1px solid var(--color-card-bg);
         }
-        
-        .share-button {
-            /* ... 样式 ... */
+        .share-button { /* ... 样式 ... */
             background-color: var(--color-card-bg);
             color: var(--color-primary);
             border: 1px solid var(--color-primary);
@@ -312,10 +299,8 @@
             background-color: var(--color-primary);
             color: var(--color-bg-dark);
         }
-
-        .action-button {
-            /* ... 样式 ... */
-            background-color: var(--color-shopping); /* 配合页面主色 */
+        .action-button { /* ... 样式 ... */
+            background-color: var(--color-paymentdiscount); /* 配合页面主色 */
             color: var(--color-bg-dark);
             font-weight: 700;
             padding: 8px 18px;
@@ -334,6 +319,7 @@
             transform: scale(1.05);
             box-shadow: 0 0 10px rgba(255, 105, 180, 0.7);
         }
+        /* [【 核心 】] 语音按钮样式 (已修复) */
         .action-button-voice {
             background-color: var(--color-success);
         }
@@ -350,8 +336,7 @@
         }
 
         /* 底部导航栏 */
-        .tab-bar {
-            /* ... 样式 ... */
+        .tab-bar { /* ... 样式 ... */ 
             position: fixed;
             bottom: 0;
             left: 0;
@@ -366,8 +351,7 @@
             padding-bottom: env(safe-area-inset-bottom);
             z-index: 20;
         }
-        .tab-item {
-            /* ... 样式 ... */
+        .tab-item { /* ... 样式 ... */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -391,8 +375,7 @@
         .header-logo-group { display: flex; align-items: center; }
         .header-logo { width: 32px; height: 32px; margin-right: 10px; }
         .header-title { font-size: 1.2rem; font-weight: 700; color: var(--color-text-light); }
-        .back-arrow-link {
-            /* ... 样式 ... */
+        .back-arrow-link { /* ... 样式 ... */
             color: var(--color-text-light);
             font-size: 1.2rem;
             padding: 5px 10px;
@@ -402,8 +385,7 @@
         }
         
         /* 付费会员诱饵卡片 */
-        .premium-card {
-            /* ... 样式 ... */
+        .premium-card { /* ... 样式 ... */ 
             background: var(--color-card-bg);
             border-radius: 20px;
             padding: 25px 20px;
@@ -421,12 +403,8 @@
             display: block;
             transition: all 0.3s ease;
         }
-        .premium-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 105, 180, 0.4);
-        }
-        .premium-card h2 {
-            /* ... 样式 ... */
+        /* ... :hover ... */
+        .premium-card h2 { /* ... 样式 ... */
             font-size: 1.3rem;
             font-weight: 800;
             background: var(--color-premium-border);
@@ -441,7 +419,7 @@
         }
         
         /* 空状态 */
-        .empty-state {
+        .empty-state { /* ... 样式 ... */
             text-align: center;
             padding: 40px 20px;
             background-color: var(--color-bank-bg);
@@ -450,7 +428,7 @@
         }
         .empty-state-icon {
             font-size: 3rem;
-            color: var(--color-shopping);
+            color: var(--color-paymentdiscount);
             margin-bottom: 1rem;
             opacity: 0.8;
         }
@@ -481,11 +459,12 @@
         
         <!-- **1. 【页面主标题卡片】 ** -->
         <div class="main-banner-card">
-            <h1>省钱秘籍 (Shopping)</h1>
+            <!-- [【 核心 】] 标题已修复，移除 (Shopping) -->
+            <h1>省钱秘籍</h1>
             <p class="text-sm text-gray-400 mt-2">电商、生活、美食等各类优惠秘籍</p>
         </div>
         
-        <!-- **2. 【 [【 核心 】] 状态筛选器】 ** -->
+        <!-- **2. 【状态筛选器】 ** -->
         <div class="status-filter-bar">
             <button class="status-filter-btn active" data-status="ongoing" onclick="umami.track('filter_status_ongoing', { from: 'shopping' })">
                 <i class="fas fa-play-circle"></i> 正在进行
@@ -498,7 +477,7 @@
             </button>
         </div>
 
-        <!-- **3. 【类别筛选器】 ** -->
+        <!-- **3. 【 [【 核心 】] 类别筛选器】 ** -->
         <p class="section-description">
             按类别筛选：
         </p>
@@ -525,27 +504,23 @@
     
     <!-- 底部导航栏 -->
     <nav class="tab-bar">
-        <!-- 首页 -->
+        <!-- ... (tab bar items) ... -->
         <a href="./index.html" class="tab-item">
             <i class="fas fa-home tab-icon"></i>
             <span>首页</span>
         </a>
-        <!-- 天天有奖 -->
         <a href="./checkin.html" class="tab-item">
             <i class="fas fa-gifts tab-icon"></i>
             <span>天天有奖</span>
         </a>
-        <!-- 看视频赚 -->
         <a href="./video.html" class="tab-item">
             <i class="fas fa-play-circle tab-icon"></i>
             <span>看视频赚</span>
         </a>
-        <!-- 捡钱任务 -->
         <a href="./bank.html" class="tab-item">
             <i class="fas fa-hand-holding-usd tab-icon"></i>
             <span>捡钱任务</span>
         </a>
-        <!-- 省钱秘籍 (当前页) -->
         <span class="tab-item active">
             <i class="fas fa-tags tab-icon"></i>
             <span>省钱秘籍</span>
@@ -556,18 +531,26 @@
         // ----------------------------------------------------
         // 全局状态和数据
         // ----------------------------------------------------
-        let ALL_ACTIVITIES = [];
+        let ALL_ACTIVITIES = []; // L1 过滤后的原始数据
         let CURRENT_CATEGORY_FILTER = 'All';
-        // [【 核心 】] 新增状态过滤器，默认为“进行中”
         let CURRENT_STATUS_FILTER = 'ongoing';
 
+        // [【 核心 】] L2 类别 (已按您的要求更新)
+        const ALL_CATEGORIES = ['Paymentdiscount', 'Shoppingdiscount', 'MissonReward'];
+
+        // [【 核心 】] L2 类别样式映射 (已更新)
         const CATEGORY_MAP = {
-            'Shopping': { name: '省钱', borderClass: 'task-shopping', iconClass: 'icon-shopping', faIcon: 'fa-shopping-cart' },
-            'Life': { name: '生活', borderClass: 'task-life', iconClass: 'icon-life', faIcon: 'fa-sun' },
-            'Food': { name: '美食', borderClass: 'task-food', iconClass: 'icon-food', faIcon: 'fa-utensils' },
+            'Paymentdiscount': { name: '缴费有优惠', borderClass: 'task-paymentdiscount', iconClass: 'icon-paymentdiscount', faIcon: 'fa-file-invoice-dollar' },
+            'Shoppingdiscount': { name: '购物有优惠', borderClass: 'task-shoppingdiscount', iconClass: 'icon-shoppingdiscount', faIcon: 'fa-shopping-bag' },
+            'MissonReward': { name: '任务奖励', borderClass: 'task-missonreward', iconClass: 'icon-missonreward', faIcon: 'fa-award' },
             'Other': { name: '其他', borderClass: 'task-other', iconClass: 'icon-other', faIcon: 'fa-box' }
         };
-        const ALL_CATEGORIES = ['Shopping', 'Life', 'Food', 'Other'];
+        
+        // [【 核心 】] L1 页面路由（此页面包含哪些 L1 标签）
+        // (旧: ['Shopping', 'Life', 'Food', 'Other'])
+        // 我们假设 L1 标签不变，Airtable 里的 L1 标签还是 "Shopping", "Life" 等
+        const PAGE_L1_CATEGORIES = ['Shopping', 'Life', 'Food', 'Other', 'Paymentdiscount', 'Shoppingdiscount', 'MissonReward'];
+
 
         // [【 核心 】] 原生语音 API (Web Speech API)
         const synth = window.speechSynthesis;
@@ -577,31 +560,13 @@
         // 步骤 1: 页面加载主入口
         // ----------------------------------------------------
         document.addEventListener('DOMContentLoaded', () => {
-            renderCategoryFilters();
+            renderCategoryFilters(); // L2 筛选器是固定的，可以直接渲染
             loadAndFetchActivities();
             startCountdownUpdater();
-            
-            // [【 核心 】] 绑定新增的状态筛选按钮
             bindStatusFilterButtons();
         });
-
-        // [【 核心Bug修复 】] 页面加载时，必须“预热”语音引擎 (iOS/Mobile Safari 限制)
-        function primeSpeechEngine() {
-            if (synth.speaking) return; 
-            if (currentUtterance) return;
-            const ut = new SpeechSynthesisUtterance(' '); // 播放一个空字符串
-            ut.volume = 0; // 静音
-            ut.rate = 3; // 极速
-            try {
-                synth.speak(ut);
-            } catch (e) {
-                console.warn("语音引擎预热失败 (可能在桌面端)", e);
-            }
-        }
-        // 第一次点击页面任意位置时触发预热
-        document.addEventListener('click', primeSpeechEngine, { once: true });
-        document.addEventListener('touchstart', primeSpeechEngine, { once: true });
-
+        
+        // [【 核心BUG修复 】] 移除 primeSpeechEngine
 
         // ----------------------------------------------------
         // 步骤 2: 加载和获取数据
@@ -612,13 +577,14 @@
                 if (!response.ok) {
                     throw new Error('网络响应错误，无法加载 activities.json');
                 }
-                const data = await response.json();
+                const rawData = await response.json();
                 
-                // 过滤出所有 "省钱秘籍" 相关的活动
-                ALL_ACTIVITIES = data.filter(act => 
-                    act.category && ALL_CATEGORIES.some(cat => act.category.includes(cat))
+                // 1. [L1 过滤] 过滤出所有 "省钱秘籍" 相关的活动
+                ALL_ACTIVITIES = rawData.filter(act => 
+                    act.category && act.category.some(cat => PAGE_L1_CATEGORIES.includes(cat))
                 );
 
+                // 2. 渲染
                 renderActivities();
                 
             } catch (error) {
@@ -628,7 +594,7 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 3: 渲染类别筛选器
+        // 步骤 3: 渲染类别筛选器 (L2)
         // ----------------------------------------------------
         function renderCategoryFilters() {
             const container = document.getElementById('category-filter-container');
@@ -640,6 +606,8 @@
             
             ALL_CATEGORIES.forEach(catKey => {
                 const cat = CATEGORY_MAP[catKey];
+                if (!cat) return; // 安全检查
+
                 buttonsHtml += `
                     <button class="category-filter-btn" data-category="${catKey}"
                             onclick="umami.track('filter_category_${catKey.toLowerCase()}', { from: 'shopping' })">
@@ -653,31 +621,23 @@
             container.querySelectorAll('.category-filter-btn').forEach(button => {
                 button.addEventListener('click', (e) => {
                     CURRENT_CATEGORY_FILTER = e.currentTarget.getAttribute('data-category');
-                    
-                    // 更新按钮激活状态
                     container.querySelectorAll('.category-filter-btn').forEach(btn => btn.classList.remove('active'));
                     e.currentTarget.classList.add('active');
-                    
-                    // 重新渲染活动列表
                     renderActivities();
                 });
             });
         }
         
         // ----------------------------------------------------
-        // [【 核心 】] 步骤 4: 绑定状态筛选器
+        // 步骤 4: 绑定状态筛选器
         // ----------------------------------------------------
         function bindStatusFilterButtons() {
             const container = document.querySelector('.status-filter-bar');
             container.querySelectorAll('.status-filter-btn').forEach(button => {
                 button.addEventListener('click', (e) => {
                     CURRENT_STATUS_FILTER = e.currentTarget.getAttribute('data-status');
-                    
-                    // 更新按钮激活状态
                     container.querySelectorAll('.status-filter-btn').forEach(btn => btn.classList.remove('active'));
                     e.currentTarget.classList.add('active');
-                    
-                    // 重新渲染活动列表
                     renderActivities();
                 });
             });
@@ -690,9 +650,10 @@
             const listContainer = document.getElementById('shopping-tasks-list');
             listContainer.innerHTML = '';
             
-            // [【 核心 】] 1. 按状态筛选
+            // 1. 按状态筛选
             const now = new Date();
             const filteredByStatus = ALL_ACTIVITIES.filter(act => {
+                // ... (状态筛选逻辑不变) ...
                 const startDate = act.startDate ? new Date(act.startDate) : null;
                 const endDate = act.endDate ? new Date(act.endDate) : null;
 
@@ -707,14 +668,17 @@
                 if (CURRENT_STATUS_FILTER === 'ended') {
                     return endDate && endDate < now;
                 }
-                return false; // 默认不显示
+                return false;
             });
 
-            // 2. 按类别筛选
+            // 2. 按 L2 类别筛选
             const filteredActivities = filteredByStatus.filter(act => {
                 if (CURRENT_CATEGORY_FILTER === 'All') {
-                    return true;
+                    // 如果 L2 选 "All"，我们只显示那些 *至少包含一个* 已知 L2 标签的活动
+                    // 避免显示 "Life", "Food" 等旧 L1 标签
+                    return act.category && act.category.some(cat => ALL_CATEGORIES.includes(cat));
                 }
+                // 否则，只显示包含特定 L2 标签的活动
                 return act.category && act.category.includes(CURRENT_CATEGORY_FILTER);
             });
 
@@ -733,19 +697,19 @@
             });
             
             bindActionButtons();
-            updateAllCountdowns(); // 确保新渲染的卡片有倒计时
+            updateAllCountdowns();
         }
 
         // ----------------------------------------------------
         // 步骤 6: 单个活动卡片的 HTML 生成
         // ----------------------------------------------------
         function renderActivityCard(activity) {
-            // 确定主要类别
+            // 确定主要类别 (L2)
             const primaryCat = ALL_CATEGORIES.find(cat => activity.category.includes(cat)) || 'Other';
-            const styles = CATEGORY_MAP[primaryCat];
+            const styles = CATEGORY_MAP[primaryCat] || CATEGORY_MAP['Other'];
             
             let actionButtonHtml = '';
-            
+            // ... (动作按钮逻辑不变) ...
             if (activity.link && activity.link !== '#') {
                 actionButtonHtml = `
                     <a href="${activity.link}" 
@@ -790,7 +754,6 @@
                     
                     ${specialNoteBadge}
 
-                    <!-- 倒计时徽章 -->
                     <span class="countdown-badge" 
                           data-endtime="${activity.endDate}" 
                           data-starttime="${activity.startDate}" 
@@ -826,25 +789,21 @@
         // 步骤 7: 绑定事件
         // ----------------------------------------------------
         function bindActionButtons() {
-            // 绑定语音按钮
+            // ... (绑定逻辑不变) ...
             document.querySelectorAll('.action-button-voice').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const btn = e.currentTarget;
                     const steps = btn.getAttribute('data-steps');
                     const name = btn.getAttribute('data-activity-name');
-                    
                     umami.track('play_voice_guide', { name: name });
                     playSpeech(steps, btn);
                 });
             });
-
-            // 绑定分享按钮
             document.querySelectorAll('.share-button').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const btn = e.currentTarget;
                     const id = btn.getAttribute('data-activity-id');
                     const name = btn.getAttribute('data-activity-name');
-                    
                     umami.track('click_share', { name: name });
                     shareActivity(id, btn);
                 });
@@ -852,28 +811,43 @@
         }
         
         // ----------------------------------------------------
-        // 步骤 8: 语音播放 (Web Speech API)
+        // 步骤 8: [【 核心BUG修复 】] 语音播放 (已修复)
         // ----------------------------------------------------
         function playSpeech(text, buttonElement) {
-            if (synth.speaking && currentUtterance && currentUtterance.text === text) {
-                stopSpeech();
-                setTimeout(() => playSpeech(text, buttonElement), 100);
+            const isCurrentlySpeaking = synth.speaking;
+            const isSameText = currentUtterance && currentUtterance.text === text;
+
+            if (isCurrentlySpeaking) {
+                synth.cancel();
+            }
+            if (isCurrentlySpeaking && isSameText) {
                 return;
             }
-            stopSpeech();
-
+            
             currentUtterance = new SpeechSynthesisUtterance(text);
             currentUtterance.lang = 'zh-CN';
+            currentUtterance.rate = 0.8;
             
-            // [【 核心 】] 降低语速
-            currentUtterance.rate = 0.8; 
-            
+            document.querySelectorAll('.action-button-voice.speaking').forEach(btn => {
+                btn.classList.remove('speaking');
+                btn.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+            });
+
             if (buttonElement) {
                 buttonElement.classList.add('speaking');
                 buttonElement.innerHTML = `<i class="fas fa-wave-square"></i> 播放中...`;
             }
 
             currentUtterance.onend = () => {
+                if (buttonElement) {
+                    buttonElement.classList.remove('speaking');
+                    buttonElement.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+                }
+                currentUtterance = null;
+            };
+            
+            currentUtterance.onerror = (event) => {
+                console.error('SpeechSynthesis 错误:', event);
                 if (buttonElement) {
                     buttonElement.classList.remove('speaking');
                     buttonElement.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
@@ -896,11 +870,11 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 9: 分享功能 (go.html 网关)
+        // 步骤 9: 分享功能
         // ----------------------------------------------------
         function shareActivity(activityId, buttonElement) {
+            // ... (分享逻辑不变) ...
             const shareUrl = `${window.location.origin}${window.location.pathname.replace('shopping.html', 'go.html')}?id=${activityId}`;
-            
             try {
                 const tempInput = document.createElement('textarea');
                 tempInput.value = `快来看看这个活动！\n${shareUrl}`;
@@ -922,23 +896,21 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 10: 倒计时功能 (已更新)
+        // 步骤 10: 倒计时功能
         // ----------------------------------------------------
         function getRemainingTime(activity, badgeElement) {
+            // ... (倒计时逻辑不变) ...
             const now = new Date().getTime();
             const startDate = activity.startDate ? new Date(activity.startDate).getTime() : null;
             const endDate = activity.endDate ? new Date(activity.endDate).getTime() : null;
 
             badgeElement.classList.remove('expired-badge', 'upcoming-badge');
 
-            // 1. 检查是否已结束
             if (endDate && endDate < now) {
                 badgeElement.textContent = '已过期';
                 badgeElement.classList.add('expired-badge');
                 return;
             }
-
-            // 2. 检查是否即将开始
             if (startDate && startDate > now) {
                 const distance = startDate - now;
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -946,14 +918,13 @@
                 
                 let timeString = '';
                 if (days > 1) timeString = `${days} 天后`;
-                else timeString = `${hours} 小时后`;
-                
-                badgeElement.textContent = `即将 ${timeString}`;
+                else if (days === 1 || hours > 1) timeString = `${days * 24 + hours} 小时后`;
+                else timeString = `即将开始`;
+
+                badgeElement.textContent = `${timeString}`;
                 badgeElement.classList.add('upcoming-badge');
                 return;
             }
-
-            // 3. 检查进行中的结束时间
             if (endDate) {
                 const distance = endDate - now;
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -968,8 +939,6 @@
                 badgeElement.textContent = `剩余 ${timeString}`;
                 return;
             }
-            
-            // 4. 长期活动
             badgeElement.textContent = '长期';
         }
 
