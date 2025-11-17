@@ -3,9 +3,7 @@ const path = require('path');
 // 假设使用的是 v2 CJS 版本的 node-fetch
 const fetch = require('node-fetch'); 
 
-// --------------------------------------------------------------------------------
-// 核心配置：中文 Airtable 标签与英文 URL Hash 的映射关系
-// --------------------------------------------------------------------------------
+// ... (CATEGORY_MAP 保持不变) ...
 const CATEGORY_MAP = {
     // 根分类
     '签到': 'CheckIn',
@@ -24,11 +22,9 @@ const CATEGORY_MAP = {
     '做任务领红包': 'MissionReward',
 };
 
-// --------------------------------------------------------------------------------
-// Airtable 配置 (从环境变量读取)
-// --------------------------------------------------------------------------------
+// ... (Airtable 配置保持不变) ...
 const AIRTABLE_PAT = process.env.AIRTABLE_PAT;
-const BASE_ID = process.env.AIRTABLE_BASE_ID; // 修正：确保已定义
+const BASE_ID = process.env.AIRTABLE_BASE_ID; 
 const TABLE_NAME = 'tblPWwLrdoMuO1b7k'; 
 
 const AIRTABLE_URL = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
@@ -52,17 +48,12 @@ async function fetchData() {
             throw new Error(`Airtable API 错误 (Status: ${response.status})`);
         }
 
-        // [【【 核心修正 】】]
-        // 这一行必须存在！它解析来自 Airtable 的 JSON 数据。
-        // `data` 变量在这一行被定义。
         const data = await response.json();
         
-        // 这一行 (原 line 19) 现在可以安全地使用 'data' 变量了
         const activities = data.records.map(record => {
             let category = [];
             const rawCategories = record.fields.Category;
 
-            // 处理分类映射
             if (Array.isArray(rawCategories)) {
                 category = rawCategories
                     .map(c => CATEGORY_MAP[c.trim()] || c.trim()) 
@@ -74,7 +65,10 @@ async function fetchData() {
                 }
             }
 
-            // 构造最终的对象
+            // [【【 核心修正 (Bug 1) 】】]
+            // 为 sourceApp 增加 .trim()，防止筛选器因空格而失效
+            const sourceApp = (record.fields.SourceApp || '其他').trim();
+
             return {
                 id: record.id,
                 name: record.fields.Name || '无标题活动',
@@ -82,11 +76,11 @@ async function fetchData() {
                 icon: record.fields.Icon || '❓',
                 link: record.fields.DeepLink || '#', 
                 category: category, 
-                sourceApp: record.fields.SourceApp || '其他',
-                specialNote: record.fields.SpecialNote || null, // 抢购提醒
-                targetApp: record.fields.TargetApp || record.fields.SourceApp || '目标 App',
+                sourceApp: sourceApp, // [已修正] 使用 trim 后的
+                specialNote: record.fields.SpecialNote || null,
+                targetApp: record.fields.TargetApp || sourceApp || '目标 App', // [已修正]
                 endDate: record.fields.endDate || null,
-                StepsText: record.fields.StepsText || null // 语音引导
+                StepsText: record.fields.StepsText || null 
             };
         });
         
@@ -99,7 +93,4 @@ async function fetchData() {
     }
 }
 
-// --------------------------------------------------------------------------------
-// 执行
-// --------------------------------------------------------------------------------
 fetchData();
