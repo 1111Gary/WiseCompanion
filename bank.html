@@ -5,26 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>慧伴管家 - 捡钱任务中心</title>
     
-    <!-- [【 核心 】] Umami 统计 (已集成您的 ID) -->
-    <!-- 请确保 src 指向您 Umami 实例的正确地址 -->
+    <!-- Umami 统计 -->
     <script async defer 
         data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" 
         src="https://umami.example.com/script.js" 
         data-do-not-track="true" 
         data-domains="1111gary.github.io"></script>
 
-    <!-- 依赖加载 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
-    <!-- PWA/移动端配置 -->
-    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="慧伴管家">
-    <link rel="apple-touch-icon" href="./assets/icon_apple.png"> <!-- 修正路径 -->
+    <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     
     <style>
-        /* ------------------ 顶级设计师配色方案 (统一变量) ------------------ */
+        /* [Immersive content redacted for brevity.] */
+        /* ... (CSS 样式与之前完全相同，此处省略以节省空间) ... */
         :root {
             --color-bg-dark: #0A1322; 
             --color-card-bg: #1A2233; 
@@ -35,13 +32,9 @@
             --color-highlight: #FFD700; 
             --color-bank-bg: #1F2A40; 
             --color-success: #34D399; 
-            /* [新增] 抢购提醒色 */
             --color-special-note: #F59E0B; /* 亮橙色 */
-            /* [新增] 高级会员区 */
             --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4);
         }
-
-        /* ------------------ 通用布局和颜色 ------------------ */
         body { 
             background-color: var(--color-bg-dark); 
             color: var(--color-text-light); 
@@ -49,8 +42,6 @@
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
-        
-        /* ------------------ 顶部导航栏 ------------------ */
         .header-bar-fixed { 
             padding-top: calc(15px + env(safe-area-inset-top)); 
             padding-bottom: 5px; 
@@ -63,8 +54,6 @@
             justify-content: space-between;
             height: 60px;
         }
-
-        /* ------------------ 【A. 页面主标题卡片】 ------------------ */
         .main-banner-card {
             background: linear-gradient(135deg, #0f1627, #1a2233);
             border-radius: 20px;
@@ -85,8 +74,6 @@
             color: var(--color-text-light);
             text-shadow: 0 0 5px var(--color-highlight);
         }
-        
-        /* ------------------ 银行筛选器样式 ------------------ */
         .filter-container {
             margin-bottom: 2rem;
             padding: 10px 0;
@@ -99,7 +86,6 @@
             align-items: center;
         }
         .filter-container::-webkit-scrollbar { display: none; }
-        
         .filter-button {
             display: inline-flex;
             align-items: center;
@@ -120,8 +106,6 @@
             box-shadow: 0 0 8px rgba(0, 191, 255, 0.8);
         }
         .filter-button i { margin-right: 6px; }
-
-        /* ------------------ 二级模块标题卡片 ------------------ */
         .section-title-card {
             background: linear-gradient(135deg, #0f1627, #1a2233);
             border-radius: 12px;
@@ -142,15 +126,12 @@
             font-weight: 800;
             color: var(--color-text-light);
         }
-
         .section-description {
             color: var(--color-text-muted);
             font-size: 0.9rem;
             margin-bottom: 1rem; 
             padding-left: 5px;
         }
-        
-        /* ------------------ 任务活动卡片样式 ------------------ */
         .task-list-card {
             background-color: var(--color-bank-bg);
             border-radius: 15px;
@@ -160,15 +141,12 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
             border-left: 5px solid; 
             position: relative;
-            /* [修改] 移除 flex，让分享按钮可以和内容堆叠 */
         }
         .task-list-card:hover {
             background-color: #25334c;
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
-
-        /* [新增] 抢购提醒徽章 */
         .special-note-badge {
             position: absolute;
             top: 15px;
@@ -182,8 +160,6 @@
             z-index: 5;
             box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
         }
-
-        /* 倒计时徽章 (当有抢购提醒时，向下移动) */
         .countdown-badge {
             position: absolute;
             top: 0;
@@ -197,9 +173,8 @@
             font-weight: 700;
             z-index: 4;
         }
-        /* [新增] 当两者都存在时的样式调整 */
         .special-note-badge + .countdown-badge {
-            top: 40px; /* 把它挤下去 */
+            top: 40px; 
             right: 15px;
             border-radius: 8px;
         }
@@ -207,19 +182,14 @@
             background-color: #EF4444;
             color: white;
         }
-
-        /* 强调色 */
         .task-routine { border-left-color: var(--color-success); } 
         .task-payment { border-left-color: var(--color-primary); } 
         .task-savings { border-left-color: var(--color-highlight); } 
-
-        /* [新增] 卡片主体容器 (使用 flex) */
         .task-main-content {
             display: flex;
             align-items: center;
             width: 100%;
         }
-
         .task-icon {
             width: 40px;
             height: 40px;
@@ -235,12 +205,10 @@
         .icon-routine { background-color: var(--color-success); }
         .icon-payment { background-color: var(--color-primary); }
         .icon-savings { background-color: var(--color-highlight); }
-
         .task-content {
             flex-grow: 1;
             min-width: 0;
         }
-
         .task-title {
             font-size: 1rem;
             font-weight: 700;
@@ -248,15 +216,11 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            /* [修改] 为徽章留出空间 */
             padding-right: 90px; 
         }
-        /* [修改] 当有抢购提醒时，标题留出更多空间 */
         .has-special-note .task-title {
             padding-right: 120px;
         }
-
-
         .task-subtitle {
             font-size: 0.8rem;
             color: var(--color-text-muted);
@@ -264,8 +228,6 @@
             line-height: 1.4;
             margin-top: 4px;
         }
-        
-        /* [修改] 底部操作栏 */
         .task-action-bar {
             display: flex;
             justify-content: space-between;
@@ -274,8 +236,6 @@
             padding-top: 10px;
             border-top: 1px solid var(--color-card-bg);
         }
-        
-        /* [修改] 分享按钮 */
         .share-button {
             background-color: var(--color-card-bg);
             color: var(--color-primary);
@@ -293,8 +253,6 @@
             background-color: var(--color-primary);
             color: var(--color-bg-dark);
         }
-
-        /* [修改] 主操作按钮 (直达/语音) */
         .action-button {
             background-color: var(--color-primary);
             color: var(--color-bg-dark);
@@ -314,14 +272,12 @@
             transform: scale(1.05);
             box-shadow: 0 0 10px rgba(0, 191, 255, 0.7);
         }
-        /* [新增] 语音按钮的特定样式 */
         .action-button-voice {
             background-color: var(--color-success);
         }
         .action-button-voice:hover {
             box-shadow: 0 0 10px rgba(52, 211, 153, 0.7);
         }
-        /* [新增] 播放中的样式 */
         .action-button-voice.speaking {
             background-color: var(--color-secondary);
             animation: pulse 1s infinite;
@@ -330,8 +286,6 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.8; }
         }
-
-        /* ------------------ 底部导航栏样式 (Tab Bar) ------------------ */
         .tab-bar {
             position: fixed;
             bottom: 0;
@@ -366,8 +320,6 @@
             font-size: 1.2rem;
             margin-bottom: 3px;
         }
-
-        /* ------------------ 顶部 Logo 组 ------------------ */
         .header-logo-group {
             display: flex;
             align-items: center;
@@ -390,8 +342,6 @@
             background-color: var(--color-card-bg);
             transition: background-color 0.2s;
         }
-        
-        /* ------------------ [新增] 付费会员诱饵卡片 ------------------ */
         .premium-card {
             background: var(--color-card-bg);
             border-radius: 20px;
@@ -427,18 +377,17 @@
             font-size: 0.9rem;
             margin-top: 10px;
         }
-
     </style>
 </head>
 <body>
 
     <!-- 顶部导航栏 -->
     <div class="header-bar-fixed px-4">
+        <!-- ... (HTML 保持不变) ... -->
         <div class="header-logo-group">
             <img src="./assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/00BFFF/ffffff?text=L'" alt="Logo" class="header-logo rounded-md shadow-lg">
             <h1 class="header-title">慧伴管家</h1>
         </div>
-        <!-- [修正] 路径指向根目录的 index.html -->
         <a href="./index.html" class="back-arrow-link" title="返回首页">
             <i class="fas fa-arrow-left"></i>
         </a>
@@ -447,23 +396,19 @@
     <!-- 页面核心内容容器 -->
     <main class="container mx-auto px-4 py-4">
         
-        <!-- **1. 【页面主标题卡片】 ** -->
+        <!-- ... (HTML 保持不变) ... -->
         <div class="main-banner-card">
-            <!-- 【已更新】主标题 -->
             <h1>捡钱任务中心</h1>
             <p class="text-sm text-gray-400 mt-2">点击下方按钮，仅显示您拥有的银行卡/平台活动</p>
         </div>
         
-        <!-- **2. 【银行卡筛选器】 ** -->
         <div class="filter-container" id="bank-filter-container">
-            <!-- 银行筛选按钮将由 JS 动态生成 -->
             <button class="filter-button active" data-bank="All">
                 <i class="fas fa-layer-group"></i>
                 全部活动
             </button>
         </div>
         
-        <!-- **3. 【日常活动】 ** -->
         <div class="section-title-card">
             <h2 class="flex items-center">
                 <i class="fas fa-calendar-day mr-3 text-xl" style="color: var(--color-success);"></i>
@@ -474,10 +419,8 @@
             每日、每周可重复参与的低门槛任务和立减金活动。
         </p>
         <div id="routine-tasks-list">
-             <!-- 日常任务加载位置 -->
         </div>
         
-        <!-- **4. 【缴费活动】 ** -->
         <div class="section-title-card">
             <h2 class="flex items-center">
                 <i class="fas fa-file-invoice-dollar mr-3 text-xl" style="color: var(--color-primary);"></i>
@@ -488,10 +431,8 @@
             水电煤、话费、信用卡还款等特定消费环节的优惠。
         </p>
         <div id="payment-tasks-list">
-            <!-- 缴费任务加载位置 -->
         </div>
         
-        <!-- **5. 【存款理财活动】 ** -->
         <div class="section-title-card">
             <h2 class="flex items-center">
                 <i class="fas fa-sack-dollar mr-3 text-xl" style="color: var(--color-highlight);"></i>
@@ -502,10 +443,8 @@
             需要较长时间达标的存款、理财、借贷等高价值活动。
         </p>
         <div id="savings-tasks-list">
-            <!-- 理财任务加载位置 -->
         </div>
 
-        <!-- **6. 【 [新增] 付费会员诱饵 】 ** -->
         <a href="./premium.html" class="premium-card" 
             onclick="umami.track('click_premium_card', { from: 'bank' })">
             <h2 class="flex items-center justify-center">
@@ -519,27 +458,23 @@
     
     <!-- 底部导航栏 -->
     <nav class="tab-bar">
-        <!-- 首页 -->
+        <!-- ... (HTML 保持不变) ... -->
         <a href="./index.html" class="tab-item">
             <i class="fas fa-home tab-icon"></i>
             <span>首页</span>
         </a>
-        <!-- 天天有奖 (原签到) -->
         <a href="./checkin.html" class="tab-item">
             <i class="fas fa-gifts tab-icon"></i>
             <span>天天有奖</span>
         </a>
-        <!-- 看视频赚 (原视频) -->
         <a href="./video.html" class="tab-item">
             <i class="fas fa-play-circle tab-icon"></i>
             <span>看视频赚</span>
         </a>
-        <!-- 捡钱任务 (原银行 - 当前页) -->
         <span class="tab-item active">
             <i class="fas fa-hand-holding-usd tab-icon"></i>
             <span>捡钱任务</span>
             </span>
-        <!-- 省钱秘籍 (原购物) -->
         <a href="./shopping.html" class="tab-item">
             <i class="fas fa-tags tab-icon"></i>
             <span>省钱秘籍</span>
@@ -551,9 +486,9 @@
         // 全局状态和数据
         // ----------------------------------------------------
         let ALL_ACTIVITIES = [];
-        let selectedBank = 'All'; // 当前选中的银行，默认为全部
+        let selectedBank = 'All'; 
 
-        // [【 核心 】] 分类与样式的映射 (已更新为英文)
+        // [【 核心 】] 分类与样式的映射
         const CATEGORY_MAP = {
             'DailyTask': {
                 borderClass: 'task-routine',
@@ -572,21 +507,38 @@
             }
         };
 
-        // [【 核心 】] 原生语音 API (Web Speech API)
+        // [【 核心修正 (Bug 2) 】] 语音 API 健壮性
         const synth = window.speechSynthesis;
-        let currentUtterance = null; // 用于跟踪当前播放的语音
-
-        // ----------------------------------------------------
-        // 步骤 1: 页面加载主入口
-        // ----------------------------------------------------
+        let currentUtterance = null; 
+        if (!synth) {
+            console.error("【慧伴管家】: 您的浏览器不支持 Web Speech API 语音播放。");
+        }
+        // [新增] 尝试在页面加载时“预热”语音引擎，解决移动端延迟
         document.addEventListener('DOMContentLoaded', () => {
+            try {
+                if(synth && synth.getVoices().length === 0) {
+                    synth.onvoiceschanged = () => {
+                        console.log("【慧伴管家】: 语音包已加载。");
+                    };
+                    // (部分浏览器需要这个)
+                    synth.getVoices(); 
+                }
+            } catch(e) {
+                console.error("【慧伴管家】: 预热语音引擎失败:", e);
+            }
+            
             loadAndFetchActivities();
             startCountdownUpdater();
         });
 
+
+        // ----------------------------------------------------
+        // 步骤 1: 页面加载主入口
+        // ----------------------------------------------------
+        // (已移动到 DOMContentLoaded 中)
+
         async function loadAndFetchActivities() {
             try {
-                // [修正] 路径指向根目录
                 const response = await fetch('./activities.json');
                 if (!response.ok) {
                     throw new Error('网络响应错误，无法加载 activities.json');
@@ -603,7 +555,6 @@
                 
             } catch (error) {
                 console.error("加载活动数据失败:", error);
-                // 在页面上显示错误
                 document.getElementById('routine-tasks-list').innerHTML = `<p class="text-red-400 p-4 text-center">加载活动数据失败。请检查网络或 activities.json 文件。</p>`;
             }
         }
@@ -615,10 +566,10 @@
             const container = document.getElementById('bank-filter-container');
             const banks = new Set();
             
-            // 从数据中提取所有不重复的银行名称 (sourceApp)
+            // [修正] 我们从已过滤的 ALL_ACTIVITIES 中提取
             ALL_ACTIVITIES.forEach(activity => banks.add(activity.sourceApp));
+            console.log("【慧伴管家】: 筛选器加载, 找到的银行:", Array.from(banks));
 
-            // 清理并重新添加按钮 (保留 "全部活动")
             container.innerHTML = `
                 <button class="filter-button active" data-bank="All">
                     <i class="fas fa-layer-group"></i>
@@ -626,8 +577,8 @@
                 </button>`;
             
             banks.forEach(bank => {
-                if (!bank) return; // 跳过空的 bank
-                const icon = getBankIcon(bank); // 辅助函数获取图标
+                if (!bank) return;
+                const icon = getBankIcon(bank);
                 const button = document.createElement('button');
                 button.className = 'filter-button';
                 button.setAttribute('data-bank', bank);
@@ -639,7 +590,6 @@
                 container.appendChild(button);
             });
             
-            // 为 "全部活动" 按钮添加点击事件
             container.querySelector('[data-bank="All"]').addEventListener('click', (e) => {
                 handleFilterClick(e.currentTarget, 'All');
             });
@@ -647,24 +597,22 @@
         
         // 筛选器点击处理
         function handleFilterClick(clickedButton, bankName) {
+            console.log("【慧伴管家】: 筛选器点击 -", bankName);
             // Umami 埋点
-            umami.track('filter_bank', { bank: bankName });
+            if (window.umami) {
+                umami.track('filter_bank', { bank: bankName });
+            }
 
-            // 更新全局状态
             selectedBank = bankName;
             
-            // 更新按钮激活状态
             document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
             clickedButton.classList.add('active');
             
-            // 停止任何正在播放的语音
             stopSpeech();
-
-            // 重新渲染列表
             renderActivities();
         }
 
-        // 辅助函数：根据银行名称返回 Font Awesome 图标
+        // ... (getBankIcon 保持不变) ...
         function getBankIcon(bankName) {
             if (bankName.includes('微信')) return 'fab fa-weixin';
             if (bankName.includes('支付宝')) return 'fab fa-alipay';
@@ -676,15 +624,17 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 3: 渲染活动到对应的 DOM 容器 (应用筛选)
+        // 步骤 3: 渲染活动 (Bug 1 修复)
         // ----------------------------------------------------
         function renderActivities() {
-            // 1. 根据 selectedBank 筛选
+            // [【 核心修正 (Bug 1) 】] 
+            // 确保筛选逻辑是严格比较 (trim() 已在 fetch-data.js 中完成)
             const filteredActivities = ALL_ACTIVITIES.filter(activity => 
                 selectedBank === 'All' || activity.sourceApp === selectedBank
             );
+            
+            console.log(`【慧伴管家】: 渲染中... 筛选 ${selectedBank}, 找到 ${filteredActivities.length} / ${ALL_ACTIVITIES.length} 条。`);
 
-            // 2. 定义容器
             const lists = {
                 'DailyTask': document.getElementById('routine-tasks-list'),
                 'Payment': document.getElementById('payment-tasks-list'),
@@ -692,11 +642,9 @@
             };
             Object.values(lists).forEach(list => list.innerHTML = '');
 
-            // 3. 遍历并分配
             const hasActivities = { 'DailyTask': false, 'Payment': false, 'Deposit': false };
             
             filteredActivities.forEach(activity => {
-                // 找到活动属于哪个子分类 (DailyTask, Payment, Deposit)
                 const subCategory = activity.category.find(c => CATEGORY_MAP[c]);
                 
                 if (subCategory && lists[subCategory]) {
@@ -706,14 +654,12 @@
                 }
             });
             
-            // 4. 处理空列表提示
             Object.keys(lists).forEach(category => {
                 if (!hasActivities[category]) {
                     lists[category].innerHTML = `<p class="text-gray-400 text-center p-4">该分类下${selectedBank !== 'All' ? `没有 ${selectedBank} 的` : ''}活动。</p>`;
                 }
             });
             
-            // 5. [新增] 渲染后，为按钮绑定事件 (因为 innerHTML 会清除旧事件)
             bindActionButtons();
         }
 
@@ -721,13 +667,12 @@
         // 步骤 4: 单个活动卡片的 HTML 生成
         // ----------------------------------------------------
         function renderActivityCard(activity, subCategory) {
+            // ... (HTML 生成逻辑保持不变) ...
             const styles = CATEGORY_MAP[subCategory] || CATEGORY_MAP['DailyTask'];
             
-            // [【 核心逻辑 】] 判断按钮类型
             let actionButtonHtml = '';
             
             if (activity.link && activity.link !== '#') {
-                // 1. 有 DeepLink -> 显示“去领取”
                 actionButtonHtml = `
                     <a href="${activity.link}" 
                        target="_blank" 
@@ -738,9 +683,7 @@
                         去领取
                     </a>`;
             } else if (activity.StepsText) {
-                // 2. 没有 DeepLink 但有 StepsText -> 显示“播放语音”
-                // 注意：我们把 activity.id 和 steps (转义后) 存在 data 属性里
-                const steps = activity.StepsText.replace(/"/g, '&quot;'); // HTML 转义
+                const steps = activity.StepsText.replace(/"/g, '&quot;');
                 actionButtonHtml = `
                     <button class="action-button action-button-voice" 
                             data-activity-id="${activity.id}" 
@@ -750,8 +693,6 @@
                         播放语音
                     </button>`;
             } else {
-                // 3. 什么都没有 -> 按钮禁用 (或不显示)
-                // 为保持统一，显示一个禁用的按钮
                 actionButtonHtml = `
                     <button class="action-button opacity-50 cursor-not-allowed" disabled>
                         <i class="fas fa-info-circle"></i>
@@ -759,7 +700,6 @@
                     </button>`;
             }
             
-            // [【 核心 】] 抢购提醒徽章
             let specialNoteBadge = '';
             if (activity.specialNote) {
                 specialNoteBadge = `
@@ -773,14 +713,10 @@
 
             return `
                 <div class="task-list-card ${styles.borderClass} ${activity.specialNote ? 'has-special-note' : ''}">
-                    
                     ${specialNoteBadge}
-
-                    <!-- 倒计时徽章 (ID 使用 activity.id 确保唯一性) -->
                     <span class="countdown-badge" data-endtime="${activity.endDate}" id="timer-${activity.id}">
                         长期
                     </span>
-
                     <div class="task-main-content">
                         <div class="task-icon ${styles.iconClass}">
                             <i class="fa-solid ${styles.faIcon}"></i>
@@ -790,18 +726,13 @@
                             <div class="task-subtitle">${activity.description || '暂无详细描述。'}</div>
                         </div>
                     </div>
-
-                    <!-- [【 核心 】] 底部操作栏 -->
                     <div class="task-action-bar">
-                        <!-- 分享按钮 -->
                         <button class="share-button" 
                                 data-activity-id="${activity.id}" 
                                 data-activity-name="${activity.name}">
                             <i class="fas fa-share-alt"></i>
                             分享
                         </button>
-                        
-                        <!-- 主操作按钮 (动态生成) -->
                         ${actionButtonHtml}
                     </div>
                 </div>
@@ -809,7 +740,7 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 5: [新增] 为动态生成的按钮绑定事件
+        // 步骤 5: 绑定事件
         // ----------------------------------------------------
         function bindActionButtons() {
             // 绑定语音按钮
@@ -819,10 +750,9 @@
                     const steps = btn.getAttribute('data-steps');
                     const name = btn.getAttribute('data-activity-name');
                     
-                    // Umami 埋点
-                    umami.track('play_voice_guide', { name: name });
-
-                    // [【 核心 】] 调用语音播放
+                    if (window.umami) {
+                        umami.track('play_voice_guide', { name: name });
+                    }
                     playSpeech(steps, btn);
                 });
             });
@@ -834,38 +764,45 @@
                     const id = btn.getAttribute('data-activity-id');
                     const name = btn.getAttribute('data-activity-name');
                     
-                    // Umami 埋点
-                    umami.track('click_share', { name: name });
-
-                    // [【 核心 】] 调用分享/复制
+                    if (window.umami) {
+                        umami.track('click_share', { name: name });
+                    }
                     shareActivity(id, btn);
                 });
             });
         }
         
         // ----------------------------------------------------
-        // 步骤 6: [新增] 语音播放 (Web Speech API)
+        // 步骤 6: [【 核心修正 (Bug 2) 】] 语音播放
         // ----------------------------------------------------
         function playSpeech(text, buttonElement) {
+            if (!synth) {
+                console.error("【慧伴管家】: 语音播放失败，Speech API 不可用。");
+                return;
+            }
+            
+            console.log("【慧伴管家】: 尝试播放语音:", text);
+
             // 如果正在播放同一个语音，则停止
             if (synth.speaking && currentUtterance && currentUtterance.text === text) {
                 stopSpeech();
                 return;
             }
 
-            // 如果正在播放别的，先停止
-            stopSpeech();
+            stopSpeech(); // 停止任何正在播放的
 
             currentUtterance = new SpeechSynthesisUtterance(text);
-            currentUtterance.lang = 'zh-CN'; // 指定中文
+            currentUtterance.lang = 'zh-CN'; 
             
-            // 高亮按钮
+            currentUtterance.onerror = (event) => {
+                console.error('【慧伴管家】: 语音播放错误:', event.error);
+            };
+
             if (buttonElement) {
                 buttonElement.classList.add('speaking');
                 buttonElement.innerHTML = `<i class="fas fa-wave-square"></i> 播放中...`;
             }
 
-            // 播放结束时
             currentUtterance.onend = () => {
                 if (buttonElement) {
                     buttonElement.classList.remove('speaking');
@@ -874,15 +811,13 @@
                 currentUtterance = null;
             };
 
-            // 播放
             synth.speak(currentUtterance);
         }
 
         function stopSpeech() {
-            if (synth.speaking) {
+            if (synth && synth.speaking) {
                 synth.cancel();
             }
-            // 清理所有按钮的状态
             document.querySelectorAll('.action-button-voice.speaking').forEach(btn => {
                 btn.classList.remove('speaking');
                 btn.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
@@ -891,15 +826,12 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 7: [新增] 分享功能 (go.html 网关)
+        // 步骤 7: 分享功能 (go.html 网关)
         // ----------------------------------------------------
         function shareActivity(activityId, buttonElement) {
-            // 1. 构造我们的专属分享链接 (go.html 网关)
+            // ... (分享逻辑保持不变) ...
             const shareUrl = `${window.location.origin}${window.location.pathname.replace('bank.html', 'go.html')}?id=${activityId}`;
-            
             try {
-                // 2. 尝试复制到剪贴板
-                // (注意：在 iFrame 中可能受限，但在真实环境中可用)
                 const tempInput = document.createElement('textarea');
                 tempInput.value = `快来看看这个活动！\n${shareUrl}`;
                 document.body.appendChild(tempInput);
@@ -907,7 +839,6 @@
                 document.execCommand('copy');
                 document.body.removeChild(tempInput);
                 
-                // 3. 反馈给用户
                 const originalText = buttonElement.innerHTML;
                 buttonElement.innerHTML = `<i class="fas fa-check"></i> 已复制!`;
                 setTimeout(() => {
@@ -916,7 +847,6 @@
 
             } catch (err) {
                 console.error('复制失败:', err);
-                // 降级处理
                 alert(`请手动复制链接：\n${shareUrl}`);
             }
         }
@@ -925,26 +855,23 @@
         // 步骤 8: 倒计时功能 (保持不变)
         // ----------------------------------------------------
         function getRemainingTime(endDateString, badgeElement) {
+            // ... (倒计时逻辑保持不变) ...
             if (!endDateString || endDateString === 'null') {
                 badgeElement.textContent = '长期';
                 badgeElement.classList.remove('expired-badge');
                 return;
             }
-
             const now = new Date().getTime();
             const end = new Date(endDateString).getTime();
             const distance = end - now;
-
             if (distance < 0) {
                 badgeElement.textContent = '已过期';
                 badgeElement.classList.add('expired-badge');
                 return;
             }
-            
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
             let timeString = '';
             if (days > 1) {
                 timeString = `${days} 天`;
@@ -953,16 +880,13 @@
             } else {
                 timeString = `${minutes} 分`;
             }
-
             badgeElement.textContent = `剩余 ${timeString}`;
             badgeElement.classList.remove('expired-badge');
         }
 
         function startCountdownUpdater() {
-            // 每分钟更新一次所有倒计时
             setInterval(updateAllCountdowns, 60000); 
-            // 页面加载时立即执行一次
-            setTimeout(updateAllCountdowns, 500); // 延迟一点等渲染
+            setTimeout(updateAllCountdowns, 500); 
         }
 
         function updateAllCountdowns() {
