@@ -116,7 +116,8 @@
     "icon": "🏡",
     "link": "#",
     "category": [
-      "CheckIn"
+      "CheckIn",
+      "DailyCheckin"
     ],
     "sourceApp": "网上国网APP",
     "specialNote": null,
@@ -193,8 +194,7 @@
     "link": "https://event.ccbft.com/ccbact/m385/AP202508126470000001-act.html?__dmsp_token=TFU6Y2NiX2dqYjp3eDoyOEJFRkQ3NEM2NjJEOUI3Qjk2NzYyQUFGQjk2N0U1QjpmMmM5ZDg2M2VhYmI0NWYxOTMwODFjYzBjNzFkOTEyZA==&__dmsp_ticket=TFU6Y2NiX2dqYjp3eDoyOEJFRkQ3NEM2NjJEOUI3Qjk2NzYyQUFGQjk2N0U1QjpiYTgxYzgxZGYxMDY0MzQ1YjRjNzg2ZWRiYzcyMjJlMw==&__dmsp_st=U1Q6Y2NiX2dqYjp3eDoyOEJFRkQ3NEM2NjJEOUI3Qjk2NzYyQUFGQjk2N0U1Qjo0YzRiZmJiNWJhOTM0OWVhYmZiZWQ3NGY4MDVhOTRjNw==",
     "category": [
       "Bank",
-      "DigitalRMB",
-      "CCB"
+      "DigitalRMB"
     ],
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
@@ -288,7 +288,8 @@
     "icon": "🍔",
     "link": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=b7fbcbdcf9814297bdb479ebcd224419",
     "category": [
-      "CheckIn"
+      "CheckIn",
+      "DailyCheckin"
     ],
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
@@ -429,7 +430,8 @@
     "icon": "💰",
     "link": "cmbt://...",
     "category": [
-      "CheckIn"
+      "CheckIn",
+      "DailyCheckin"
     ],
     "sourceApp": "支付宝APP",
     "specialNote": null,
@@ -1138,7 +1140,8 @@
     "icon": "✨",
     "link": "复制这条信息¥BCxiPVJuLi¥打开 中国银行手机银行 查看具体信息「福仔云游记 快来开启趣味云游之旅吧！」",
     "category": [
-      "CheckIn"
+      "CheckIn",
+      "DailyCheckin"
     ],
     "sourceApp": "中国银行APP",
     "specialNote": null,
