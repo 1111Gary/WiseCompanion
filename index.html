@@ -2,136 +2,227 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <!-- [【 核心 】] 确保移动端适配 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <!-- 页面标题，突出 AI 概念 -->
-    <title>慧伴管家 - AI 智能入口</title>
+    <title>慧伴管家 - 您的智能生活助手</title>
     
-    <!-- PWA/移动端配置 -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="慧伴管家">
-    <link rel="manifest" href="/WiseCompanion/manifest.json">
-    <link rel="apple-touch-icon" href="/WiseCompanion/assets/icon_apple.png">
-    
-    <!-- 依赖加载 -->
+    <!-- [【 核心 】] Umami 统计 (已集成您的 ID) -->
+    <script async defer 
+        data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" 
+        src="https://umami.example.com/script.js" 
+        data-do-not-track="true" 
+        data-domains="1111gary.github.io"></script>
+
+    <!-- 依赖库 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
+    <!-- [【 核心 】] PWA 和移动端 Web App 设置 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="慧伴管家">
+    <link rel="apple-touch-icon" href="./assets/icon_apple.png">
+    <!-- 更多尺寸的图标 (可选但推荐) -->
+    <!-- <link rel="apple-touch-icon" sizes="152x152" href="./assets/icon_152.png"> -->
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="./assets/icon_180.png"> -->
+    <!-- <link rel="apple-touch-icon" sizes="167x167" href="./assets/icon_167.png"> -->
+    
+    <!-- 启动画面 (可选) -->
+    <!-- <link rel="apple-touch-startup-image" href="./assets/launch.png"> -->
+
     <style>
-        /* ------------------ 简洁科技配色方案 ------------------ */
+        /* [【 核心 】] 定义我们的品牌色板 */
         :root {
-            --color-bg-dark: #0A1322; 
-            --color-card-bg: #1A2233; 
-            --color-primary: #00BFFF; /* 主色调：科技蓝 */
-            --color-secondary: #00DFA2; /* 突出色：薄荷绿 */
-            --color-text-light: #E0E7FF;
-            --color-text-muted: #9CA3AF;
-            --color-highlight: #FF6B6B; /* 强调色：红色 */
+            --color-bg-dark: #0A1322; /* 深空蓝 (背景) */
+            --color-card-bg: #1A2233; /* 卡片蓝 (卡片背景) */
+            --color-primary: #00BFFF; /* 活力蓝 (主按钮/高亮) */
+            --color-secondary: #FF69B4; /* 玫瑰粉 (次要高亮/徽章) */
+            --color-text-light: #E0E7FF; /* 亮灰蓝 (主要文字) */
+            --color-text-muted: #9CA3AF; /* 柔和灰 (次要文字) */
+            --color-highlight: #FFD700; /* 黄金 (特别强调/VIP) */
+            
+            /* 语义化颜色 */
+            --color-checkin: #34D399; /* 签到 (绿色) */
+            --color-video: #A78BFA; /* 视频 (紫色) */
+            --color-bank: var(--color-primary); /* 银行 (活力蓝) */
+            --color-shopping: var(--color-secondary); /* 购物 (玫瑰粉) */
+            
+            --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4);
         }
 
-        /* ------------------ 通用布局和颜色 ------------------ */
-        body { 
-            background-color: var(--color-bg-dark); 
-            color: var(--color-text-light); 
-            /* 底部留出 tab-bar 和安全区的高度 */
-            padding-bottom: calc(85px + env(safe-area-inset-bottom)); 
-            padding-top: calc(70px + env(safe-area-inset-top)); 
-            font-family: 'Inter', sans-serif;
+        body {
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-light);
+            font-family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            /* [【 核心 】] 底部安全区适配 (PWA 关键) */
+            padding-bottom: calc(85px + env(safe-area-inset-bottom));
             overflow-x: hidden;
         }
-        
-        /* ------------------ 顶部导航栏 ------------------ */
-        .header-bar-fixed { 
-            padding-top: calc(15px + env(safe-area-inset-top)); 
-            padding-bottom: 5px; 
+
+        /* 顶部导航栏 (PWA 关键) */
+        .header-bar-fixed {
+            /* [【 核心 】] 顶部安全区适配 */
+            padding-top: calc(15px + env(safe-area-inset-top));
+            padding-bottom: 5px;
             background-color: var(--color-bg-dark);
-            position: fixed;
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
             z-index: 10;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 60px;
-            padding-left: 1rem;
-            padding-right: 1rem;
+            height: 60px; /* 固定高度 */
         }
         .header-logo-group {
             display: flex;
             align-items: center;
         }
-
         .header-logo {
             width: 32px;
             height: 32px;
             margin-right: 10px;
         }
-
         .header-title {
             font-size: 1.2rem;
             font-weight: 700;
             color: var(--color-text-light);
         }
-
-        /* ------------------ 主功能卡片 ------------------ */
-        .main-function-card {
+        .header-user-icon {
+            color: var(--color-text-light);
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            border-radius: 50%;
             background-color: var(--color-card-bg);
+            transition: background-color 0.2s;
+        }
+        .header-user-icon:hover {
+            background-color: var(--color-primary);
+        }
+
+        /* 欢迎横幅 */
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
             border-radius: 20px;
             padding: 25px 20px;
             text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 191, 255, 0.3), 0 5px 15px rgba(255, 105, 180, 0.2);
             margin-bottom: 2rem;
-            box-shadow: 0 5px 20px rgba(0, 191, 255, 0.2);
-            border: 1px solid rgba(0, 191, 255, 0.4);
         }
-        .main-function-card h2 {
+        .welcome-banner h1 {
             font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--color-primary);
-            margin-bottom: 5px;
+            font-weight: 800;
+            color: var(--color-bg-dark);
+            text-shadow: 0 1px 2px rgba(255,255,255, 0.3);
         }
-        .main-function-card p {
-            color: var(--color-text-muted);
+        .welcome-banner p {
             font-size: 0.9rem;
+            color: var(--color-bg-dark);
+            opacity: 0.8;
+            margin-top: 5px;
         }
 
-        /* ------------------ 主要功能导航 ------------------ */
-        .feature-nav a {
+        /* [【 核心 】] 导航网格 (Grid) */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2列 */
+            gap: 1rem; /* 间距 */
+            margin-bottom: 2rem;
+        }
+        .nav-card {
             background-color: var(--color-card-bg);
-            padding: 20px 15px;
-            border-radius: 15px;
+            border-radius: 20px;
+            padding: 20px;
+            text-decoration: none;
+            color: var(--color-text-light);
+            transition: all 0.3s ease;
+            border: 2px solid var(--color-card-bg);
+            box-shadow: 0 4px 10px rgba(0,0,0, 0.3);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-            border-bottom: 3px solid var(--color-primary);
+            justify-content: space-between;
+            min-height: 120px;
         }
-        .feature-nav a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-            border-color: var(--color-secondary);
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0, 0.4);
+            border-color: var(--color-primary);
         }
-        .feature-icon {
+        .nav-card-icon {
             font-size: 1.8rem;
-            margin-bottom: 8px;
-            color: var(--color-primary);
-            filter: drop-shadow(0 0 5px rgba(0, 191, 255, 0.5));
+            margin-bottom: 10px;
+            height: 30px;
         }
-        /* 针对特定图标的高亮颜色 */
-        .feature-icon-secondary {
-            color: var(--color-secondary);
-            filter: drop-shadow(0 0 5px rgba(0, 223, 162, 0.5));
+        .nav-card h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .nav-card p {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            line-height: 1.4;
         }
 
-        .feature-text {
-            font-weight: 600;
-            font-size: 0.9rem;
+        /* 为每个卡片设置专属颜色 */
+        .nav-card.checkin .nav-card-icon { color: var(--color-checkin); }
+        .nav-card.video .nav-card-icon { color: var(--color-video); }
+        .nav-card.bank .nav-card-icon { color: var(--color-bank); }
+        .nav-card.shopping .nav-card-icon { color: var(--color-shopping); }
+        
+        .nav-card.checkin:hover { border-color: var(--color-checkin); }
+        .nav-card.video:hover { border-color: var(--color-video); }
+        .nav-card.bank:hover { border-color: var(--color-bank); }
+        .nav-card.shopping:hover { border-color: var(--color-shopping); }
+
+        /* 章节标题 */
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
             color: var(--color-text-light);
+            margin-bottom: 1rem;
+            padding-left: 5px;
+            border-left: 4px solid var(--color-primary);
         }
 
-        /* ------------------ 底部导航栏样式 ------------------ */
+        /* [【 核心 】] 付费会员诱饵卡片 */
+        .premium-card {
+            background: var(--color-card-bg);
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            border: 3px solid transparent; 
+            /* 炫酷边框的关键CSS */
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+            border-image: var(--color-premium-border);
+            border-image-slice: 1;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4), 0 0 30px rgba(255, 105, 180, 0.2);
+            margin-bottom: 1rem;
+            position: relative;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        .premium-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 105, 180, 0.4);
+        }
+        .premium-card h2 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            /* 文本渐变 */
+            background: var(--color-premium-border);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+        .premium-card p {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        /* 底部导航栏样式 (Tab Bar) */
         .tab-bar {
             position: fixed;
             bottom: 0;
@@ -140,14 +231,14 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            height: 60px;
+            height: 60px; /* 固定高度 */
             background-color: var(--color-bg-dark);
             border-top: 1px solid #1A2233;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            /* [【 核心 】] 底部安全区适配 (PWA 关键) */
             padding-bottom: env(safe-area-inset-bottom);
             z-index: 20;
         }
-
         .tab-item {
             display: flex;
             flex-direction: column;
@@ -162,11 +253,10 @@
             flex-grow: 1;
             max-width: 20%;
         }
-
+        /* 当前页高亮 */
         .tab-item.active {
             color: var(--color-primary);
         }
-
         .tab-icon {
             font-size: 1.2rem;
             margin-bottom: 3px;
@@ -176,127 +266,134 @@
 <body>
 
     <!-- 顶部导航栏 -->
-    <div class="header-bar-fixed">
+    <div class="header-bar-fixed px-4">
         <div class="header-logo-group">
-            <img src="/WiseCompanion/assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/00BFFF/0A1322?text=G'" alt="Logo" class="header-logo rounded-md shadow-lg">
+            <img src="./assets/icon_apple.png" 
+                 onerror="this.onerror=null;this.src='https://placehold.co/32x32/00BFFF/ffffff?text=L'" 
+                 alt="Logo" class="header-logo rounded-md shadow-lg">
             <h1 class="header-title">慧伴管家</h1>
         </div>
-        <!-- UPDATED: 更改为刷新按钮，并添加点击刷新页面的功能 -->
-        <a href="javascript:void(0);" onclick="location.reload();" class="text-xl text-gray-400 hover:text-white" title="刷新页面">
-            <i class="fas fa-sync-alt"></i>
-        </a>
+        <!-- (暂时隐藏用户头像，未来V2迭代) -->
+        <!-- <a href="#" class="header-user-icon">
+            <i class="fas fa-user"></i>
+        </a> -->
     </div>
 
     <!-- 页面核心内容容器 -->
     <main class="container mx-auto px-4 py-4">
         
-        <!-- **1. 主功能卡片 (智能省赚 全能助手) ** -->
-        <div class="main-function-card">
-            <!-- 【新标题】 -->
-            <h2 class="text-3xl font-extrabold mb-3 text-white">智能省赚 全能助手</h2>
-            <!-- 【新副标题】 -->
-            <p>一站式聚合每日奖励、视频任务、金融理财及购物优惠服务。</p>
+        <!-- **1. 【欢迎横幅】 ** -->
+        <div class="welcome-banner" onclick="umami.track('click_welcome_banner')">
+            <h1>欢迎回来！</h1>
+            <p>您今天的省钱任务已更新</p>
         </div>
 
-        
-        <!-- **2. 主要功能导航 ** -->
-        <div class="mb-8">
-            <h2 class="text-xl font-bold mb-4 text-primary">⚙️ 核心工具</h2>
-            <div class="feature-nav grid grid-cols-2 gap-4">
-                
-                <!-- 天天有奖 -->
-                <a href="/WiseCompanion/checkin.html" title="天天有奖">
-                    <i class="fas fa-gift feature-icon feature-icon-secondary"></i>
-                    <span class="feature-text">天天有奖</span>
-                </a>
+        <!-- **2. 【核心功能导航】 ** -->
+        <h2 class="section-title">核心功能</h2>
+        <div class="nav-grid">
+            <!-- 卡片 1: 天天有奖 (CheckIn) -->
+            <!-- [【 BUG修复 】] 链接已从 checkin.html 修正为 ./checkin.html -->
+            <a href="./checkin.html" class="nav-card checkin" 
+               onclick="umami.track('click_nav_checkin')">
+                <div>
+                    <i class="fas fa-gifts nav-card-icon"></i>
+                    <h2>天天有奖</h2>
+                </div>
+                <p>每日签到领福利</p>
+            </a>
 
-                <!-- 看视频赚 -->
-                <a href="/WiseCompanion/video.html" title="看视频赚">
-                    <i class="fas fa-fire feature-icon"></i>
-                    <span class="feature-text">看视频赚</span>
-                </a>
+            <!-- 卡片 2: 看视频赚 (Video) -->
+            <!-- [【 BUG修复 】] 链接已从 video.html 修正为 ./video.html -->
+            <a href="./video.html" class="nav-card video"
+               onclick="umami.track('click_nav_video')">
+                <div>
+                    <i class="fas fa-play-circle nav-card-icon"></i>
+                    <h2>看视频赚</h2>
+                </div>
+                <p>观看直播刷视频</p>
+            </a>
 
-                <!-- 捡钱任务 -->
-                <a href="/WiseCompanion/bank.html" title="捡钱任务">
-                    <i class="fas fa-sack-dollar feature-icon"></i>
-                    <span class="feature-text">捡钱任务</span>
-                </a>
+            <!-- 卡片 3: 捡钱任务 (Bank) -->
+            <a href="./bank.html" class="nav-card bank"
+               onclick="umami.track('click_nav_bank')">
+                <div>
+                    <i class="fas fa-hand-holding-usd nav-card-icon"></i>
+                    <h2>捡钱任务</h2>
+                </div>
+                <p>银行证券信用卡</p>
+            </a>
 
-                <!-- 省钱秘籍 -->
-                <a href="/WiseCompanion/shopping.html" title="省钱秘籍">
-                    <i class="fas fa-tags feature-icon feature-icon-secondary"></i>
-                    <span class="feature-text">省钱秘籍</span>
-                </a>
-            </div>
+            <!-- 卡片 4: 省钱秘籍 (Shopping) -->
+            <a href="./shopping.html" class="nav-card shopping"
+               onclick="umami.track('click_nav_shopping')">
+                <div>
+                    <i class="fas fa-tags nav-card-icon"></i>
+                    <h2>省钱秘籍</h2>
+                </div>
+                <p>吃喝玩乐全攻略</p>
+            </a>
         </div>
 
-        <!-- **3. 底部信息提示 (强调 AI 前景) ** -->
-        <div class="mt-8 p-4 bg-gray-800/50 rounded-xl shadow-lg border border-gray-700">
-            <h2 class="text-lg font-bold mb-3 text-secondary flex items-center">
-                <i class="fas fa-brain mr-2"></i> 未来展望 (AI 赋能)
+        <!-- **3. 【 付费会员诱饵 】 ** -->
+        <h2 class="section-title">高级会员专区</h2>
+        <a href="./premium.html" class="premium-card" 
+           onclick="umami.track('click_premium_card', { from: 'home' })">
+            <h2 class="flex items-center justify-center">
+                <i class="fas fa-crown mr-2" style="color: var(--color-highlight);"></i>
+                敬请期待：Pro 版
             </h2>
-            <p class="text-sm text-gray-400">
-                慧伴管家旨在提供第三方应用的便捷跳转和信息整合服务。我们正在引入 AI 智能识别能力，未来将自动为您发现并推荐热门活动。
-            </p>
-        </div>
-        
+            <p>学习独家“多平台优惠券叠加”神技</p>
+        </a>
+
     </main>
     
     <!-- 底部导航栏 -->
     <nav class="tab-bar">
-        <!-- UPDATED: 慧伴主页 (当前页 ACTIVE) -> 主页 -->
+        <!-- 首页 (当前页) -->
         <span class="tab-item active">
             <i class="fas fa-home tab-icon"></i>
-            <span>主页</span>
+            <span>首页</span>
         </span>
         <!-- 天天有奖 -->
-        <a href="/WiseCompanion/checkin.html" class="tab-item">
-            <i class="fas fa-gift tab-icon"></i>
+        <a href="./checkin.html" class="tab-item" onclick="umami.track('click_tab_checkin')">
+            <i class="fas fa-gifts tab-icon"></i>
             <span>天天有奖</span>
         </a>
         <!-- 看视频赚 -->
-        <a href="/WiseCompanion/video.html" class="tab-item">
-            <i class="fas fa-fire tab-icon"></i>
+        <a href="./video.html" class="tab-item" onclick="umami.track('click_tab_video')">
+            <i class="fas fa-play-circle tab-icon"></i>
             <span>看视频赚</span>
         </a>
         <!-- 捡钱任务 -->
-        <a href="/WiseCompanion/bank.html" class="tab-item">
-            <i class="fas fa-sack-dollar tab-icon"></i>
+        <a href="./bank.html" class="tab-item" onclick="umami.track('click_tab_bank')">
+            <i class="fas fa-hand-holding-usd tab-icon"></i>
             <span>捡钱任务</span>
-            </a>
+        </a>
         <!-- 省钱秘籍 -->
-        <a href="/WiseCompanion/shopping.html" class="tab-item">
+        <a href="./shopping.html" class="tab-item" onclick="umami.track('click_tab_shopping')">
             <i class="fas fa-tags tab-icon"></i>
             <span>省钱秘籍</span>
         </a>
     </nav>
     
     <script>
-        // 模拟一个简单的提示 (代替 alert)
-        function showSimpleMessage(title, content) {
-            const message = document.createElement('div');
-            message.innerHTML = `
-                <div id="alert-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-                    <div class="bg-gray-800 p-6 rounded-xl text-center shadow-2xl border-4 border-blue-500 transform scale-0 transition-transform duration-300" style="min-width: 250px;">
-                        <i class="fas fa-info-circle text-4xl text-blue-400 mb-3"></i>
-                        <h2 class="text-xl font-bold text-white mb-2">${title}</h2>
-                        <p class="text-sm text-gray-400 mb-4">${content}</p>
-                        <button onclick="document.getElementById('alert-modal').remove()" class="mt-3 px-6 py-2 bg-blue-500 text-white font-bold rounded-full transition hover:bg-blue-400">
-                            关闭
-                        </button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(message);
-            setTimeout(() => {
-                document.querySelector('#alert-modal > div').style.transform = 'scale(1)';
-            }, 10);
-        }
-
-        // 页面加载完成后执行
+        // 首页的 JS 暂时为空，未来可以添加更多交互
         document.addEventListener('DOMContentLoaded', () => {
-             // 页面功能已简化，无需动态渲染任务
+            console.log('慧伴管家 首页已加载');
+            // 可以在此预加载其他页面的数据
+            // preloadData();
         });
+
+        // function preloadData() {
+        //     fetch('./activities.json')
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             console.log('活动数据已预加载');
+        //             // 可以将数据存储到 localStorage 或 内存中
+        //             // window.sessionStorage.setItem('activities', JSON.stringify(data));
+        //         })
+        //         .catch(err => console.error('预加载失败:', err));
+        // }
     </script>
 
 </body>
