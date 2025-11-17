@@ -3,47 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <!-- 页面标题 -->
     <title>慧伴管家 - 天天有奖</title>
     
-    <!-- PWA/移动端配置 -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="慧伴管家">
-    <!-- 修正 manifest.json 路径 -->
-    <link rel="manifest" href="./manifest.json">
-    <!-- 修正 apple-touch-icon 路径 -->
-    <link rel="apple-touch-icon" href="./assets/icon_apple.png">
-    
-    <!-- 依赖加载 -->
+    <!-- [【 核心 】] Umami 统计 (已集成您的 ID) -->
+    <script async defer 
+        data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" 
+        src="https://umami.example.com/script.js" 
+        data-do-not-track="true" 
+        data-domains="1111gary.github.io"></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="慧伴管家">
+    <link rel="apple-touch-icon" href="./assets/icon_apple.png">
+    
     <style>
-        /* ------------------ 顶级设计师配色方案 (统一变量) ------------------ */
         :root {
             --color-bg-dark: #0A1322; 
             --color-card-bg: #1A2233; 
-            --color-primary: #FFD700; /* 主色调改为金色，突出奖励感 */
-            --color-secondary: #00BFFF; /* 奖励突出色 */
+            --color-primary: #00BFFF; 
+            --color-secondary: #FF69B4; 
             --color-text-light: #E0E7FF;
             --color-text-muted: #9CA3AF;
-            --color-highlight: #FF69B4; /* 奖励按钮粉色 */
-            --color-success: #34D399; /* 已完成/绿色 */
-            --color-pending: #FCD34D; /* 未完成/黄色 */
+            --color-highlight: #FFD700; 
+            --color-bank-bg: #1F2A40; 
+            --color-success: #34D399; 
+            --color-special-note: #F59E0B; 
+            --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4);
+            /* [新增] CheckIn 颜色 */
+            --color-checkin: var(--color-success); /* 使用绿色 */
         }
-
-        /* ------------------ 通用布局和颜色 ------------------ */
         body { 
             background-color: var(--color-bg-dark); 
             color: var(--color-text-light); 
-            /* 底部留出 tab-bar 和安全区的高度 */
             padding-bottom: calc(85px + env(safe-area-inset-bottom)); 
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
         
-        /* ------------------ 顶部导航栏 ------------------ */
+        /* 顶部导航栏 */
         .header-bar-fixed { 
             padding-top: calc(15px + env(safe-area-inset-top)); 
             padding-bottom: 5px; 
@@ -56,67 +57,44 @@
             justify-content: space-between;
             height: 60px;
         }
-        .header-logo-group {
-            display: flex;
-            align-items: center;
-        }
 
-        .header-logo {
-            width: 32px;
-            height: 32px;
-            margin-right: 10px;
-        }
-
-        .header-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--color-text-light);
-        }
-
-        .back-arrow-link {
-            color: var(--color-text-light);
-            font-size: 1.2rem;
-            padding: 5px 10px;
-            border-radius: 50%;
-            background-color: var(--color-card-bg);
-            transition: background-color 0.2s;
-        }
-        
-        /* ------------------ 【A. 页面主标题卡片】 ------------------ */
+        /* 页面主标题卡片 */
         .main-banner-card {
-            background: linear-gradient(135deg, #201f11, #332d19);
+            background: linear-gradient(135deg, #0f1627, #1a2233);
             border-radius: 20px;
             padding: 25px 20px;
             text-align: center;
             border: 3px solid transparent; 
             background-clip: padding-box, border-box;
             background-origin: padding-box, border-box;
-            border-image: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            border-image: linear-gradient(to right, var(--color-success), var(--color-highlight));
             border-image-slice: 1;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5), 0 0 30px rgba(255, 105, 180, 0.3);
-            margin-bottom: 2rem;
+            box-shadow: 0 0 15px rgba(52, 211, 153, 0.5), 0 0 30px rgba(255, 215, 0, 0.3);
+            margin-bottom: 1.5rem;
             position: relative;
         }
         .main-banner-card h1 {
             font-size: 1.5rem;
             font-weight: 900;
-            letter-spacing: 1px;
-            color: var(--color-primary);
-            text-shadow: 0 0 8px rgba(255, 215, 0, 0.9);
-            margin-bottom: 5px;
+            color: var(--color-text-light);
         }
-
-        /* ------------------ 任务活动卡片样式 (复用 bank.html 风格) ------------------ */
+        
+        .section-description {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem; 
+            padding-left: 5px;
+        }
+        
+        /* 任务活动卡片样式 */
         .task-list-card {
-            background-color: var(--color-card-bg);
+            background-color: var(--color-bank-bg);
             border-radius: 15px;
             padding: 15px 20px;
             margin-bottom: 15px;
-            display: flex;
-            align-items: center;
             transition: all 0.3s ease;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-            border-left: 5px solid var(--color-primary); 
+            border-left: 5px solid; 
             position: relative;
         }
         .task-list-card:hover {
@@ -125,20 +103,67 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
+        /* 抢购提醒徽章 */
+        .special-note-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--color-special-note);
+            color: var(--color-bg-dark);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            z-index: 5;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
+        }
+
+        /* 倒计时徽章 */
+        .countdown-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--color-secondary);
+            color: var(--color-bg-dark);
+            padding: 4px 10px;
+            border-top-right-radius: 15px;
+            border-bottom-left-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            z-index: 4;
+        }
+        .special-note-badge + .countdown-badge {
+            top: 40px;
+            right: 15px;
+            border-radius: 8px;
+        }
+        .expired-badge {
+            background-color: #EF4444;
+            color: white;
+        }
+
+        /* CheckIn 强调色 */
+        .task-checkin { border-left-color: var(--color-checkin); } 
+
+        .task-main-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
         .task-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 9999px; /* 圆形图标 */
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
             color: var(--color-bg-dark); 
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 15px;
             flex-shrink: 0;
-            background-color: var(--color-secondary);
-            box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
         }
+        .icon-checkin { background-color: var(--color-checkin); }
 
         .task-content {
             flex-grow: 1;
@@ -152,44 +177,82 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            padding-right: 90px; 
         }
-        
+        .has-special-note .task-title {
+            padding-right: 120px;
+        }
+
         .task-subtitle {
             font-size: 0.8rem;
             color: var(--color-text-muted);
+            white-space: normal; 
             line-height: 1.4;
             margin-top: 4px;
         }
         
-        .task-action {
+        .task-action-bar {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            margin-left: 10px;
-            flex-shrink: 0;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid var(--color-card-bg);
         }
-        .action-button {
-            font-weight: 700;
+        
+        .share-button {
+            background-color: var(--color-card-bg);
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+            font-weight: 600;
             padding: 8px 15px;
             border-radius: 9999px;
-            font-size: 0.9rem;
-            transition: background-color 0.2s;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .share-button:hover {
+            background-color: var(--color-primary);
+            color: var(--color-bg-dark);
+        }
+
+        .action-button {
+            background-color: var(--color-primary);
+            color: var(--color-bg-dark);
+            font-weight: 700;
+            padding: 8px 18px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            transition: all 0.2s;
             text-align: center;
-            width: 100px; /* 统一宽度，增强视觉一致性 */
+            min-width: 100px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
-
-        /* 状态样式 */
-        .status-pending {
-            background-color: var(--color-pending);
-            color: var(--color-bg-dark);
-            box-shadow: 0 2px 8px rgba(252, 211, 77, 0.5);
+        .action-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.7);
         }
-        .status-completed {
+        .action-button-voice {
             background-color: var(--color-success);
-            color: var(--color-bg-dark);
-            box-shadow: 0 2px 8px rgba(52, 211, 153, 0.5);
+        }
+        .action-button-voice:hover {
+            box-shadow: 0 0 10px rgba(52, 211, 153, 0.7);
+        }
+        .action-button-voice.speaking {
+            background-color: var(--color-secondary);
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
         }
 
-        /* ------------------ 底部导航栏样式 ------------------ */
+        /* 底部导航栏样式 (Tab Bar) */
         .tab-bar {
             position: fixed;
             bottom: 0;
@@ -205,7 +268,6 @@
             padding-bottom: env(safe-area-inset-bottom);
             z-index: 20;
         }
-
         .tab-item {
             display: flex;
             flex-direction: column;
@@ -220,28 +282,83 @@
             flex-grow: 1;
             max-width: 20%;
         }
-
-        .tab-item.active {
-            color: var(--color-primary);
-        }
-
+        .tab-item.active { color: var(--color-primary); }
         .tab-icon {
             font-size: 1.2rem;
             margin-bottom: 3px;
         }
+
+        /* 顶部 Logo 组 */
+        .header-logo-group {
+            display: flex;
+            align-items: center;
+        }
+        .header-logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+        }
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+        }
+        .back-arrow-link {
+            color: var(--color-text-light);
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            border-radius: 50%;
+            background-color: var(--color-card-bg);
+            transition: background-color 0.2s;
+        }
+        
+        /* 付费会员诱饵卡片 */
+        .premium-card {
+            background: var(--color-card-bg);
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            border: 3px solid transparent; 
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+            border-image: var(--color-premium-border);
+            border-image-slice: 1;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4), 0 0 30px rgba(255, 105, 180, 0.2);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        .premium-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 105, 180, 0.4);
+        }
+        .premium-card h2 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: var(--color-premium-border);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+        .premium-card p {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
     </style>
 </head>
+<body>
 
-<body data-category="CheckIn">
-    
     <!-- 顶部导航栏 -->
     <div class="header-bar-fixed px-4">
         <div class="header-logo-group">
-            <!-- 修正 logo 路径：使用 ./assets/icon_apple.png -->
-            <img src="./assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/FFD700/0A1322?text=G'" alt="Logo" class="header-logo rounded-md shadow-lg">
+            <img src="./assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/00BFFF/ffffff?text=L'" alt="Logo" class="header-logo rounded-md shadow-lg">
             <h1 class="header-title">慧伴管家</h1>
         </div>
-        <!-- 修正返回首页路径 -->
         <a href="./index.html" class="back-arrow-link" title="返回首页">
             <i class="fas fa-arrow-left"></i>
         </a>
@@ -250,69 +367,362 @@
     <!-- 页面核心内容容器 -->
     <main class="container mx-auto px-4 py-4">
         
-        <!-- **1. 页面主标题卡片 ** -->
+        <!-- **1. 【页面主标题卡片】 ** -->
         <div class="main-banner-card">
-            <p id="data-status-warning" class="text-sm font-semibold text-red-400 mb-3 p-2 border border-red-500 rounded-lg bg-red-900/20">
-                ⚠️ 提示：数据加载中...
-            </p>
-            <h1>天天有奖 - 一键签到直达</h1>
-            <p class="text-sm text-gray-400 mt-2">点击下方按钮，直接跳转到对应 App 签到页面，轻松领奖！</p>
+            <h1>天天有奖 (CheckIn)</h1>
+            <p class="text-sm text-gray-400 mt-2">每日签到，领取您的专属奖励</p>
+        </div>
+        
+        <!-- **2. 【签到任务列表】 ** -->
+        <p class="section-description">
+            所有可用的签到和每日奖励任务。
+        </p>
+        <div id="checkin-tasks-list">
+             <!-- 任务加载位置 -->
         </div>
 
-        
-        <!-- **2. 任务列表 ** -->
-        <div id="daily-tasks-list">
-             <!-- 外部签到任务将由 JS 动态生成，若加载失败会显示“正在加载” -->
-             <p class="text-gray-400 text-center p-4">正在加载活动数据...</p>
-        </div>
-
-        
-        <!-- **3. 操作说明 ** -->
-        <div class="mt-8 p-4 bg-gray-800/50 rounded-xl shadow-lg border border-gray-700">
-            <h2 class="text-lg font-bold mb-3 text-yellow-400 flex items-center">
-                <i class="fas fa-info-circle mr-2"></i> 操作说明
+        <!-- **3. 【 付费会员诱饵 】 ** -->
+        <a href="./premium.html" class="premium-card" 
+            onclick="umami.track('click_premium_card', { from: 'checkin' })">
+            <h2 class="flex items-center justify-center">
+                <i class="fas fa-crown mr-2" style="color: var(--color-highlight);"></i>
+                高级会员专区 (敬请期待)
             </h2>
-            <ul class="text-sm text-gray-400 list-disc ml-4 space-y-2">
-                <li>点击 **“去参与”** 按钮，将自动打开该平台 App 的签到页面。</li>
-                <li>完成任务后，状态管理（如果未来实现）将更新为 **“已完成”**。</li>
-                <li>每日任务状态会在次日自动重置。</li>
-            </ul>
-        </div>
+            <p>学习独家“多平台优惠券叠加”神技</p>
+        </a>
         
     </main>
     
-    <!-- 底部导航栏 (已更新名称和激活状态) -->
+    <!-- 底部导航栏 -->
     <nav class="tab-bar">
-        <!-- 首页 (修正路径) -->
+        <!-- 首页 -->
         <a href="./index.html" class="tab-item">
             <i class="fas fa-home tab-icon"></i>
             <span>首页</span>
         </a>
-        <!-- 天天有奖 (当前页 ACTIVE) -->
+        <!-- 天天有奖 (当前页) -->
         <span class="tab-item active">
             <i class="fas fa-gifts tab-icon"></i>
             <span>天天有奖</span>
         </span>
-        <!-- 看视频赚 (修正路径) -->
+        <!-- 看视频赚 -->
         <a href="./video.html" class="tab-item">
             <i class="fas fa-play-circle tab-icon"></i>
             <span>看视频赚</span>
         </a>
-        <!-- 捡钱任务 (修正路径) -->
+        <!-- 捡钱任务 -->
         <a href="./bank.html" class="tab-item">
             <i class="fas fa-hand-holding-usd tab-icon"></i>
             <span>捡钱任务</span>
-            </a>
-        <!-- 省钱秘籍 (修正路径) -->
+        </a>
+        <!-- 省钱秘籍 -->
         <a href="./shopping.html" class="tab-item">
             <i class="fas fa-tags tab-icon"></i>
             <span>省钱秘籍</span>
         </a>
     </nav>
-
-    <!-- 【关键修正点】: list.js 在同一目录下，使用 ./ 引用 -->
-    <script src="./list.js"></script> 
     
+    <script>
+        // ----------------------------------------------------
+        // 全局状态和数据
+        // ----------------------------------------------------
+        let ALL_ACTIVITIES = [];
+
+        // [【 核心 】] 映射 (为 CheckIn 简化)
+        const CATEGORY_MAP = {
+            'CheckIn': {
+                borderClass: 'task-checkin',
+                iconClass: 'icon-checkin',
+                faIcon: 'fa-calendar-check'
+            }
+        };
+
+        // [【 核心 】] 原生语音 API (Web Speech API)
+        const synth = window.speechSynthesis;
+        let currentUtterance = null; 
+
+        // ----------------------------------------------------
+        // 步骤 1: 页面加载主入口
+        // ----------------------------------------------------
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAndFetchActivities();
+            startCountdownUpdater();
+        });
+
+        async function loadAndFetchActivities() {
+            try {
+                const response = await fetch('./activities.json');
+                if (!response.ok) {
+                    throw new Error('网络响应错误，无法加载 activities.json');
+                }
+                const data = await response.json();
+                
+                // [【 核心 】] 过滤出所有 CheckIn 相关的活动
+                ALL_ACTIVITIES = data.filter(act => 
+                    act.category && act.category.includes('CheckIn')
+                );
+
+                renderActivities();
+                
+            } catch (error) {
+                console.error("加载活动数据失败:", error);
+                document.getElementById('checkin-tasks-list').innerHTML = `<p class="text-red-400 p-4 text-center">加载活动数据失败。请检查网络或 activities.json 文件。</p>`;
+            }
+        }
+
+        // ----------------------------------------------------
+        // 步骤 2: 渲染活动 (简化版)
+        // ----------------------------------------------------
+        function renderActivities() {
+            const listContainer = document.getElementById('checkin-tasks-list');
+            listContainer.innerHTML = '';
+            
+            if (ALL_ACTIVITIES.length === 0) {
+                listContainer.innerHTML = `<p class="text-gray-400 text-center p-4">暂无签到活动。</p>`;
+                return;
+            }
+
+            ALL_ACTIVITIES.forEach(activity => {
+                const cardHtml = renderActivityCard(activity);
+                listContainer.innerHTML += cardHtml;
+            });
+            
+            bindActionButtons();
+        }
+
+        // ----------------------------------------------------
+        // 步骤 3: 单个活动卡片的 HTML 生成
+        // ----------------------------------------------------
+        function renderActivityCard(activity) {
+            // [修改] 始终使用 CheckIn 样式
+            const styles = CATEGORY_MAP['CheckIn'];
+            
+            let actionButtonHtml = '';
+            
+            if (activity.link && activity.link !== '#') {
+                actionButtonHtml = `
+                    <a href="${activity.link}" 
+                       target="_blank" 
+                       class="action-button" 
+                       data-umami-event="click_deep_link"
+                       data-umami-event-name="${activity.name}">
+                        <i class="fas fa-rocket"></i>
+                        去签到
+                    </a>`;
+            } else if (activity.StepsText) {
+                const steps = activity.StepsText.replace(/"/g, '&quot;');
+                actionButtonHtml = `
+                    <button class="action-button action-button-voice" 
+                            data-activity-id="${activity.id}" 
+                            data-steps="${steps}"
+                            data-activity-name="${activity.name}">
+                        <i class="fas fa-volume-high"></i>
+                        播放语音
+                    </button>`;
+            } else {
+                actionButtonHtml = `
+                    <button class="action-button opacity-50 cursor-not-allowed" disabled>
+                        <i class="fas fa-info-circle"></i>
+                        暂无指引
+                    </button>`;
+            }
+            
+            let specialNoteBadge = '';
+            if (activity.specialNote) {
+                specialNoteBadge = `
+                    <span class="special-note-badge"
+                          data-umami-event="view_special_note"
+                          data-umami-event-name="${activity.name}">
+                        <i class="fas fa-bell"></i>
+                        ${activity.specialNote}
+                    </span>`;
+            }
+
+            return `
+                <div class="task-list-card ${styles.borderClass} ${activity.specialNote ? 'has-special-note' : ''}">
+                    
+                    ${specialNoteBadge}
+
+                    <span class="countdown-badge" data-endtime="${activity.endDate}" id="timer-${activity.id}">
+                        长期
+                    </span>
+
+                    <div class="task-main-content">
+                        <div class="task-icon ${styles.iconClass}">
+                            <i class="fa-solid ${styles.faIcon}"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-title">${activity.name || '活动名称缺失'}</div>
+                            <div class="task-subtitle">${activity.description || '暂无详细描述。'}</div>
+                        </div>
+                    </div>
+
+                    <div class="task-action-bar">
+                        <button class="share-button" 
+                                data-activity-id="${activity.id}" 
+                                data-activity-name="${activity.name}">
+                            <i class="fas fa-share-alt"></i>
+                            分享
+                        </button>
+                        
+                        ${actionButtonHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ----------------------------------------------------
+        // 步骤 4: 绑定事件
+        // ----------------------------------------------------
+        function bindActionButtons() {
+            // 绑定语音按钮
+            document.querySelectorAll('.action-button-voice').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const btn = e.currentTarget;
+                    const steps = btn.getAttribute('data-steps');
+                    const name = btn.getAttribute('data-activity-name');
+                    
+                    umami.track('play_voice_guide', { name: name });
+                    playSpeech(steps, btn);
+                });
+            });
+
+            // 绑定分享按钮
+            document.querySelectorAll('.share-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const btn = e.currentTarget;
+                    const id = btn.getAttribute('data-activity-id');
+                    const name = btn.getAttribute('data-activity-name');
+                    
+                    umami.track('click_share', { name: name });
+                    shareActivity(id, btn);
+                });
+            });
+        }
+        
+        // ----------------------------------------------------
+        // 步骤 5: 语音播放 (Web Speech API)
+        // ----------------------------------------------------
+        function playSpeech(text, buttonElement) {
+            // [修改] 如果正在播放同一个，先停止 (允许用户点击两次来“重复播放”)
+            if (synth.speaking && currentUtterance && currentUtterance.text === text) {
+                stopSpeech();
+                // 延迟一点再播放，确保“重复播放”的感觉
+                setTimeout(() => playSpeech(text, buttonElement), 100);
+                return;
+            }
+            // 如果正在播放别的，先停止
+            stopSpeech();
+
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.lang = 'zh-CN';
+            
+            // [【 核心 】] 降低语速
+            currentUtterance.rate = 0.8; 
+            
+            if (buttonElement) {
+                buttonElement.classList.add('speaking');
+                buttonElement.innerHTML = `<i class="fas fa-wave-square"></i> 播放中...`;
+            }
+
+            currentUtterance.onend = () => {
+                if (buttonElement) {
+                    buttonElement.classList.remove('speaking');
+                    buttonElement.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+                }
+                currentUtterance = null;
+            };
+
+            synth.speak(currentUtterance);
+        }
+
+        function stopSpeech() {
+            if (synth.speaking) {
+                synth.cancel();
+            }
+            document.querySelectorAll('.action-button-voice.speaking').forEach(btn => {
+                btn.classList.remove('speaking');
+                btn.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+            });
+            currentUtterance = null;
+        }
+
+        // ----------------------------------------------------
+        // 步骤 6: 分享功能 (go.html 网关)
+        // ----------------------------------------------------
+        function shareActivity(activityId, buttonElement) {
+            const shareUrl = `${window.location.origin}${window.location.pathname.replace('checkin.html', 'go.html')}?id=${activityId}`;
+            
+            try {
+                const tempInput = document.createElement('textarea');
+                tempInput.value = `快来看看这个活动！\n${shareUrl}`;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                
+                const originalText = buttonElement.innerHTML;
+                buttonElement.innerHTML = `<i class="fas fa-check"></i> 已复制!`;
+                setTimeout(() => {
+                    buttonElement.innerHTML = originalText;
+                }, 2000);
+
+            } catch (err) {
+                console.error('复制失败:', err);
+                alert(`请手动复制链接：\n${shareUrl}`);
+            }
+        }
+
+        // ----------------------------------------------------
+        // 步骤 7: 倒计时功能
+        // ----------------------------------------------------
+        function getRemainingTime(endDateString, badgeElement) {
+            if (!endDateString || endDateString === 'null') {
+                badgeElement.textContent = '长期';
+                badgeElement.classList.remove('expired-badge');
+                return;
+            }
+
+            const now = new Date().getTime();
+            const end = new Date(endDateString).getTime();
+            const distance = end - now;
+
+            if (distance < 0) {
+                badgeElement.textContent = '已过期';
+                badgeElement.classList.add('expired-badge');
+                return;
+            }
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+            let timeString = '';
+            if (days > 1) {
+                timeString = `${days} 天`;
+            } else if (days === 1 || hours > 0) {
+                timeString = `${days * 24 + hours} 时`;
+            } else {
+                timeString = `${minutes} 分`;
+            }
+
+            badgeElement.textContent = `剩余 ${timeString}`;
+            badgeElement.classList.remove('expired-badge');
+        }
+
+        function startCountdownUpdater() {
+            setInterval(updateAllCountdowns, 60000); 
+            setTimeout(updateAllCountdowns, 500);
+        }
+
+        function updateAllCountdowns() {
+            const timerElements = document.querySelectorAll('.countdown-badge');
+            timerElements.forEach(badge => {
+                const endDate = badge.getAttribute('data-endtime');
+                getRemainingTime(endDate, badge);
+            });
+        }
+    </script>
 
 </body>
 </html>
