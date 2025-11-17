@@ -1,39 +1,43 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <!-- 【【 页面标题 】】 -->
     <title>慧伴管家 - 省钱秘籍</title>
     
-    <!-- PWA/移动端配置 -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="慧伴管家">
-    <link rel="manifest" href="./manifest.json">
-    <link rel="apple-touch-icon" href="./assets/icon_apple.png">
-    
-    <!-- 依赖加载 -->
+    <!-- Umami 统计 -->
+    <script async defer 
+        data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" 
+        src="https://umami.example.com/script.js" 
+        data-do-not-track="true" 
+        data-domains="1111gary.github.io"></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
-    <!-- 【【 样式 (与 bank.html 相同) 】】 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="慧伴管家">
+    <link rel="apple-touch-icon" href="./assets/icon_apple.png">
+    
     <style>
-        /* ------------------ 顶级设计师配色方案 (统一变量) ------------------ */
+        /* [Immersive content redacted for brevity.] */
+        /* ... (CSS 样式与 bank.html 类似，此处省略) ... */
         :root {
             --color-bg-dark: #0A1322; 
             --color-card-bg: #1A2233; 
-            --color-primary: #00BFFF; /* 支付优惠 (蓝) */
-            --color-secondary: #FF69B4; /* 倒计时粉色 */
+            --color-primary: #00BFFF; 
+            --color-secondary: #FF69B4; 
             --color-text-light: #E0E7FF;
             --color-text-muted: #9CA3AF;
-            --color-highlight: #FFD700; /* 抢红包 (黄) */
+            --color-highlight: #FFD700; 
             --color-bank-bg: #1F2A40; 
-            --color-success: #34D399; /* 做任务 (绿) */
+            --color-success: #34D399; 
+            --color-special-note: #F59E0B; 
+            --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4);
+            --color-shopping-1: #A78BFA; 
+            --color-shopping-2: #F472B6; 
+            --color-shopping-3: #EC4899; 
         }
-
-        /* ------------------ 通用布局和颜色 ------------------ */
         body { 
             background-color: var(--color-bg-dark); 
             color: var(--color-text-light); 
@@ -41,8 +45,6 @@
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
-        
-        /* ------------------ 顶部导航栏 ------------------ */
         .header-bar-fixed { 
             padding-top: calc(15px + env(safe-area-inset-top)); 
             padding-bottom: 5px; 
@@ -55,8 +57,6 @@
             justify-content: space-between;
             height: 60px;
         }
-
-        /* ------------------ 【A. 页面主标题卡片】 ------------------ */
         .main-banner-card {
             background: linear-gradient(135deg, #0f1627, #1a2233);
             border-radius: 20px;
@@ -65,37 +65,30 @@
             border: 3px solid transparent; 
             background-clip: padding-box, border-box;
             background-origin: padding-box, border-box;
-            /* [主题色修改] 绿色和黄色 */
-            border-image: linear-gradient(to right, var(--color-success), var(--color-highlight));
+            border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight));
             border-image-slice: 1;
-            box-shadow: 0 0 15px rgba(52, 211, 153, 0.5), 0 0 30px rgba(255, 215, 0, 0.3);
-            margin-bottom: 1.5rem; 
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.5), 0 0 30px rgba(255, 215, 0, 0.3);
+            margin-bottom: 1.5rem;
             position: relative;
         }
         .main-banner-card h1 {
             font-size: 1.5rem;
             font-weight: 900;
-            letter-spacing: 1px;
             color: var(--color-text-light);
             text-shadow: 0 0 5px var(--color-highlight);
-            margin-bottom: 5px;
         }
-        
-        /* ------------------ 【【 筛选器样式 (与 bank.html 相同) 】】 ------------------ */
         .filter-container {
             margin-bottom: 2rem;
             padding: 10px 0;
             overflow-x: auto;
             white-space: nowrap;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
-            display: flex; /* 确保内容在一行 */
+            scrollbar-width: none;
+            display: flex;
             gap: 10px;
             align-items: center;
         }
-        .filter-container::-webkit-scrollbar {
-            display: none; /* Chrome, Safari */
-        }
+        .filter-container::-webkit-scrollbar { display: none; }
         .filter-button {
             display: inline-flex;
             align-items: center;
@@ -109,18 +102,13 @@
             transition: all 0.2s ease;
             flex-shrink: 0;
         }
-        /* [主题色修改] 选中时是绿色 */
         .filter-button.active {
-            background-color: var(--color-success);
+            background-color: var(--color-primary);
             color: var(--color-bg-dark);
-            border-color: var(--color-success);
-            box-shadow: 0 0 8px rgba(52, 211, 153, 0.8);
+            border-color: var(--color-primary);
+            box-shadow: 0 0 8px rgba(0, 191, 255, 0.8);
         }
-        .filter-button i {
-            margin-right: 6px;
-        }
-
-        /* ------------------ 二级模块标题卡片 ------------------ */
+        .filter-button i { margin-right: 6px; }
         .section-title-card {
             background: linear-gradient(135deg, #0f1627, #1a2233);
             border-radius: 12px;
@@ -129,10 +117,9 @@
             border: 2px solid transparent; 
             background-clip: padding-box, border-box;
             background-origin: padding-box, border-box;
-            /* [主题色修改] 绿色和黄色 */
-            border-image: linear-gradient(to right, var(--color-success), var(--color-highlight));
+            border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight));
             border-image-slice: 1;
-            box-shadow: 0 0 8px rgba(52, 211, 153, 0.3);
+            box-shadow: 0 0 8px rgba(0, 191, 255, 0.3);
             margin-top: 2rem;
             margin-bottom: 1rem;
             position: relative;
@@ -140,37 +127,42 @@
         .section-title-card h2 {
             font-size: 1.25rem;
             font-weight: 800;
-            letter-spacing: 0.5px;
             color: var(--color-text-light);
         }
-
         .section-description {
             color: var(--color-text-muted);
             font-size: 0.9rem;
             margin-bottom: 1rem; 
             padding-left: 5px;
         }
-        
-        /* ------------------ 任务活动卡片样式 ------------------ */
         .task-list-card {
             background-color: var(--color-bank-bg);
             border-radius: 15px;
             padding: 15px 20px;
             margin-bottom: 15px;
-            display: flex;
-            align-items: center;
             transition: all 0.3s ease;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
             border-left: 5px solid; 
-            position: relative; 
+            position: relative;
         }
         .task-list-card:hover {
             background-color: #25334c;
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
-
-        /* 倒计时徽章 (相同) */
+        .special-note-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--color-special-note);
+            color: var(--color-bg-dark);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            z-index: 5;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
+        }
         .countdown-badge {
             position: absolute;
             top: 0;
@@ -182,19 +174,25 @@
             border-bottom-left-radius: 15px;
             font-size: 0.75rem;
             font-weight: 700;
-            letter-spacing: 0.5px;
-            z-index: 5;
+            z-index: 4;
+        }
+        .special-note-badge + .countdown-badge {
+            top: 40px;
+            right: 15px;
+            border-radius: 8px;
         }
         .expired-badge {
-            background-color: #EF4444; 
+            background-color: #EF4444;
             color: white;
         }
-
-        /* 【【 新 强调色 】】 */
-        .task-payment-discount { border-left-color: var(--color-primary); } 
-        .task-voucher { border-left-color: var(--color-highlight); } 
-        .task-mission { border-left-color: var(--color-success); } 
-
+        .task-shopping-1 { border-left-color: var(--color-shopping-1); } 
+        .task-shopping-2 { border-left-color: var(--color-shopping-2); } 
+        .task-shopping-3 { border-left-color: var(--color-shopping-3); } 
+        .task-main-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
         .task-icon {
             width: 40px;
             height: 40px;
@@ -207,17 +205,13 @@
             margin-right: 15px;
             flex-shrink: 0;
         }
-        /* 【【 新 图标背景色 】】 */
-        .icon-payment-discount { background-color: var(--color-primary); }
-        .icon-voucher { background-color: var(--color-highlight); }
-        .icon-mission { background-color: var(--color-success); }
-
-
+        .icon-shopping-1 { background-color: var(--color-shopping-1); }
+        .icon-shopping-2 { background-color: var(--color-shopping-2); }
+        .icon-shopping-3 { background-color: var(--color-shopping-3); }
         .task-content {
             flex-grow: 1;
             min-width: 0;
         }
-
         .task-title {
             font-size: 1rem;
             font-weight: 700;
@@ -225,38 +219,76 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            padding-right: 90px; 
         }
-
+        .has-special-note .task-title {
+            padding-right: 120px;
+        }
         .task-subtitle {
             font-size: 0.8rem;
             color: var(--color-text-muted);
             white-space: normal; 
-            overflow: visible;
-            text-overflow: clip;
             line-height: 1.4;
             margin-top: 4px;
         }
-        
-        .task-action {
+        .task-action-bar {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            margin-left: 10px;
-            flex-shrink: 0;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid var(--color-card-bg);
         }
-        .action-button {
-            /* [主题色修改] 按钮是绿色 */
-            background-color: var(--color-success);
-            color: var(--color-bg-dark);
-            font-weight: 700;
-            padding: 6px 12px;
+        .share-button {
+            background-color: var(--color-card-bg);
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+            font-weight: 600;
+            padding: 8px 15px;
             border-radius: 9999px;
             font-size: 0.8rem;
-            transition: background-color 0.2s;
-            text-align: center;
-            width: 80px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
-        
-        /* ------------------ 底部导航栏样式 (Tab Bar) ------------------ */
+        .share-button:hover {
+            background-color: var(--color-primary);
+            color: var(--color-bg-dark);
+        }
+        .action-button {
+            background-color: var(--color-primary);
+            color: var(--color-bg-dark);
+            font-weight: 700;
+            padding: 8px 18px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            text-align: center;
+            min-width: 100px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .action-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.7);
+        }
+        .action-button-voice {
+            background-color: var(--color-success);
+        }
+        .action-button-voice:hover {
+            box-shadow: 0 0 10px rgba(52, 211, 153, 0.7);
+        }
+        .action-button-voice.speaking {
+            background-color: var(--color-secondary);
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
         .tab-bar {
             position: fixed;
             bottom: 0;
@@ -272,7 +304,6 @@
             padding-bottom: env(safe-area-inset-bottom);
             z-index: 20;
         }
-
         .tab-item {
             display: flex;
             flex-direction: column;
@@ -287,35 +318,25 @@
             flex-grow: 1;
             max-width: 20%;
         }
-
-        /* [主题色修改] 激活颜色改为绿色 */
-        .tab-item.active {
-            color: var(--color-success);
-        }
-
+        .tab-item.active { color: var(--color-primary); }
         .tab-icon {
             font-size: 1.2rem;
             margin-bottom: 3px;
         }
-
-        /* 修复顶部 Logo 组的样式 */
         .header-logo-group {
             display: flex;
             align-items: center;
         }
-
         .header-logo {
             width: 32px;
             height: 32px;
             margin-right: 10px;
         }
-
         .header-title {
             font-size: 1.2rem;
             font-weight: 700;
             color: var(--color-text-light);
         }
-
         .back-arrow-link {
             color: var(--color-text-light);
             font-size: 1.2rem;
@@ -324,14 +345,46 @@
             background-color: var(--color-card-bg);
             transition: background-color 0.2s;
         }
-        .back-arrow-link:hover {
-            background-color: #334466;
+        .premium-card {
+            background: var(--color-card-bg);
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            border: 3px solid transparent; 
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+            border-image: var(--color-premium-border);
+            border-image-slice: 1;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4), 0 0 30px rgba(255, 105, 180, 0.2);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        .premium-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 105, 180, 0.4);
+        }
+        .premium-card h2 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: var(--color-premium-border);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+        .premium-card p {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-    <!-- 顶部导航栏 -->
+    <!-- ... (HTML 结构与 bank.html 一致) ... -->
     <div class="header-bar-fixed px-4">
         <div class="header-logo-group">
             <img src="./assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/00BFFF/ffffff?text=L'" alt="Logo" class="header-logo rounded-md shadow-lg">
@@ -342,375 +395,491 @@
         </a>
     </div>
 
-    <!-- 页面核心内容容器 -->
     <main class="container mx-auto px-4 py-4">
         
-        <!-- **1. 【页面主标题卡片】 ** -->
         <div class="main-banner-card">
-            <p id="data-status-warning" class="text-sm font-semibold text-red-400 mb-3 p-2 border border-red-500 rounded-lg bg-red-900/20 hidden">
-                ⚠️ 提示：数据加载失败，请检查配置。
-            </p>
             <h1>省钱秘籍</h1>
-            <p class="text-sm text-gray-400 mt-2">点击下方按钮，筛选您常逛的平台活动</p>
+            <p class="text-sm text-gray-400 mt-2">点击下方按钮，仅显示您关注的平台活动</p>
         </div>
-
         
-        <!-- **2. 【【【 全新：平台筛选器 】】】 ** -->
-        <div class="filter-container" id="shop-filter-container">
-            <!-- 筛选按钮将由 JS 动态生成 -->
-            <button class="filter-button active" data-shop="All">
+        <div class="filter-container" id="platform-filter-container">
+            <button class="filter-button active" data-platform="All">
                 <i class="fas fa-layer-group"></i>
                 全部平台
             </button>
         </div>
-
         
-        <!-- **3. 【【 新分类 1: 支付有优惠 】】 ** -->
         <div class="section-title-card">
             <h2 class="flex items-center">
-                <i class="fas fa-credit-card mr-3 text-xl" style="color: var(--color-primary);"></i>
+                <i class="fas fa-credit-card mr-3 text-xl" style="color: var(--color-shopping-1);"></i>
                 支付有优惠 (PaymentDiscount)
             </h2>
         </div>
         <p class="section-description">
-            使用特定支付方式（如微信、支付宝、云闪付）时的满减或折扣。
+            使用特定支付方式（如XX卡、XXPay）时可享受的折扣或优惠。
         </p>
-        <div id="payment-discount-list">
-             <p class="text-gray-400 text-center p-4">正在加载活动...</p>
+        <div id="payment-discounts-list">
         </div>
         
-        <!-- **4. 【【 新分类 2: 抢红包 / 立减金 】】 ** -->
         <div class="section-title-card">
             <h2 class="flex items-center">
-                <i class="fas fa-gift mr-3 text-xl" style="color: var(--color-highlight);"></i>
+                <i class="fas fa-hand-holding-heart mr-3 text-xl" style="color: var(--color-shopping-2);"></i>
                 抢红包 / 立减金 (Voucher)
             </h2>
         </div>
         <p class="section-description">
-            可直接领取的平台红包、优惠券或商品立减金。
+            可直接领取的红包、优惠券、消费券和立减金等。
         </p>
-        <div id="voucher-list">
-            <p class="text-gray-400 text-center p-4">正在加载活动...</p>
+        <div id="vouchers-list">
         </div>
         
-        <!-- **5. 【【 新分类 3: 做任务领红包 】】 ** -->
         <div class="section-title-card">
             <h2 class="flex items-center">
-                <i class="fas fa-tasks mr-3 text-xl" style="color: var(--color-success);"></i>
+                <i class="fas fa-tasks mr-3 text-xl" style="color: var(--color-shopping-3);"></i>
                 做任务领红包 (MissionReward)
             </h2>
         </div>
         <p class="section-description">
-            需要完成签到、浏览、下单等任务才能获取的奖励。
+            需要完成指定任务（如浏览、签到、组队）才能获得的奖励。
         </p>
-        <div id="mission-reward-list">
-            <p class="text-gray-400 text-center p-4">正在加载活动...</p>
+        <div id="mission-rewards-list">
         </div>
+
+        <a href="./premium.html" class="premium-card" 
+            onclick="umami.track('click_premium_card', { from: 'shopping' })">
+            <h2 class="flex items-center justify-center">
+                <i class="fas fa-crown mr-2" style="color: var(--color-highlight);"></i>
+                高级会员专区 (敬请期待)
+            </h2>
+            <p>学习独家“多平台优惠券叠加”神技</p>
+        </a>
         
     </main>
     
-    <!-- 【【 底部导航栏 (高亮已更新) 】】 -->
     <nav class="tab-bar">
-        <!-- 首页 -->
+        <!-- ... (HTML 结构与 bank.html 一致, 仅 'active' 不同) ... -->
         <a href="./index.html" class="tab-item">
             <i class="fas fa-home tab-icon"></i>
             <span>首页</span>
         </a>
-        <!-- 天天有奖 -->
         <a href="./checkin.html" class="tab-item">
             <i class="fas fa-gifts tab-icon"></i>
             <span>天天有奖</span>
         </a>
-        <!-- 看视频赚 -->
         <a href="./video.html" class="tab-item">
             <i class="fas fa-play-circle tab-icon"></i>
             <span>看视频赚</span>
         </a>
-        <!-- 捡钱任务 -->
         <a href="./bank.html" class="tab-item">
             <i class="fas fa-hand-holding-usd tab-icon"></i>
             <span>捡钱任务</span>
         </a>
-        <!-- 省钱秘籍 (当前页) -->
         <span class="tab-item active">
             <i class="fas fa-tags tab-icon"></i>
             <span>省钱秘籍</span>
         </span>
     </nav>
     
-    <!-- =================================================================== -->
-    <!-- 【【【【【 以下是 Shopping 页面的 JavaScript 逻辑 】】】】】 -->
-    <!-- =================================================================== -->
     <script>
         // ----------------------------------------------------
-        // 全局变量
+        // 全局状态和数据
         // ----------------------------------------------------
-        let ALL_ACTIVITIES = []; // 存储从 JSON 加载的所有活动
-        let selectedShop = 'All'; // 当前选中的平台，默认为全部
+        let ALL_ACTIVITIES = [];
+        let selectedPlatform = 'All'; 
 
-        // ----------------------------------------------------
-        // (新) 类别映射: 适配 Shopping 页面
-        // ----------------------------------------------------
+        // [【 核心 】] 分类与样式的映射
         const CATEGORY_MAP = {
             'PaymentDiscount': {
-                cssClass: 'task-payment-discount',
-                iconClass: 'icon-payment-discount',
-                faIcon: 'fa-credit-card',
-                actionText: '去支付'
+                borderClass: 'task-shopping-1',
+                iconClass: 'icon-shopping-1',
+                faIcon: 'fa-credit-card'
             },
             'Voucher': {
-                cssClass: 'task-voucher',
-                iconClass: 'icon-voucher',
-                faIcon: 'fa-gift',
-                actionText: '去领取'
+                borderClass: 'task-shopping-2',
+                iconClass: 'icon-shopping-2',
+                faIcon: 'fa-hand-holding-heart'
             },
             'MissionReward': {
-                cssClass: 'task-mission',
-                iconClass: 'icon-mission',
-                faIcon: 'fa-tasks',
-                actionText: '做任务'
+                borderClass: 'task-shopping-3',
+                iconClass: 'icon-shopping-3',
+                faIcon: 'fa-tasks'
             }
         };
 
+        // [【 核心修正 (Bug 2) 】] 语音 API 健壮性
+        const synth = window.speechSynthesis;
+        let currentUtterance = null; 
+        if (!synth) {
+            console.error("【慧伴管家】: 您的浏览器不支持 Web Speech API 语音播放。");
+        }
+        
         // ----------------------------------------------------
-        // 步骤 1: 启动时加载和抓取数据 (与 bank.html 相同)
+        // 步骤 1: 页面加载主入口
         // ----------------------------------------------------
+        document.addEventListener('DOMContentLoaded', () => {
+            // [新增] 预热语音
+            try {
+                if(synth && synth.getVoices().length === 0) {
+                    synth.onvoiceschanged = () => {
+                        console.log("【慧伴管家】: 语音包已加载。");
+                    };
+                    synth.getVoices(); 
+                }
+            } catch(e) {
+                console.error("【慧伴管家】: 预热语音引擎失败:", e);
+            }
+            
+            loadAndFetchActivities();
+            startCountdownUpdater();
+        });
+
         async function loadAndFetchActivities() {
             try {
                 const response = await fetch('./activities.json');
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error('网络响应错误，无法加载 activities.json');
                 }
-                ALL_ACTIVITIES = await response.json();
+                const data = await response.json();
                 
-                // 移除数据加载成功的提示 (如果之前有的话)
-                document.getElementById('data-status-warning').classList.add('hidden');
+                // 过滤出所有 Shopping 相关的活动
+                ALL_ACTIVITIES = data.filter(act => 
+                    act.category && act.category.includes('Shopping')
+                );
 
+                initPlatformFilters();
+                renderActivities();
+                
             } catch (error) {
-                console.error("无法加载 activities.json:", error);
-                document.getElementById('data-status-warning').classList.remove('hidden');
-                document.getElementById('data-status-warning').textContent = '⚠️ 提示：动态数据加载失败，请检查网络或配置。';
+                console.error("加载活动数据失败:", error);
+                document.getElementById('vouchers-list').innerHTML = `<p class="text-red-400 p-4 text-center">加载活动数据失败。请检查网络或 activities.json 文件。</p>`;
             }
-
-            // 1. 初始化筛选器
-            initShopFilters();
-            // 2. 初始渲染
-            renderActivities();
-            // 3. 启动倒计时
-            startCountdownUpdater();
         }
 
         // ----------------------------------------------------
-        // 步骤 2: (新) 初始化【平台】筛选器
+        // 步骤 2: 初始化平台筛选器按钮
         // ----------------------------------------------------
-        function initShopFilters() {
-            const container = document.getElementById('shop-filter-container');
-            const shops = new Set();
+        function initPlatformFilters() {
+            const container = document.getElementById('platform-filter-container');
+            const platforms = new Set();
             
-            // [已修正] 只提取 category 包含 "Shopping" 的活动的 sourceApp
-            ALL_ACTIVITIES.forEach(activity => {
-                if (Array.isArray(activity.category) && activity.category.includes('Shopping')) {
-                    if (activity.sourceApp) {
-                        shops.add(activity.sourceApp);
-                    }
-                }
-            });
+            ALL_ACTIVITIES.forEach(activity => platforms.add(activity.sourceApp));
+            console.log("【慧伴管家】: 筛选器加载, 找到的平台:", Array.from(platforms));
 
-            // 清理并重新添加按钮
             container.innerHTML = `
-                <button class="filter-button active" data-shop="All">
+                <button class="filter-button active" data-platform="All">
                     <i class="fas fa-layer-group"></i>
                     全部平台
-                </button>
-            `;
+                </button>`;
             
-            shops.forEach(shop => {
-                const icon = getShopIcon(shop); // 使用新的图标辅助函数
+            platforms.forEach(platform => {
+                if (!platform) return;
+                const icon = getPlatformIcon(platform); 
                 const button = document.createElement('button');
                 button.className = 'filter-button';
-                button.setAttribute('data-shop', shop);
-                button.innerHTML = `<i class="fa-solid ${icon}"></i> ${shop}`;
+                button.setAttribute('data-platform', platform);
+                button.innerHTML = `<i class="fa-solid ${icon}"></i> ${platform}`;
                 
-                button.addEventListener('click', () => {
-                    selectedShop = shop; // 更新全局状态
-                    document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    renderActivities(); // 重新渲染
+                button.addEventListener('click', (e) => {
+                    handleFilterClick(e.currentTarget, platform);
                 });
                 container.appendChild(button);
             });
             
-            // 为 "全部" 按钮添加点击事件
-            container.querySelector('[data-shop="All"]').addEventListener('click', (e) => {
-                selectedShop = 'All';
-                document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
-                e.currentTarget.classList.add('active');
-                renderActivities();
+            container.querySelector('[data-platform="All"]').addEventListener('click', (e) => {
+                handleFilterClick(e.currentTarget, 'All');
             });
         }
+        
+        // 筛选器点击处理
+        function handleFilterClick(clickedButton, platformName) {
+            console.log("【慧伴管家】: 筛选器点击 -", platformName);
+            if (window.umami) {
+                umami.track('filter_platform', { platform: platformName });
+            }
+            
+            selectedPlatform = platformName;
+            
+            document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
+            clickedButton.classList.add('active');
+            
+            stopSpeech();
+            renderActivities();
+        }
 
-        // (新) 辅助函数：根据平台名称返回 Font Awesome 图标
-        function getShopIcon(shopName) {
-            if (!shopName) return 'fa-store';
-            if (shopName.includes('淘')) return 'fa-brands fa-taobao'; // 淘宝
-            if (shopName.includes('京东')) return 'fa-solid fa-truck-fast'; // 京东
-            if (shopName.includes('拼')) return 'fa-solid fa-users'; // 拼多多
-            if (shopName.includes('美团')) return 'fa-solid fa-motorcycle'; // 美团
-            if (shopName.includes('饿')) return 'fa-solid fa-biking'; // 饿了么
-            if (shopName.includes('支付')) return 'fa-brands fa-alipay'; // 支付宝
-            if (shopName.includes('微信')) return 'fa-brands fa-weixin'; // 微信
+        // ... (getPlatformIcon 保持不变) ...
+        function getPlatformIcon(platformName) {
+            if (platformName.includes('淘宝') || platformName.includes('天猫')) return 'fab fa-taobao';
+            if (platformName.includes('京东')) return 'fa-shield-dog';
+            if (platformName.includes('拼多多')) return 'fa-users';
+            if (platformName.includes('美团')) return 'fa-hamburger';
+            if (platformName.includes('饿了么')) return 'fa-bowl-food';
+            if (platformName.includes('微信')) return 'fab fa-weixin';
+            if (platformName.includes('支付宝')) return 'fab fa-alipay';
             return 'fa-store'; // 默认图标
         }
 
         // ----------------------------------------------------
-        // 步骤 3: (新) 渲染活动到 DOM (使用 Shopping 标签)
+        // 步骤 3: 渲染活动 (Bug 1 修复)
         // ----------------------------------------------------
         function renderActivities() {
-            // [已修正] 筛选逻辑
-            const filteredActivities = ALL_ACTIVITIES.filter(activity => {
-                if (!Array.isArray(activity.category)) return false;
-
-                // 筛选条件 1: 必须包含 'Shopping' 主分类
-                const isShopActivity = activity.category.includes('Shopping');
-                
-                // 筛选条件 2: 必须匹配选中的平台 (或 'All')
-                const matchesShop = (selectedShop === 'All' || activity.sourceApp === selectedShop);
-
-                return isShopActivity && matchesShop;
-            });
-
-            // 1. 定义容器
-            const lists = {
-                'PaymentDiscount': document.getElementById('payment-discount-list'),
-                'Voucher': document.getElementById('voucher-list'),
-                'MissionReward': document.getElementById('mission-reward-list')
-            };
+            // [【 核心修正 (Bug 1) 】]
+            const filteredActivities = ALL_ACTIVITIES.filter(activity => 
+                selectedPlatform === 'All' || activity.sourceApp === selectedPlatform
+            );
             
-            // 2. 清空所有容器
+            console.log(`【慧伴管家】: 渲染中... 筛选 ${selectedPlatform}, 找到 ${filteredActivities.length} / ${ALL_ACTIVITIES.length} 条。`);
+
+            const lists = {
+                'PaymentDiscount': document.getElementById('payment-discounts-list'),
+                'Voucher': document.getElementById('vouchers-list'),
+                'MissionReward': document.getElementById('mission-rewards-list')
+            };
             Object.values(lists).forEach(list => list.innerHTML = '');
 
-            // 3. 遍历并渲染
             const hasActivities = { 'PaymentDiscount': false, 'Voucher': false, 'MissionReward': false };
             
             filteredActivities.forEach(activity => {
-                // 检查 category 数组中是否包含我们的英文子标签
-                let assignedCategory = null;
-                if (activity.category.includes('PaymentDiscount')) {
-                    assignedCategory = 'PaymentDiscount';
-                } else if (activity.category.includes('Voucher')) {
-                    assignedCategory = 'Voucher';
-                } else if (activity.category.includes('MissionReward')) {
-                    assignedCategory = 'MissionReward';
+                const subCategory = activity.category.find(c => CATEGORY_MAP[c]);
+                
+                if (subCategory && lists[subCategory]) {
+                    hasActivities[subCategory] = true;
+                    const cardHtml = renderActivityCard(activity, subCategory);
+                    lists[subCategory].innerHTML += cardHtml;
                 }
-
-                const targetList = lists[assignedCategory];
-
-                if (!targetList) return; // 跳过不属于这三类的
-                
-                hasActivities[assignedCategory] = true;
-                
-                const cardHtml = renderActivityCard(activity, assignedCategory, activity.id);
-                targetList.innerHTML += cardHtml;
             });
             
-            // 4. 处理空列表提示
-            Object.keys(lists).forEach(categoryKey => {
-                if (!hasActivities[categoryKey]) {
-                    lists[categoryKey].innerHTML = `<p class="text-gray-400 text-center p-4">该分类下${selectedShop !== 'All' ? `没有 ${selectedShop} 的` : ''}活动。</p>`;
+            Object.keys(lists).forEach(category => {
+                if (!hasActivities[category]) {
+                    lists[category].innerHTML = `<p class="text-gray-400 text-center p-4">该分类下${selectedPlatform !== 'All' ? `没有 ${selectedPlatform} 的` : ''}活动。</p>`;
                 }
             });
+            
+            bindActionButtons();
         }
 
         // ----------------------------------------------------
-        // 步骤 4: 单个活动卡片的 HTML 生成 (逻辑与 bank.html 基本一致)
+        // 步骤 4: 单个活动卡片的 HTML 生成
         // ----------------------------------------------------
-        function renderActivityCard(activity, categoryKey, uniqueId) {
+        function renderActivityCard(activity, subCategory) {
+            // ... (HTML 生成逻辑保持不变) ...
+            const styles = CATEGORY_MAP[subCategory] || CATEGORY_MAP['Voucher'];
             
-            // 使用新的 CATEGORY_MAP 查找样式
-            const style = CATEGORY_MAP[categoryKey] || CATEGORY_MAP['Voucher']; // 默认
+            let actionButtonHtml = '';
             
-            const name = activity.name || '活动名称缺失';
-            const description = activity.description || '暂无详细描述。';
-            // [注意] 标题行不再显示 (bankName)，保持简洁
-            const endDate = activity.endDate; 
-            const link = activity.link || '#';
+            if (activity.link && activity.link !== '#') {
+                actionButtonHtml = `
+                    <a href="${activity.link}" 
+                       target="_blank" 
+                       class="action-button" 
+                       data-umami-event="click_deep_link"
+                       data-umami-event-name="${activity.name}">
+                        <i class="fas fa-rocket"></i>
+                        去领取
+                    </a>`;
+            } else if (activity.StepsText) {
+                const steps = activity.StepsText.replace(/"/g, '&quot;');
+                actionButtonHtml = `
+                    <button class="action-button action-button-voice" 
+                            data-activity-id="${activity.id}" 
+                            data-steps="${steps}"
+                            data-activity-name="${activity.name}">
+                        <i class="fas fa-volume-high"></i>
+                        播放语音
+                    </button>`;
+            } else {
+                actionButtonHtml = `
+                    <button class="action-button opacity-50 cursor-not-allowed" disabled>
+                        <i class="fas fa-info-circle"></i>
+                        暂无指引
+                    </button>`;
+            }
+            
+            let specialNoteBadge = '';
+            if (activity.specialNote) {
+                specialNoteBadge = `
+                    <span class="special-note-badge"
+                          data-umami-event="view_special_note"
+                          data-umami-event-name="${activity.name}">
+                        <i class="fas fa-bell"></i>
+                        ${activity.specialNote}
+                    </span>`;
+            }
 
             return `
-                <a href="${link}" target="_blank" class="task-list-card ${style.cssClass}">
-                    <span class="countdown-badge" data-endtime="${endDate || ''}" id="timer-${uniqueId}">
-                        ${endDate ? '计算中...' : '长期'}
+                <div class="task-list-card ${styles.borderClass} ${activity.specialNote ? 'has-special-note' : ''}">
+                    ${specialNoteBadge}
+                    <span class="countdown-badge" data-endtime="${activity.endDate}" id="timer-${activity.id}">
+                        长期
                     </span>
-
-                    <div class="task-icon ${style.iconClass}">
-                        <i class="fa-solid ${style.faIcon}"></i>
+                    <div class="task-main-content">
+                        <div class="task-icon ${styles.iconClass}">
+                            <i class="fa-solid ${styles.faIcon}"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-title">${activity.name || '活动名称缺失'}</div>
+                            <div class="task-subtitle">${activity.description || '暂无详细描述。'}</div>
+                        </div>
                     </div>
-                    <div class="task-content">
-                        <div class="task-title">${name}</div>
-                        <div class="task-subtitle">${description}</div>
+                    <div class="task-action-bar">
+                        <button class="share-button" 
+                                data-activity-id="${activity.id}" 
+                                data-activity-name="${activity.name}">
+                            <i class="fas fa-share-alt"></i>
+                            分享
+                        </button>
+                        ${actionButtonHtml}
                     </div>
-                    <div class="task-action">
-                        <span class="action-button">${style.actionText}</span>
-                    </div>
-                </a>
+                </div>
             `;
         }
 
         // ----------------------------------------------------
-        // 步骤 5: 倒计时功能 (与 bank.html 完全相同)
+        // 步骤 5: 绑定事件
         // ----------------------------------------------------
+        function bindActionButtons() {
+            // ... (绑定逻辑与 bank.html 一致) ...
+            document.querySelectorAll('.action-button-voice').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const btn = e.currentTarget;
+                    const steps = btn.getAttribute('data-steps');
+                    const name = btn.getAttribute('data-activity-name');
+                    
+                    if (window.umami) {
+                        umami.track('play_voice_guide', { name: name });
+                    }
+                    playSpeech(steps, btn);
+                });
+            });
 
+            document.querySelectorAll('.share-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const btn = e.currentTarget;
+                    const id = btn.getAttribute('data-activity-id');
+                    const name = btn.getAttribute('data-activity-name');
+                    
+                    if (window.umami) {
+                        umami.track('click_share', { name: name });
+                    }
+                    shareActivity(id, btn);
+                });
+            });
+        }
+        
+        // ----------------------------------------------------
+        // 步骤 6: 语音播放 (Bug 2 修复)
+        // ----------------------------------------------------
+        function playSpeech(text, buttonElement) {
+            // ... (语音逻辑与 bank.html 一致) ...
+            if (!synth) {
+                console.error("【慧伴管家】: 语音播放失败，Speech API 不可用。");
+                return;
+            }
+            console.log("【慧伴管家】: 尝试播放语音:", text);
+            if (synth.speaking && currentUtterance && currentUtterance.text === text) {
+                stopSpeech();
+                return;
+            }
+            stopSpeech();
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.lang = 'zh-CN'; 
+            currentUtterance.onerror = (event) => {
+                console.error('【慧伴管家】: 语音播放错误:', event.error);
+            };
+            if (buttonElement) {
+                buttonElement.classList.add('speaking');
+                buttonElement.innerHTML = `<i class="fas fa-wave-square"></i> 播放中...`;
+            }
+            currentUtterance.onend = () => {
+                if (buttonElement) {
+                    buttonElement.classList.remove('speaking');
+                    buttonElement.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+                }
+                currentUtterance = null;
+            };
+            synth.speak(currentUtterance);
+        }
+
+        function stopSpeech() {
+            // ... (语音逻辑与 bank.html 一致) ...
+            if (synth && synth.speaking) {
+                synth.cancel();
+            }
+            document.querySelectorAll('.action-button-voice.speaking').forEach(btn => {
+                btn.classList.remove('speaking');
+                btn.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+            });
+            currentUtterance = null;
+        }
+
+        // ----------------------------------------------------
+        // 步骤 7: 分享功能 (go.html 网关)
+        // ----------------------------------------------------
+        function shareActivity(activityId, buttonElement) {
+            // ... (分享逻辑与 bank.html 一致) ...
+            const shareUrl = `${window.location.origin}${window.location.pathname.replace('shopping.html', 'go.html')}?id=${activityId}`;
+            try {
+                const tempInput = document.createElement('textarea');
+                tempInput.value = `快来看看这个活动！\n${shareUrl}`;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                const originalText = buttonElement.innerHTML;
+                buttonElement.innerHTML = `<i class="fas fa-check"></i> 已复制!`;
+                setTimeout(() => {
+                    buttonElement.innerHTML = originalText;
+                }, 2000);
+            } catch (err) {
+                console.error('复制失败:', err);
+                alert(`请手动复制链接：\n${shareUrl}`);
+            }
+        }
+
+        // ----------------------------------------------------
+        // 步骤 8: 倒计时功能 (保持不变)
+        // ----------------------------------------------------
         function getRemainingTime(endDateString, badgeElement) {
-            if (!endDateString) {
-                badgeElement.textContent = '长期有效';
+            // ... (倒计时逻辑与 bank.html 一致) ...
+            if (!endDateString || endDateString === 'null') {
+                badgeElement.textContent = '长期';
                 badgeElement.classList.remove('expired-badge');
                 return;
             }
             const now = new Date().getTime();
             const end = new Date(endDateString).getTime();
             const distance = end - now;
-
             if (distance < 0) {
                 badgeElement.textContent = '已过期';
                 badgeElement.classList.add('expired-badge');
                 return;
             }
-            
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
             let timeString = '';
-            if (days > 0) {
-                timeString = `${days} 天 ${hours} 时`;
-            } else if (hours > 0) {
-                timeString = `${hours} 时 ${minutes} 分`;
+            if (days > 1) {
+                timeString = `${days} 天`;
+            } else if (days === 1 || hours > 0) {
+                timeString = `${days * 24 + hours} 时`;
             } else {
-                timeString = `${minutes} 分`; 
+                timeString = `${minutes} 分`;
             }
-
             badgeElement.textContent = `剩余 ${timeString}`;
             badgeElement.classList.remove('expired-badge');
         }
 
         function startCountdownUpdater() {
-            updateAllCountdowns();
-            setInterval(updateAllCountdowns, 1000);
+            setInterval(updateAllCountdowns, 60000); 
+            setTimeout(updateAllCountdowns, 500);
         }
 
         function updateAllCountdowns() {
             const timerElements = document.querySelectorAll('.countdown-badge');
             timerElements.forEach(badge => {
                 const endDate = badge.getAttribute('data-endtime');
-                if (endDate) {
-                    getRemainingTime(endDate, badge);
-                }
+                getRemainingTime(endDate, badge);
             });
         }
-        
-        // ----------------------------------------------------
-        // 页面加载完成后执行
-        // ----------------------------------------------------
-        document.addEventListener('DOMContentLoaded', loadAndFetchActivities);
     </script>
 
 </body>
