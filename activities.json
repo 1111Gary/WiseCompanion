@@ -233,6 +233,22 @@
     "StepsText": null
   },
   {
+    "id": "recBlsqc2bYssM0pJ",
+    "name": "中行京禧回归礼",
+    "description": "特邀专享：领取10-50元微信立减金，需中国银行借记卡使用",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-12-31T10:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧回归礼"
+  },
+  {
     "id": "recD7bZQKFepHsF9l",
     "name": "建行社保卡福利日",
     "description": "受邀客户每周三15：00报名，有机会参与报名领银联60-20优惠券，每个自热月领1张",
@@ -592,6 +608,22 @@
     "StepsText": null
   },
   {
+    "id": "recUe0HA74x0kXfTk",
+    "name": "中行京禧周周领",
+    "description": "受邀专享：北京理财级及以上用户参加活动，每周五10：00起，5折买立减金，每月一次",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Shopping",
+      "Voucher"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-12-31T10:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧周周领"
+  },
+  {
     "id": "recWRrBDZdt3C2FRk",
     "name": "邮储银行 微信银行查询赢好礼",
     "description": "点击“中国邮政储蓄银行”服务号，成功查询账户余额，有机会领取1.16元-66元微信立减金。",
@@ -752,6 +784,22 @@
     "StepsText": null
   },
   {
+    "id": "recfGrhSb1Wse0Goa",
+    "name": "中行京禧校园",
+    "description": "受邀专享：北京秋季入学高校学生",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-12-31T10:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧校园，支付0.18元购买"
+  },
+  {
     "id": "recg0YQTXucrZm6SQ",
     "name": "中国建设银行APP ",
     "description": "建行首页底部财富点击，财富会员，财富等级礼、资产保有礼、等级晋升礼。每月10号，每月1次",
@@ -800,6 +848,22 @@
     "StepsText": null
   },
   {
+    "id": "recjCoGvRafvBRSzt",
+    "name": "中行京禧新客礼",
+    "description": "北京新用户专享10起新开中行手机银行用户参与支付购买被那个",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-12-31T10:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧新客礼，支付领取"
+  },
+  {
     "id": "recjMc4PWFJgh0BMt",
     "name": "交行开通动账提醒",
     "description": "获取2元支付券",
@@ -833,16 +897,19 @@
   },
   {
     "id": "reckCZPYiFScXaxG4",
-    "name": "无标题活动",
-    "description": "暂无描述",
+    "name": "中行数币一触即发数币专享营销",
+    "description": "0.88元购买3.88元数币红包",
     "icon": "❓",
     "link": "#",
-    "category": [],
-    "sourceApp": "其他",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
     "specialNote": null,
-    "targetApp": "目标 App",
-    "endDate": null,
-    "StepsText": null
+    "targetApp": "中国银行APP",
+    "endDate": "2025-11-30T12:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击中银数币生活馆，点击2025一触即发数币专项营销活动，选择立即支付可购买"
   },
   {
     "id": "reckHP4e94zvMxwyQ",
@@ -938,6 +1005,22 @@
     "StepsText": null
   },
   {
+    "id": "recnn1jTqeQ6F6BfX",
+    "name": "中行京禧惠不停",
+    "description": "北京地手机银行用户每月购买一次1.18随机获取3-10元微信立减金",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-12-31T10:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧惠不停，支付领取"
+  },
+  {
     "id": "recnzm5APSC2uy69A",
     "name": "淘宝视频",
     "description": "看视频领金币，兑换优惠券",
@@ -951,6 +1034,22 @@
     "targetApp": "淘宝APP",
     "endDate": null,
     "StepsText": null
+  },
+  {
+    "id": "reco75PtAVUTzSWLu",
+    "name": "中行数币新客数币见面礼",
+    "description": "开通数币领取10元数币红包",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-11-30T12:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击中银数币生活馆，点击新客数币见面礼，立即领取"
   },
   {
     "id": "recp7QrUCSQY7SYU6",
@@ -982,6 +1081,22 @@
     "targetApp": "京东APP",
     "endDate": "2025-11-30T15:30:00.000Z",
     "StepsText": null
+  },
+  {
+    "id": "recprUFGaK8dKhOyz",
+    "name": "中行出行有京禧",
+    "description": "北京一卡通出行有京禧，支付1.18元得6.18元专用微信立减金，使用时需支付7元以上购买",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "PaymentDiscount"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-12-31T10:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击中行出行有京禧，支付1.18元可领取"
   },
   {
     "id": "recrNGMUNkBAKQkHf",
@@ -1075,6 +1190,22 @@
     "StepsText": "进入美团APP，搜索数字人民币，点击进去往下拉，看到建行省钱卡，可1分领15元，可以还美团月付"
   },
   {
+    "id": "recx8XT7d2hsm1JKH",
+    "name": "中行数币新体验",
+    "description": "北京地区未开通数字用户，开通数币随机领取8-15元数字人民币红包",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-11-30T10:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击中银数币生活馆，点击数币新体验，立即抽取"
+  },
+  {
     "id": "recxN4HnN4L17AkKx",
     "name": "邮储银行 攒钱小目标",
     "description": "攒钱到达升金挡位后领取时点礼、满月礼立减金",
@@ -1136,6 +1267,22 @@
     "targetApp": "目标 App",
     "endDate": null,
     "StepsText": null
+  },
+  {
+    "id": "reczi5mZHWSaROE7l",
+    "name": "中行数币悦享出行",
+    "description": "充值满20元立减10元",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Shopping",
+      "PaymentDiscount"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击中银数币生活馆，点击中行数币悦享出行，立即领取"
   },
   {
     "id": "reczuIgBf7W93VKiE",
