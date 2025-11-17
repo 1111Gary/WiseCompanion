@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <!-- [【 核心 】] 标题已修改 -->
     <title>慧伴管家 - 捡钱任务</title>
     
-    <!-- [【 核心 】] Umami 统计 (已集成您的 ID) -->
+    <!-- Umami 统计 -->
     <script async defer 
         data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" 
         src="https://umami.example.com/script.js" 
@@ -15,6 +16,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
+    <!-- PWA -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="慧伴管家">
@@ -35,11 +37,13 @@
             --color-special-note: #F59E0B; 
             --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4);
             
-            /* 分类颜色 */
-            --color-bank: #00BFFF; /* 银行 (主色) */
-            --color-stock: #34D399; /* 证券 (绿色) */
-            --color-card: #FF69B4; /* 卡 (粉色) */
-            --color-other: #A78BFA; /* 其他 (紫色) */
+            /* [【 核心 】] 类别颜色 (已更新) */
+            --color-bank: #00BFFF; /* 银行 */
+            --color-digitalrmb: #34D399; /* 数字人民币 (绿色) */
+            --color-card: #FF69B4; /* 信用卡 (粉色) */
+            --color-dailytask: #A78BFA; /* 日常任务 (紫色) */
+            --color-deposit: #F59E0B; /* 存款 (橙色) */
+            --color-other: #9CA3AF; /* 其他/银行标签 */
         }
         body { 
             /* ... 基础样式 ... */
@@ -87,8 +91,9 @@
             color: var(--color-text-light);
         }
         
-        /* [【 核心 】] 状态筛选器 */
+        /* 状态筛选器 */
         .status-filter-bar {
+            /* ... 样式 ... */
             display: flex;
             justify-content: space-around;
             background-color: var(--color-card-bg);
@@ -98,6 +103,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0, 0.3);
         }
         .status-filter-btn {
+            /* ... 样式 ... */
             flex-grow: 1;
             padding: 8px 12px;
             border-radius: 9999px;
@@ -113,28 +119,23 @@
             gap: 6px;
             cursor: pointer;
         }
-        .status-filter-btn:hover {
-            color: var(--color-text-light);
-        }
+        .status-filter-btn:hover { color: var(--color-text-light); }
         .status-filter-btn.active {
             background-color: var(--color-primary);
             color: var(--color-bg-dark);
             box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
         }
 
-        /* 类别筛选器 */
+        /* [【 核心 】] 类别筛选器 (样式更新) */
         .category-filter-bar {
             display: flex;
             gap: 10px;
             overflow-x: auto;
             padding: 5px 0 15px 0;
-            /* 隐藏滚动条 */
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
-        .category-filter-bar::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, and Opera */
-        }
+        .category-filter-bar::-webkit-scrollbar { display: none; }
         .category-filter-btn {
             padding: 8px 16px;
             border-radius: 9999px;
@@ -146,10 +147,9 @@
             transition: all 0.3s ease;
             flex-shrink: 0;
             cursor: pointer;
+            white-space: nowrap; /* 确保银行名称不换行 */
         }
-        .category-filter-btn:hover {
-            border-color: var(--color-primary);
-        }
+        .category-filter-btn:hover { border-color: var(--color-primary); }
         .category-filter-btn.active {
             color: var(--color-bg-dark);
             box-shadow: 0 0 10px;
@@ -157,10 +157,16 @@
         /* 类别激活颜色 */
         .category-filter-btn.active[data-category="All"] { background-color: var(--color-text-light); color: var(--color-bg-dark); box-shadow-color: rgba(224, 231, 255, 0.5); }
         .category-filter-btn.active[data-category="Bank"] { background-color: var(--color-bank); box-shadow-color: rgba(0, 191, 255, 0.5); }
-        .category-filter-btn.active[data-category="Stock"] { background-color: var(--color-stock); box-shadow-color: rgba(52, 211, 153, 0.5); }
+        .category-filter-btn.active[data-category="DigitalRMB"] { background-color: var(--color-digitalrmb); box-shadow-color: rgba(52, 211, 153, 0.5); }
         .category-filter-btn.active[data-category="Card"] { background-color: var(--color-card); box-shadow-color: rgba(255, 105, 180, 0.5); }
-        .category-filter-btn.active[data-category="Other"] { background-color: var(--color-other); box-shadow-color: rgba(167, 139, 250, 0.5); }
-
+        .category-filter-btn.active[data-category="DailyTask"] { background-color: var(--color-dailytask); box-shadow-color: rgba(167, 139, 250, 0.5); }
+        .category-filter-btn.active[data-category="Deposit"] { background-color: var(--color-deposit); box-shadow-color: rgba(245, 158, 11, 0.5); }
+        /* 银行标签的动态样式 */
+        .category-filter-btn.active.dynamic-bank-tag {
+             background-color: var(--color-other);
+             color: var(--color-bg-dark);
+             box-shadow-color: rgba(156, 163, 175, 0.5);
+        }
 
         .section-description {
             color: var(--color-text-muted);
@@ -188,8 +194,13 @@
         }
 
         /* 徽章 */
+        .special-note-badge { /* ... 样式 ... */ }
+        .countdown-badge { /* ... 样式 ... */ }
+        .special-note-badge + .countdown-badge { /* ... 样式 ... */ }
+        .expired-badge { /* ... 样式 ... */ }
+        .upcoming-badge { /* ... 样式 ... */ }
+        /* ... (徽章样式保持不变) ... */
         .special-note-badge {
-            /* ... 样式 ... */
             position: absolute;
             top: 15px;
             right: 15px;
@@ -203,7 +214,6 @@
             box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
         }
         .countdown-badge {
-            /* ... 样式 ... */
             position: absolute;
             top: 0;
             right: 0;
@@ -231,16 +241,17 @@
         }
 
 
-        /* 类别强调色 */
+        /* [【 核心 】] 类别强调色 (已更新) */
         .task-bank { border-left-color: var(--color-bank); }
-        .task-stock { border-left-color: var(--color-stock); }
+        .task-digitalrmb { border-left-color: var(--color-digitalrmb); }
         .task-card { border-left-color: var(--color-card); }
+        .task-dailytask { border-left-color: var(--color-dailytask); }
+        .task-deposit { border-left-color: var(--color-deposit); }
         .task-other { border-left-color: var(--color-other); }
 
         .task-main-content { display: flex; align-items: center; width: 100%; }
 
-        .task-icon {
-            /* ... 样式 ... */
+        .task-icon { /* ... 样式 ... */ 
             width: 40px;
             height: 40px;
             border-radius: 8px;
@@ -252,29 +263,27 @@
             margin-right: 15px;
             flex-shrink: 0;
         }
+        /* [【 核心 】] 类别图标 (已更新) */
         .icon-bank { background-color: var(--color-bank); }
-        .icon-stock { background-color: var(--color-stock); }
+        .icon-digitalrmb { background-color: var(--color-digitalrmb); }
         .icon-card { background-color: var(--color-card); }
+        .icon-dailytask { background-color: var(--color-dailytask); }
+        .icon-deposit { background-color: var(--color-deposit); }
         .icon-other { background-color: var(--color-other); }
 
-        .task-content { flex-grow: 1; min-width: 0; }
 
-        .task-title {
-            /* ... 样式 ... */
+        .task-content { flex-grow: 1; min-width: 0; }
+        .task-title { /* ... 样式 ... */ 
             font-size: 1rem;
             font-weight: 700;
             color: var(--color-text-light);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            padding-right: 90px; 
+            padding-right: 90px;
         }
-        .has-special-note .task-title {
-            padding-right: 120px;
-        }
-
-        .task-subtitle {
-            /* ... 样式 ... */
+        .has-special-note .task-title { padding-right: 120px; }
+        .task-subtitle { /* ... 样式 ... */ 
             font-size: 0.8rem;
             color: var(--color-text-muted);
             white-space: normal; 
@@ -283,8 +292,7 @@
         }
         
         /* 动作栏 */
-        .task-action-bar {
-            /* ... 样式 ... */
+        .task-action-bar { /* ... 样式 ... */ 
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -292,9 +300,7 @@
             padding-top: 10px;
             border-top: 1px solid var(--color-card-bg);
         }
-        
-        .share-button {
-            /* ... 样式 ... */
+        .share-button { /* ... 样式 ... */ 
             background-color: var(--color-card-bg);
             color: var(--color-primary);
             border: 1px solid var(--color-primary);
@@ -313,8 +319,7 @@
             color: var(--color-bg-dark);
         }
 
-        .action-button {
-            /* ... 样式 ... */
+        .action-button { /* ... 样式 ... */
             background-color: var(--color-primary);
             color: var(--color-bg-dark);
             font-weight: 700;
@@ -334,6 +339,7 @@
             transform: scale(1.05);
             box-shadow: 0 0 10px rgba(0, 191, 255, 0.7);
         }
+        /* [【 核心 】] 语音按钮样式 (已修复) */
         .action-button-voice {
             background-color: var(--color-success);
         }
@@ -350,8 +356,7 @@
         }
 
         /* 底部导航栏 */
-        .tab-bar {
-            /* ... 样式 ... */
+        .tab-bar { /* ... 样式 ... */ 
             position: fixed;
             bottom: 0;
             left: 0;
@@ -366,8 +371,7 @@
             padding-bottom: env(safe-area-inset-bottom);
             z-index: 20;
         }
-        .tab-item {
-            /* ... 样式 ... */
+        .tab-item { /* ... 样式 ... */ 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -391,8 +395,7 @@
         .header-logo-group { display: flex; align-items: center; }
         .header-logo { width: 32px; height: 32px; margin-right: 10px; }
         .header-title { font-size: 1.2rem; font-weight: 700; color: var(--color-text-light); }
-        .back-arrow-link {
-            /* ... 样式 ... */
+        .back-arrow-link { /* ... 样式 ... */ 
             color: var(--color-text-light);
             font-size: 1.2rem;
             padding: 5px 10px;
@@ -402,8 +405,7 @@
         }
         
         /* 付费会员诱饵卡片 */
-        .premium-card {
-            /* ... 样式 ... */
+        .premium-card { /* ... 样式 ... */ 
             background: var(--color-card-bg);
             border-radius: 20px;
             padding: 25px 20px;
@@ -425,8 +427,7 @@
             transform: translateY(-3px);
             box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 105, 180, 0.4);
         }
-        .premium-card h2 {
-            /* ... 样式 ... */
+        .premium-card h2 { /* ... 样式 ... */ 
             font-size: 1.3rem;
             font-weight: 800;
             background: var(--color-premium-border);
@@ -441,7 +442,7 @@
         }
 
         /* 空状态 */
-        .empty-state {
+        .empty-state { /* ... 样式 ... */ 
             text-align: center;
             padding: 40px 20px;
             background-color: var(--color-bank-bg);
@@ -481,11 +482,12 @@
         
         <!-- **1. 【页面主标题卡片】 ** -->
         <div class="main-banner-card">
-            <h1>捡钱任务 (Bank)</h1>
+            <!-- [【 核心 】] 标题已修复，移除 (Bank) -->
+            <h1>捡钱任务</h1>
             <p class="text-sm text-gray-400 mt-2">银行、证券、信用卡等所有相关活动</p>
         </div>
         
-        <!-- **2. 【 [【 核心 】] 状态筛选器】 ** -->
+        <!-- **2. 【状态筛选器】 ** -->
         <div class="status-filter-bar">
             <button class="status-filter-btn active" data-status="ongoing" onclick="umami.track('filter_status_ongoing', { from: 'bank' })">
                 <i class="fas fa-play-circle"></i> 正在进行
@@ -498,7 +500,7 @@
             </button>
         </div>
 
-        <!-- **3. 【类别筛选器】 ** -->
+        <!-- **3. 【 [【 核心 】] 类别筛选器】 ** -->
         <p class="section-description">
             按类别筛选：
         </p>
@@ -525,27 +527,23 @@
     
     <!-- 底部导航栏 -->
     <nav class="tab-bar">
-        <!-- 首页 -->
+        <!-- ... (tab bar items) ... -->
         <a href="./index.html" class="tab-item">
             <i class="fas fa-home tab-icon"></i>
             <span>首页</span>
         </a>
-        <!-- 天天有奖 -->
         <a href="./checkin.html" class="tab-item">
             <i class="fas fa-gifts tab-icon"></i>
             <span>天天有奖</span>
         </a>
-        <!-- 看视频赚 -->
         <a href="./video.html" class="tab-item">
             <i class="fas fa-play-circle tab-icon"></i>
             <span>看视频赚</span>
         </a>
-        <!-- 捡钱任务 (当前页) -->
         <span class="tab-item active">
             <i class="fas fa-hand-holding-usd tab-icon"></i>
             <span>捡钱任务</span>
         </span>
-        <!-- 省钱秘籍 -->
         <a href="./shopping.html" class="tab-item">
             <i class="fas fa-tags tab-icon"></i>
             <span>省钱秘籍</span>
@@ -556,18 +554,34 @@
         // ----------------------------------------------------
         // 全局状态和数据
         // ----------------------------------------------------
-        let ALL_ACTIVITIES = [];
+        let ALL_ACTIVITIES = []; // L1 过滤后的原始数据
         let CURRENT_CATEGORY_FILTER = 'All';
-        // [【 核心 】] 新增状态过滤器，默认为“进行中”
         let CURRENT_STATUS_FILTER = 'ongoing';
+        let DETECTED_CATEGORIES = []; // L2 动态检测到的所有类别
 
+        // [【 核心 】] 基础类别 (L2)
+        const BASE_CATEGORIES = ['Bank', 'DigitalRMB', 'Card', 'DailyTask', 'Deposit'];
+        
+        // [【 核心 】] 已知银行标签 (用于自动检测)
+        const KNOWN_BANK_TAGS = [
+            'ICBC', 'ABC', 'BOC', 'CCB', 'BOCOM', 'PSBC', // 六大行
+            'CMB', 'SPDB', 'CITIC', 'CEB', 'HXB', 'CMBC', 'GDB', 'PAB', 'EBCLIFE' // 股份制
+        ];
+
+        // [【 核心 】] L2 类别样式映射
         const CATEGORY_MAP = {
             'Bank': { name: '银行', borderClass: 'task-bank', iconClass: 'icon-bank', faIcon: 'fa-university' },
-            'Stock': { name: '证券', borderClass: 'task-stock', iconClass: 'icon-stock', faIcon: 'fa-chart-line' },
-            'Card': { name: '卡', borderClass: 'task-card', iconClass: 'icon-card', faIcon: 'fa-credit-card' },
+            'DigitalRMB': { name: '数字人民币', borderClass: 'task-digitalrmb', iconClass: 'icon-digitalrmb', faIcon: 'fa-yen-sign' },
+            'Card': { name: '信用卡', borderClass: 'task-card', iconClass: 'icon-card', faIcon: 'fa-credit-card' },
+            'DailyTask': { name: '日常任务', borderClass: 'task-dailytask', iconClass: 'icon-dailytask', faIcon: 'fa-calendar-check' },
+            'Deposit': { name: '存款', borderClass: 'task-deposit', iconClass: 'icon-deposit', faIcon: 'fa-piggy-bank' },
             'Other': { name: '其他', borderClass: 'task-other', iconClass: 'icon-other', faIcon: 'fa-box' }
         };
-        const ALL_CATEGORIES = ['Bank', 'Stock', 'Card', 'Other'];
+        
+        // [【 核心 】] L1 页面路由（此页面包含哪些 L1 标签）
+        // (旧: ['Bank', 'Stock', 'Card', 'Other'])
+        // 我们假设您会把 'Stock' 和 'Other' 替换为 'DigitalRMB' 等
+        const PAGE_L1_CATEGORIES = ['Bank', 'DigitalRMB', 'Card', 'Stock', 'Other', 'DailyTask', 'Deposit'];
 
         // [【 核心 】] 原生语音 API (Web Speech API)
         const synth = window.speechSynthesis;
@@ -577,31 +591,13 @@
         // 步骤 1: 页面加载主入口
         // ----------------------------------------------------
         document.addEventListener('DOMContentLoaded', () => {
-            renderCategoryFilters();
+            // 类别筛选器 *必须* 在加载数据 *之后* 渲染
             loadAndFetchActivities();
             startCountdownUpdater();
-            
-            // [【 核心 】] 绑定新增的状态筛选按钮
             bindStatusFilterButtons();
         });
 
-        // [【 核心Bug修复 】] 页面加载时，必须“预热”语音引擎 (iOS/Mobile Safari 限制)
-        function primeSpeechEngine() {
-            if (synth.speaking) return; 
-            if (currentUtterance) return;
-            const ut = new SpeechSynthesisUtterance(' '); // 播放一个空字符串
-            ut.volume = 0; // 静音
-            ut.rate = 3; // 极速
-            try {
-                synth.speak(ut);
-            } catch (e) {
-                console.warn("语音引擎预热失败 (可能在桌面端)", e);
-            }
-        }
-        // 第一次点击页面任意位置时触发预热
-        document.addEventListener('click', primeSpeechEngine, { once: true });
-        document.addEventListener('touchstart', primeSpeechEngine, { once: true });
-
+        // [【 核心BUG修复 】] 移除 primeSpeechEngine
 
         // ----------------------------------------------------
         // 步骤 2: 加载和获取数据
@@ -612,14 +608,29 @@
                 if (!response.ok) {
                     throw new Error('网络响应错误，无法加载 activities.json');
                 }
-                const data = await response.json();
+                const rawData = await response.json();
                 
-                // 过滤出所有 "捡钱任务" 相关的活动
-                ALL_ACTIVITIES = data.filter(act => 
-                    act.category && ALL_CATEGORIES.some(cat => act.category.includes(cat))
+                // 1. [L1 过滤] 过滤出所有 "捡钱任务" 相关的活动
+                // 只要活动 category 包含 L1 列表中的 *任意一个*，它就属于这个页面
+                ALL_ACTIVITIES = rawData.filter(act => 
+                    act.category && act.category.some(cat => PAGE_L1_CATEGORIES.includes(cat))
                 );
 
-                renderActivities();
+                // 2. [L2 动态检测] 从 L1 过滤后的活动中，检测所有 L2 标签
+                const detectedSet = new Set(BASE_CATEGORIES);
+                ALL_ACTIVITIES.forEach(act => {
+                    act.category.forEach(cat => {
+                        // 如果是已知的银行标签，且不在基础类别里
+                        if (KNOWN_BANK_TAGS.includes(cat.toUpperCase()) && !BASE_CATEGORIES.includes(cat)) {
+                            detectedSet.add(cat);
+                        }
+                    });
+                });
+                DETECTED_CATEGORIES = Array.from(detectedSet);
+                
+                // 3. 渲染
+                renderCategoryFilters(); // 现在可以渲染 L2 筛选器了
+                renderActivities(); // 渲染活动
                 
             } catch (error) {
                 console.error("加载活动数据失败:", error);
@@ -628,7 +639,7 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 3: 渲染类别筛选器
+        // 步骤 3: 渲染类别筛选器 (L2)
         // ----------------------------------------------------
         function renderCategoryFilters() {
             const container = document.getElementById('category-filter-container');
@@ -638,12 +649,16 @@
                     <i class="fas fa-grip-horizontal mr-1"></i> 全部
                 </button>`;
             
-            ALL_CATEGORIES.forEach(catKey => {
+            DETECTED_CATEGORIES.forEach(catKey => {
                 const cat = CATEGORY_MAP[catKey];
+                const name = cat ? cat.name : catKey; // 如果是银行标签，直接用 Key (e.g., "ICBC")
+                const icon = cat ? cat.faIcon : 'fa-university'; // 银行标签统一用大学图标
+                const isDynamicBank = !cat; // 是否是动态银行标签
+                
                 buttonsHtml += `
-                    <button class="category-filter-btn" data-category="${catKey}"
+                    <button class="category-filter-btn ${isDynamicBank ? 'dynamic-bank-tag' : ''}" data-category="${catKey}"
                             onclick="umami.track('filter_category_${catKey.toLowerCase()}', { from: 'bank' })">
-                        <i class="fas ${cat.faIcon} mr-1"></i> ${cat.name}
+                        <i class="fas ${icon} mr-1"></i> ${name}
                     </button>`;
             });
             
@@ -653,31 +668,23 @@
             container.querySelectorAll('.category-filter-btn').forEach(button => {
                 button.addEventListener('click', (e) => {
                     CURRENT_CATEGORY_FILTER = e.currentTarget.getAttribute('data-category');
-                    
-                    // 更新按钮激活状态
                     container.querySelectorAll('.category-filter-btn').forEach(btn => btn.classList.remove('active'));
                     e.currentTarget.classList.add('active');
-                    
-                    // 重新渲染活动列表
                     renderActivities();
                 });
             });
         }
         
         // ----------------------------------------------------
-        // [【 核心 】] 步骤 4: 绑定状态筛选器
+        // 步骤 4: 绑定状态筛选器
         // ----------------------------------------------------
         function bindStatusFilterButtons() {
             const container = document.querySelector('.status-filter-bar');
             container.querySelectorAll('.status-filter-btn').forEach(button => {
                 button.addEventListener('click', (e) => {
                     CURRENT_STATUS_FILTER = e.currentTarget.getAttribute('data-status');
-                    
-                    // 更新按钮激活状态
                     container.querySelectorAll('.status-filter-btn').forEach(btn => btn.classList.remove('active'));
                     e.currentTarget.classList.add('active');
-                    
-                    // 重新渲染活动列表
                     renderActivities();
                 });
             });
@@ -690,7 +697,7 @@
             const listContainer = document.getElementById('bank-tasks-list');
             listContainer.innerHTML = '';
             
-            // [【 核心 】] 1. 按状态筛选
+            // 1. 按状态筛选
             const now = new Date();
             const filteredByStatus = ALL_ACTIVITIES.filter(act => {
                 const startDate = act.startDate ? new Date(act.startDate) : null;
@@ -707,10 +714,10 @@
                 if (CURRENT_STATUS_FILTER === 'ended') {
                     return endDate && endDate < now;
                 }
-                return false; // 默认不显示
+                return false;
             });
 
-            // 2. 按类别筛选
+            // 2. 按 L2 类别筛选
             const filteredActivities = filteredByStatus.filter(act => {
                 if (CURRENT_CATEGORY_FILTER === 'All') {
                     return true;
@@ -733,19 +740,19 @@
             });
             
             bindActionButtons();
-            updateAllCountdowns(); // 确保新渲染的卡片有倒计时
+            updateAllCountdowns(); 
         }
 
         // ----------------------------------------------------
         // 步骤 6: 单个活动卡片的 HTML 生成
         // ----------------------------------------------------
         function renderActivityCard(activity) {
-            // 确定主要类别
-            const primaryCat = ALL_CATEGORIES.find(cat => activity.category.includes(cat)) || 'Other';
+            // 确定主要类别 (L2)
+            const primaryCat = BASE_CATEGORIES.find(cat => activity.category.includes(cat)) || 'Other';
             const styles = CATEGORY_MAP[primaryCat];
             
             let actionButtonHtml = '';
-            
+            // ... (动作按钮逻辑不变) ...
             if (activity.link && activity.link !== '#') {
                 actionButtonHtml = `
                     <a href="${activity.link}" 
@@ -790,7 +797,6 @@
                     
                     ${specialNoteBadge}
 
-                    <!-- 倒计时徽章 -->
                     <span class="countdown-badge" 
                           data-endtime="${activity.endDate}" 
                           data-starttime="${activity.startDate}" 
@@ -852,22 +858,35 @@
         }
         
         // ----------------------------------------------------
-        // 步骤 8: 语音播放 (Web Speech API)
+        // 步骤 8: [【 核心BUG修复 】] 语音播放 (已修复)
         // ----------------------------------------------------
         function playSpeech(text, buttonElement) {
-            if (synth.speaking && currentUtterance && currentUtterance.text === text) {
-                stopSpeech();
-                setTimeout(() => playSpeech(text, buttonElement), 100);
+            const isCurrentlySpeaking = synth.speaking;
+            const isSameText = currentUtterance && currentUtterance.text === text;
+
+            // 1. 停止任何当前语音
+            if (isCurrentlySpeaking) {
+                synth.cancel();
+            }
+
+            // 2. 如果用户点击了正在播放的同一个按钮，目的就是“停止”
+            if (isCurrentlySpeaking && isSameText) {
+                // cancel() 会自动触发 onend，那里会清理按钮
                 return;
             }
-            stopSpeech();
-
+            
+            // 3. 播放新语音
             currentUtterance = new SpeechSynthesisUtterance(text);
             currentUtterance.lang = 'zh-CN';
+            currentUtterance.rate = 0.8; // 慢速
             
-            // [【 核心 】] 降低语速
-            currentUtterance.rate = 0.8; 
-            
+            // 清理所有“播放中”的按钮
+            document.querySelectorAll('.action-button-voice.speaking').forEach(btn => {
+                btn.classList.remove('speaking');
+                btn.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+            });
+
+            // 设置当前按钮为“播放中”
             if (buttonElement) {
                 buttonElement.classList.add('speaking');
                 buttonElement.innerHTML = `<i class="fas fa-wave-square"></i> 播放中...`;
@@ -880,14 +899,25 @@
                 }
                 currentUtterance = null;
             };
+            
+            currentUtterance.onerror = (event) => {
+                console.error('SpeechSynthesis 错误:', event);
+                if (buttonElement) {
+                    buttonElement.classList.remove('speaking');
+                    buttonElement.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+                }
+                currentUtterance = null;
+            };
 
             synth.speak(currentUtterance);
         }
 
         function stopSpeech() {
+            // 这是一个辅助函数，以防万一
             if (synth.speaking) {
                 synth.cancel();
             }
+            // onend 事件会处理按钮状态
             document.querySelectorAll('.action-button-voice.speaking').forEach(btn => {
                 btn.classList.remove('speaking');
                 btn.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
@@ -896,9 +926,10 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 9: 分享功能 (go.html 网关)
+        // 步骤 9: 分享功能
         // ----------------------------------------------------
         function shareActivity(activityId, buttonElement) {
+            // ... (分享逻辑不变) ...
             const shareUrl = `${window.location.origin}${window.location.pathname.replace('bank.html', 'go.html')}?id=${activityId}`;
             
             try {
@@ -922,23 +953,21 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 10: 倒计时功能 (已更新)
+        // 步骤 10: 倒计时功能
         // ----------------------------------------------------
         function getRemainingTime(activity, badgeElement) {
+            // ... (倒计时逻辑不变) ...
             const now = new Date().getTime();
             const startDate = activity.startDate ? new Date(activity.startDate).getTime() : null;
             const endDate = activity.endDate ? new Date(activity.endDate).getTime() : null;
 
             badgeElement.classList.remove('expired-badge', 'upcoming-badge');
 
-            // 1. 检查是否已结束
             if (endDate && endDate < now) {
                 badgeElement.textContent = '已过期';
                 badgeElement.classList.add('expired-badge');
                 return;
             }
-
-            // 2. 检查是否即将开始
             if (startDate && startDate > now) {
                 const distance = startDate - now;
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -946,14 +975,13 @@
                 
                 let timeString = '';
                 if (days > 1) timeString = `${days} 天后`;
-                else timeString = `${hours} 小时后`;
-                
-                badgeElement.textContent = `即将 ${timeString}`;
+                else if (days === 1 || hours > 1) timeString = `${days * 24 + hours} 小时后`;
+                else timeString = `即将开始`;
+
+                badgeElement.textContent = `${timeString}`;
                 badgeElement.classList.add('upcoming-badge');
                 return;
             }
-
-            // 3. 检查进行中的结束时间
             if (endDate) {
                 const distance = endDate - now;
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -968,14 +996,11 @@
                 badgeElement.textContent = `剩余 ${timeString}`;
                 return;
             }
-            
-            // 4. 长期活动
             badgeElement.textContent = '长期';
         }
 
         function startCountdownUpdater() {
             setInterval(updateAllCountdowns, 60000); 
-            // 移除首次的 500ms update, 因为 renderActivities 会调用
         }
 
         function updateAllCountdowns() {
