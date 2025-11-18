@@ -13,13 +13,14 @@ const CATEGORY_MAP = {
     
     // --- Bank 子分类 ---
     '日常活动': 'DailyTask',
-    '缴费活动': 'Payment',
+    '做任务领红包': 'MissionReward',
     '存款理财活动': 'Deposit',
 
     // --- Shopping 子分类 ---
     '支付有优惠': 'PaymentDiscount',
+    '缴费活动': 'Payment',
     '抢红包 / 立减金': 'Voucher',
-    '做任务领红包': 'MissionReward',
+    
 };
 
 // ... (Airtable 配置保持不变) ...
