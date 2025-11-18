@@ -101,7 +101,7 @@
     "link": "https://mbank.95559.com.cn/mobs6/tangram/TG0/NTG0001.html?promoteCode=20240906AGKQX105&channelShare=wxhy-20240905AKQTU014",
     "category": [
       "MissionReward",
-      "Shopping"
+      "Bank"
     ],
     "sourceApp": "交通银行APP",
     "specialNote": null,
@@ -162,7 +162,7 @@
     "link": "https://mbank.95559.com.cn/mobs6/tangram8/TG0/NTG0001.html?promoteCode=20250526AJMYM005&channelShare=wxhy-20250513AHXJF108",
     "category": [
       "Voucher",
-      "Shopping"
+      "CheckIn"
     ],
     "sourceApp": "交通银行APP",
     "specialNote": null,
@@ -272,8 +272,8 @@
     "icon": "❓",
     "link": "https://ur.alipay.com/_2k6EtGOShdjOn35TzZYzy",
     "category": [
-      "Shopping",
-      "Voucher"
+      "Voucher",
+      "CheckIn"
     ],
     "sourceApp": "支付宝APP",
     "specialNote": "16日12:00准时抢",
@@ -446,8 +446,8 @@
     "icon": "❓",
     "link": "https://wx.abchina.com/webank/main-view/openTagForBJSes?id=np3hzfXK7yA%3D&source_type=SHARE",
     "category": [
-      "Shopping",
-      "Voucher"
+      "Voucher",
+      "CheckIn"
     ],
     "sourceApp": "中国农业银行APP",
     "specialNote": "每周四10:00抢",
@@ -472,26 +472,12 @@
     "StepsText": null
   },
   {
-    "id": "recMxLzkUCHLpGMes",
-    "name": "工银E生活刷卡金天天抽",
-    "description": "工银E生活权益刷卡金天天抽，每天都能抽1次",
-    "icon": "❓",
-    "link": "#",
-    "category": [],
-    "sourceApp": "工银E生活APP",
-    "specialNote": null,
-    "targetApp": "工银E生活APP",
-    "endDate": null,
-    "StepsText": null
-  },
-  {
     "id": "recNuTbQsXyRkkihy",
     "name": "光大阳光值 天天兑",
     "description": "每日签到，10点抢1元、2元、5元、10元微信立减金",
     "icon": "❓",
     "link": "https://wap.cebbank.com/wx_skip.html?id=newyangguanghuayuan",
     "category": [
-      "Shopping",
       "Voucher",
       "CheckIn"
     ],
@@ -537,8 +523,8 @@
     "icon": "❓",
     "link": "https://wap.psbc.com/wxbank/h5/rousePage/#/?pageId=2063&type=month",
     "category": [
-      "Shopping",
-      "Voucher"
+      "Voucher",
+      "CheckIn"
     ],
     "sourceApp": "邮储银行APP",
     "specialNote": null,
@@ -618,8 +604,8 @@
     "icon": "❓",
     "link": "#",
     "category": [
-      "Shopping",
-      "Voucher"
+      "Voucher",
+      "CheckIn"
     ],
     "sourceApp": "中国银行APP",
     "specialNote": null,
@@ -842,7 +828,6 @@
     "icon": "❓",
     "link": "#",
     "category": [
-      "Bank",
       "Payment"
     ],
     "sourceApp": "交通银行APP",
@@ -922,7 +907,6 @@
     "icon": "❓",
     "link": "#",
     "category": [
-      "Bank",
       "Payment"
     ],
     "sourceApp": "中国农业银行APP",
@@ -977,19 +961,6 @@
     "specialNote": null,
     "targetApp": "中国农业银行APP",
     "endDate": "2025-11-30T15:30:00.000Z",
-    "StepsText": null
-  },
-  {
-    "id": "reclfkSkxbRPMasGA",
-    "name": "工银E生活1元换购",
-    "description": "工行E生活搜一元购，VISA等特殊卡1元购福利",
-    "icon": "❓",
-    "link": "#",
-    "category": [],
-    "sourceApp": "工银E生活APP",
-    "specialNote": null,
-    "targetApp": "工银E生活APP",
-    "endDate": null,
     "StepsText": null
   },
   {
@@ -1078,7 +1049,8 @@
     "icon": "❓",
     "link": "#",
     "category": [
-      "Shopping"
+      "Shopping",
+      "PaymentDiscount"
     ],
     "sourceApp": "京东APP",
     "specialNote": null,
@@ -1296,7 +1268,8 @@
     "icon": "❓",
     "link": "#",
     "category": [
-      "Shopping"
+      "Shopping",
+      "PaymentDiscount"
     ],
     "sourceApp": "中国农业银行APP",
     "specialNote": null,
