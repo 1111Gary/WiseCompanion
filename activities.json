@@ -225,8 +225,8 @@
     "icon": "❓",
     "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=M9L77AgUYJo%3D&dynamicData=UkdtOrPiSdavA3m6UGLdDvRUyyEBojKcC4krMtY%2FSxs%3D&displayParam=UkdtOrPiSdavA3m6UGLdDvRUyyEBojKcC4krMtY%2FSxs%3D",
     "category": [
-      "Shopping",
-      "MissionReward"
+      "MissionReward",
+      "Bank"
     ],
     "sourceApp": "中国农业银行APP",
     "specialNote": null,
@@ -698,8 +698,8 @@
     "icon": "❓",
     "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=b6%2Bl20Ji0tI%3D&dynamicData=az29P1VLOKOTSAops4p8AuGN%2B8aq0ihv%2BbK%2B06TREM2FlSwJSkIHo3oKfuLWfF4OvM%2BKqbhrOlEeWcfrMRq9vIK4UXi%2BgQpBK%2FiAY3qBakwdyi8ir%2Bw1e7AUxyra1jl29dEfnkPoyLo9XSq7UM39w%2Fu2Ak8LEFX6YJc%2Fr1zRDb7YCdRP1ilV9P3vnEqo8DxGrdMfPuz7MuQ%3D",
     "category": [
-      "Shopping",
-      "MissionReward"
+      "MissionReward",
+      "Bank"
     ],
     "sourceApp": "中国农业银行APP",
     "specialNote": null,
@@ -938,8 +938,8 @@
     "icon": "❓",
     "link": "#",
     "category": [
-      "Shopping",
-      "MissionReward"
+      "MissionReward",
+      "Bank"
     ],
     "sourceApp": "交通银行APP",
     "specialNote": null,
