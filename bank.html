@@ -732,40 +732,46 @@
             
             // [关键] 过滤活动状态 (已启用)
             const now = new Date();
+            // [修复] 将 now 设置为今天的开始（0点0分0秒），避免日期比较的边缘问题
+            now.setHours(0, 0, 0, 0); 
             
             const statusFiltered = ALL_ACTIVITIES.filter(act => {
                 // 健壮性检查: 优先获取日期对象，无效则为 null
                 const endDate = (act.endDate && act.endDate !== 'null') ? new Date(act.endDate) : null;
                 const startDate = (act.startDate && act.startDate !== 'null') ? new Date(act.startDate) : null;
-
-                // 1. 处理 "已结束" (必须有 endDate 且 endDate < now)
-                if (endDate && endDate < now) {
-                    return selectedStatus === 'finished';
+                
+                // [修复] 将 endDate 也设置为当天的结束（23点59分59秒）
+                if (endDate) {
+                    endDate.setHours(23, 59, 59, 999);
                 }
-                
-                // --- 剩下的都是 "未结束" (endDate >= now 或 endDate == null) ---
-                
-                // 2. 处理 "即将开始" (必须有 startDate 且 startDate > now)
-                if (startDate && startDate > now) {
-                    return selectedStatus === 'upcoming';
+                // [修复] 将 startDate 也设置为当天的开始（0点0分0秒）
+                if (startDate) {
+                    startDate.setHours(0, 0, 0, 0);
                 }
 
-                // 3. 处理 "进行中"
-                // "进行中" 包含:
-                // a) startDate <= now AND (endDate >= now OR endDate == null)
-                // b) startDate == null AND (endDate >= now OR endDate == null) (老数据/长期数据)
-                
-                // 检查是否符合 "进行中"
-                if (selectedStatus === 'ongoing') {
-                    // 只要不是 "即将开始" 或 "已结束"，它就属于 "进行中"
-                    const isUpcoming = (startDate && startDate > now);
-                    const isFinished = (endDate && endDate < now);
+
+                // [【 核心修复 】] 严格按照状态筛选
+                switch (selectedStatus) {
                     
-                    return !isUpcoming && !isFinished;
-                }
+                    case 'ongoing':
+                        // 1. (startDate <= now) AND (endDate >= now OR endDate == null)
+                        const caseA = (startDate && startDate <= now) && (!endDate || endDate >= now);
+                        // 2. (startDate == null) AND (endDate >= now OR endDate == null) [兼容老数据/长期]
+                        const caseB = (!startDate) && (!endDate || endDate >= now);
+                        
+                        return caseA || caseB;
 
-                // 如果 Status 不是 'ongoing'，且不满足 'finished' 或 'upcoming'，则不显示
-                return false;
+                    case 'upcoming':
+                        // 必须有 startDate 且 startDate > now
+                        return (startDate && startDate > now);
+
+                    case 'finished':
+                        // 必须有 endDate 且 endDate < now
+                        return (endDate && endDate < now);
+
+                    default:
+                        return false; // 默认不显示
+                }
             });
             
             // [关键] 过滤银行平台 (基于 statusFiltered)
