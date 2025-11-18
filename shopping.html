@@ -35,10 +35,10 @@
             --color-special-note: #F59E0B; 
             --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4);
             
-            /* Shopping 页面的主题色（用于边框和图标） */
-            --color-shopping-1: #A78BFA; /* PaymentDiscount - 购物有优惠 (紫色) */
-            --color-shopping-2: #F472B6; /* PaymentBill - 缴费有优惠 (品红色) */
-            --color-shopping-3: #EC4899; /* TravelDiscount - 出行有优惠 (洋红色) */
+            /* Shopping 页面的主题色（已优化配色） */
+            --color-shopping-1: #A78BFA; /* PaymentDiscount - 购物有优惠 (紫色/保留) */
+            --color-shopping-2: #F59E0B; /* PaymentBill - 缴费有优惠 (活力橙/新) */
+            --color-shopping-3: #2DD4BF; /* TravelDiscount - 出行有优惠 (海洋青/新) */
         }
         
         /* ---------------------------------------------------- */
@@ -121,7 +121,7 @@
         }
 
         /* ---------------------------------------------------- */
-        /* 内容卡片和筛选器样式 (Sticky 筛选器) */
+        /* 内容卡片和筛选器样式 */
         /* ---------------------------------------------------- */
         .main-banner-card {
             background: linear-gradient(135deg, #0f1627, #1a2233);
@@ -144,7 +144,7 @@
             text-shadow: 0 0 5px var(--color-highlight);
         }
         
-        /* 筛选器容器 - 新增 Sticky 样式 */
+        /* 平台筛选器容器 - Sticky 样式 */
         .filter-container {
             margin-bottom: 2rem;
             padding: 10px 0;
@@ -162,12 +162,12 @@
             top: 60px; /* 固定在头部下方 */
             z-index: 5; 
             background-color: var(--color-bg-dark); 
-            border-bottom: 1px solid var(--color-card-bg); /* 增加分割线 */
-            margin-left: -1rem; /* 负边距抵消 padding-x */
+            border-bottom: 1px solid var(--color-card-bg); 
+            margin-left: -1rem; 
             margin-right: -1rem;
             padding-left: 1rem;
             padding-right: 1rem;
-            margin-bottom: 1.5rem; /* 调整间距 */
+            margin-bottom: 1.5rem;
         }
         
         .filter-button {
@@ -190,6 +190,32 @@
             box-shadow: 0 0 8px rgba(0, 191, 255, 0.8);
         }
         .filter-button i { margin-right: 6px; }
+
+        /* 状态筛选器样式 (新增) */
+        .status-filter-container {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            margin-top: 10px;
+            background-color: var(--color-bg-dark); 
+            border-radius: 10px;
+        }
+        .status-button {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            background-color: transparent;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .status-button.active {
+            color: var(--color-text-light);
+            background-color: var(--color-card-bg);
+            border-color: var(--color-primary);
+            box-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
+        }
 
         /* 分区标题卡片 */
         .section-title-card {
@@ -236,10 +262,10 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
         
-        /* 核心分类配色 (与 CATEGORY_MAP 对应) */
-        .task-shopping-1 { border-left-color: var(--color-shopping-1); } /* 购物有优惠 */
-        .task-shopping-2 { border-left-color: var(--color-shopping-2); } /* 缴费有优惠 */
-        .task-shopping-3 { border-left-color: var(--color-shopping-3); } /* 出行有优惠 */
+        /* 核心分类配色 */
+        .task-shopping-1 { border-left-color: var(--color-shopping-1); } /* 购物有优惠 (紫色) */
+        .task-shopping-2 { border-left-color: var(--color-shopping-2); } /* 缴费有优惠 (活力橙) */
+        .task-shopping-3 { border-left-color: var(--color-shopping-3); } /* 出行有优惠 (海洋青) */
 
         .icon-shopping-1 { background-color: var(--color-shopping-1); }
         .icon-shopping-2 { background-color: var(--color-shopping-2); }
@@ -258,7 +284,6 @@
             flex-shrink: 0;
         }
         
-        /* ... 其他卡片内部样式 (special-note-badge, countdown-badge, action-button 等) 保持不变 */
         .special-note-badge {
             position: absolute;
             top: 15px;
@@ -420,7 +445,13 @@
         <p class="section-description">
             使用特定支付方式（如XX卡、XXPay）在商店购物时可享受的折扣或优惠。
         </p>
-        <div id="paymentdiscount-list">
+        <div class="status-filter-container" data-category="PaymentDiscount">
+            <button class="status-button active" data-status="All">全部</button>
+            <button class="status-button" data-status="Active">正在进行</button>
+            <button class="status-button" data-status="Upcoming">即将开始</button>
+            <button class="status-button" data-status="Expired">已结束</button>
+        </div>
+        <div id="paymentdiscount-list" class="mt-4">
             </div>
         
         <div class="section-title-card">
@@ -432,7 +463,13 @@
         <p class="section-description">
             缴纳生活费用（如水电煤、电话费）时可享受的折扣或立减优惠。
         </p>
-        <div id="paymentbill-list">
+        <div class="status-filter-container" data-category="PaymentBill">
+            <button class="status-button active" data-status="All">全部</button>
+            <button class="status-button" data-status="Active">正在进行</button>
+            <button class="status-button" data-status="Upcoming">即将开始</button>
+            <button class="status-button" data-status="Expired">已结束</button>
+        </div>
+        <div id="paymentbill-list" class="mt-4">
             </div>
         
         <div class="section-title-card">
@@ -444,7 +481,13 @@
         <p class="section-description">
             乘坐交通工具（如打车、公交、火车、飞机）或预订酒店时的优惠。
         </p>
-        <div id="traveldiscount-list">
+        <div class="status-filter-container" data-category="TravelDiscount">
+            <button class="status-button active" data-status="All">全部</button>
+            <button class="status-button" data-status="Active">正在进行</button>
+            <button class="status-button" data-status="Upcoming">即将开始</button>
+            <button class="status-button" data-status="Expired">已结束</button>
+        </div>
+        <div id="traveldiscount-list" class="mt-4">
             </div>
 
         <a href="./premium.html" class="premium-card" 
@@ -453,7 +496,7 @@
                 <i class="fas fa-crown mr-2" style="color: var(--color-highlight);"></i>
                 高级会员专区 (敬请期待)
             </h2>
-            <p>学习独家“多平台优惠券叠加”神技</p>
+            <p>【独家】AI自动生成省钱秘籍演示视频，长辈也能轻松学会！</p>
         </a>
         
     </main>
@@ -487,6 +530,13 @@
         // ----------------------------------------------------
         let ALL_ACTIVITIES = [];
         let selectedPlatform = 'All'; 
+
+        // 新增：记录每个分类当前选中的活动状态
+        let categoryStatus = {
+            'PaymentDiscount': 'All',
+            'PaymentBill': 'All',
+            'TravelDiscount': 'All',
+        };
 
         // [【 核心 】] 分类与样式的映射 (已更新)
         const CATEGORY_MAP = {
@@ -536,13 +586,14 @@
 
         async function loadAndFetchActivities() {
             try {
+                // 注意：请确保您项目根目录下有 activities.json 文件
                 const response = await fetch('./activities.json');
                 if (!response.ok) {
                     throw new Error('网络响应错误，无法加载 activities.json');
                 }
                 const data = await response.json();
                 
-                // 过滤出所有 Shopping 相关的活动 (根据新的 CATEGORY_MAP 筛选)
+                // 过滤出所有 Shopping 相关的活动
                 ALL_ACTIVITIES = data.filter(act => 
                     act.category && (
                         act.category.includes('PaymentDiscount') || 
@@ -552,6 +603,7 @@
                 );
 
                 initPlatformFilters();
+                bindStatusFilters(); // 绑定状态筛选器事件
                 renderActivities();
                 
             } catch (error) {
@@ -623,39 +675,102 @@
             renderActivities();
         }
 
+        // 绑定状态筛选器事件 (新增)
+        function bindStatusFilters() {
+            document.querySelectorAll('.status-filter-container').forEach(container => {
+                const category = container.getAttribute('data-category');
+                
+                container.querySelectorAll('.status-button').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const btn = e.currentTarget;
+                        const status = btn.getAttribute('data-status');
+
+                        // 更新全局状态
+                        categoryStatus[category] = status;
+
+                        // 激活样式
+                        container.querySelectorAll('.status-button').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+
+                        // 重新渲染特定分类
+                        renderActivities(category);
+                    });
+                });
+            });
+        }
+        
+        // ----------------------------------------------------
+        // 步骤 3: 活动状态判断 (新增)
+        // ----------------------------------------------------
+        function getActivityStatus(activity) {
+            if (!activity.endDate) return 'Active'; // 默认长期活动为正在进行
+
+            const now = new Date().getTime();
+            // 确保有 startDate，否则假设为当前时间开始
+            const startDate = activity.startDate ? new Date(activity.startDate).getTime() : now - 1; 
+            const endDate = new Date(activity.endDate).getTime();
+
+            if (now < startDate) return 'Upcoming'; // 即将开始
+            if (now > endDate) return 'Expired'; // 已结束
+            return 'Active'; // 正在进行
+        }
+
 
         // ----------------------------------------------------
-        // 步骤 3: 渲染活动
+        // 步骤 4: 渲染活动
         // ----------------------------------------------------
-        function renderActivities() {
+        function renderActivities(categoryToRender = 'All') {
             const filteredActivities = ALL_ACTIVITIES.filter(activity => 
                 selectedPlatform === 'All' || activity.sourceApp === selectedPlatform
             );
             
+            // 列表 ID 映射
             const lists = {
-                'PaymentDiscount': document.getElementById('paymentdiscount-list'), // 购物有优惠
-                'PaymentBill': document.getElementById('paymentbill-list'),       // 缴费有优惠
-                'TravelDiscount': document.getElementById('traveldiscount-list')   // 出行有优惠
+                'PaymentDiscount': document.getElementById('paymentdiscount-list'), 
+                'PaymentBill': document.getElementById('paymentbill-list'),       
+                'TravelDiscount': document.getElementById('traveldiscount-list')   
             };
-            Object.values(lists).forEach(list => list.innerHTML = '');
 
-            const hasActivities = { 'PaymentDiscount': false, 'PaymentBill': false, 'TravelDiscount': false };
-            
-            filteredActivities.forEach(activity => {
-                // 找到与 CATEGORY_MAP 匹配的第一个子分类
-                const subCategory = activity.category.find(c => CATEGORY_MAP[c]); 
+            // 确定要渲染的分类
+            const categories = categoryToRender === 'All' ? Object.keys(lists) : [categoryToRender];
+
+            categories.forEach(category => {
+                const listElement = lists[category];
+                if (!listElement) return;
+
+                listElement.innerHTML = ''; // 清空列表
+                const currentStatus = categoryStatus[category]; // 获取该分类的当前状态
+
+                // 筛选出当前分类的所有活动
+                const categoryActivities = filteredActivities.filter(activity => 
+                    activity.category && activity.category.includes(category)
+                );
+
+                let hasActivities = false;
+
+                categoryActivities.forEach(activity => {
+                    const status = getActivityStatus(activity);
+                    
+                    if (currentStatus === 'All' || currentStatus === status) {
+                        hasActivities = true;
+                        const cardHtml = renderActivityCard(activity, category, status);
+                        listElement.innerHTML += cardHtml;
+                    }
+                });
                 
-                if (subCategory && lists[subCategory]) {
-                    hasActivities[subCategory] = true;
-                    const cardHtml = renderActivityCard(activity, subCategory);
-                    lists[subCategory].innerHTML += cardHtml;
-                }
-            });
-            
-            // 空数据处理
-            Object.keys(lists).forEach(category => {
-                if (!hasActivities[category]) {
-                    lists[category].innerHTML = `<p class="text-gray-400 text-center p-4">该分类下${selectedPlatform !== 'All' ? `没有 ${selectedPlatform} 的` : ''}活动。</p>`;
+                // 空数据处理
+                if (!hasActivities) {
+                    let message = '';
+                    if (selectedPlatform !== 'All') {
+                        message += `平台 ${selectedPlatform} 下，`;
+                    }
+                    if (currentStatus !== 'All') {
+                        const statusText = currentStatus === 'Active' ? '正在进行' : currentStatus === 'Upcoming' ? '即将开始' : '已结束';
+                        message += `没有处于 [${statusText}] 状态的活动。`;
+                    } else {
+                        message = `该分类下暂无活动。`;
+                    }
+                    listElement.innerHTML = `<p class="text-gray-400 text-center p-4">在当前筛选条件下，${message}</p>`;
                 }
             });
             
@@ -663,9 +778,10 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 4: 单个活动卡片的 HTML 生成
+        // 步骤 5: 单个活动卡片的 HTML 生成
         // ----------------------------------------------------
-        function renderActivityCard(activity, subCategory) {
+        // renderActivityCard 函数签名添加 status 参数 (已修改)
+        function renderActivityCard(activity, subCategory, status) {
             const styles = CATEGORY_MAP[subCategory] || CATEGORY_MAP['PaymentDiscount'];
             
             let actionButtonHtml = '';
@@ -674,19 +790,21 @@
                 actionButtonHtml = `
                     <a href="${activity.link}" 
                         target="_blank" 
-                        class="action-button" 
+                        class="action-button ${status === 'Expired' ? 'opacity-50 cursor-not-allowed' : ''}" 
                         data-umami-event="click_deep_link"
-                        data-umami-event-name="${activity.name}">
+                        data-umami-event-name="${activity.name}"
+                        ${status === 'Expired' ? 'onclick="event.preventDefault()"' : ''}>
                         <i class="fas fa-rocket"></i>
                         去领取
                     </a>`;
             } else if (activity.StepsText) {
                 const steps = activity.StepsText.replace(/"/g, '&quot;');
                 actionButtonHtml = `
-                    <button class="action-button action-button-voice" 
+                    <button class="action-button action-button-voice ${status === 'Expired' ? 'opacity-50 cursor-not-allowed' : ''}" 
                             data-activity-id="${activity.id}" 
                             data-steps="${steps}"
-                            data-activity-name="${activity.name}">
+                            data-activity-name="${activity.name}"
+                            ${status === 'Expired' ? 'disabled' : ''}>
                         <i class="fas fa-volume-high"></i>
                         播放语音
                     </button>`;
@@ -709,12 +827,35 @@
                     </span>`;
             }
 
-            return `
-                <div class="task-list-card ${styles.borderClass} ${activity.specialNote ? 'has-special-note' : ''}">
-                    ${specialNoteBadge}
+            // 修改倒计时标签逻辑 (已修改)
+            let countdownBadge = '';
+            let cardClassModifier = '';
+            
+            if (status === 'Upcoming') {
+                cardClassModifier = 'opacity-70';
+                countdownBadge = `
+                    <span class="countdown-badge" style="background-color: var(--color-special-note);">
+                        ${activity.startDate ? `距开始 <span id="timer-${activity.id}">计算中...</span>` : '即将开始'}
+                    </span>`;
+            } else if (status === 'Expired') {
+                cardClassModifier = 'opacity-40';
+                countdownBadge = `
+                    <span class="countdown-badge" style="background-color: #EF4444;">
+                        已结束 <i class="fas fa-history"></i>
+                    </span>`;
+            } else { // Active
+                // 只有正在进行的活动才显示倒计时或“长期”
+                countdownBadge = `
                     <span class="countdown-badge" data-endtime="${activity.endDate}" id="timer-${activity.id}">
-                        长期
-                    </span>
+                        ${activity.endDate ? '计算中...' : '长期'} 
+                    </span>`;
+            }
+
+
+            return `
+                <div class="task-list-card ${styles.borderClass} ${activity.specialNote ? 'has-special-note' : ''} ${cardClassModifier}">
+                    ${specialNoteBadge}
+                    ${countdownBadge}
                     <div class="task-main-content">
                         <div class="task-icon ${styles.iconClass}">
                             <i class="fa-solid ${styles.faIcon}"></i>
@@ -737,13 +878,15 @@
             `;
         }
 
+
         // ----------------------------------------------------
-        // 步骤 5: 绑定事件
+        // 步骤 6: 绑定事件 (播放语音、分享)
         // ----------------------------------------------------
         function bindActionButtons() {
             document.querySelectorAll('.action-button-voice').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const btn = e.currentTarget;
+                    if(btn.disabled) return;
                     const steps = btn.getAttribute('data-steps');
                     const name = btn.getAttribute('data-activity-name');
                     
@@ -769,13 +912,10 @@
         }
         
         // ----------------------------------------------------
-        // 步骤 6: 语音播放和停止 (与 bank.html 一致)
+        // 步骤 7: 语音播放和停止 (与 bank.html 一致)
         // ----------------------------------------------------
         function playSpeech(text, buttonElement) {
-            if (!synth) {
-                console.error("【慧伴管家】: 语音播放失败，Speech API 不可用。");
-                return;
-            }
+            if (!synth || buttonElement.disabled) { return; }
             if (synth.speaking && currentUtterance && currentUtterance.text === text) {
                 stopSpeech();
                 return;
@@ -812,7 +952,7 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 7: 分享功能 (与 bank.html 一致)
+        // 步骤 8: 分享功能 (与 bank.html 一致)
         // ----------------------------------------------------
         function shareActivity(activityId, buttonElement) {
             const shareUrl = `${window.location.origin}${window.location.pathname.replace('shopping.html', 'go.html')}?id=${activityId}`;
@@ -835,7 +975,7 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 8: 倒计时功能 (与 bank.html 一致)
+        // 步骤 9: 倒计时功能 (针对 Active 和 Upcoming)
         // ----------------------------------------------------
         function formatTime(ms) {
             if (ms <= 0) return '已结束';
@@ -854,16 +994,45 @@
             const timers = document.querySelectorAll('.countdown-badge');
             timers.forEach(timer => {
                 const endTimeString = timer.getAttribute('data-endtime');
-                if (!endTimeString || endTimeString.toLowerCase() === '长期') return;
+                
+                // 处理 Upcoming
+                if (timer.closest('.opacity-70') && timer.parentElement.querySelector('span:first-child').innerText.includes('距开始')) {
+                    // 尝试从活动数据中获取 startDate (这里依赖 activity.json 包含 startDate)
+                    const activityIdMatch = timer.id.match(/timer-(\d+)/);
+                    if (!activityIdMatch) return;
+                    const activityId = activityIdMatch[1];
+                    const activity = ALL_ACTIVITIES.find(a => a.id == activityId);
+
+                    if (activity && activity.startDate) {
+                        const startTime = new Date(activity.startDate).getTime();
+                        const now = new Date().getTime();
+                        const distance = startTime - now;
+
+                        if (distance > 0) {
+                            timer.innerHTML = formatTime(distance);
+                        } else {
+                            // 活动已开始，重新渲染列表 (理论上状态会自动变为 Active)
+                            renderActivities(); 
+                        }
+                    }
+                    return;
+                }
+
+                // 处理 Active (有 endDate 的活动)
+                if (!endTimeString || endTimeString.toLowerCase() === '长期') {
+                    if (!endTimeString) return;
+                    timer.innerHTML = `长期`;
+                    return;
+                }
 
                 const endTime = new Date(endTimeString).getTime();
                 const now = new Date().getTime();
                 const distance = endTime - now;
 
                 if (distance < 0) {
-                    timer.innerHTML = `已结束 <i class="fas fa-history"></i>`;
-                    timer.classList.add('expired-badge');
-                    timer.classList.remove('countdown-badge');
+                    timer.innerHTML = `已结束`;
+                    // 触发重新渲染，将活动移入 "已结束" 列表
+                    renderActivities(); 
                 } else {
                     timer.innerHTML = formatTime(distance);
                 }
@@ -872,7 +1041,8 @@
         
         function startCountdownUpdater() {
             updateCountdowns(); // 立即运行一次
-            setInterval(updateCountdowns, 1000); // 每秒更新
+            // 每秒更新一次所有计时器
+            setInterval(updateCountdowns, 1000); 
         }
     </script>
 </body>
