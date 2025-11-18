@@ -66,7 +66,7 @@ async function loadActivities() {
     
     // 【关键路径】: 假设 list.js 在 /WiseCompanion/，activities.json 在 /
     // 因此需要回到上一级目录
-    const filePath = '/activities.json'; 
+    const filePath = './activities.json'; 
 
     const listContainer = document.getElementById('daily-tasks-list'); // 对应您 checkin.html 的 ID
     if (listContainer) {
