@@ -20,20 +20,21 @@
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     
     <style>
-        /* [Immersive content redacted for brevity.] */
-        /* ... (CSS 样式与之前完全相同，此处省略以节省空间) ... */
         :root {
             --color-bg-dark: #0A1322; 
             --color-card-bg: #1A2233; 
-            --color-primary: #00BFFF; 
-            --color-secondary: #FF69B4; /* 倒计时粉色 */
+            /* [修改] 移除了 Payment 相关的 --color-primary */
+            --color-secondary: #FF69B4; 
             --color-text-light: #E0E7FF;
             --color-text-muted: #9CA3AF;
             --color-highlight: #FFD700; 
             --color-bank-bg: #1F2A40; 
             --color-success: #34D399; 
-            --color-special-note: #F59E0B; /* 亮橙色 */
+            --color-special-note: #F59E0B; 
             --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4);
+            
+            /* [【 核心 】] 新增 MissionReward 的颜色 (来自 shopping.html) */
+            --color-mission-reward: #EC4899; 
         }
         body { 
             background-color: var(--color-bg-dark); 
@@ -62,7 +63,8 @@
             border: 3px solid transparent; 
             background-clip: padding-box, border-box;
             background-origin: padding-box, border-box;
-            border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight));
+            /* [修改] 保持原有风格 */
+            border-image: linear-gradient(to right, #00BFFF, var(--color-highlight));
             border-image-slice: 1;
             box-shadow: 0 0 15px rgba(0, 191, 255, 0.5), 0 0 30px rgba(255, 215, 0, 0.3);
             margin-bottom: 1.5rem;
@@ -74,18 +76,53 @@
             color: var(--color-text-light);
             text-shadow: 0 0 5px var(--color-highlight);
         }
+        
+        /* 平台筛选条 (Bank Filter) */
         .filter-container {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem; /* [修改] 减少了间距，为状态筛选条腾出空间 */
             padding: 10px 0;
             overflow-x: auto;
             white-space: nowrap;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
+            scrollbar-width: none; 
             display: flex;
             gap: 10px;
             align-items: center;
         }
         .filter-container::-webkit-scrollbar { display: none; }
+        
+        /* [【 核心 】] 新增：状态筛选条 (Status Filter) */
+        .status-filter-container {
+            margin-bottom: 2rem;
+            display: flex;
+            background-color: var(--color-card-bg);
+            border-radius: 9999px;
+            padding: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            /* [关键] 暂时禁用，等待 startDate 数据 */
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .status-filter-button {
+            flex: 1;
+            text-align: center;
+            padding: 8px 10px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            border: none;
+            background-color: transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        /* [关键] 这是未来激活后的样式 */
+        .status-filter-button.active {
+            background-color: var(--color-success);
+            color: var(--color-bg-dark);
+            box-shadow: 0 0 10px rgba(52, 211, 153, 0.7);
+        }
+        
         .filter-button {
             display: inline-flex;
             align-items: center;
@@ -100,12 +137,13 @@
             flex-shrink: 0;
         }
         .filter-button.active {
-            background-color: var(--color-primary);
+            background-color: #00BFFF; /* 保持原风格 */
             color: var(--color-bg-dark);
-            border-color: var(--color-primary);
+            border-color: #00BFFF;
             box-shadow: 0 0 8px rgba(0, 191, 255, 0.8);
         }
         .filter-button i { margin-right: 6px; }
+        
         .section-title-card {
             background: linear-gradient(135deg, #0f1627, #1a2233);
             border-radius: 12px;
@@ -114,7 +152,7 @@
             border: 2px solid transparent; 
             background-clip: padding-box, border-box;
             background-origin: padding-box, border-box;
-            border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight));
+            border-image: linear-gradient(to right, #00BFFF, var(--color-highlight));
             border-image-slice: 1;
             box-shadow: 0 0 8px rgba(0, 191, 255, 0.3);
             margin-top: 2rem;
@@ -182,9 +220,12 @@
             background-color: #EF4444;
             color: white;
         }
+        
+        /* [修改] 任务卡片样式 */
         .task-routine { border-left-color: var(--color-success); } 
-        .task-payment { border-left-color: var(--color-primary); } 
+        .task-mission { border-left-color: var(--color-mission-reward); } /* 新增 */
         .task-savings { border-left-color: var(--color-highlight); } 
+        
         .task-main-content {
             display: flex;
             align-items: center;
@@ -202,9 +243,11 @@
             margin-right: 15px;
             flex-shrink: 0;
         }
+        /* [修改] 任务图标样式 */
         .icon-routine { background-color: var(--color-success); }
-        .icon-payment { background-color: var(--color-primary); }
+        .icon-mission { background-color: var(--color-mission-reward); } /* 新增 */
         .icon-savings { background-color: var(--color-highlight); }
+        
         .task-content {
             flex-grow: 1;
             min-width: 0;
@@ -238,8 +281,8 @@
         }
         .share-button {
             background-color: var(--color-card-bg);
-            color: var(--color-primary);
-            border: 1px solid var(--color-primary);
+            color: #00BFFF;
+            border: 1px solid #00BFFF;
             font-weight: 600;
             padding: 8px 15px;
             border-radius: 9999px;
@@ -250,11 +293,11 @@
             gap: 6px;
         }
         .share-button:hover {
-            background-color: var(--color-primary);
+            background-color: #00BFFF;
             color: var(--color-bg-dark);
         }
         .action-button {
-            background-color: var(--color-primary);
+            background-color: #00BFFF;
             color: var(--color-bg-dark);
             font-weight: 700;
             padding: 8px 18px;
@@ -262,7 +305,7 @@
             font-size: 0.8rem;
             transition: all 0.2s;
             text-align: center;
-            min-width: 100px; /* 保证宽度 */
+            min-width: 100px; 
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -315,7 +358,7 @@
             flex-grow: 1;
             max-width: 20%;
         }
-        .tab-item.active { color: var(--color-primary); }
+        .tab-item.active { color: #00BFFF; }
         .tab-icon {
             font-size: 1.2rem;
             margin-bottom: 3px;
@@ -383,7 +426,6 @@
 
     <!-- 顶部导航栏 -->
     <div class="header-bar-fixed px-4">
-        <!-- ... (HTML 保持不变) ... -->
         <div class="header-logo-group">
             <img src="./assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/00BFFF/ffffff?text=L'" alt="Logo" class="header-logo rounded-md shadow-lg">
             <h1 class="header-title">慧伴管家</h1>
@@ -396,18 +438,32 @@
     <!-- 页面核心内容容器 -->
     <main class="container mx-auto px-4 py-4">
         
-        <!-- ... (HTML 保持不变) ... -->
         <div class="main-banner-card">
             <h1>捡钱任务中心</h1>
             <p class="text-sm text-gray-400 mt-2">点击下方按钮，仅显示您拥有的银行卡/平台活动</p>
         </div>
         
+        <!-- 银行/平台筛选 (保留) -->
         <div class="filter-container" id="bank-filter-container">
             <button class="filter-button active" data-bank="All">
                 <i class="fas fa-layer-group"></i>
                 全部活动
             </button>
         </div>
+        
+        <!-- [【 核心 】] 新增：状态筛选条 (UI-Only) -->
+        <div class="status-filter-container" title="【技术说明】此功能需等待Airtable添加 'startDate' 字段后才能启用">
+            <button class="status-filter-button active" data-status="ongoing">
+                <i class="fas fa-running"></i> 正在进行
+            </button>
+            <button class="status-filter-button" data-status="upcoming">
+                <i class="fas fa-hourglass-start"></i> 即将开始
+            </button>
+            <button class="status-filter-button" data-status="finished">
+                <i class="fas fa-check-double"></i> 已结束
+            </button>
+        </div>
+
         
         <div class="section-title-card">
             <h2 class="flex items-center">
@@ -419,18 +475,21 @@
             每日、每周可重复参与的低门槛任务和立减金活动。
         </p>
         <div id="routine-tasks-list">
+             <!-- 日常活动列表 -->
         </div>
         
+        <!-- [【 核心 】] "Payment" 已被替换为 "MissionReward" -->
         <div class="section-title-card">
             <h2 class="flex items-center">
-                <i class="fas fa-file-invoice-dollar mr-3 text-xl" style="color: var(--color-primary);"></i>
-                缴费活动 (Payment)
+                <i class="fas fa-tasks mr-3 text-xl" style="color: var(--color-mission-reward);"></i>
+                做任务领红包 (MissionReward)
             </h2>
         </div>
         <p class="section-description">
-            水电煤、话费、信用卡还款等特定消费环节的优惠。
+            需要完成指定任务（如浏览、签到、组队）才能获得的奖励。
         </p>
-        <div id="payment-tasks-list">
+        <div id="mission-rewards-list">
+             <!-- 任务红包列表 -->
         </div>
         
         <div class="section-title-card">
@@ -443,6 +502,7 @@
             需要较长时间达标的存款、理财、借贷等高价值活动。
         </p>
         <div id="savings-tasks-list">
+             <!-- 存款理财列表 -->
         </div>
 
         <a href="./premium.html" class="premium-card" 
@@ -451,14 +511,13 @@
                 <i class="fas fa-crown mr-2" style="color: var(--color-highlight);"></i>
                 高级会员专区 (敬请期待)
             </h2>
-            <p>学习独家“多平台优惠券叠加”神技</p>
+            <p>AI赋能ʕʘ̅͜ʘ̅ʔ 改变生活</p>
         </a>
         
     </main>
     
     <!-- 底部导航栏 -->
     <nav class="tab-bar">
-        <!-- ... (HTML 保持不变) ... -->
         <a href="./index.html" class="tab-item">
             <i class="fas fa-home tab-icon"></i>
             <span>首页</span>
@@ -487,18 +546,20 @@
         // ----------------------------------------------------
         let ALL_ACTIVITIES = [];
         let selectedBank = 'All'; 
+        // [新增] 状态筛选 (目前仅为UI，等待数据)
+        let selectedStatus = 'ongoing'; 
 
-        // [【 核心 】] 分类与样式的映射
+        // [【 核心 】] 分类与样式的映射 (已修改)
         const CATEGORY_MAP = {
             'DailyTask': {
                 borderClass: 'task-routine',
                 iconClass: 'icon-routine',
                 faIcon: 'fa-calendar-day'
             },
-            'Payment': {
-                borderClass: 'task-payment',
-                iconClass: 'icon-payment',
-                faIcon: 'fa-file-invoice-dollar'
+            'MissionReward': { // 替换了 'Payment'
+                borderClass: 'task-mission',
+                iconClass: 'icon-mission',
+                faIcon: 'fa-tasks'
             },
             'Deposit': {
                 borderClass: 'task-savings',
@@ -507,20 +568,19 @@
             }
         };
 
-        // [【 核心修正 (Bug 2) 】] 语音 API 健壮性
         const synth = window.speechSynthesis;
         let currentUtterance = null; 
+        let speakingButton = null; // [修改] 引用 checkin 的修复方案
         if (!synth) {
             console.error("【慧伴管家】: 您的浏览器不支持 Web Speech API 语音播放。");
         }
-        // [新增] 尝试在页面加载时“预热”语音引擎，解决移动端延迟
+        
         document.addEventListener('DOMContentLoaded', () => {
             try {
                 if(synth && synth.getVoices().length === 0) {
                     synth.onvoiceschanged = () => {
                         console.log("【慧伴管家】: 语音包已加载。");
                     };
-                    // (部分浏览器需要这个)
                     synth.getVoices(); 
                 }
             } catch(e) {
@@ -529,14 +589,15 @@
             
             loadAndFetchActivities();
             startCountdownUpdater();
+            
+            // [新增] 绑定状态筛选按钮 (暂不重绘)
+            bindStatusFilters();
         });
 
 
         // ----------------------------------------------------
         // 步骤 1: 页面加载主入口
         // ----------------------------------------------------
-        // (已移动到 DOMContentLoaded 中)
-
         async function loadAndFetchActivities() {
             try {
                 const response = await fetch('./activities.json');
@@ -545,10 +606,22 @@
                 }
                 const data = await response.json();
                 
-                // 过滤出所有 Bank 相关的活动
+                // [修改] 过滤出所有 Bank 相关的活动
+                // 注意：由于我们替换了 Payment，这里需要过滤 MissionReward (来自 Shopping)
                 ALL_ACTIVITIES = data.filter(act => 
-                    act.category && act.category.includes('Bank')
+                    act.category && (
+                        act.category.includes('Bank') || 
+                        act.category.includes('MissionReward') // 把它也加进来
+                    )
                 );
+                
+                // [修改] 仅保留 Bank 相关的 (DailyTask, Deposit) 和 MissionReward
+                ALL_ACTIVITIES = ALL_ACTIVITIES.filter(act => 
+                    act.category.includes('DailyTask') ||
+                    act.category.includes('Deposit') ||
+                    act.category.includes('MissionReward')
+                );
+
 
                 initBankFilters();
                 renderActivities();
@@ -566,7 +639,6 @@
             const container = document.getElementById('bank-filter-container');
             const banks = new Set();
             
-            // [修正] 我们从已过滤的 ALL_ACTIVITIES 中提取
             ALL_ACTIVITIES.forEach(activity => banks.add(activity.sourceApp));
             console.log("【慧伴管家】: 筛选器加载, 找到的银行:", Array.from(banks));
 
@@ -598,7 +670,6 @@
         // 筛选器点击处理
         function handleFilterClick(clickedButton, bankName) {
             console.log("【慧伴管家】: 筛选器点击 -", bankName);
-            // Umami 埋点
             if (window.umami) {
                 umami.track('filter_bank', { bank: bankName });
             }
@@ -612,7 +683,6 @@
             renderActivities();
         }
 
-        // ... (getBankIcon 保持不变) ...
         function getBankIcon(bankName) {
             if (bankName.includes('微信')) return 'fab fa-weixin';
             if (bankName.includes('支付宝')) return 'fab fa-alipay';
@@ -620,31 +690,76 @@
             if (bankName.includes('招商')) return 'fa-star';
             if (bankName.includes('工商')) return 'fa-briefcase';
             if (bankName.includes('交通')) return 'fa-route';
+            // [新增] 补充 MissionReward 可能的来源
+            if (bankName.includes('淘宝') || bankName.includes('天猫')) return 'fab fa-taobao';
+            if (bankName.includes('京东')) return 'fa-shield-dog';
+            if (bankName.includes('拼多多')) return 'fa-users';
+            if (bankName.includes('美团')) return 'fa-hamburger';
+            if (bankName.includes('饿了么')) return 'fa-bowl-food';
+            
             return 'fa-piggy-bank'; // 默认图标
         }
 
+        // [【 核心 】] 新增：绑定状态筛选 (UI-Only)
+        function bindStatusFilters() {
+            document.querySelectorAll('.status-filter-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    // [关键] 暂时阻止功能，并提示
+                    alert("【慧伴管家】提示：\n\n此功能 (状态筛选) 需等待运营在Airtable中补充 'startDate' (活动开始日期) 字段后才能正式启用。");
+                    return; 
+                    
+                    // --- (以下是未来启用的逻辑) ---
+                    /*
+                    const status = e.currentTarget.getAttribute('data-status');
+                    console.log("【慧伴管家】: 状态筛选点击 -", status);
+                    if (window.umami) {
+                        umami.track('filter_status', { status: status });
+                    }
+                    
+                    selectedStatus = status;
+                    
+                    document.querySelectorAll('.status-filter-button').forEach(btn => btn.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    
+                    stopSpeech();
+                    renderActivities();
+                    */
+                });
+            });
+        }
+
         // ----------------------------------------------------
-        // 步骤 3: 渲染活动 (Bug 1 修复)
+        // 步骤 3: 渲染活动 (已修改)
         // ----------------------------------------------------
         function renderActivities() {
-            // [【 核心修正 (Bug 1) 】] 
-            // 确保筛选逻辑是严格比较 (trim() 已在 fetch-data.js 中完成)
-            const filteredActivities = ALL_ACTIVITIES.filter(activity => 
+            
+            // [关键] 过滤活动状态 (未来启用)
+            // const now = new Date();
+            // const statusFiltered = ALL_ACTIVITIES.filter(act => {
+            //     const endDate = new Date(act.endDate);
+            //     const startDate = new Date(act.startDate); // 依赖这个
+            //     if (selectedStatus === 'ongoing') return startDate <= now && endDate >= now;
+            //     if (selectedStatus === 'upcoming') return startDate > now;
+            //     if (selectedStatus === 'finished') return endDate < now;
+            // });
+            
+            // [关键] 过滤银行平台
+            const bankFiltered = ALL_ACTIVITIES.filter(activity => 
                 selectedBank === 'All' || activity.sourceApp === selectedBank
             );
             
-            console.log(`【慧伴管家】: 渲染中... 筛选 ${selectedBank}, 找到 ${filteredActivities.length} / ${ALL_ACTIVITIES.length} 条。`);
+            console.log(`【慧伴管家】: 渲染中... 筛选 ${selectedBank}, 找到 ${bankFiltered.length} / ${ALL_ACTIVITIES.length} 条。`);
 
             const lists = {
                 'DailyTask': document.getElementById('routine-tasks-list'),
-                'Payment': document.getElementById('payment-tasks-list'),
+                'MissionReward': document.getElementById('mission-rewards-list'), // 替换
                 'Deposit': document.getElementById('savings-tasks-list')
             };
             Object.values(lists).forEach(list => list.innerHTML = '');
 
-            const hasActivities = { 'DailyTask': false, 'Payment': false, 'Deposit': false };
+            const hasActivities = { 'DailyTask': false, 'MissionReward': false, 'Deposit': false }; // 替换
             
-            filteredActivities.forEach(activity => {
+            bankFiltered.forEach(activity => {
                 const subCategory = activity.category.find(c => CATEGORY_MAP[c]);
                 
                 if (subCategory && lists[subCategory]) {
@@ -667,7 +782,6 @@
         // 步骤 4: 单个活动卡片的 HTML 生成
         // ----------------------------------------------------
         function renderActivityCard(activity, subCategory) {
-            // ... (HTML 生成逻辑保持不变) ...
             const styles = CATEGORY_MAP[subCategory] || CATEGORY_MAP['DailyTask'];
             
             let actionButtonHtml = '';
@@ -712,7 +826,7 @@
             }
 
             return `
-                <div class="task-list-card ${styles.borderClass} ${activity.specialNote ? 'has-special-note' : ''}">
+                <div class="task-list-card ${styles.borderClass} ${activity.specialNote ? 'has-special-note : ''}">
                     ${specialNoteBadge}
                     <span class="countdown-badge" data-endtime="${activity.endDate}" id="timer-${activity.id}">
                         长期
@@ -773,7 +887,7 @@
         }
         
         // ----------------------------------------------------
-        // 步骤 6: [【 核心修正 (Bug 2) 】] 语音播放
+        // 步骤 6: [【 核心 】] 语音播放 (0.75 语速)
         // ----------------------------------------------------
         function playSpeech(text, buttonElement) {
             if (!synth) {
@@ -781,47 +895,59 @@
                 return;
             }
             
-            console.log("【慧伴管家】: 尝试播放语音:", text);
+            console.log("【慧伴管家】: 尝试播放语音 (语速 0.75):", text);
 
-            // 如果正在播放同一个语音，则停止
-            if (synth.speaking && currentUtterance && currentUtterance.text === text) {
+            if (synth.speaking && speakingButton === buttonElement) {
                 stopSpeech();
-                return;
+            } else {
+                stopSpeech(); 
+                
+                currentUtterance = new SpeechSynthesisUtterance(text);
+                currentUtterance.lang = 'zh-CN'; 
+                
+                // [【 核心 】] 语速调整为 0.75
+                currentUtterance.rate = 0.75; 
+                
+                speakingButton = buttonElement; 
+
+                currentUtterance.onstart = () => {
+                    buttonElement.classList.add('speaking');
+                    buttonElement.innerHTML = `<i class="fas fa-wave-square"></i> 播放中...`;
+                };
+
+                currentUtterance.onend = () => {
+                    if (speakingButton === buttonElement) {
+                        buttonElement.classList.remove('speaking');
+                        buttonElement.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+                        currentUtterance = null;
+                        speakingButton = null;
+                    }
+                };
+                
+                currentUtterance.onerror = (e) => {
+                    console.error('Speech synthesis error:', e);
+                    if (speakingButton === buttonElement) {
+                        buttonElement.classList.remove('speaking');
+                        buttonElement.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+                        currentUtterance = null;
+                        speakingButton = null;
+                    }
+                };
+
+                synth.speak(currentUtterance);
             }
-
-            stopSpeech(); // 停止任何正在播放的
-
-            currentUtterance = new SpeechSynthesisUtterance(text);
-            currentUtterance.lang = 'zh-CN'; 
-            
-            currentUtterance.onerror = (event) => {
-                console.error('【慧伴管家】: 语音播放错误:', event.error);
-            };
-
-            if (buttonElement) {
-                buttonElement.classList.add('speaking');
-                buttonElement.innerHTML = `<i class="fas fa-wave-square"></i> 播放中...`;
-            }
-
-            currentUtterance.onend = () => {
-                if (buttonElement) {
-                    buttonElement.classList.remove('speaking');
-                    buttonElement.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
-                }
-                currentUtterance = null;
-            };
-
-            synth.speak(currentUtterance);
         }
 
         function stopSpeech() {
             if (synth && synth.speaking) {
                 synth.cancel();
             }
-            document.querySelectorAll('.action-button-voice.speaking').forEach(btn => {
-                btn.classList.remove('speaking');
-                btn.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
-            });
+            
+            if (speakingButton) {
+                speakingButton.classList.remove('speaking');
+                speakingButton.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+                speakingButton = null;
+            }
             currentUtterance = null;
         }
 
@@ -829,7 +955,6 @@
         // 步骤 7: 分享功能 (go.html 网关)
         // ----------------------------------------------------
         function shareActivity(activityId, buttonElement) {
-            // ... (分享逻辑保持不变) ...
             const shareUrl = `${window.location.origin}${window.location.pathname.replace('bank.html', 'go.html')}?id=${activityId}`;
             try {
                 const tempInput = document.createElement('textarea');
@@ -847,7 +972,12 @@
 
             } catch (err) {
                 console.error('复制失败:', err);
-                alert(`请手动复制链接：\n${shareUrl}`);
+                // [修改] 增加失败提示
+                const originalText = buttonElement.innerHTML;
+                buttonElement.innerHTML = `<i class="fas fa-times"></i> 复制失败`;
+                setTimeout(() => {
+                    buttonElement.innerHTML = originalText;
+                }, 2000);
             }
         }
 
@@ -855,7 +985,6 @@
         // 步骤 8: 倒计时功能 (保持不变)
         // ----------------------------------------------------
         function getRemainingTime(endDateString, badgeElement) {
-            // ... (倒计时逻辑保持不变) ...
             if (!endDateString || endDateString === 'null') {
                 badgeElement.textContent = '长期';
                 badgeElement.classList.remove('expired-badge');
