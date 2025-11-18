@@ -99,9 +99,7 @@
             border-radius: 9999px;
             padding: 5px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            /* [关键] 暂时禁用，等待 startDate 数据 */
-            opacity: 0.5;
-            cursor: not-allowed;
+            /* [关键] 已移除禁用样式 */
         }
         .status-filter-button {
             flex: 1;
@@ -451,8 +449,8 @@
             </button>
         </div>
         
-        <!-- [【 核心 】] 新增：状态筛选条 (UI-Only) -->
-        <div class="status-filter-container" title="【技术说明】此功能需等待Airtable添加 'startDate' 字段后才能启用">
+        <!-- [【 核心 】] 状态筛选条 (已启用) -->
+        <div class="status-filter-container">
             <button class="status-filter-button active" data-status="ongoing">
                 <i class="fas fa-running"></i> 正在进行
             </button>
@@ -639,7 +637,7 @@
             const container = document.getElementById('bank-filter-container');
             const banks = new Set();
             
-            ALL_ACTIVITIES.forEach(activity => banks.add(activity.sourceApp));
+                ALL_ACTIVITIES.forEach(activity => banks.add(activity.sourceApp));
             console.log("【慧伴管家】: 筛选器加载, 找到的银行:", Array.from(banks));
 
             container.innerHTML = `
@@ -705,11 +703,10 @@
             document.querySelectorAll('.status-filter-button').forEach(button => {
                 button.addEventListener('click', (e) => {
                     // [关键] 暂时阻止功能，并提示
-                    alert("【慧伴管家】提示：\n\n此功能 (状态筛选) 需等待运营在Airtable中补充 'startDate' (活动开始日期) 字段后才能正式启用。");
-                    return; 
+                    /* [【 核心 】] 已移除 alert 和 return，正式启用！ */
                     
                     // --- (以下是未来启用的逻辑) ---
-                    /*
+                    
                     const status = e.currentTarget.getAttribute('data-status');
                     console.log("【慧伴管家】: 状态筛选点击 -", status);
                     if (window.umami) {
@@ -723,7 +720,7 @@
                     
                     stopSpeech();
                     renderActivities();
-                    */
+                    
                 });
             });
         }
@@ -733,22 +730,50 @@
         // ----------------------------------------------------
         function renderActivities() {
             
-            // [关键] 过滤活动状态 (未来启用)
-            // const now = new Date();
-            // const statusFiltered = ALL_ACTIVITIES.filter(act => {
-            //     const endDate = new Date(act.endDate);
-            //     const startDate = new Date(act.startDate); // 依赖这个
-            //     if (selectedStatus === 'ongoing') return startDate <= now && endDate >= now;
-            //     if (selectedStatus === 'upcoming') return startDate > now;
-            //     if (selectedStatus === 'finished') return endDate < now;
-            // });
+            // [关键] 过滤活动状态 (已启用)
+            const now = new Date();
             
-            // [关键] 过滤银行平台
-            const bankFiltered = ALL_ACTIVITIES.filter(activity => 
+            const statusFiltered = ALL_ACTIVITIES.filter(act => {
+                // 健壮性检查: 优先获取日期对象，无效则为 null
+                const endDate = (act.endDate && act.endDate !== 'null') ? new Date(act.endDate) : null;
+                const startDate = (act.startDate && act.startDate !== 'null') ? new Date(act.startDate) : null;
+
+                // 1. 处理 "已结束" (必须有 endDate 且 endDate < now)
+                if (endDate && endDate < now) {
+                    return selectedStatus === 'finished';
+                }
+                
+                // --- 剩下的都是 "未结束" (endDate >= now 或 endDate == null) ---
+                
+                // 2. 处理 "即将开始" (必须有 startDate 且 startDate > now)
+                if (startDate && startDate > now) {
+                    return selectedStatus === 'upcoming';
+                }
+
+                // 3. 处理 "进行中"
+                // "进行中" 包含:
+                // a) startDate <= now AND (endDate >= now OR endDate == null)
+                // b) startDate == null AND (endDate >= now OR endDate == null) (老数据/长期数据)
+                
+                // 检查是否符合 "进行中"
+                if (selectedStatus === 'ongoing') {
+                    // 只要不是 "即将开始" 或 "已结束"，它就属于 "进行中"
+                    const isUpcoming = (startDate && startDate > now);
+                    const isFinished = (endDate && endDate < now);
+                    
+                    return !isUpcoming && !isFinished;
+                }
+
+                // 如果 Status 不是 'ongoing'，且不满足 'finished' 或 'upcoming'，则不显示
+                return false;
+            });
+            
+            // [关键] 过滤银行平台 (基于 statusFiltered)
+            const bankFiltered = statusFiltered.filter(activity => 
                 selectedBank === 'All' || activity.sourceApp === selectedBank
             );
             
-            console.log(`【慧伴管家】: 渲染中... 筛选 ${selectedBank}, 找到 ${bankFiltered.length} / ${ALL_ACTIVITIES.length} 条。`);
+            console.log(`【慧伴管家】: 渲染中... 状态[${selectedStatus}], 平台[${selectedBank}], 找到 ${bankFiltered.length} / ${ALL_ACTIVITIES.length} 条。`);
 
             const lists = {
                 'DailyTask': document.getElementById('routine-tasks-list'),
