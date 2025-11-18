@@ -193,8 +193,7 @@
     "icon": "❓",
     "link": "https://event.ccbft.com/ccbact/m385/AP202508126470000001-act.html?__dmsp_token=TFU6Y2NiX2dqYjp3eDoyOEJFRkQ3NEM2NjJEOUI3Qjk2NzYyQUFGQjk2N0U1QjpmMmM5ZDg2M2VhYmI0NWYxOTMwODFjYzBjNzFkOTEyZA==&__dmsp_ticket=TFU6Y2NiX2dqYjp3eDoyOEJFRkQ3NEM2NjJEOUI3Qjk2NzYyQUFGQjk2N0U1QjpiYTgxYzgxZGYxMDY0MzQ1YjRjNzg2ZWRiYzcyMjJlMw==&__dmsp_st=U1Q6Y2NiX2dqYjp3eDoyOEJFRkQ3NEM2NjJEOUI3Qjk2NzYyQUFGQjk2N0U1Qjo0YzRiZmJiNWJhOTM0OWVhYmZiZWQ3NGY4MDVhOTRjNw==",
     "category": [
-      "Bank",
-      "DigitalRMB"
+      "Bank"
     ],
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
@@ -646,6 +645,22 @@
     "StepsText": null
   },
   {
+    "id": "recZDTiNmBiXp0yH5",
+    "name": "无标题活动",
+    "description": "暂无描述",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Shopping",
+      "TravelDiscount"
+    ],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "其他",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
     "id": "reca6vAdiqpehGYZn",
     "name": "工商银行APP任务中心活动",
     "description": "双线绘丰景布局正当时",
@@ -764,8 +779,8 @@
     "icon": "❓",
     "link": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=422bedb407714b079403e8ba6cb771ea&crypt_type=1&cryptParam=817oUbFF4rUQ17MOtV3nE3sO4bDkCkkPPbs3nPwKopEL9ruQYH3wxtCeds3GNW2yQmPKNvjEKPSUZrvMyDPRuv8LP2eqBaTPmtRNq5jAN3d2WIiaE0r2/dwB7xyYrsFmraZhrUtlCbG568NZ9zMfwd3u7nB0MqbY/wZMimDnwUWKW1irarOeYwCsTi0STAMsVGmUcvWtjniyeGInT5ky9mN1LMXCL073VNYTjJTCpU2Y15sNBXocM3bP/1taP7DUJKECFvhDR7Da0HeBRwb7KNcq+pZ1MimIyvtg/sWAdmn+rOKEaRLmyjLBS+YWU3YgpTQzAgqgx+8pEHZnsU0H1H7PPztBAlZr3yl6YCXDmYuqBIOx19Sw9yleip74wuFfQ/BPjALsKjqcfTwwSrf9dl2TpnSoPGZCBibteZ8gGLajBvVSGfzrV2Uj4PAKPMi1tMQzzgwI5vjBOg0/GDWuqpKy5HXaK6c6Kx3wZdHRX9RJpE8s4jyAQVjxNtOQ44zXxEv+UinWrXK2UpOrzl0gJmrNmmI+ExYsL7GmA/5VYe9hggIzSTRRMbloGB3QNkbqQ2fc9h0eEec=",
     "category": [
-      "Payment",
-      "Bank"
+      "Bank",
+      "PaymentBill"
     ],
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
@@ -828,7 +843,8 @@
     "icon": "❓",
     "link": "#",
     "category": [
-      "Payment"
+      "Shopping",
+      "PaymentBill"
     ],
     "sourceApp": "交通银行APP",
     "specialNote": null,
@@ -907,7 +923,8 @@
     "icon": "❓",
     "link": "#",
     "category": [
-      "Payment"
+      "Shopping",
+      "PaymentBill"
     ],
     "sourceApp": "中国农业银行APP",
     "specialNote": null,
@@ -1065,8 +1082,8 @@
     "icon": "❓",
     "link": "#",
     "category": [
-      "Bank",
-      "PaymentDiscount"
+      "Shopping",
+      "TravelDiscount"
     ],
     "sourceApp": "中国银行APP",
     "specialNote": null,
@@ -1253,7 +1270,7 @@
     "link": "#",
     "category": [
       "Shopping",
-      "PaymentDiscount"
+      "TravelDiscount"
     ],
     "sourceApp": "中国银行APP",
     "specialNote": null,
