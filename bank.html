@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>慧伴管家 - 捡钱任务中心</title>
+    <title>慧伴管家 - 省钱秘籍</title>
     
     <script async defer 
         data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" 
@@ -19,21 +19,42 @@
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     
     <style>
+        /* ---------------------------------------------------- */
+        /* 核心主题变量 */
+        /* ---------------------------------------------------- */
         :root {
             --color-bg-dark: #0A1322; 
             --color-card-bg: #1A2233; 
-            --color-secondary: #FF69B4; 
-            --color-text-light: #E0E7FF;
-            --color-text-muted: #9CA3AF;
-            --color-highlight: #FFD700; 
-            --color-bank-bg: #1F2A40; 
-            --color-success: #34D399; 
-            --color-special-note: #F59E0B; 
-            --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4);
+            --color-primary: #00BFFF; /* 主要强调色：天蓝色 */
+            --color-secondary: #FF69B4; /* 次要强调色：品红色 */
+            --color-text-light: #E0E7FF; /* 亮色文本 */
+            --color-text-muted: #9CA3AF; /* 柔和文本 */
+            --color-highlight: #FFD700; /* 高亮色：金色 */
+            --color-bank-bg: #1F2A40; /* 银行卡背景色 */
+            --color-success: #34D399; /* 成功状态/绿色 */
+            --color-special-note: #F59E0B; /* 特殊提示/橙色 */
+            --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4); /* 高级会员卡边框 */
             
-            /* 【 核心 】 新增 MissionReward 的颜色 */
-            --color-mission-reward: #EC4899; 
+            /* Shopping 页面的主题色（已优化配色） */
+            --color-shopping-1: #A78BFA; /* PaymentDiscount - 购物有优惠 (紫色) */
+            --color-shopping-2: #F59E0B; /* PaymentBill - 缴费有优惠 (活力橙) */
+            --color-shopping-3: #2DD4BF; /* TravelDiscount - 出行有优惠 (海洋青) */
+
+            /* 各页面主横幅边框渐变色 */
+            --banner-border-home: linear-gradient(to right, var(--color-primary), var(--color-highlight)); 
+            --banner-border-checkin: linear-gradient(to right, #34D399, var(--color-highlight)); 
+            --banner-border-video: linear-gradient(to right, #A78BFA, var(--color-highlight)); 
+            --banner-border-bank: linear-gradient(to right, #00BFFF, var(--color-highlight)); 
+            --banner-border-shopping: linear-gradient(to right, #2DD4BF, var(--color-highlight)); /* 页面专属青色系边框 */
+
+            /* 状态栏激活背景色 - 采用主题色 */
+            --status-active-bg: var(--color-primary); 
+            --status-active-text: var(--color-bg-dark); 
         }
+        
+        /* ---------------------------------------------------- */
+        /* 基础布局和头部/底部导航 */
+        /* ---------------------------------------------------- */
         body { 
             background-color: var(--color-bg-dark); 
             color: var(--color-text-light); 
@@ -53,6 +74,66 @@
             justify-content: space-between;
             height: 60px;
         }
+        .header-logo-group {
+            display: flex;
+            align-items: center;
+        }
+        .header-logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+        }
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+        }
+        .back-arrow-link {
+            color: var(--color-text-light);
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            border-radius: 50%;
+            background-color: var(--color-card-bg);
+            transition: background-color 0.2s;
+        }
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 60px;
+            background-color: var(--color-bg-dark);
+            border-top: 1px solid #1A2233;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            padding-bottom: env(safe-area-inset-bottom);
+            z-index: 20;
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            padding: 5px;
+            flex-grow: 1;
+            max-width: 20%;
+        }
+        .tab-item.active { color: var(--color-primary); }
+        .tab-icon {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+
+        /* ---------------------------------------------------- */
+        /* 内容卡片和筛选器样式 */
+        /* ---------------------------------------------------- */
         .main-banner-card {
             background: linear-gradient(135deg, #0f1627, #1a2233);
             border-radius: 20px;
@@ -61,7 +142,7 @@
             border: 3px solid transparent; 
             background-clip: padding-box, border-box;
             background-origin: padding-box, border-box;
-            border-image: linear-gradient(to right, #00BFFF, var(--color-highlight));
+            border-image: var(--banner-border-shopping); 
             border-image-slice: 1;
             box-shadow: 0 0 15px rgba(0, 191, 255, 0.5), 0 0 30px rgba(255, 215, 0, 0.3);
             margin-bottom: 1.5rem;
@@ -73,54 +154,40 @@
             color: var(--color-text-light);
             text-shadow: 0 0 5px var(--color-highlight);
         }
+        .main-banner-card p {
+            color: var(--color-text-muted); 
+        }
         
-        /* 平台筛选条 (Bank Filter) */
+        /* 平台筛选器容器 - Sticky 样式 */
         .filter-container {
-            margin-bottom: 1.5rem; 
+            margin-bottom: 1rem; 
             padding: 10px 0;
             overflow-x: auto;
             white-space: nowrap;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; 
+            scrollbar-width: none;
             display: flex;
             gap: 10px;
             align-items: center;
         }
         .filter-container::-webkit-scrollbar { display: none; }
-        
-        /* 【 核心 】 状态筛选条 (Status Filter) */
-        .status-filter-container {
-            margin-bottom: 2rem;
-            display: flex;
-            background-color: var(--color-card-bg);
-            border-radius: 9999px;
-            padding: 5px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-        .status-filter-button {
-            flex: 1;
-            text-align: center;
-            padding: 8px 10px;
-            border-radius: 9999px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--color-text-muted);
-            border: none;
-            background-color: transparent;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-        .status-filter-button.active {
-            background-color: var(--color-success);
-            color: var(--color-bg-dark);
-            box-shadow: 0 0 10px rgba(52, 211, 153, 0.7);
+        .filter-container.sticky-top-16 {
+            position: sticky;
+            top: 60px; 
+            z-index: 5; 
+            background-color: var(--color-bg-dark); 
+            border-bottom: 1px solid var(--color-card-bg); 
+            margin-left: -1rem; 
+            margin-right: -1rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
         
         .filter-button {
             display: inline-flex;
             align-items: center;
             padding: 8px 15px;
-            border-radius: 9999px;
+            border-radius: 9999px; /* 胶囊形圆角 */
             font-size: 0.85rem;
             font-weight: 600;
             background-color: var(--color-card-bg);
@@ -130,13 +197,54 @@
             flex-shrink: 0;
         }
         .filter-button.active {
-            background-color: #00BFFF; 
+            background-color: var(--color-primary);
             color: var(--color-bg-dark);
-            border-color: #00BFFF;
+            border-color: var(--color-primary);
             box-shadow: 0 0 8px rgba(0, 191, 255, 0.8);
         }
         .filter-button i { margin-right: 6px; }
+
+        /* 状态筛选器样式 (统一胶囊式设计) */
+        .status-filter-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 5px; 
+            margin-top: 5px; 
+            margin-bottom: 1.5rem; 
+            background-color: var(--color-card-bg); 
+            border-radius: 12px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            z-index: 4; 
+        }
+        .sticky-status-bar {
+            margin-left: -1rem; 
+            margin-right: -1rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .status-button {
+            flex-grow: 1; 
+            text-align: center;
+            padding: 8px 10px;
+            border-radius: 8px; /* 胶囊形按钮的圆角 */
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--color-text-muted); 
+            background-color: transparent;
+            border: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+
+        .status-button.active {
+            color: var(--status-active-text); 
+            background-color: var(--status-active-bg); 
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.5); 
+        }
         
+        /* 分区标题卡片及以下样式保持不变 */
         .section-title-card {
             background: linear-gradient(135deg, #0f1627, #1a2233);
             border-radius: 12px;
@@ -145,7 +253,7 @@
             border: 2px solid transparent; 
             background-clip: padding-box, border-box;
             background-origin: padding-box, border-box;
-            border-image: linear-gradient(to right, #00BFFF, var(--color-highlight));
+            border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight));
             border-image-slice: 1;
             box-shadow: 0 0 8px rgba(0, 191, 255, 0.3);
             margin-top: 2rem;
@@ -178,6 +286,24 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
+        .task-shopping-1 { border-left-color: var(--color-shopping-1); } 
+        .task-shopping-2 { border-left-color: var(--color-shopping-2); } 
+        .task-shopping-3 { border-left-color: var(--color-shopping-3); } 
+        .icon-shopping-1 { background-color: var(--color-shopping-1); }
+        .icon-shopping-2 { background-color: var(--color-shopping-2); }
+        .icon-shopping-3 { background-color: var(--color-shopping-3); }
+        .task-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            color: var(--color-bg-dark); 
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
         .special-note-badge {
             position: absolute;
             top: 15px;
@@ -205,42 +331,15 @@
             z-index: 4;
         }
         .special-note-badge + .countdown-badge {
-            top: 40px; 
+            top: 40px;
             right: 15px;
             border-radius: 8px;
         }
-        .expired-badge {
-            background-color: #EF4444;
-            color: white;
-        }
-        
-        /* 任务卡片样式 */
-        .task-routine { border-left-color: var(--color-success); } 
-        .task-mission { border-left-color: var(--color-mission-reward); } 
-        .task-savings { border-left-color: var(--color-highlight); } 
-        
         .task-main-content {
             display: flex;
             align-items: center;
             width: 100%;
         }
-        .task-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            color: var(--color-bg-dark); 
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
-        /* 任务图标样式 */
-        .icon-routine { background-color: var(--color-success); }
-        .icon-mission { background-color: var(--color-mission-reward); } 
-        .icon-savings { background-color: var(--color-highlight); }
-        
         .task-content {
             flex-grow: 1;
             min-width: 0;
@@ -274,8 +373,8 @@
         }
         .share-button {
             background-color: var(--color-card-bg);
-            color: #00BFFF;
-            border: 1px solid #00BFFF;
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
             font-weight: 600;
             padding: 8px 15px;
             border-radius: 9999px;
@@ -285,12 +384,8 @@
             align-items: center;
             gap: 6px;
         }
-        .share-button:hover {
-            background-color: #00BFFF;
-            color: var(--color-bg-dark);
-        }
         .action-button {
-            background-color: #00BFFF;
+            background-color: var(--color-primary);
             color: var(--color-bg-dark);
             font-weight: 700;
             padding: 8px 18px;
@@ -298,21 +393,14 @@
             font-size: 0.8rem;
             transition: all 0.2s;
             text-align: center;
-            min-width: 100px; 
+            min-width: 100px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
         }
-        .action-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(0, 191, 255, 0.7);
-        }
         .action-button-voice {
             background-color: var(--color-success);
-        }
-        .action-button-voice:hover {
-            box-shadow: 0 0 10px rgba(52, 211, 153, 0.7);
         }
         .action-button-voice.speaking {
             background-color: var(--color-secondary);
@@ -321,62 +409,6 @@
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.8; }
-        }
-        .tab-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            height: 60px;
-            background-color: var(--color-bg-dark);
-            border-top: 1px solid #1A2233;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
-            padding-bottom: env(safe-area-inset-bottom);
-            z-index: 20;
-        }
-        .tab-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            color: var(--color-text-muted);
-            font-size: 0.75rem;
-            font-weight: 500;
-            transition: color 0.2s ease;
-            padding: 5px;
-            flex-grow: 1;
-            max-width: 20%;
-        }
-        .tab-item.active { color: #00BFFF; }
-        .tab-icon {
-            font-size: 1.2rem;
-            margin-bottom: 3px;
-        }
-        .header-logo-group {
-            display: flex;
-            align-items: center;
-        }
-        .header-logo {
-            width: 32px;
-            height: 32px;
-            margin-right: 10px;
-        }
-        .header-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--color-text-light);
-        }
-        .back-arrow-link {
-            color: var(--color-text-light);
-            font-size: 1.2rem;
-            padding: 5px 10px;
-            border-radius: 50%;
-            background-color: var(--color-card-bg);
-            transition: background-color 0.2s;
         }
         .premium-card {
             background: var(--color-card-bg);
@@ -396,23 +428,6 @@
             display: block;
             transition: all 0.3s ease;
         }
-        .premium-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 105, 180, 0.4);
-        }
-        .premium-card h2 {
-            font-size: 1.3rem;
-            font-weight: 800;
-            background: var(--color-premium-border);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 0;
-        }
-        .premium-card p {
-            color: var(--color-text-muted);
-            font-size: 0.9rem;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
@@ -430,73 +445,67 @@
     <main class="container mx-auto px-4 py-4">
         
         <div class="main-banner-card">
-            <h1>捡钱任务中心</h1>
-            <p class="text-sm text-gray-400 mt-2">点击下方按钮，仅显示您拥有的银行卡/平台活动</p>
+            <h1>省钱秘籍中心</h1>
+            <p class="text-sm text-gray-400 mt-2">点击下方按钮，仅显示您关注的平台活动</p>
         </div>
         
-        <div class="filter-container" id="bank-filter-container">
-            <button class="filter-button active" data-bank="All">
+        <div class="filter-container sticky-top-16" id="platform-filter-container">
+            <button class="filter-button active" data-platform="All">
                 <i class="fas fa-layer-group"></i>
-                全部活动
+                全部平台
             </button>
-        </div>
-        
-        <div class="status-filter-container">
-            <button class="status-filter-button active" data-status="ongoing">
-                <i class="fas fa-running"></i> 正在进行
-            </button>
-            <button class="status-filter-button" data-status="upcoming">
-                <i class="fas fa-hourglass-start"></i> 即将开始
-            </button>
-            <button class="status-filter-button" data-status="finished">
-                <i class="fas fa-check-double"></i> 已结束
-            </button>
+            </div>
+
+        <div class="status-filter-container sticky-status-bar" id="status-filter-container">
+            <button class="status-button" data-status="Active">正在进行</button>
+            <button class="status-button" data-status="Upcoming">即将开始</button>
+            <button class="status-button" data-status="Expired">已结束</button>
         </div>
 
-        
+
         <div class="section-title-card">
             <h2 class="flex items-center">
-                <i class="fas fa-calendar-day mr-3 text-xl" style="color: var(--color-success);"></i>
-                日常活动 (DailyTask)
+                <i class="fas fa-credit-card mr-3 text-xl" style="color: var(--color-shopping-1);"></i>
+                购物有优惠 (PaymentDiscount)
             </h2>
         </div>
         <p class="section-description">
-            每日、每周可重复参与的低门槛任务和立减金活动。
+            使用特定支付方式（如XX卡、XXPay）在商店购物时可享受的折扣或优惠。
         </p>
-        <div id="routine-tasks-list">
-             </div>
+        <div id="paymentdiscount-list" class="mt-4">
+            </div>
         
         <div class="section-title-card">
             <h2 class="flex items-center">
-                <i class="fas fa-tasks mr-3 text-xl" style="color: var(--color-mission-reward);"></i>
-                做任务领红包 (MissionReward)
+                <i class="fas fa-receipt mr-3 text-xl" style="color: var(--color-shopping-2);"></i>
+                缴费有优惠 (PaymentBill)
             </h2>
         </div>
         <p class="section-description">
-            需要完成指定任务（如浏览、签到、组队）才能获得的奖励。
+            缴纳生活费用（如水电煤、电话费）时可享受的折扣或立减优惠。
         </p>
-        <div id="mission-rewards-list">
-             </div>
+        <div id="paymentbill-list" class="mt-4">
+            </div>
         
         <div class="section-title-card">
             <h2 class="flex items-center">
-                <i class="fas fa-sack-dollar mr-3 text-xl" style="color: var(--color-highlight);"></i>
-                存款理财活动 (Deposit)
+                <i class="fas fa-plane-departure mr-3 text-xl" style="color: var(--color-shopping-3);"></i>
+                出行有优惠 (TravelDiscount)
             </h2>
         </div>
         <p class="section-description">
-            需要较长时间达标的存款、理财、借贷等高价值活动。
+            乘坐交通工具（如打车、公交、火车、飞机）或预订酒店时的优惠。
         </p>
-        <div id="savings-tasks-list">
-             </div>
+        <div id="traveldiscount-list" class="mt-4">
+            </div>
 
         <a href="./premium.html" class="premium-card" 
-            onclick="umami.track('click_premium_card', { from: 'bank' })">
+            onclick="umami.track('click_premium_card', { from: 'shopping' })">
             <h2 class="flex items-center justify-center">
                 <i class="fas fa-crown mr-2" style="color: var(--color-highlight);"></i>
                 高级会员专区 (敬请期待)
             </h2>
-            <p>AI赋能ʕʘ̅͜ʘ̅ʔ 改变生活</p>
+            <p>【独家】AI自动生成省钱秘籍演示视频，长辈也能轻松学会！</p>
         </a>
         
     </main>
@@ -514,50 +523,35 @@
             <i class="fas fa-play-circle tab-icon"></i>
             <span>看视频赚</span>
         </a>
-        <span class="tab-item active">
+        <a href="./bank.html" class="tab-item">
             <i class="fas fa-hand-holding-usd tab-icon"></i>
             <span>捡钱任务</span>
-            </span>
-        <a href="./shopping.html" class="tab-item">
+        </a>
+        <span class="tab-item active">
             <i class="fas fa-tags tab-icon"></i>
             <span>省钱秘籍</span>
-        </a>
+        </span>
     </nav>
     
     <script>
-        // ====================================================
-        // JavaScript 核心逻辑 
-        // ====================================================
-        
         // ----------------------------------------------------
         // 全局状态和数据
         // ----------------------------------------------------
         let ALL_ACTIVITIES = [];
-        let selectedBank = 'All'; 
-        let selectedStatus = 'ongoing'; 
+        let selectedPlatform = 'All'; 
+        
+        let globalStatus = 'Active'; 
 
-        // 分类与样式的映射
+        // [【 核心 】] 分类与样式的映射 
         const CATEGORY_MAP = {
-            'DailyTask': {
-                borderClass: 'task-routine',
-                iconClass: 'icon-routine',
-                faIcon: 'fa-calendar-day'
-            },
-            'MissionReward': { 
-                borderClass: 'task-mission',
-                iconClass: 'icon-mission',
-                faIcon: 'fa-tasks'
-            },
-            'Deposit': {
-                borderClass: 'task-savings',
-                iconClass: 'icon-savings',
-                faIcon: 'fa-sack-dollar'
-            }
+            'PaymentDiscount': { borderClass: 'task-shopping-1', iconClass: 'icon-shopping-1', faIcon: 'fa-credit-card' },
+            'PaymentBill': { borderClass: 'task-shopping-2', iconClass: 'icon-shopping-2', faIcon: 'fa-receipt' },
+            'TravelDiscount': { borderClass: 'task-shopping-3', iconClass: 'icon-shopping-3', faIcon: 'fa-plane-departure' }
         };
 
+        // 语音 API 健壮性
         const synth = window.speechSynthesis;
         let currentUtterance = null; 
-        let speakingButton = null; 
         if (!synth) {
             console.error("【慧伴管家】: 您的浏览器不支持 Web Speech API 语音播放。");
         }
@@ -566,6 +560,7 @@
         // 步骤 1: 页面加载主入口
         // ----------------------------------------------------
         document.addEventListener('DOMContentLoaded', () => {
+            // ... 预热语音逻辑保持不变 ...
             try {
                 if(synth && synth.getVoices().length === 0) {
                     synth.onvoiceschanged = () => {
@@ -578,9 +573,32 @@
             }
             
             loadAndFetchActivities();
-            // startCountdownUpdater 在 loadAndFetchActivities 成功后调用
-            bindStatusFilters();
+            
+            // 动态计算状态栏的 Sticky top 位置
+            setupStickyFilterTop();
+            window.addEventListener('resize', setupStickyFilterTop);
+            
+            startCountdownUpdater(); // 启动倒计时更新器
         });
+        
+        // 动态计算 Sticky Top 位置 (确保状态栏在平台筛选器下方)
+        function setupStickyFilterTop() {
+            const headerHeight = 60; // 头部高度
+            const platformFilter = document.getElementById('platform-filter-container');
+            const statusBar = document.getElementById('status-filter-container');
+            
+            if (!platformFilter || !statusBar) return;
+            
+            // 获取平台筛选器的实际高度，包括其定位父元素的padding/margin
+            const platformFilterComputedStyle = window.getComputedStyle(platformFilter);
+            const platformFilterHeight = platformFilter.offsetHeight + 
+                                         parseFloat(platformFilterComputedStyle.marginTop) + 
+                                         parseFloat(platformFilterComputedStyle.marginBottom);
+            
+            const newStatusTop = headerHeight + platformFilterHeight + 5; // 5px是微调间距
+            
+            statusBar.style.top = `${newStatusTop}px`;
+        }
 
         async function loadAndFetchActivities() {
             try {
@@ -590,69 +608,86 @@
                 }
                 const data = await response.json();
                 
-                // 筛选出属于 DailyTask, MissionReward, Deposit 的活动 (Bank 页面专属)
+                // 过滤出所有 Shopping 相关的活动
                 ALL_ACTIVITIES = data.filter(act => 
                     act.category && (
-                        act.category.includes('DailyTask') ||
-                        act.category.includes('Deposit') ||
-                        act.category.includes('MissionReward')
+                        act.category.includes('PaymentDiscount') || 
+                        act.category.includes('PaymentBill') || 
+                        act.category.includes('TravelDiscount')
                     )
                 );
-                
-                console.log(`【慧伴管家】: 加载成功，找到 ${ALL_ACTIVITIES.length} 条银行/任务活动。`);
 
-                initBankFilters();
+                initPlatformFilters();
+                bindStatusFilters(); 
+                
+                // 确保默认激活状态栏的“正在进行”按钮的样式
+                const defaultActiveButton = document.querySelector('#status-filter-container .status-button[data-status="Active"]');
+                if (defaultActiveButton) {
+                    defaultActiveButton.classList.add('active');
+                }
+
                 renderActivities();
-                startCountdownUpdater(); // 在数据加载并首次渲染后启动定时器
                 
             } catch (error) {
                 console.error("加载活动数据失败:", error);
-                document.getElementById('routine-tasks-list').innerHTML = `<p class="text-red-400 p-4 text-center">加载活动数据失败。请检查网络或 activities.json 文件。</p>`;
+                const lists = ['paymentdiscount-list', 'paymentbill-list', 'traveldiscount-list'];
+                lists.forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) el.innerHTML = `<p class="text-red-400 p-4 text-center">加载活动数据失败。请检查网络或 activities.json 文件。</p>`;
+                });
             }
         }
 
         // ----------------------------------------------------
-        // 步骤 2: 筛选器逻辑
+        // 步骤 2: 绑定平台筛选器事件
         // ----------------------------------------------------
-        function initBankFilters() {
-            const container = document.getElementById('bank-filter-container');
-            const banks = new Set();
+        function getPlatformIcon(platformName) {
+            if (platformName.includes('淘宝') || platformName.includes('天猫')) return 'fab fa-taobao';
+            if (platformName.includes('京东')) return 'fa-shield-dog';
+            if (platformName.includes('拼多多')) return 'fa-users';
+            if (platformName.includes('美团')) return 'fa-hamburger';
+            if (platformName.includes('饿了么')) return 'fa-bowl-food';
+            if (platformName.includes('微信')) return 'fab fa-weixin';
+            if (platformName.includes('支付宝')) return 'fab fa-alipay';
+            return 'fa-store'; 
+        }
+
+        function initPlatformFilters() {
+            const container = document.getElementById('platform-filter-container');
+            const platforms = new Set();
             
-            ALL_ACTIVITIES.forEach(activity => banks.add(activity.sourceApp));
-            console.log("【慧伴管家】: 筛选器加载, 找到的银行:", Array.from(banks));
+            ALL_ACTIVITIES.forEach(activity => activity.sourceApp && platforms.add(activity.sourceApp));
 
             container.innerHTML = `
-                <button class="filter-button active" data-bank="All">
+                <button class="filter-button active" data-platform="All">
                     <i class="fas fa-layer-group"></i>
-                    全部活动
+                    全部平台
                 </button>`;
             
-            banks.forEach(bank => {
-                if (!bank) return;
-                const icon = getBankIcon(bank);
+            platforms.forEach(platform => {
+                const icon = getPlatformIcon(platform); 
                 const button = document.createElement('button');
                 button.className = 'filter-button';
-                button.setAttribute('data-bank', bank);
-                button.innerHTML = `<i class="fa-solid ${icon}"></i> ${bank}`;
+                button.setAttribute('data-platform', platform);
+                button.innerHTML = `<i class="fa-solid ${icon}"></i> ${platform}`;
                 
                 button.addEventListener('click', (e) => {
-                    handleFilterClick(e.currentTarget, bank);
+                    handleFilterClick(e.currentTarget, platform);
                 });
                 container.appendChild(button);
             });
             
-            container.querySelector('[data-bank="All"]').addEventListener('click', (e) => {
+            container.querySelector('[data-platform="All"]').addEventListener('click', (e) => {
                 handleFilterClick(e.currentTarget, 'All');
             });
         }
         
-        function handleFilterClick(clickedButton, bankName) {
-            console.log("【慧伴管家】: 平台筛选点击 -", bankName);
+        function handleFilterClick(clickedButton, platformName) {
             if (window.umami) {
-                umami.track('filter_bank', { bank: bankName });
+                umami.track('filter_platform', { platform: platformName });
             }
-
-            selectedBank = bankName;
+            
+            selectedPlatform = platformName;
             
             document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
             clickedButton.classList.add('active');
@@ -661,119 +696,101 @@
             renderActivities();
         }
 
-        function getBankIcon(bankName) {
-            if (bankName.includes('微信')) return 'fab fa-weixin';
-            if (bankName.includes('支付宝')) return 'fab fa-alipay';
-            if (bankName.includes('建设')) return 'fa-building-columns';
-            if (bankName.includes('招商')) return 'fa-star';
-            if (bankName.includes('工商')) return 'fa-briefcase';
-            if (bankName.includes('交通')) return 'fa-route';
-            if (bankName.includes('淘宝') || bankName.includes('天猫')) return 'fab fa-taobao';
-            if (bankName.includes('京东')) return 'fa-shield-dog';
-            if (bankName.includes('拼多多')) return 'fa-users';
-            if (bankName.includes('美团')) return 'fa-hamburger';
-            if (bankName.includes('饿了么')) return 'fa-bowl-food';
-            
-            return 'fa-piggy-bank'; 
-        }
-
+        // 绑定状态筛选器事件 (针对全局状态栏)
         function bindStatusFilters() {
-            document.querySelectorAll('.status-filter-button').forEach(button => {
+            const container = document.getElementById('status-filter-container');
+            
+            container.querySelectorAll('.status-button').forEach(button => {
                 button.addEventListener('click', (e) => {
-                    const status = e.currentTarget.getAttribute('data-status');
-                    console.log("【慧伴管家】: 状态筛选点击 -", status);
-                    if (window.umami) {
-                        umami.track('filter_status', { status: status });
-                    }
-                    
-                    selectedStatus = status;
-                    
-                    document.querySelectorAll('.status-filter-button').forEach(btn => btn.classList.remove('active'));
-                    e.currentTarget.classList.add('active');
-                    
-                    stopSpeech();
+                    const btn = e.currentTarget;
+                    const status = btn.getAttribute('data-status');
+
+                    globalStatus = status;
+
+                    // 激活样式
+                    container.querySelectorAll('.status-button').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
                     renderActivities();
                 });
             });
         }
+        
+        // ----------------------------------------------------
+        // 步骤 3: 活动状态判断
+        // ----------------------------------------------------
+        function getActivityStatus(activity) {
+            if (!activity.endDate) return 'Active'; 
+
+            const now = new Date().getTime();
+            const startDate = activity.startDate ? new Date(activity.startDate).getTime() : now - 1; 
+            const endDate = new Date(activity.endDate).getTime();
+
+            if (now < startDate) return 'Upcoming'; 
+            if (now > endDate) return 'Expired'; 
+            return 'Active'; 
+        }
+
 
         // ----------------------------------------------------
-        // 步骤 3: 渲染活动
+        // 步骤 4: 渲染活动 (使用 globalStatus 过滤)
         // ----------------------------------------------------
         function renderActivities() {
-            
-            // 状态过滤逻辑
-            const now = new Date();
-            const statusFiltered = ALL_ACTIVITIES.filter(act => {
-                const endDate = (act.endDate && act.endDate !== 'null') ? new Date(act.endDate) : null;
-                const startDate = (act.startDate && act.startDate !== 'null') ? new Date(act.startDate) : null;
-
-                // 1. "已结束"
-                if (endDate && endDate < now) {
-                    return selectedStatus === 'finished';
-                }
-                
-                // 2. "即将开始"
-                if (startDate && startDate > now) {
-                    return selectedStatus === 'upcoming';
-                }
-
-                // 3. "进行中" (包括长期活动)
-                if (selectedStatus === 'ongoing') {
-                    // 只要不是明确的 "即将开始" 或 "已结束"，它就是 "进行中"
-                    const isUpcoming = (startDate && startDate > now);
-                    const isFinished = (endDate && endDate < now);
-                    
-                    return !isUpcoming && !isFinished;
-                }
-
-                return false;
-            });
-            
-            // 平台过滤逻辑
-            const bankFiltered = statusFiltered.filter(activity => 
-                selectedBank === 'All' || activity.sourceApp === selectedBank
+            // 1. 平台过滤
+            const filteredActivities = ALL_ACTIVITIES.filter(activity => 
+                selectedPlatform === 'All' || activity.sourceApp === selectedPlatform
             );
             
-            console.log(`【慧伴管家】: 渲染中... 状态[${selectedStatus}], 平台[${selectedBank}], 找到 ${bankFiltered.length} / ${ALL_ACTIVITIES.length} 条。`);
-
             const lists = {
-                'DailyTask': document.getElementById('routine-tasks-list'),
-                'MissionReward': document.getElementById('mission-rewards-list'), 
-                'Deposit': document.getElementById('savings-tasks-list')
+                'PaymentDiscount': document.getElementById('paymentdiscount-list'), 
+                'PaymentBill': document.getElementById('paymentbill-list'),       
+                'TravelDiscount': document.getElementById('traveldiscount-list')   
             };
-            Object.values(lists).forEach(list => list.innerHTML = '');
 
-            const hasActivities = { 'DailyTask': false, 'MissionReward': false, 'Deposit': false }; 
-            
-            bankFiltered.forEach(activity => {
-                // 找到第一个匹配 CATEGORY_MAP 的分类
-                const subCategory = activity.category.find(c => CATEGORY_MAP[c]);
-                
-                if (subCategory && lists[subCategory]) {
-                    hasActivities[subCategory] = true;
-                    const cardHtml = renderActivityCard(activity, subCategory);
-                    lists[subCategory].innerHTML += cardHtml;
-                }
-            });
-            
             Object.keys(lists).forEach(category => {
-                if (!hasActivities[category]) {
-                    lists[category].innerHTML = `<p class="text-gray-400 text-center p-4">该分类下${selectedBank !== 'All' ? `没有 ${selectedBank} 的` : ''}活动。</p>`;
+                const listElement = lists[category];
+                if (!listElement) return;
+
+                listElement.innerHTML = ''; // 清空列表
+                let hasActivities = false;
+
+                // 2. 分类过滤
+                const categoryActivities = filteredActivities.filter(activity => 
+                    activity.category && activity.category.includes(category)
+                );
+                
+                // 3. 状态过滤 (使用全局状态)
+                categoryActivities.forEach(activity => {
+                    const status = getActivityStatus(activity);
+                    
+                    if (globalStatus === status) {
+                        hasActivities = true;
+                        const cardHtml = renderActivityCard(activity, category, status);
+                        listElement.innerHTML += cardHtml;
+                    }
+                });
+                
+                // 空数据处理
+                if (!hasActivities) {
+                    let message = '';
+                    if (selectedPlatform !== 'All') {
+                        message += `平台 ${selectedPlatform} 下，`;
+                    }
+                    const statusText = globalStatus === 'Active' ? '正在进行' : globalStatus === 'Upcoming' ? '即将开始' : '已结束';
+                    message += `没有处于 [${statusText}] 状态的活动。`;
+                    
+                    listElement.innerHTML = `<p class="text-gray-400 text-center p-4">在当前筛选条件下，${message}</p>`;
                 }
             });
             
             bindActionButtons();
-            
-            // 【 核心修复 】 在所有卡片渲染完成后，立即更新一次倒计时显示
-            updateAllTimers(); 
         }
 
         // ----------------------------------------------------
-        // 步骤 4: 单个活动卡片的 HTML 生成
+        // 步骤 5: 单个活动卡片的 HTML 生成 
         // ----------------------------------------------------
-        function renderActivityCard(activity, subCategory) {
-            const styles = CATEGORY_MAP[subCategory] || CATEGORY_MAP['DailyTask'];
+        function renderActivityCard(activity, subCategory, status) {
+            const styles = CATEGORY_MAP[subCategory] || CATEGORY_MAP['PaymentDiscount'];
             
             let actionButtonHtml = '';
             
@@ -781,19 +798,21 @@
                 actionButtonHtml = `
                     <a href="${activity.link}" 
                         target="_blank" 
-                        class="action-button" 
+                        class="action-button ${status === 'Expired' ? 'opacity-50 cursor-not-allowed' : ''}" 
                         data-umami-event="click_deep_link"
-                        data-umami-event-name="${activity.name}">
+                        data-umami-event-name="${activity.name}"
+                        ${status === 'Expired' ? 'onclick="event.preventDefault()"' : ''}>
                         <i class="fas fa-rocket"></i>
                         去领取
                     </a>`;
             } else if (activity.StepsText) {
                 const steps = activity.StepsText.replace(/"/g, '&quot;');
                 actionButtonHtml = `
-                    <button class="action-button action-button-voice" 
+                    <button class="action-button action-button-voice ${status === 'Expired' ? 'opacity-50 cursor-not-allowed' : ''}" 
                             data-activity-id="${activity.id}" 
                             data-steps="${steps}"
-                            data-activity-name="${activity.name}">
+                            data-activity-name="${activity.name}"
+                            ${status === 'Expired' ? 'disabled' : ''}>
                         <i class="fas fa-volume-high"></i>
                         播放语音
                     </button>`;
@@ -816,180 +835,209 @@
                     </span>`;
             }
 
-            // 注意：这里保留 '加载中...' 作为默认值，等待 updateAllTimers 立即更新
-            return `
-                <div class="task-list-card ${styles.borderClass} ${activity.specialNote ? 'has-special-note' : ''}">
-                    ${specialNoteBadge}
+            let countdownBadge = '';
+            let cardClassModifier = '';
+            
+            if (status === 'Upcoming') {
+                cardClassModifier = 'opacity-70';
+                countdownBadge = `
+                    <span class="countdown-badge" style="background-color: var(--color-special-note);">
+                        ${activity.startDate ? `距开始 <span id="timer-${activity.id}">计算中...</span>` : '即将开始'}
+                    </span>`;
+            } else if (status === 'Expired') {
+                cardClassModifier = 'opacity-40';
+                countdownBadge = `
+                    <span class="countdown-badge" style="background-color: #EF4444;">
+                        已结束 <i class="fas fa-history"></i>
+                    </span>`;
+            } else { // Active
+                countdownBadge = `
                     <span class="countdown-badge" data-endtime="${activity.endDate}" id="timer-${activity.id}">
-                        ${activity.endDate ? '加载中...' : '长期'}
-                    </span>
-                    
+                        ${activity.endDate ? '计算中...' : '长期'} 
+                    </span>`;
+            }
+
+
+            return `
+                <div class="task-list-card ${styles.borderClass} ${activity.specialNote ? 'has-special-note' : ''} ${cardClassModifier}">
+                    ${specialNoteBadge}
+                    ${countdownBadge}
                     <div class="task-main-content">
                         <div class="task-icon ${styles.iconClass}">
                             <i class="fa-solid ${styles.faIcon}"></i>
                         </div>
                         <div class="task-content">
-                            <div class="task-title">
-                                ${activity.name} (${activity.sourceApp})
-                            </div>
-                            <p class="task-subtitle">
-                                ${activity.description || '暂无描述'}
-                            </p>
-                        </div> 
-                    </div> 
-                    
+                            <div class="task-title">${activity.name || '活动名称缺失'}</div>
+                            <div class="task-subtitle">${activity.description || '暂无详细描述。'}</div>
+                        </div>
+                    </div>
                     <div class="task-action-bar">
-                        <a href="#" class="share-button" 
-                            data-activity-id="${activity.id}" 
-                            data-umami-event="click_share" 
-                            data-umami-event-name="${activity.name}">
+                        <button class="share-button" 
+                                data-activity-id="${activity.id}" 
+                                data-activity-name="${activity.name}">
                             <i class="fas fa-share-alt"></i>
                             分享
-                        </a>
+                        </button>
                         ${actionButtonHtml}
                     </div>
-                </div> 
+                </div>
             `;
         }
-        
+
         // ----------------------------------------------------
-        // 步骤 5: 语音播放控制
+        // 步骤 6-9: 绑定事件, 语音播放, 分享, 倒计时 
         // ----------------------------------------------------
-        function stopSpeech() {
-            if (synth.speaking && currentUtterance) {
-                synth.cancel();
-            }
-            if (speakingButton) {
-                speakingButton.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
-                speakingButton.classList.remove('speaking');
-                speakingButton = null;
-            }
+        function bindActionButtons() {
+            document.querySelectorAll('.action-button-voice').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const btn = e.currentTarget;
+                    if(btn.disabled) return;
+                    const steps = btn.getAttribute('data-steps');
+                    const name = btn.getAttribute('data-activity-name');
+                    
+                    if (window.umami) {
+                        umami.track('play_voice_guide', { name: name });
+                    }
+                    playSpeech(steps, btn);
+                });
+            });
+
+            document.querySelectorAll('.share-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const btn = e.currentTarget;
+                    const id = btn.getAttribute('data-activity-id');
+                    const name = btn.getAttribute('data-activity-name');
+                    
+                    if (window.umami) {
+                        umami.track('click_share', { name: name });
+                    }
+                    shareActivity(id, btn);
+                });
+            });
         }
-
-        function toggleSpeech(button, text, activityName) {
-            if (!synth) return;
-
-            if (button.classList.contains('speaking')) {
+        
+        function playSpeech(text, buttonElement) {
+            if (!synth || buttonElement.disabled) { return; }
+            if (synth.speaking && currentUtterance && currentUtterance.text === text) {
                 stopSpeech();
                 return;
             }
-
-            stopSpeech(); 
-
-            console.log(`【慧伴管家】: 开始播放 ${activityName} 的语音指引...`);
-            
-            const voice = synth.getVoices().find(v => v.lang.startsWith('zh')) || synth.getVoices()[0];
-            
+            stopSpeech();
             currentUtterance = new SpeechSynthesisUtterance(text);
-            currentUtterance.voice = voice;
-            currentUtterance.rate = 1.0; 
-            
-            currentUtterance.onstart = () => {
-                speakingButton = button;
-                button.classList.add('speaking');
-                button.innerHTML = `<i class="fas fa-volume-xmark"></i> 停止播放`;
-            };
-            
-            currentUtterance.onend = () => {
-                stopSpeech(); 
-            };
-
+            currentUtterance.lang = 'zh-CN'; 
             currentUtterance.onerror = (event) => {
-                console.error("【慧伴管家】: 语音播放错误:", event.error);
-                stopSpeech(); 
+                console.error('【慧伴管家】: 语音播放错误:', event.error);
             };
-
+            if (buttonElement) {
+                buttonElement.classList.add('speaking');
+                buttonElement.innerHTML = `<i class="fas fa-wave-square"></i> 播放中...`;
+            }
+            currentUtterance.onend = () => {
+                if (buttonElement) {
+                    buttonElement.classList.remove('speaking');
+                    buttonElement.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+                }
+                currentUtterance = null;
+            };
             synth.speak(currentUtterance);
         }
-        
-        function bindActionButtons() {
-            // 绑定语音播放按钮
-            document.querySelectorAll('.action-button-voice').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const stepsText = e.currentTarget.getAttribute('data-steps');
-                    const name = e.currentTarget.getAttribute('data-activity-name');
-                    toggleSpeech(e.currentTarget, stepsText, name);
-                });
+
+        function stopSpeech() {
+            if (synth && synth.speaking) {
+                synth.cancel();
+            }
+            document.querySelectorAll('.action-button-voice.speaking').forEach(btn => {
+                btn.classList.remove('speaking');
+                btn.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
             });
-
-            // 绑定分享按钮 (使用 Web Share API 或回退到复制)
-            document.querySelectorAll('.share-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const activityId = e.currentTarget.getAttribute('data-activity-id');
-                    
-                    // 查找活动详情并构建分享内容 (需要访问 ALL_ACTIVITIES)
-                    const activity = ALL_ACTIVITIES.find(act => act.id === activityId);
-                    const shareUrl = activity ? activity.link : window.location.href; 
-                    const shareText = `【慧伴管家】发现一个好活动：${activity.name || '银行任务'}！快来看看如何领取吧：${shareUrl}`;
-
-                    if (navigator.share) {
-                        navigator.share({
-                            title: '慧伴管家 - 任务分享',
-                            text: shareText,
-                            url: shareUrl,
-                        }).catch(() => {});
-                    } else {
-                        navigator.clipboard.writeText(shareText).then(() => {
-                            alert('活动链接和描述已复制到剪贴板，快去分享吧！');
-                        }).catch(err => {
-                            console.error('复制失败:', err);
-                            alert('复制失败，请手动复制以下内容：\n' + shareText);
-                        });
-                    }
-                });
-            });
-        }
-        
-        // ----------------------------------------------------
-        // 步骤 6: 倒计时更新
-        // ----------------------------------------------------
-        function formatTimeLeft(ms) {
-            if (ms <= 0) return "已结束";
-
-            const totalSeconds = Math.floor(ms / 1000);
-            const days = Math.floor(totalSeconds / (3600 * 24));
-            const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
-            const minutes = Math.floor((totalSeconds % 3600) / 60);
-
-            let parts = [];
-            if (days > 0) parts.push(`${days}天`);
-            parts.push(`${hours}时`);
-            parts.push(`${minutes}分`);
-
-            return parts.join(' ');
+            currentUtterance = null;
         }
 
-        function updateAllTimers() {
-            const now = Date.now();
-            document.querySelectorAll('.countdown-badge').forEach(badge => {
-                const endDateString = badge.getAttribute('data-endtime');
+        function shareActivity(activityId, buttonElement) {
+            const shareUrl = `${window.location.origin}${window.location.pathname.replace('shopping.html', 'go.html')}?id=${activityId}`;
+            try {
+                const tempInput = document.createElement('textarea');
+                tempInput.value = `快来看看这个活动！\n${shareUrl}`;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                const originalText = buttonElement.innerHTML;
+                buttonElement.innerHTML = `<i class="fas fa-check"></i> 已复制!`;
+                setTimeout(() => {
+                    buttonElement.innerHTML = originalText;
+                }, 2000);
+            } catch (err) {
+                console.error('复制失败:', err);
+                alert(`请手动复制链接：\n${shareUrl}`);
+            }
+        }
+
+        function formatTime(ms) {
+            if (ms <= 0) return '已结束';
+            const seconds = Math.floor(ms / 1000);
+            const days = Math.floor(seconds / (3600 * 24));
+            const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const remainingSeconds = seconds % 60;
+            
+            if (days > 0) return `${days}天${hours}时`;
+            if (hours > 0) return `${hours}时${minutes}分`;
+            return `${minutes}分${remainingSeconds}秒`;
+        }
+        
+        function updateCountdowns() {
+            const timers = document.querySelectorAll('.countdown-badge');
+            timers.forEach(timer => {
+                const endTimeString = timer.getAttribute('data-endtime');
                 
-                if (!endDateString || endDateString === 'null') {
-                    badge.textContent = '长期';
-                    badge.classList.remove('expired-badge');
+                // 处理 Upcoming (距开始)
+                if (timer.closest('.opacity-70') && timer.parentElement.querySelector('span:first-child').innerText.includes('距开始')) {
+                    const activityIdMatch = timer.id.match(/timer-(\d+)/);
+                    if (!activityIdMatch) return;
+                    const activityId = activityIdMatch[1];
+                    const activity = ALL_ACTIVITIES.find(a => a.id == activityId);
+
+                    if (activity && activity.startDate) {
+                        const startTime = new Date(activity.startDate).getTime();
+                        const now = new Date().getTime();
+                        const distance = startTime - now;
+
+                        if (distance > 0) {
+                            timer.innerHTML = formatTime(distance);
+                        } else {
+                            // 活动已开始，重新渲染列表 (状态变为 Active)
+                            renderActivities(); 
+                        }
+                    }
                     return;
                 }
 
-                const endDate = new Date(endDateString);
-                const timeLeft = endDate.getTime() - now;
+                // 处理 Active (有 endDate 的活动)
+                if (!endTimeString || endTimeString.toLowerCase() === '长期') {
+                    if (!endTimeString) return;
+                    timer.innerHTML = `长期`;
+                    return;
+                }
 
-                if (timeLeft > 0) {
-                    badge.textContent = formatTimeLeft(timeLeft);
-                    badge.classList.remove('expired-badge');
+                const endTime = new Date(endTimeString).getTime();
+                const now = new Date().getTime();
+                const distance = endTime - now;
+
+                if (distance < 0) {
+                    timer.innerHTML = `已结束`;
+                    // 触发重新渲染，将活动移入 "已结束" 列表
+                    renderActivities(); 
                 } else {
-                    badge.textContent = '已结束';
-                    badge.classList.add('expired-badge');
+                    timer.innerHTML = formatTime(distance);
                 }
             });
         }
-
+        
         function startCountdownUpdater() {
-            updateAllTimers(); 
-            // 每 60 秒运行一次，确保分钟级倒计时是准确的
-            setInterval(updateAllTimers, 60000); 
+            updateCountdowns(); 
+            setInterval(updateCountdowns, 1000); 
         }
-
     </script>
 </body>
 </html>
