@@ -191,31 +191,38 @@
         }
         .filter-button i { margin-right: 6px; }
 
-        /* 状态筛选器样式 (新增) */
+             /* 状态筛选器样式 (更新为Bank页面的胶囊式设计) */
         .status-filter-container {
             display: flex;
             justify-content: space-around;
-            padding: 10px 0;
+            align-items: center;
+            padding: 5px; /* 增加内边距以容纳按钮 */
             margin-top: 10px;
-            background-color: var(--color-bg-dark); 
-            border-radius: 10px;
+            background-color: var(--color-card-bg); /* 背景色使用卡片底色 */
+            border-radius: 12px; /* 外层容器圆角 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
+        
         .status-button {
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 0.8rem;
+            flex-grow: 1; /* 让按钮平均分配空间 */
+            text-align: center;
+            padding: 8px 10px;
+            border-radius: 8px; /* 内部按钮圆角 */
+            font-size: 0.9rem;
             font-weight: 600;
-            color: var(--color-text-muted);
+            color: var(--color-text-muted); /* 默认文字颜色较暗 */
             background-color: transparent;
-            border: 1px solid transparent;
-            transition: all 0.2s;
+            border: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 优化过渡效果 */
         }
+        
         .status-button.active {
-            color: var(--color-text-light);
-            background-color: var(--color-card-bg);
-            border-color: var(--color-primary);
-            box-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
+            color: var(--color-bg-dark); /* 激活时文字颜色变深（与背景对比） */
+            /* 使用成功色作为激活时的背景色，与您的图示保持一致的绿色系 */
+            background-color: var(--color-success); 
+            box-shadow: 0 0 10px rgba(52, 211, 153, 0.7); /* 添加发光效果 */
         }
+          
 
         /* 分区标题卡片 */
         .section-title-card {
