@@ -204,7 +204,9 @@
         }
         .filter-button i { margin-right: 6px; }
 
-        /* 状态筛选器样式 (不固定) */
+       /* ---------------------------------------------------- */
+        /* 状态筛选器样式 (不固定) - 颜色匹配 Shopping 页面 (活力橙) */
+        /* ---------------------------------------------------- */
         .status-filter-container {
             display: flex;
             justify-content: space-around;
@@ -213,9 +215,8 @@
             margin-top: 5px; 
             margin-bottom: 1.5rem; 
             background-color: var(--color-card-bg); 
-            border-radius: 12px; 
+            border-radius: 9999px; /* 胶囊/椭圆形容器 */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            /* 移除 position: sticky 和 z-index */
         }
         .sticky-status-bar {
             margin-left: -1rem; 
@@ -228,19 +229,20 @@
             flex-grow: 1; 
             text-align: center;
             padding: 8px 10px;
-            border-radius: 8px; /* 胶囊形按钮的圆角 */
+            border-radius: 9999px; /* 按钮胶囊形 */
             font-size: 0.9rem;
             font-weight: 600;
             color: var(--color-text-muted); 
-            background-color: transparent;
+            background-color: transparent; 
             border: none;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
         }
 
         .status-button.active {
-            color: var(--status-active-text); 
-            background-color: var(--status-active-bg); 
-            box-shadow: 0 0 10px rgba(0, 191, 255, 0.5); 
+            /* === 最终颜色: 使用 Shopping 主题色 2 (活力橙) 作为激活色 === */
+            color: var(--color-bg-dark); 
+            background-color: var(--color-shopping-2); /* #F59E0B */
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5); /* 活力橙色系阴影 */
         }
         
         /* 分区标题卡片及以下样式保持不变 */
