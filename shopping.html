@@ -31,18 +31,18 @@
             --color-text-muted: #9CA3AF;
             --color-highlight: #FFD700; 
             --color-bank-bg: #1F2A40; 
-            --color-success: #34D399; 
+            --color-success: #34D399; /* 成功的绿色，用于状态栏高亮 */
             --color-special-note: #F59E0B; 
             --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4);
             
             /* Shopping 页面的主题色（已优化配色） */
-            --color-shopping-1: #A78BFA; /* PaymentDiscount - 购物有优惠 (紫色/保留) */
-            --color-shopping-2: #F59E0B; /* PaymentBill - 缴费有优惠 (活力橙/新) */
-            --color-shopping-3: #2DD4BF; /* TravelDiscount - 出行有优惠 (海洋青/新) */
+            --color-shopping-1: #A78BFA; /* PaymentDiscount - 购物有优惠 (紫色) */
+            --color-shopping-2: #F59E0B; /* PaymentBill - 缴费有优惠 (活力橙) */
+            --color-shopping-3: #2DD4BF; /* TravelDiscount - 出行有优惠 (海洋青) */
         }
         
         /* ---------------------------------------------------- */
-        /* 基础布局和头部/底部导航 (与 bank.html 一致) */
+        /* 基础布局和头部/底部导航 */
         /* ---------------------------------------------------- */
         body { 
             background-color: var(--color-bg-dark); 
@@ -63,6 +63,7 @@
             justify-content: space-between;
             height: 60px;
         }
+        /* ... 省略其他基础样式 ... */
         .header-logo-group {
             display: flex;
             align-items: center;
@@ -146,7 +147,8 @@
         
         /* 平台筛选器容器 - Sticky 样式 */
         .filter-container {
-            margin-bottom: 2rem;
+            /* 保持平台筛选器样式不变 */
+            margin-bottom: 1rem; /* 减少底部间距，让给状态栏 */
             padding: 10px 0;
             overflow-x: auto;
             white-space: nowrap;
@@ -167,7 +169,7 @@
             margin-right: -1rem;
             padding-left: 1rem;
             padding-right: 1rem;
-            margin-bottom: 1.5rem;
+            /* 注意：我们会在 JS 中调整 Sticky 的 top 值，以容纳两个筛选器 */
         }
         
         .filter-button {
@@ -191,40 +193,50 @@
         }
         .filter-button i { margin-right: 6px; }
 
-             /* 状态筛选器样式 (更新为Bank页面的胶囊式设计) */
+        /* 状态筛选器样式 (统一胶囊式设计) */
         .status-filter-container {
             display: flex;
             justify-content: space-around;
             align-items: center;
             padding: 5px; /* 增加内边距以容纳按钮 */
-            margin-top: 10px;
+            margin-top: 5px; /* 调整与上方筛选器的间距 */
+            margin-bottom: 1.5rem; /* 增加与活动列表的间距 */
             background-color: var(--color-card-bg); /* 背景色使用卡片底色 */
             border-radius: 12px; /* 外层容器圆角 */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            /* 粘性定位，配合JS调整top，保持在平台筛选器下方 */
+            position: sticky;
+            top: 130px; 
+            z-index: 4; 
         }
-        
+        /* 确保状态栏宽度适应内容区 */
+        .sticky-status-bar {
+            margin-left: -1rem; 
+            margin-right: -1rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
         .status-button {
-            flex-grow: 1; /* 让按钮平均分配空间 */
+            flex-grow: 1; 
             text-align: center;
             padding: 8px 10px;
-            border-radius: 8px; /* 内部按钮圆角 */
+            border-radius: 8px; 
             font-size: 0.9rem;
             font-weight: 600;
-            color: var(--color-text-muted); /* 默认文字颜色较暗 */
+            color: var(--color-text-muted); 
             background-color: transparent;
             border: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 优化过渡效果 */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+
+        .status-button.active {
+            color: var(--color-bg-dark); 
+            background-color: var(--color-success); 
+            box-shadow: 0 0 10px rgba(52, 211, 153, 0.7); 
         }
         
-        .status-button.active {
-            color: var(--color-bg-dark); /* 激活时文字颜色变深（与背景对比） */
-            /* 使用成功色作为激活时的背景色，与您的图示保持一致的绿色系 */
-            background-color: var(--color-success); 
-            box-shadow: 0 0 10px rgba(52, 211, 153, 0.7); /* 添加发光效果 */
-        }
-          
-
-        /* 分区标题卡片 */
+        /* ... 其他卡片和组件样式保持不变 ... */
         .section-title-card {
             background: linear-gradient(135deg, #0f1627, #1a2233);
             border-radius: 12px;
@@ -251,8 +263,7 @@
             margin-bottom: 1rem; 
             padding-left: 5px;
         }
-        
-        /* 活动卡片样式 */
+        /* ... 省略任务卡片样式 ... */
         .task-list-card {
             background-color: var(--color-bank-bg);
             border-radius: 15px;
@@ -263,21 +274,13 @@
             border-left: 5px solid; 
             position: relative;
         }
-        .task-list-card:hover {
-            background-color: #25334c;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-        }
-        
-        /* 核心分类配色 */
-        .task-shopping-1 { border-left-color: var(--color-shopping-1); } /* 购物有优惠 (紫色) */
-        .task-shopping-2 { border-left-color: var(--color-shopping-2); } /* 缴费有优惠 (活力橙) */
-        .task-shopping-3 { border-left-color: var(--color-shopping-3); } /* 出行有优惠 (海洋青) */
-
+        .task-shopping-1 { border-left-color: var(--color-shopping-1); } 
+        .task-shopping-2 { border-left-color: var(--color-shopping-2); } 
+        .task-shopping-3 { border-left-color: var(--color-shopping-3); } 
+        /* ... 省略其他卡片内部和按钮样式 ... */
         .icon-shopping-1 { background-color: var(--color-shopping-1); }
         .icon-shopping-2 { background-color: var(--color-shopping-2); }
         .icon-shopping-3 { background-color: var(--color-shopping-3); }
-
         .task-icon {
             width: 40px;
             height: 40px;
@@ -290,7 +293,6 @@
             margin-right: 15px;
             flex-shrink: 0;
         }
-        
         .special-note-badge {
             position: absolute;
             top: 15px;
@@ -432,7 +434,7 @@
     <main class="container mx-auto px-4 py-4">
         
         <div class="main-banner-card">
-            <h1>省钱秘籍</h1>
+            <h1>省钱秘籍中心</h1>
             <p class="text-sm text-gray-400 mt-2">点击下方按钮，仅显示您关注的平台活动</p>
         </div>
         
@@ -443,6 +445,14 @@
             </button>
             </div>
 
+        <div class="status-filter-container sticky-status-bar" id="status-filter-container">
+            <button class="status-button active" data-status="All">全部</button>
+            <button class="status-button" data-status="Active">正在进行</button>
+            <button class="status-button" data-status="Upcoming">即将开始</button>
+            <button class="status-button" data-status="Expired">已结束</button>
+        </div>
+
+
         <div class="section-title-card">
             <h2 class="flex items-center">
                 <i class="fas fa-credit-card mr-3 text-xl" style="color: var(--color-shopping-1);"></i>
@@ -452,12 +462,6 @@
         <p class="section-description">
             使用特定支付方式（如XX卡、XXPay）在商店购物时可享受的折扣或优惠。
         </p>
-        <div class="status-filter-container" data-category="PaymentDiscount">
-            <button class="status-button active" data-status="All">全部</button>
-            <button class="status-button" data-status="Active">正在进行</button>
-            <button class="status-button" data-status="Upcoming">即将开始</button>
-            <button class="status-button" data-status="Expired">已结束</button>
-        </div>
         <div id="paymentdiscount-list" class="mt-4">
             </div>
         
@@ -470,12 +474,6 @@
         <p class="section-description">
             缴纳生活费用（如水电煤、电话费）时可享受的折扣或立减优惠。
         </p>
-        <div class="status-filter-container" data-category="PaymentBill">
-            <button class="status-button active" data-status="All">全部</button>
-            <button class="status-button" data-status="Active">正在进行</button>
-            <button class="status-button" data-status="Upcoming">即将开始</button>
-            <button class="status-button" data-status="Expired">已结束</button>
-        </div>
         <div id="paymentbill-list" class="mt-4">
             </div>
         
@@ -488,12 +486,6 @@
         <p class="section-description">
             乘坐交通工具（如打车、公交、火车、飞机）或预订酒店时的优惠。
         </p>
-        <div class="status-filter-container" data-category="TravelDiscount">
-            <button class="status-button active" data-status="All">全部</button>
-            <button class="status-button" data-status="Active">正在进行</button>
-            <button class="status-button" data-status="Upcoming">即将开始</button>
-            <button class="status-button" data-status="Expired">已结束</button>
-        </div>
         <div id="traveldiscount-list" class="mt-4">
             </div>
 
@@ -537,31 +529,15 @@
         // ----------------------------------------------------
         let ALL_ACTIVITIES = [];
         let selectedPlatform = 'All'; 
+        
+        // **[关键变化]** 只保留一个全局状态筛选器，控制整个页面的活动状态
+        let globalStatus = 'All'; 
 
-        // 新增：记录每个分类当前选中的活动状态
-        let categoryStatus = {
-            'PaymentDiscount': 'All',
-            'PaymentBill': 'All',
-            'TravelDiscount': 'All',
-        };
-
-        // [【 核心 】] 分类与样式的映射 (已更新)
+        // [【 核心 】] 分类与样式的映射 
         const CATEGORY_MAP = {
-            'PaymentDiscount': { // 购物有优惠
-                borderClass: 'task-shopping-1',
-                iconClass: 'icon-shopping-1',
-                faIcon: 'fa-credit-card'
-            },
-            'PaymentBill': { // 缴费有优惠 (新)
-                borderClass: 'task-shopping-2',
-                iconClass: 'icon-shopping-2',
-                faIcon: 'fa-receipt'
-            },
-            'TravelDiscount': { // 出行有优惠 (新)
-                borderClass: 'task-shopping-3',
-                iconClass: 'icon-shopping-3',
-                faIcon: 'fa-plane-departure'
-            }
+            'PaymentDiscount': { borderClass: 'task-shopping-1', iconClass: 'icon-shopping-1', faIcon: 'fa-credit-card' },
+            'PaymentBill': { borderClass: 'task-shopping-2', iconClass: 'icon-shopping-2', faIcon: 'fa-receipt' },
+            'TravelDiscount': { borderClass: 'task-shopping-3', iconClass: 'icon-shopping-3', faIcon: 'fa-plane-departure' }
         };
 
         // 语音 API 健壮性
@@ -575,7 +551,7 @@
         // 步骤 1: 页面加载主入口
         // ----------------------------------------------------
         document.addEventListener('DOMContentLoaded', () => {
-            // 预热语音
+            // ... 预热语音逻辑保持不变 ...
             try {
                 if(synth && synth.getVoices().length === 0) {
                     synth.onvoiceschanged = () => {
@@ -588,12 +564,34 @@
             }
             
             loadAndFetchActivities();
+            
+            // **[新增逻辑]** 动态计算状态栏的 Sticky top 位置
+            setupStickyFilterTop();
+            window.addEventListener('resize', setupStickyFilterTop);
+            
             startCountdownUpdater(); // 启动倒计时更新器
         });
+        
+        // 动态计算 Sticky Top 位置 (新增)
+        function setupStickyFilterTop() {
+            const headerHeight = 60; // 头部高度
+            const platformFilter = document.getElementById('platform-filter-container');
+            const statusBar = document.getElementById('status-filter-container');
+            
+            // 确保元素存在
+            if (!platformFilter || !statusBar) return;
+            
+            // 平台筛选器的高度 + 平台筛选器的padding/margin
+            const platformHeight = platformFilter.offsetHeight; 
+            
+            // 状态栏应该固定在头部 + 平台筛选器下方
+            const newStatusTop = headerHeight + platformHeight + 10; // 10px 是一些微小的间距调整
+            
+            statusBar.style.top = `${newStatusTop}px`;
+        }
 
         async function loadAndFetchActivities() {
             try {
-                // 注意：请确保您项目根目录下有 activities.json 文件
                 const response = await fetch('./activities.json');
                 if (!response.ok) {
                     throw new Error('网络响应错误，无法加载 activities.json');
@@ -624,8 +622,9 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 2: 初始化平台筛选器按钮
+        // 步骤 2: 绑定平台筛选器事件
         // ----------------------------------------------------
+        // (getPlatformIcon 和 initPlatformFilters 保持不变)
         function getPlatformIcon(platformName) {
             if (platformName.includes('淘宝') || platformName.includes('天猫')) return 'fab fa-taobao';
             if (platformName.includes('京东')) return 'fa-shield-dog';
@@ -634,7 +633,7 @@
             if (platformName.includes('饿了么')) return 'fa-bowl-food';
             if (platformName.includes('微信')) return 'fab fa-weixin';
             if (platformName.includes('支付宝')) return 'fab fa-alipay';
-            return 'fa-store'; // 默认图标
+            return 'fa-store'; 
         }
 
         function initPlatformFilters() {
@@ -643,7 +642,6 @@
             
             ALL_ACTIVITIES.forEach(activity => activity.sourceApp && platforms.add(activity.sourceApp));
 
-            // 清空并重新添加 '全部平台' 按钮
             container.innerHTML = `
                 <button class="filter-button active" data-platform="All">
                     <i class="fas fa-layer-group"></i>
@@ -682,83 +680,76 @@
             renderActivities();
         }
 
-        // 绑定状态筛选器事件 (新增)
+        // 绑定状态筛选器事件 (针对全局状态栏)
         function bindStatusFilters() {
-            document.querySelectorAll('.status-filter-container').forEach(container => {
-                const category = container.getAttribute('data-category');
-                
-                container.querySelectorAll('.status-button').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const btn = e.currentTarget;
-                        const status = btn.getAttribute('data-status');
+            const container = document.getElementById('status-filter-container');
+            
+            container.querySelectorAll('.status-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const btn = e.currentTarget;
+                    const status = btn.getAttribute('data-status');
 
-                        // 更新全局状态
-                        categoryStatus[category] = status;
+                    // **[关键变化]** 更新全局状态
+                    globalStatus = status;
 
-                        // 激活样式
-                        container.querySelectorAll('.status-button').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
+                    // 激活样式
+                    container.querySelectorAll('.status-button').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
 
-                        // 重新渲染特定分类
-                        renderActivities(category);
-                    });
+                    // 重新渲染全部活动
+                    renderActivities();
                 });
             });
         }
         
         // ----------------------------------------------------
-        // 步骤 3: 活动状态判断 (新增)
+        // 步骤 3: 活动状态判断
         // ----------------------------------------------------
         function getActivityStatus(activity) {
-            if (!activity.endDate) return 'Active'; // 默认长期活动为正在进行
+            if (!activity.endDate) return 'Active'; 
 
             const now = new Date().getTime();
-            // 确保有 startDate，否则假设为当前时间开始
             const startDate = activity.startDate ? new Date(activity.startDate).getTime() : now - 1; 
             const endDate = new Date(activity.endDate).getTime();
 
-            if (now < startDate) return 'Upcoming'; // 即将开始
-            if (now > endDate) return 'Expired'; // 已结束
-            return 'Active'; // 正在进行
+            if (now < startDate) return 'Upcoming'; 
+            if (now > endDate) return 'Expired'; 
+            return 'Active'; 
         }
 
 
         // ----------------------------------------------------
-        // 步骤 4: 渲染活动
+        // 步骤 4: 渲染活动 (使用 globalStatus 过滤)
         // ----------------------------------------------------
-        function renderActivities(categoryToRender = 'All') {
+        function renderActivities() {
+            // 1. 平台过滤
             const filteredActivities = ALL_ACTIVITIES.filter(activity => 
                 selectedPlatform === 'All' || activity.sourceApp === selectedPlatform
             );
             
-            // 列表 ID 映射
             const lists = {
                 'PaymentDiscount': document.getElementById('paymentdiscount-list'), 
                 'PaymentBill': document.getElementById('paymentbill-list'),       
                 'TravelDiscount': document.getElementById('traveldiscount-list')   
             };
 
-            // 确定要渲染的分类
-            const categories = categoryToRender === 'All' ? Object.keys(lists) : [categoryToRender];
-
-            categories.forEach(category => {
+            Object.keys(lists).forEach(category => {
                 const listElement = lists[category];
                 if (!listElement) return;
 
                 listElement.innerHTML = ''; // 清空列表
-                const currentStatus = categoryStatus[category]; // 获取该分类的当前状态
+                let hasActivities = false;
 
-                // 筛选出当前分类的所有活动
+                // 2. 分类过滤
                 const categoryActivities = filteredActivities.filter(activity => 
                     activity.category && activity.category.includes(category)
                 );
-
-                let hasActivities = false;
-
+                
+                // 3. 状态过滤 (使用全局状态)
                 categoryActivities.forEach(activity => {
                     const status = getActivityStatus(activity);
                     
-                    if (currentStatus === 'All' || currentStatus === status) {
+                    if (globalStatus === 'All' || globalStatus === status) {
                         hasActivities = true;
                         const cardHtml = renderActivityCard(activity, category, status);
                         listElement.innerHTML += cardHtml;
@@ -771,8 +762,8 @@
                     if (selectedPlatform !== 'All') {
                         message += `平台 ${selectedPlatform} 下，`;
                     }
-                    if (currentStatus !== 'All') {
-                        const statusText = currentStatus === 'Active' ? '正在进行' : currentStatus === 'Upcoming' ? '即将开始' : '已结束';
+                    if (globalStatus !== 'All') {
+                        const statusText = globalStatus === 'Active' ? '正在进行' : globalStatus === 'Upcoming' ? '即将开始' : '已结束';
                         message += `没有处于 [${statusText}] 状态的活动。`;
                     } else {
                         message = `该分类下暂无活动。`;
@@ -785,9 +776,8 @@
         }
 
         // ----------------------------------------------------
-        // 步骤 5: 单个活动卡片的 HTML 生成
+        // 步骤 5: 单个活动卡片的 HTML 生成 (保持不变)
         // ----------------------------------------------------
-        // renderActivityCard 函数签名添加 status 参数 (已修改)
         function renderActivityCard(activity, subCategory, status) {
             const styles = CATEGORY_MAP[subCategory] || CATEGORY_MAP['PaymentDiscount'];
             
@@ -834,7 +824,6 @@
                     </span>`;
             }
 
-            // 修改倒计时标签逻辑 (已修改)
             let countdownBadge = '';
             let cardClassModifier = '';
             
@@ -851,7 +840,6 @@
                         已结束 <i class="fas fa-history"></i>
                     </span>`;
             } else { // Active
-                // 只有正在进行的活动才显示倒计时或“长期”
                 countdownBadge = `
                     <span class="countdown-badge" data-endtime="${activity.endDate}" id="timer-${activity.id}">
                         ${activity.endDate ? '计算中...' : '长期'} 
@@ -885,9 +873,8 @@
             `;
         }
 
-
         // ----------------------------------------------------
-        // 步骤 6: 绑定事件 (播放语音、分享)
+        // 步骤 6-9: 绑定事件, 语音播放, 分享, 倒计时 (保持不变)
         // ----------------------------------------------------
         function bindActionButtons() {
             document.querySelectorAll('.action-button-voice').forEach(button => {
@@ -918,9 +905,6 @@
             });
         }
         
-        // ----------------------------------------------------
-        // 步骤 7: 语音播放和停止 (与 bank.html 一致)
-        // ----------------------------------------------------
         function playSpeech(text, buttonElement) {
             if (!synth || buttonElement.disabled) { return; }
             if (synth.speaking && currentUtterance && currentUtterance.text === text) {
@@ -958,9 +942,6 @@
             currentUtterance = null;
         }
 
-        // ----------------------------------------------------
-        // 步骤 8: 分享功能 (与 bank.html 一致)
-        // ----------------------------------------------------
         function shareActivity(activityId, buttonElement) {
             const shareUrl = `${window.location.origin}${window.location.pathname.replace('shopping.html', 'go.html')}?id=${activityId}`;
             try {
@@ -981,9 +962,6 @@
             }
         }
 
-        // ----------------------------------------------------
-        // 步骤 9: 倒计时功能 (针对 Active 和 Upcoming)
-        // ----------------------------------------------------
         function formatTime(ms) {
             if (ms <= 0) return '已结束';
             const seconds = Math.floor(ms / 1000);
@@ -1004,7 +982,6 @@
                 
                 // 处理 Upcoming
                 if (timer.closest('.opacity-70') && timer.parentElement.querySelector('span:first-child').innerText.includes('距开始')) {
-                    // 尝试从活动数据中获取 startDate (这里依赖 activity.json 包含 startDate)
                     const activityIdMatch = timer.id.match(/timer-(\d+)/);
                     if (!activityIdMatch) return;
                     const activityId = activityIdMatch[1];
@@ -1018,7 +995,7 @@
                         if (distance > 0) {
                             timer.innerHTML = formatTime(distance);
                         } else {
-                            // 活动已开始，重新渲染列表 (理论上状态会自动变为 Active)
+                            // 活动已开始，重新渲染列表 (状态变为 Active)
                             renderActivities(); 
                         }
                     }
@@ -1047,8 +1024,7 @@
         }
         
         function startCountdownUpdater() {
-            updateCountdowns(); // 立即运行一次
-            // 每秒更新一次所有计时器
+            updateCountdowns(); 
             setInterval(updateCountdowns, 1000); 
         }
     </script>
