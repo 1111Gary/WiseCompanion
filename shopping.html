@@ -19,425 +19,415 @@
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     
     <style>
-/* ---------------------------------------------------- */
-/* 核心主题变量 */
-/* ---------------------------------------------------- */
-:root {
-    --color-bg-dark: #0A1322; 
-    --color-card-bg: #1A2233; 
-    --color-primary: #00BFFF; /* 主要强调色：天蓝色 */
-    --color-secondary: #FF69B4; /* 次要强调色：品红色 */
-    --color-text-light: #E0E7FF; /* 亮色文本 */
-    --color-text-muted: #9CA3AF; /* 柔和文本 */
-    --color-highlight: #FFD700; /* 高亮色：金色 */
-    --color-bank-bg: #1F2A40; /* 银行卡背景色 */
-    --color-success: #34D399; /* 成功状态/绿色 */
-    --color-special-note: #F59E0B; /* 特殊提示/橙色 */
-    --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4); /* 高级会员卡边框 */
-    
-    /* Shopping 页面的主题色（已优化配色） */
-    --color-shopping-1: #A78BFA; /* PaymentDiscount - 购物有优惠 (紫色) */
-    --color-shopping-2: #F59E0B; /* PaymentBill - 缴费有优惠 (活力橙) */
-    --color-shopping-3: #2DD4BF; /* TravelDiscount - 出行有优惠 (海洋青) */
+        /* ---------------------------------------------------- */
+        /* 核心主题变量 */
+        /* ---------------------------------------------------- */
+        :root {
+            --color-bg-dark: #0A1322; 
+            --color-card-bg: #1A2233; 
+            --color-primary: #00BFFF; /* 主要强调色：天蓝色 */
+            --color-secondary: #FF69B4; /* 次要强调色：品红色 */
+            --color-text-light: #E0E7FF; /* 亮色文本 */
+            --color-text-muted: #9CA3AF; /* 柔和文本 */
+            --color-highlight: #FFD700; /* 高亮色：金色 */
+            --color-bank-bg: #1F2A40; /* 银行卡背景色 */
+            --color-success: #34D399; /* 成功状态/绿色 */
+            --color-special-note: #F59E0B; /* 特殊提示/橙色 */
+            --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4); /* 高级会员卡边框 */
+            
+            /* Shopping 页面的主题色（已优化配色） */
+            --color-shopping-1: #A78BFA; /* PaymentDiscount - 购物有优惠 (紫色) */
+            --color-shopping-2: #F59E0B; /* PaymentBill - 缴费有优惠 (活力橙) */
+            --color-shopping-3: #2DD4BF; /* TravelDiscount - 出行有优惠 (海洋青) */
 
-    /* **[新增]** 各页面主横幅边框渐变色 */
-    --banner-border-home: linear-gradient(to right, var(--color-primary), var(--color-highlight)); /* 首页边框 */
-    --banner-border-checkin: linear-gradient(to right, #34D399, var(--color-highlight)); /* 天天有奖（绿色系） */
-    --banner-border-video: linear-gradient(to right, #A78BFA, var(--color-highlight)); /* 看视频赚（紫色系） */
-    --banner-border-bank: linear-gradient(to right, #00BFFF, var(--color-highlight)); /* 捡钱任务（蓝色系） */
-    --banner-border-shopping: linear-gradient(to right, #2DD4BF, var(--color-highlight)); /* 省钱秘籍（青色系） */
+            /* 各页面主横幅边框渐变色 */
+            --banner-border-home: linear-gradient(to right, var(--color-primary), var(--color-highlight)); 
+            --banner-border-checkin: linear-gradient(to right, #34D399, var(--color-highlight)); 
+            --banner-border-video: linear-gradient(to right, #A78BFA, var(--color-highlight)); 
+            --banner-border-bank: linear-gradient(to right, #00BFFF, var(--color-highlight)); 
+            --banner-border-shopping: linear-gradient(to right, #2DD4BF, var(--color-highlight)); /* 页面专属青色系边框 */
 
-    /* **[新增]** 状态栏激活背景色 - 采用更通用的主题色或浅色 */
-    --status-active-bg: var(--color-primary); /* 使用主强调色 */
-    --status-active-text: var(--color-bg-dark); /* 激活时文本为深色 */
-}
+            /* 状态栏激活背景色 - 采用主题色 */
+            --status-active-bg: var(--color-primary); 
+            --status-active-text: var(--color-bg-dark); 
+        }
         
-/* ... 基础布局和头部/底部导航样式保持不变 ... */
-body { 
-    background-color: var(--color-bg-dark); 
-    color: var(--color-text-light); 
-    padding-bottom: calc(85px + env(safe-area-inset-bottom)); 
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
-}
-.header-bar-fixed { 
-    padding-top: calc(15px + env(safe-area-inset-top)); 
-    padding-bottom: 5px; 
-    background-color: var(--color-bg-dark);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 60px;
-}
-.header-logo-group {
-    display: flex;
-    align-items: center;
-}
-.header-logo {
-    width: 32px;
-    height: 32px;
-    margin-right: 10px;
-}
-.header-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--color-text-light);
-}
-.back-arrow-link {
-    color: var(--color-text-light);
-    font-size: 1.2rem;
-    padding: 5px 10px;
-    border-radius: 50%;
-    background-color: var(--color-card-bg);
-    transition: background-color 0.2s;
-}
-.tab-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 60px;
-    background-color: var(--color-bg-dark);
-    border-top: 1px solid #1A2233;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
-    padding-bottom: env(safe-area-inset-bottom);
-    z-index: 20;
-}
-.tab-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: var(--color-text-muted);
-    font-size: 0.75rem;
-    font-weight: 500;
-    transition: color 0.2s ease;
-    padding: 5px;
-    flex-grow: 1;
-    max-width: 20%;
-}
-.tab-item.active { color: var(--color-primary); }
-.tab-icon {
-    font-size: 1.2rem;
-    margin-bottom: 3px;
-}
+        /* ---------------------------------------------------- */
+        /* 基础布局和头部/底部导航 */
+        /* ---------------------------------------------------- */
+        body { 
+            background-color: var(--color-bg-dark); 
+            color: var(--color-text-light); 
+            padding-bottom: calc(85px + env(safe-area-inset-bottom)); 
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .header-bar-fixed { 
+            padding-top: calc(15px + env(safe-area-inset-top)); 
+            padding-bottom: 5px; 
+            background-color: var(--color-bg-dark);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+        .header-logo-group {
+            display: flex;
+            align-items: center;
+        }
+        .header-logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+        }
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+        }
+        .back-arrow-link {
+            color: var(--color-text-light);
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            border-radius: 50%;
+            background-color: var(--color-card-bg);
+            transition: background-color 0.2s;
+        }
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 60px;
+            background-color: var(--color-bg-dark);
+            border-top: 1px solid #1A2233;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            padding-bottom: env(safe-area-inset-bottom);
+            z-index: 20;
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            padding: 5px;
+            flex-grow: 1;
+            max-width: 20%;
+        }
+        .tab-item.active { color: var(--color-primary); }
+        .tab-icon {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
 
-
-/* ---------------------------------------------------- */
-/* 内容卡片和筛选器样式 */
-/* ---------------------------------------------------- */
-.main-banner-card {
-    background: linear-gradient(135deg, #0f1627, #1a2233);
-    border-radius: 20px;
-    padding: 25px 20px;
-    text-align: center;
-    border: 3px solid transparent; 
-    background-clip: padding-box, border-box;
-    background-origin: padding-box, border-box;
-    /* **[修改]** 使用该页面专属的边框渐变色变量 */
-    border-image: var(--banner-border-shopping); 
-    border-image-slice: 1;
-    box-shadow: 0 0 15px rgba(0, 191, 255, 0.5), 0 0 30px rgba(255, 215, 0, 0.3);
-    margin-bottom: 1.5rem;
-    position: relative;
-}
-.main-banner-card h1 {
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: var(--color-text-light);
-    text-shadow: 0 0 5px var(--color-highlight);
-}
-.main-banner-card p {
-    color: var(--color-text-muted); /* 确保副标题颜色 */
-}
+        /* ---------------------------------------------------- */
+        /* 内容卡片和筛选器样式 */
+        /* ---------------------------------------------------- */
+        .main-banner-card {
+            background: linear-gradient(135deg, #0f1627, #1a2233);
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            border: 3px solid transparent; 
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+            border-image: var(--banner-border-shopping); 
+            border-image-slice: 1;
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.5), 0 0 30px rgba(255, 215, 0, 0.3);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        .main-banner-card h1 {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--color-text-light);
+            text-shadow: 0 0 5px var(--color-highlight);
+        }
+        .main-banner-card p {
+            color: var(--color-text-muted); 
+        }
         
-/* 平台筛选器容器 - Sticky 样式 */
-.filter-container {
-    margin-bottom: 1rem; 
-    padding: 10px 0;
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-.filter-container::-webkit-scrollbar { display: none; }
-.filter-container.sticky-top-16 {
-    position: sticky;
-    top: 60px; /* 固定在头部下方 */
-    z-index: 5; 
-    background-color: var(--color-bg-dark); 
-    border-bottom: 1px solid var(--color-card-bg); 
-    margin-left: -1rem; 
-    margin-right: -1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
+        /* 平台筛选器容器 - Sticky 样式 */
+        .filter-container {
+            margin-bottom: 1rem; 
+            padding: 10px 0;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .filter-container::-webkit-scrollbar { display: none; }
+        .filter-container.sticky-top-16 {
+            position: sticky;
+            top: 60px; 
+            z-index: 5; 
+            background-color: var(--color-bg-dark); 
+            border-bottom: 1px solid var(--color-card-bg); 
+            margin-left: -1rem; 
+            margin-right: -1rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
         
-.filter-button {
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 15px;
-    border-radius: 9999px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    background-color: var(--color-card-bg);
-    color: var(--color-text-muted);
-    border: 2px solid var(--color-card-bg);
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-}
-.filter-button.active {
-    background-color: var(--color-primary);
-    color: var(--color-bg-dark);
-    border-color: var(--color-primary);
-    box-shadow: 0 0 8px rgba(0, 191, 255, 0.8);
-}
-.filter-button i { margin-right: 6px; }
+        .filter-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 15px;
+            border-radius: 9999px; /* 胶囊形圆角 */
+            font-size: 0.85rem;
+            font-weight: 600;
+            background-color: var(--color-card-bg);
+            color: var(--color-text-muted);
+            border: 2px solid var(--color-card-bg);
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        .filter-button.active {
+            background-color: var(--color-primary);
+            color: var(--color-bg-dark);
+            border-color: var(--color-primary);
+            box-shadow: 0 0 8px rgba(0, 191, 255, 0.8);
+        }
+        .filter-button i { margin-right: 6px; }
 
-/* 状态筛选器样式 (统一胶囊式设计) */
-.status-filter-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 5px; 
-    margin-top: 5px; 
-    margin-bottom: 1.5rem; 
-    background-color: var(--color-card-bg); 
-    border-radius: 12px; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    position: sticky;
-    /* top 值会在 JS 中动态计算，确保在平台筛选器下方 */
-    z-index: 4; 
-}
-.sticky-status-bar {
-    margin-left: -1rem; 
-    margin-right: -1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
+        /* 状态筛选器样式 (统一胶囊式设计) */
+        .status-filter-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 5px; 
+            margin-top: 5px; 
+            margin-bottom: 1.5rem; 
+            background-color: var(--color-card-bg); 
+            border-radius: 12px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            z-index: 4; 
+        }
+        .sticky-status-bar {
+            margin-left: -1rem; 
+            margin-right: -1rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
 
-.status-button {
-    flex-grow: 1; 
-    text-align: center;
-    padding: 8px 10px;
-    /* **[修改]** 统一圆角到更小的 8px，与您提供的图示一致 */
-    border-radius: 8px; 
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--color-text-muted); 
-    background-color: transparent;
-    border: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-}
+        .status-button {
+            flex-grow: 1; 
+            text-align: center;
+            padding: 8px 10px;
+            border-radius: 8px; /* 胶囊形按钮的圆角 */
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--color-text-muted); 
+            background-color: transparent;
+            border: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
 
-.status-button.active {
-    /* **[修改]** 使用新的主题色变量或更通用的颜色 */
-    color: var(--status-active-text); 
-    background-color: var(--status-active-bg); 
-    box-shadow: 0 0 10px rgba(0, 191, 255, 0.5); /* 蓝色发光 */
-}
+        .status-button.active {
+            color: var(--status-active-text); 
+            background-color: var(--status-active-bg); 
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.5); 
+        }
         
-/* 分区标题卡片 */
-.section-title-card {
-    background: linear-gradient(135deg, #0f1627, #1a2233);
-    border-radius: 12px;
-    padding: 15px 20px;
-    text-align: left;
-    border: 2px solid transparent; 
-    background-clip: padding-box, border-box;
-    background-origin: padding-box, border-box;
-    border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight));
-    border-image-slice: 1;
-    box-shadow: 0 0 8px rgba(0, 191, 255, 0.3);
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    position: relative;
-}
-.section-title-card h2 {
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: var(--color-text-light);
-}
-.section-description {
-    color: var(--color-text-muted);
-    font-size: 0.9rem;
-    margin-bottom: 1rem; 
-    padding-left: 5px;
-}
-        
-/* 活动卡片样式 */
-.task-list-card {
-    background-color: var(--color-bank-bg);
-    border-radius: 15px;
-    padding: 15px 20px;
-    margin-bottom: 15px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-    border-left: 5px solid; 
-    position: relative;
-}
-.task-list-card:hover {
-    background-color: #25334c;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-}
-        
-/* 核心分类配色 */
-.task-shopping-1 { border-left-color: var(--color-shopping-1); } 
-.task-shopping-2 { border-left-color: var(--color-shopping-2); } 
-.task-shopping-3 { border-left-color: var(--color-shopping-3); } 
-
-.icon-shopping-1 { background-color: var(--color-shopping-1); }
-.icon-shopping-2 { background-color: var(--color-shopping-2); }
-.icon-shopping-3 { background-color: var(--color-shopping-3); }
-
-.task-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    color: var(--color-bg-dark); 
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-    flex-shrink: 0;
-}
-        
-.special-note-badge {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background-color: var(--color-special-note);
-    color: var(--color-bg-dark);
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    z-index: 5;
-    box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
-}
-.countdown-badge {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: var(--color-secondary);
-    color: var(--color-bg-dark);
-    padding: 4px 10px;
-    border-top-right-radius: 15px;
-    border-bottom-left-radius: 15px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    z-index: 4;
-}
-.special-note-badge + .countdown-badge {
-    top: 40px;
-    right: 15px;
-    border-radius: 8px;
-}
-.task-main-content {
-    display: flex;
-    align-items: center;
-    width: 100%;
-}
-.task-content {
-    flex-grow: 1;
-    min-width: 0;
-}
-.task-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--color-text-light);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-right: 90px; 
-}
-.has-special-note .task-title {
-    padding-right: 120px;
-}
-.task-subtitle {
-    font-size: 0.8rem;
-    color: var(--color-text-muted);
-    white-space: normal; 
-    line-height: 1.4;
-    margin-top: 4px;
-}
-.task-action-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15px;
-    padding-top: 10px;
-    border-top: 1px solid var(--color-card-bg);
-}
-.share-button {
-    background-color: var(--color-card-bg);
-    color: var(--color-primary);
-    border: 1px solid var(--color-primary);
-    font-weight: 600;
-    padding: 8px 15px;
-    border-radius: 9999px;
-    font-size: 0.8rem;
-    transition: all 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-.action-button {
-    background-color: var(--color-primary);
-    color: var(--color-bg-dark);
-    font-weight: 700;
-    padding: 8px 18px;
-    border-radius: 9999px;
-    font-size: 0.8rem;
-    transition: all 0.2s;
-    text-align: center;
-    min-width: 100px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-}
-.action-button-voice {
-    background-color: var(--color-success);
-}
-.action-button-voice.speaking {
-    background-color: var(--color-secondary);
-    animation: pulse 1s infinite;
-}
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.8; }
-}
-.premium-card {
-    background: var(--color-card-bg);
-    border-radius: 20px;
-    padding: 25px 20px;
-    text-align: center;
-    border: 3px solid transparent; 
-    background-clip: padding-box, border-box;
-    background-origin: padding-box, border-box;
-    border-image: var(--color-premium-border);
-    border-image-slice: 1;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4), 0 0 30px rgba(255, 105, 180, 0.2);
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    position: relative;
-    text-decoration: none;
-    display: block;
-    transition: all 0.3s ease;
-}
+        /* 分区标题卡片及以下样式保持不变 */
+        .section-title-card {
+            background: linear-gradient(135deg, #0f1627, #1a2233);
+            border-radius: 12px;
+            padding: 15px 20px;
+            text-align: left;
+            border: 2px solid transparent; 
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+            border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight));
+            border-image-slice: 1;
+            box-shadow: 0 0 8px rgba(0, 191, 255, 0.3);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .section-title-card h2 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--color-text-light);
+        }
+        .section-description {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem; 
+            padding-left: 5px;
+        }
+        .task-list-card {
+            background-color: var(--color-bank-bg);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            border-left: 5px solid; 
+            position: relative;
+        }
+        .task-list-card:hover {
+            background-color: #25334c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+        .task-shopping-1 { border-left-color: var(--color-shopping-1); } 
+        .task-shopping-2 { border-left-color: var(--color-shopping-2); } 
+        .task-shopping-3 { border-left-color: var(--color-shopping-3); } 
+        .icon-shopping-1 { background-color: var(--color-shopping-1); }
+        .icon-shopping-2 { background-color: var(--color-shopping-2); }
+        .icon-shopping-3 { background-color: var(--color-shopping-3); }
+        .task-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            color: var(--color-bg-dark); 
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .special-note-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--color-special-note);
+            color: var(--color-bg-dark);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            z-index: 5;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
+        }
+        .countdown-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--color-secondary);
+            color: var(--color-bg-dark);
+            padding: 4px 10px;
+            border-top-right-radius: 15px;
+            border-bottom-left-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            z-index: 4;
+        }
+        .special-note-badge + .countdown-badge {
+            top: 40px;
+            right: 15px;
+            border-radius: 8px;
+        }
+        .task-main-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        .task-content {
+            flex-grow: 1;
+            min-width: 0;
+        }
+        .task-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 90px; 
+        }
+        .has-special-note .task-title {
+            padding-right: 120px;
+        }
+        .task-subtitle {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            white-space: normal; 
+            line-height: 1.4;
+            margin-top: 4px;
+        }
+        .task-action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid var(--color-card-bg);
+        }
+        .share-button {
+            background-color: var(--color-card-bg);
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .action-button {
+            background-color: var(--color-primary);
+            color: var(--color-bg-dark);
+            font-weight: 700;
+            padding: 8px 18px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            text-align: center;
+            min-width: 100px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .action-button-voice {
+            background-color: var(--color-success);
+        }
+        .action-button-voice.speaking {
+            background-color: var(--color-secondary);
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        .premium-card {
+            background: var(--color-card-bg);
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            border: 3px solid transparent; 
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+            border-image: var(--color-premium-border);
+            border-image-slice: 1;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4), 0 0 30px rgba(255, 105, 180, 0.2);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -467,7 +457,7 @@ body {
             </div>
 
         <div class="status-filter-container sticky-status-bar" id="status-filter-container">
-            <button class="status-button active" data-status="Active">正在进行</button>
+            <button class="status-button" data-status="Active">正在进行</button>
             <button class="status-button" data-status="Upcoming">即将开始</button>
             <button class="status-button" data-status="Expired">已结束</button>
         </div>
@@ -550,8 +540,7 @@ body {
         let ALL_ACTIVITIES = [];
         let selectedPlatform = 'All'; 
         
-        // 只保留一个全局状态筛选器，控制整个页面的活动状态
-        let globalStatus = 'Active'; // **[修改]** 默认选中“正在进行”
+        let globalStatus = 'Active'; 
 
         // [【 核心 】] 分类与样式的映射 
         const CATEGORY_MAP = {
@@ -600,8 +589,7 @@ body {
             
             if (!platformFilter || !statusBar) return;
             
-            // 平台筛选器的高度加上其上下 margin/padding 
-            // 这里我们需要精确获取实际渲染高度，包括了其padding和margin
+            // 获取平台筛选器的实际高度，包括其定位父元素的padding/margin
             const platformFilterComputedStyle = window.getComputedStyle(platformFilter);
             const platformFilterHeight = platformFilter.offsetHeight + 
                                          parseFloat(platformFilterComputedStyle.marginTop) + 
@@ -632,7 +620,7 @@ body {
                 initPlatformFilters();
                 bindStatusFilters(); 
                 
-                // **[新增]** 默认激活状态栏的“正在进行”按钮
+                // 确保默认激活状态栏的“正在进行”按钮的样式
                 const defaultActiveButton = document.querySelector('#status-filter-container .status-button[data-status="Active"]');
                 if (defaultActiveButton) {
                     defaultActiveButton.classList.add('active');
@@ -715,6 +703,19 @@ body {
             container.querySelectorAll('.status-button').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const btn = e.currentTarget;
+                    const status = btn.getAttribute('data-status');
+
+                    globalStatus = status;
+
+                    // 激活样式
+                    container.querySelectorAll('.status-button').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    renderActivities();
+                });
+            });
+        }
+        
         // ----------------------------------------------------
         // 步骤 3: 活动状态判断
         // ----------------------------------------------------
@@ -762,7 +763,7 @@ body {
                 categoryActivities.forEach(activity => {
                     const status = getActivityStatus(activity);
                     
-                    if (globalStatus === 'All' || globalStatus === status) {
+                    if (globalStatus === status) {
                         hasActivities = true;
                         const cardHtml = renderActivityCard(activity, category, status);
                         listElement.innerHTML += cardHtml;
@@ -775,12 +776,9 @@ body {
                     if (selectedPlatform !== 'All') {
                         message += `平台 ${selectedPlatform} 下，`;
                     }
-                    if (globalStatus !== 'All') {
-                        const statusText = globalStatus === 'Active' ? '正在进行' : globalStatus === 'Upcoming' ? '即将开始' : '已结束';
-                        message += `没有处于 [${statusText}] 状态的活动。`;
-                    } else {
-                        message = `该分类下暂无活动。`;
-                    }
+                    const statusText = globalStatus === 'Active' ? '正在进行' : globalStatus === 'Upcoming' ? '即将开始' : '已结束';
+                    message += `没有处于 [${statusText}] 状态的活动。`;
+                    
                     listElement.innerHTML = `<p class="text-gray-400 text-center p-4">在当前筛选条件下，${message}</p>`;
                 }
             });
@@ -789,7 +787,7 @@ body {
         }
 
         // ----------------------------------------------------
-        // 步骤 5: 单个活动卡片的 HTML 生成 (保持不变)
+        // 步骤 5: 单个活动卡片的 HTML 生成 
         // ----------------------------------------------------
         function renderActivityCard(activity, subCategory, status) {
             const styles = CATEGORY_MAP[subCategory] || CATEGORY_MAP['PaymentDiscount'];
@@ -887,7 +885,7 @@ body {
         }
 
         // ----------------------------------------------------
-        // 步骤 6-9: 绑定事件, 语音播放, 分享, 倒计时 (保持不变)
+        // 步骤 6-9: 绑定事件, 语音播放, 分享, 倒计时 
         // ----------------------------------------------------
         function bindActionButtons() {
             document.querySelectorAll('.action-button-voice').forEach(button => {
@@ -993,7 +991,7 @@ body {
             timers.forEach(timer => {
                 const endTimeString = timer.getAttribute('data-endtime');
                 
-                // 处理 Upcoming
+                // 处理 Upcoming (距开始)
                 if (timer.closest('.opacity-70') && timer.parentElement.querySelector('span:first-child').innerText.includes('距开始')) {
                     const activityIdMatch = timer.id.match(/timer-(\d+)/);
                     if (!activityIdMatch) return;
