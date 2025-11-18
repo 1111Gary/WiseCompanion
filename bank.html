@@ -1730,30 +1730,223 @@
 
                         <div class="task-icon ${styles.iconClass}">
 
-          // ... (接您提供的代码结尾)
+         <i class="fas ${styles.faIcon}"></i>
+                </div> 
+                
+                <div class="task-content">
+                    <div class="task-title">
+                        ${activity.name} (${activity.sourceApp})
+                    </div>
+                    <p class="task-subtitle">
+                        ${activity.description}
+                    </p>
+                </div> 
+            </div> 
+            
+            <div class="task-action-bar">
+                <a href="#" class="share-button" 
+                    data-activity-id="${activity.id}" 
+                    data-umami-event="click_share" 
+                    data-umami-event-name="${activity.name}">
+                    <i class="fas fa-share-alt"></i>
+                    分享
+                </a>
+                ${actionButtonHtml}
+            </div>
+        </div> 
+    `;
+}
 
-                        <i class="fas ${styles.faIcon}"></i> 
-                       </div> // 结束 task-icon
-                        <div class="task-content">
-                            <div class="task-title">
-                                ${activity.name} (${activity.sourceApp})
-                            </div>
-                            <p class="task-subtitle">
-                                ${activity.description}
-                            </p>
-                        </div> // 结束 task-content
-                    </div> // 结束 task-main-content
-                    
-                    <div class="task-action-bar">
-                        <a href="#" class="share-button" 
-                            data-activity-id="${activity.id}" 
-                            data-umami-event="click_share" 
-                            data-umami-event-name="${activity.name}">
-                            <i class="fas fa-share-alt"></i>
-                            分享
-                        </a>
-                        ${actionButtonHtml}
-                    </div>
-                </div> // 结束 task-list-card
-            `; // 结束 return 字符串
-        } // 结束函数
+        // ----------------------------------------------------
+// 步骤 5: 语音播放控制 (Web Speech API)
+// ----------------------------------------------------
+
+/**
+ * 停止当前的语音播放，并重置UI状态
+ */
+function stopSpeech() {
+    if (synth.speaking && currentUtterance) {
+        synth.cancel();
+    }
+    // 重置所有正在播放按钮的样式
+    if (speakingButton) {
+        speakingButton.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+        speakingButton.classList.remove('speaking');
+        speakingButton = null;
+    }
+}
+
+/**
+ * 切换语音播放状态
+ * @param {HTMLElement} button - 当前点击的按钮元素
+ * @param {string} text - 要播放的文本内容 (步骤)
+ * @param {string} activityName - 活动名称 (用于日志)
+ */
+function toggleSpeech(button, text, activityName) {
+    if (!synth) return;
+
+    // 检查是否正在播放当前按钮对应的语音
+    if (button.classList.contains('speaking')) {
+        stopSpeech();
+        button.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+        button.classList.remove('speaking');
+        return;
+    }
+
+    // 如果有其他语音正在播放，先停止
+    stopSpeech();
+
+    // 开始播放新的语音
+    console.log(`【慧伴管家】: 开始播放 ${activityName} 的语音指引...`);
+    if (window.umami) {
+        umami.track('click_voice_button', { name: activityName });
+    }
+
+    const voice = synth.getVoices().find(v => v.lang.startsWith('zh')) || synth.getVoices()[0];
+    
+    currentUtterance = new SpeechSynthesisUtterance(text);
+    currentUtterance.voice = voice;
+    currentUtterance.rate = 1.0; 
+    
+    // 绑定事件
+    currentUtterance.onstart = () => {
+        speakingButton = button;
+        button.classList.add('speaking');
+        button.innerHTML = `<i class="fas fa-volume-xmark"></i> 停止播放`;
+    };
+    
+    currentUtterance.onend = () => {
+        button.classList.remove('speaking');
+        button.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+        speakingButton = null;
+        currentUtterance = null;
+    };
+
+    currentUtterance.onerror = (event) => {
+        console.error("【慧伴管家】: 语音播放错误:", event.error);
+        alert("语音播放失败，请检查浏览器设置或尝试切换浏览器。");
+        stopSpeech(); // 确保重置状态
+    };
+
+    synth.speak(currentUtterance);
+}
+
+        // ----------------------------------------------------
+// 步骤 6: 绑定卡片上的所有动作按钮
+// ----------------------------------------------------
+
+/**
+ * 绑定所有动态生成的任务卡片上的按钮事件。
+ */
+function bindActionButtons() {
+    // 绑定语音播放按钮
+    document.querySelectorAll('.action-button-voice').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const stepsText = e.currentTarget.getAttribute('data-steps');
+            const name = e.currentTarget.getAttribute('data-activity-name');
+            toggleSpeech(e.currentTarget, stepsText, name);
+        });
+    });
+
+    // 绑定分享按钮 (这里仅为演示，实际分享功能通常需要调用原生API或复杂的Web Share API)
+    document.querySelectorAll('.share-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const activityId = e.currentTarget.getAttribute('data-activity-id');
+            const activityName = e.currentTarget.getAttribute('data-umami-event-name');
+            
+            // 查找活动详情（假设分享链接为活动详情页）
+            const activity = ALL_ACTIVITIES.find(act => act.id === activityId);
+            const shareUrl = activity ? activity.link : window.location.href; 
+            const shareText = `【慧伴管家】发现一个好活动：${activityName}！快来看看如何领取吧：${shareUrl}`;
+
+            if (navigator.share) {
+                // 如果支持Web Share API，使用原生分享
+                navigator.share({
+                    title: '慧伴管家 - 任务分享',
+                    text: shareText,
+                    url: shareUrl,
+                }).catch((error) => console.log('分享失败', error));
+            } else {
+                // 回退到复制到剪贴板
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('活动链接和描述已复制到剪贴板，快去分享吧！');
+                }).catch(err => {
+                    console.error('复制失败:', err);
+                    alert('复制失败，请手动复制以下内容：\n' + shareText);
+                });
+            }
+            // Umami track已在HTML中定义，这里不再重复
+        });
+    });
+}
+
+        // ----------------------------------------------------
+// 步骤 7: 倒计时更新 (实时UI更新)
+// ----------------------------------------------------
+
+/**
+ * 将毫秒数转换为“X天 X时 X分”的格式
+ * @param {number} ms - 剩余毫秒数
+ * @returns {string} 格式化后的时间字符串
+ */
+function formatTimeLeft(ms) {
+    if (ms <= 0) return "已结束";
+
+    const totalSeconds = Math.floor(ms / 1000);
+    const days = Math.floor(totalSeconds / (3600 * 24));
+    const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+    let parts = [];
+    if (days > 0) parts.push(`${days}天`);
+    parts.push(`${hours}时`);
+    parts.push(`${minutes}分`);
+
+    return parts.join(' ');
+}
+
+/**
+ * 启动一个定时器，每分钟更新一次所有活动卡片的倒计时显示。
+ */
+function startCountdownUpdater() {
+    
+    // 第一次立即运行
+    updateAllTimers();
+
+    // 之后每 60 秒运行一次
+    setInterval(updateAllTimers, 60000); 
+}
+
+/**
+ * 遍历所有倒计时徽章并更新其内容。
+ */
+function updateAllTimers() {
+    const now = Date.now();
+    document.querySelectorAll('.countdown-badge').forEach(badge => {
+        const endDateString = badge.getAttribute('data-endtime');
+        
+        // 1. 处理长期或无截止日期的情况
+        if (!endDateString || endDateString === 'null') {
+            badge.textContent = '长期';
+            badge.classList.remove('expired-badge');
+            return;
+        }
+
+        const endDate = new Date(endDateString);
+        const timeLeft = endDate.getTime() - now;
+
+        // 2. 更新显示
+        if (timeLeft > 0) {
+            badge.textContent = formatTimeLeft(timeLeft);
+            badge.classList.remove('expired-badge');
+        } else {
+            // 3. 活动已结束
+            badge.textContent = '已结束';
+            badge.classList.add('expired-badge');
+        }
+    });
+    // console.log("【慧伴管家】: 倒计时更新完成。"); 
+}
+
+        
