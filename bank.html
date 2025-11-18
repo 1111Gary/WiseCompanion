@@ -1730,4 +1730,30 @@
 
                         <div class="task-icon ${styles.iconClass}">
 
-          
+          // ... (接您提供的代码结尾)
+
+                        <i class="fas ${styles.faIcon}"></i> 
+                       </div> // 结束 task-icon
+                        <div class="task-content">
+                            <div class="task-title">
+                                ${activity.name} (${activity.sourceApp})
+                            </div>
+                            <p class="task-subtitle">
+                                ${activity.description}
+                            </p>
+                        </div> // 结束 task-content
+                    </div> // 结束 task-main-content
+                    
+                    <div class="task-action-bar">
+                        <a href="#" class="share-button" 
+                            data-activity-id="${activity.id}" 
+                            data-umami-event="click_share" 
+                            data-umami-event-name="${activity.name}">
+                            <i class="fas fa-share-alt"></i>
+                            分享
+                        </a>
+                        ${actionButtonHtml}
+                    </div>
+                </div> // 结束 task-list-card
+            `; // 结束 return 字符串
+        } // 结束函数
