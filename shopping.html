@@ -158,7 +158,7 @@
             color: var(--color-text-muted); 
         }
         
-        /* 平台筛选器容器 - Sticky 样式 */
+        /* 平台筛选器容器 - Sticky 样式 (固定) */
         .filter-container {
             margin-bottom: 1rem; 
             padding: 10px 0;
@@ -172,8 +172,8 @@
         }
         .filter-container::-webkit-scrollbar { display: none; }
         .filter-container.sticky-top-16 {
-            position: sticky;
-            top: 60px; 
+            position: sticky; /* 保持固定 */
+            top: 60px; /* 紧跟在 header-bar-fixed 后面 */
             z-index: 5; 
             background-color: var(--color-bg-dark); 
             border-bottom: 1px solid var(--color-card-bg); 
@@ -204,7 +204,7 @@
         }
         .filter-button i { margin-right: 6px; }
 
-        /* 状态筛选器样式 (统一胶囊式设计) */
+        /* 状态筛选器样式 (不固定) */
         .status-filter-container {
             display: flex;
             justify-content: space-around;
@@ -215,8 +215,7 @@
             background-color: var(--color-card-bg); 
             border-radius: 12px; 
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            position: sticky;
-            z-index: 4; 
+            /* 移除 position: sticky 和 z-index */
         }
         .sticky-status-bar {
             margin-left: -1rem; 
@@ -545,7 +544,6 @@
         // ----------------------------------------------------
         let ALL_ACTIVITIES = [];
         let selectedPlatform = 'All'; 
-        
         let globalStatus = 'Active'; 
 
         // [【 核心 】] 分类与样式的映射 
@@ -580,34 +578,16 @@
             
             loadAndFetchActivities();
             
-            // 动态计算状态栏的 Sticky top 位置
-            setupStickyFilterTop();
-            window.addEventListener('resize', setupStickyFilterTop);
+            // 已移除 setupStickyFilterTop()，因为状态栏不再需要固定
             
             startCountdownUpdater(); // 启动倒计时更新器
         });
         
-        // 动态计算 Sticky Top 位置 (确保状态栏在平台筛选器下方)
-        function setupStickyFilterTop() {
-            const headerHeight = 60; // 头部高度
-            const platformFilter = document.getElementById('platform-filter-container');
-            const statusBar = document.getElementById('status-filter-container');
-            
-            if (!platformFilter || !statusBar) return;
-            
-            // 获取平台筛选器的实际高度，包括其定位父元素的padding/margin
-            const platformFilterComputedStyle = window.getComputedStyle(platformFilter);
-            const platformFilterHeight = platformFilter.offsetHeight + 
-                                         parseFloat(platformFilterComputedStyle.marginTop) + 
-                                         parseFloat(platformFilterComputedStyle.marginBottom);
-            
-            const newStatusTop = headerHeight + platformFilterHeight + 5; // 5px是微调间距
-            
-            statusBar.style.top = `${newStatusTop}px`;
-        }
+        // ** 已移除 setupStickyFilterTop 函数 **
 
         async function loadAndFetchActivities() {
             try {
+                // 假设 activities.json 包含活动的详细数据
                 const response = await fetch('./activities.json');
                 if (!response.ok) {
                     throw new Error('网络响应错误，无法加载 activities.json');
@@ -749,8 +729,8 @@
             
             const lists = {
                 'PaymentDiscount': document.getElementById('paymentdiscount-list'), 
-                'PaymentBill': document.getElementById('paymentbill-list'),       
-                'TravelDiscount': document.getElementById('traveldiscount-list')   
+                'PaymentBill': document.getElementById('paymentbill-list'),     
+                'TravelDiscount': document.getElementById('traveldiscount-list')    
             };
 
             Object.keys(lists).forEach(category => {
@@ -831,6 +811,8 @@
             }
             
             let specialNoteBadge = '';
+            let cardClass = activity.specialNote ? 'has-special-note' : '';
+
             if (activity.specialNote) {
                 specialNoteBadge = `
                     <span class="special-note-badge"
@@ -863,9 +845,11 @@
                     </span>`;
             }
 
+            cardClass += ` ${cardClassModifier}`;
+
 
             return `
-                <div class="task-list-card ${styles.borderClass} ${activity.specialNote ? 'has-special-note' : ''} ${cardClassModifier}">
+                <div class="task-list-card ${styles.borderClass} ${cardClass.trim()}">
                     ${specialNoteBadge}
                     ${countdownBadge}
                     <div class="task-main-content">
@@ -998,7 +982,7 @@
                 const endTimeString = timer.getAttribute('data-endtime');
                 
                 // 处理 Upcoming (距开始)
-                if (timer.closest('.opacity-70') && timer.parentElement.querySelector('span:first-child').innerText.includes('距开始')) {
+                if (timer.closest('.opacity-70') && timer.parentElement.querySelector('.special-note-badge + .countdown-badge, .countdown-badge:not(.special-note-badge)').innerText.includes('距开始')) {
                     const activityIdMatch = timer.id.match(/timer-(\d+)/);
                     if (!activityIdMatch) return;
                     const activityId = activityIdMatch[1];
@@ -1010,7 +994,15 @@
                         const distance = startTime - now;
 
                         if (distance > 0) {
-                            timer.innerHTML = formatTime(distance);
+                            // 查找内部的 span 元素进行更新
+                            let timeSpan = timer.querySelector(`#timer-${activityId}`);
+                            if (timeSpan) {
+                                timeSpan.innerHTML = formatTime(distance);
+                            } else {
+                                // 如果结构中没有内部 span (如在 Upcoming badge 中)，则直接更新整个 badge 文本，但这需要更复杂的判断
+                                // 保持原有的逻辑，假设 timer.innerHTML 包含了 "距开始 <span..."
+                                timer.innerHTML = `距开始 <span id="timer-${activityId}">${formatTime(distance)}</span>`;
+                            }
                         } else {
                             // 活动已开始，重新渲染列表 (状态变为 Active)
                             renderActivities(); 
@@ -1035,6 +1027,7 @@
                     // 触发重新渲染，将活动移入 "已结束" 列表
                     renderActivities(); 
                 } else {
+                    // 更新 Active 状态的倒计时
                     timer.innerHTML = formatTime(distance);
                 }
             });
