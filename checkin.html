@@ -4,70 +4,148 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>慧伴管家 - 天天有奖</title>
-    <script async defer src="https://umami.example.com/script.js" data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" data-do-not-track="true" data-domains="1111gary.github.io"></script>
+    
+    <!-- [核心] Umami 统计 (已恢复) -->
+    <script async defer 
+        data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" 
+        src="https://umami.example.com/script.js" 
+        data-do-not-track="true" 
+        data-domains="1111gary.github.io"></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="慧伴管家">
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
+    
     <style>
         :root {
-            --color-bg-dark: #0B1120; --color-text-light: #F1F5F9; --color-text-muted: #94A3B8;
-            --color-primary: #10B981; --color-highlight: #FACC15;
-            --color-checkin-1: #10B981; --grad-checkin-1: linear-gradient(135deg, #10B981, #34D399);
-            --color-checkin-2: #EC4899; --grad-checkin-2: linear-gradient(135deg, #EC4899, #F472B6);
+            --color-bg-dark: #0B1120; 
+            --color-card-bg: #1E293B; 
+            --color-text-light: #F1F5F9;
+            --color-text-muted: #94A3B8;
+            
+            /* 主题色：极光绿 */
+            --color-primary: #10B981; 
+            --color-highlight: #FACC15; 
+            
+            /* 业务色 */
+            --color-checkin-1: #10B981; /* Daily */
+            --grad-checkin-1: linear-gradient(135deg, #10B981, #34D399);
+            --color-checkin-2: #EC4899; /* Voucher */
+            --grad-checkin-2: linear-gradient(135deg, #EC4899, #F472B6);
+            
             --color-premium-border: linear-gradient(135deg, #10B981, #FACC15);
         }
-        body { background: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-        /* 修复版 Header: 强制 Flex 对齐 */
+        body { 
+            background-color: var(--color-bg-dark); 
+            color: var(--color-text-light); 
+            padding-bottom: calc(85px + env(safe-area-inset-bottom)); 
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* 顶部导航 */
         .header-bar-fixed { 
-            position: sticky; top: 0; z-index: 50; 
-            background: rgba(11,17,32,0.95); backdrop-filter: blur(10px); 
+            padding-top: calc(15px + env(safe-area-inset-top)); 
+            padding-bottom: 5px; 
+            background-color: rgba(11, 17, 32, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 50;
+            display: flex; align-items: center; justify-content: space-between;
             height: 60px; border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-top: env(safe-area-inset-top); 
-            display: flex; align-items: center; justify-content: space-between; 
             padding-left: 1rem; padding-right: 1rem;
         }
-        .header-logo-group { display: flex; align-items: center; gap: 10px; }
-        .header-logo { width: 32px; height: 32px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        .header-logo { width: 32px; height: 32px; border-radius: 8px; margin-right: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
         .header-title { font-size: 1.1rem; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
-        .back-arrow-link { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.1); color: #fff; transition: all 0.2s; }
-
-        .main-banner-card { background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 24px; padding: 30px 20px; text-align: center; border: 2px solid transparent; border-image: linear-gradient(to right, var(--color-checkin-1), var(--color-highlight)); border-image-slice: 1; margin: 1rem 0; box-shadow: 0 10px 30px -10px rgba(16,185,129,0.2); }
+        .back-arrow-link { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.1); color: #fff; }
+        
+        /* 主横幅 */
+        .main-banner-card {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border-radius: 24px; padding: 30px 20px; text-align: center;
+            border: 2px solid transparent; 
+            background-clip: padding-box, border-box; background-origin: padding-box, border-box;
+            border-image: linear-gradient(to right, var(--color-checkin-1), var(--color-highlight)); border-image-slice: 1;
+            margin: 1rem 0; box-shadow: 0 10px 30px -10px rgba(16,185,129,0.2);
+        }
         .main-banner-card h1 { font-size: 1.8rem; font-weight: 900; background: linear-gradient(to right, #fff, #d1fae5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .main-banner-card p { color: var(--color-text-muted); font-size: 0.9rem; margin-top: 8px; }
-
-        /* 状态筛选器 */
-        .status-filter-container { display: flex; justify-content: space-between; padding: 4px; margin: 1rem 0; background: #1E293B; border-radius: 100px; border: 1px solid rgba(255,255,255,0.05); position: sticky; top: 65px; z-index: 40; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
-        .status-button { flex: 1; padding: 10px 0; border-radius: 100px; font-size: 0.85rem; font-weight: 600; color: #94A3B8; background: transparent; transition: all 0.3s; }
-        .status-button.active { color: #fff; background: #10B981; box-shadow: 0 2px 10px rgba(16,185,129,0.3); }
+        
+        /* 状态筛选器 (胶囊) */
+        .status-filter-container {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 4px; margin: 1rem 0 2rem 0;
+            background-color: #1E293B; border-radius: 100px;
+            border: 1px solid rgba(255,255,255,0.05);
+            position: sticky; top: 65px; z-index: 40;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+        .status-button {
+            flex: 1; text-align: center; padding: 10px 0; border-radius: 100px;
+            font-size: 0.85rem; font-weight: 600; color: var(--color-text-muted);
+            background: transparent; border: none; transition: all 0.3s;
+        }
+        .status-button.active { color: #fff; background: var(--color-primary); box-shadow: 0 2px 10px rgba(16,185,129,0.3); }
         .status-button[data-status="Upcoming"].active { background: #EC4899; box-shadow: 0 2px 10px rgba(236,72,153,0.3); }
         .status-button[data-status="Expired"].active { background: #64748B; box-shadow: none; }
 
         /* 任务列表 */
-        .section-title-card { background: rgba(30,41,59,0.5); border-radius: 16px; padding: 12px 16px; margin-top: 2rem; margin-bottom: 1rem; display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .section-title-card {
+            background: rgba(30,41,59,0.5); border-radius: 16px; padding: 12px 16px;
+            margin-top: 2rem; margin-bottom: 1rem;
+            display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
         .section-title-card h2 { font-size: 1.1rem; font-weight: 800; margin-left: 10px; color: #fff; }
-        
-        .task-list-card { background: #1E293B; border-radius: 16px; padding: 16px; margin-bottom: 15px; border-left: 4px solid; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .task-checkin-1 { border-color: var(--color-checkin-1); } .icon-checkin-1 { background: var(--grad-checkin-1); }
-        .task-checkin-2 { border-color: var(--color-checkin-2); } .icon-checkin-2 { background: var(--grad-checkin-2); }
 
-        .task-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 12px; color: #fff; font-size: 1.2rem; flex-shrink: 0; }
-        /* 修复内容错位: min-width: 0 */
-        .task-content { flex: 1; min-width: 0; } 
+        .task-list-card {
+            background: #1E293B; border-radius: 16px; padding: 16px; margin-bottom: 15px;
+            border-left: 4px solid; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .task-checkin-1 { border-color: var(--color-checkin-1); } 
+        .icon-checkin-1 { background: var(--grad-checkin-1); }
+        .task-checkin-2 { border-color: var(--color-checkin-2); } 
+        .icon-checkin-2 { background: var(--grad-checkin-2); }
+        
+        /* [修正] 图标大小与Bank一致 */
+        .task-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 12px; color: #fff; font-size: 1.25rem; flex-shrink: 0; }
+        
+        /* [修正] 倒计时高亮 (Bank风格) */
+        /* 默认状态(Active)就是亮色 */
+        .countdown-badge {
+            position: absolute; top: 0; right: 0;
+            background: var(--color-primary); /* 默认绿色高亮 */
+            color: #fff; padding: 3px 10px; border-radius: 0 16px 0 10px;
+            font-size: 0.75rem; font-weight: 700; z-index: 4;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .countdown-badge.upcoming { background: var(--color-highlight); color: #000; }
+        .countdown-badge.expired { background: #334155; color: #94A3B8; box-shadow: none; }
+        
+        .task-content { flex: 1; min-width: 0; }
         .task-title { font-size: 1rem; font-weight: 700; color: #F1F5F9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
         .task-subtitle { font-size: 0.8rem; color: #94A3B8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        .countdown-badge { position: absolute; top: 0; right: 0; background: #334155; color: #94A3B8; padding: 3px 10px; border-radius: 0 16px 0 10px; font-size: 0.7rem; font-weight: 700; }
-        .special-note-badge { position: absolute; top: 12px; right: 12px; background: linear-gradient(to right, #F59E0B, #FBBF24); color: #000; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; }
-
-        .action-button { background: var(--color-primary); color: #fff; border-radius: 99px; padding: 6px 16px; font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; gap: 4px; }
-        .action-button-voice { background: #38BDF8; }
+        /* 按钮样式 */
+        .action-button {
+            background: var(--color-primary); color: #fff; border-radius: 99px;
+            padding: 6px 16px; font-size: 0.8rem; font-weight: 700;
+            display: flex; align-items: center; gap: 4px;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+        .action-button-voice { background: #38BDF8; box-shadow: 0 2px 8px rgba(56, 189, 248, 0.3); }
         .action-button-voice.speaking { background: #EF4444; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%{opacity:1} 50%{opacity:0.6} 100%{opacity:1} }
-
-        .premium-card { display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px; text-align: center; border: 2px solid transparent; border-image: var(--color-premium-border); border-image-slice: 1; margin-top: 2rem; text-decoration: none; }
-        .premium-card h2 { font-size: 1.2rem; font-weight: 800; background: var(--color-premium-border); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        
+        .premium-card {
+            display: block; background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 20px; padding: 25px; text-align: center;
+            border: 2px solid transparent; border-image: var(--color-premium-border); border-image-slice: 1;
+            margin-top: 2rem; text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .premium-card h2 { font-size: 1.2rem; font-weight: 800; background: var(--color-premium-border); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
 
         .tab-bar { position: fixed; bottom: 0; width: 100%; height: 65px; background: rgba(11,17,32,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); z-index: 50; }
         .tab-item { display: flex; flex-direction: column; align-items: center; color: #94A3B8; font-size: 0.7rem; }
@@ -100,7 +178,7 @@
         <div id="voucher-list" class="mt-2"></div>
 
         <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'checkin' })">
-            <h2><i class="fas fa-crown"></i> 高级会员专区</h2>
+            <h2><i class="fas fa-crown mr-2"></i> 高级会员专区</h2>
             <p class="text-gray-400 text-sm mt-2">AI自动提醒抢红包，成功率提升300%！</p>
         </a>
     </main>
@@ -139,7 +217,7 @@
                 const res = await fetch('./activities.json'); const data = await res.json();
                 ALL_ACTIVITIES = data.filter(act => act.category && (act.category.includes('DailyCheckin') || act.category.includes('Voucher')));
                 renderActivities();
-            } catch(e) {}
+            } catch(e) { console.error(e); }
         }
 
         function getStatus(act) {
@@ -156,33 +234,39 @@
             ALL_ACTIVITIES.forEach(act => {
                 if (getStatus(act) !== globalStatus) return;
                 const cat = act.category.find(c => CATEGORY_MAP[c]);
-                if (cat && lists[cat]) {
-                    hasItem = true;
-                    lists[cat].innerHTML += createCard(act, cat, globalStatus);
-                }
+                if (cat && lists[cat]) { hasItem = true; lists[cat].innerHTML += createCard(act, cat, globalStatus); }
             });
 
-            if (!hasItem) Object.values(lists).forEach(l => l.innerHTML = `<p class="text-gray-500 text-center py-4 text-sm">暂无活动</p>`);
+            if (!hasItem) Object.values(lists).forEach(l => l.innerHTML = `<p class="text-gray-500 text-center py-4 text-sm">暂无[${globalStatus === 'Active' ? '进行中' : globalStatus === 'Upcoming' ? '即将开始' : '已结束'}]的活动</p>`);
+            
             document.querySelectorAll('.action-button-voice').forEach(b => b.onclick = e => toggleSpeech(e.currentTarget, e.currentTarget.dataset.steps));
             updateTimers();
         }
 
-        // [倒计时/样式 完美修复]
         function createCard(act, cat, status) {
             const s = CATEGORY_MAP[cat], isExp = status === 'Expired';
             let btn = '';
-            if (act.link && act.link !== '#') btn = `<a href="${act.link}" target="_blank" class="action-button ${isExp?'opacity-50':''}" ${isExp?'onclick="return false"':''}><i class="fas fa-rocket"></i> 签到</a>`;
-            else if (act.StepsText) btn = `<button class="action-button action-button-voice ${isExp?'opacity-50':''}" data-steps="${act.StepsText.replace(/"/g,'&quot;')}" ${isExp?'disabled':''}><i class="fas fa-volume-high"></i> 语音</button>`;
             
-            let badge = '';
-            // 使用 data-start 和 data-end 属性，完全对齐 Bank 逻辑
-            if (status === 'Upcoming') badge = `<span class="countdown-badge" style="background:#EC4899;color:#fff" data-start="${act.startDate}">即将开始</span>`;
-            else if (status === 'Expired') badge = `<span class="countdown-badge">已结束</span>`;
-            else badge = `<span class="countdown-badge" data-end="${act.endDate}">计算中...</span>`;
+            // [修正] 文案: 去领取 / 播放语音
+            if (act.link && act.link !== '#') {
+                btn = `<a href="${act.link}" target="_blank" class="action-button ${isExp?'opacity-50':''}" ${isExp?'onclick="return false"':''}><i class="fas fa-rocket"></i> 去领取</a>`;
+            } else if (act.StepsText) {
+                btn = `<button class="action-button action-button-voice ${isExp?'opacity-50':''}" data-steps="${act.StepsText.replace(/"/g,'&quot;')}" ${isExp?'disabled':''}><i class="fas fa-volume-high"></i> 播放语音</button>`;
+            } else {
+                btn = `<button class="action-button opacity-50" disabled>暂无指引</button>`;
+            }
+            
+            // [修正] 倒计时样式 Class
+            let badgeClass = '';
+            if (status === 'Upcoming') badgeClass = 'upcoming';
+            else if (status === 'Expired') badgeClass = 'expired';
+            
+            // 数据属性完全对齐 Bank
+            let badgeHtml = `<span class="countdown-badge ${badgeClass}" data-start="${act.startDate}" data-end="${act.endDate}">计算中...</span>`;
 
             return `<div class="task-list-card ${s.borderClass} ${isExp?'opacity-50 grayscale':''}">
-                ${act.specialNote ? `<span class="special-note-badge">${act.specialNote}</span>` : ''}
-                ${badge}
+                ${act.specialNote ? `<span class="absolute top-3 right-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-black px-2 py-0.5 rounded text-xs font-bold z-10">${act.specialNote}</span>` : ''}
+                ${badgeHtml}
                 <div class="flex items-center w-full mt-2">
                     <div class="task-icon ${s.iconClass}"><i class="fa-solid ${s.faIcon}"></i></div>
                     <div class="task-content"><div class="task-title">${act.name}</div><div class="task-subtitle">${act.description||''}</div></div>
@@ -195,17 +279,27 @@
         }
         
         function toggleSpeech(btn, text) { if(!synth) return; if(btn.classList.contains('speaking')) { stopSpeech(); return; } stopSpeech(); const u = new SpeechSynthesisUtterance(text); u.lang='zh-CN'; u.rate=0.75; u.onstart = () => { speakingButton=btn; btn.classList.add('speaking'); btn.innerHTML=`<i class="fas fa-stop"></i> 停止`; }; u.onend = stopSpeech; synth.speak(u); }
-        function stopSpeech() { if(synth.speaking) synth.cancel(); if(speakingButton) { speakingButton.classList.remove('speaking'); speakingButton.innerHTML=`<i class="fas fa-volume-high"></i> 语音`; speakingButton=null; } }
+        function stopSpeech() { if(synth.speaking) synth.cancel(); if(speakingButton) { speakingButton.classList.remove('speaking'); speakingButton.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`; speakingButton=null; } }
         
-        // [倒计时逻辑 完美修复]
         function updateTimers() {
             const now = Date.now();
             document.querySelectorAll('.countdown-badge').forEach(el => {
-                const start = el.dataset.start, end = el.dataset.end;
-                if (start) { const d = new Date(start) - now; el.innerText = d > 0 ? `距开始 ${fmt(d)}` : '进行中'; if(d<=0) renderActivities(); return; }
-                if (!end || end === 'null') { el.innerText = '长期有效'; return; }
-                const d = new Date(end) - now;
-                el.innerText = d > 0 ? `剩余 ${fmt(d)}` : '已结束';
+                if(el.classList.contains('expired')) { el.innerText = '已结束'; return; }
+                
+                const start = el.dataset.start ? new Date(el.dataset.start).getTime() : 0;
+                const end = el.dataset.end ? new Date(el.dataset.end).getTime() : 0;
+
+                // Logic aligned with Bank
+                if (start > now) { 
+                    const d = start - now; 
+                    el.innerText = `距开始 ${fmt(d)}`; 
+                } else if (end > now || !el.dataset.end || el.dataset.end === 'null') {
+                    if (!el.dataset.end || el.dataset.end === 'null') { el.innerText = '长期有效'; }
+                    else { const d = end - now; el.innerText = `剩余 ${fmt(d)}`; }
+                } else {
+                    el.innerText = '已结束';
+                    el.classList.add('expired'); // 动态变灰
+                }
             });
         }
         function fmt(ms) { const s=Math.floor(ms/1000), d=Math.floor(s/86400), h=Math.floor((s%86400)/3600), m=Math.floor((s%3600)/60); return d>0 ? `${d}天${h}时` : `${h}时${m}分`; }
