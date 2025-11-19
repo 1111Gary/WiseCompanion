@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -873,7 +872,7 @@
                 </div> 
             `;
         }
-        
+
         // ----------------------------------------------------
         // 步骤 5: 语音播放控制
         // ----------------------------------------------------
@@ -904,7 +903,8 @@
             
             currentUtterance = new SpeechSynthesisUtterance(text);
             currentUtterance.voice = voice;
-            currentUtterance.rate = 1.0; 
+            // [【 核心 】] 语速调整为 0.75 (更慢更清晰)
+            currentUtterance.rate = 0.75; 
             
             currentUtterance.onstart = () => {
                 speakingButton = button;
