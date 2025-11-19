@@ -8,7 +8,7 @@
     <!-- [核心] Umami 统计 (已恢复) -->
     <style>
     /* ==================================================== */
-    /* CSS 最终版 V4：完全对齐 Bank 页面样式 (微调) */
+    /* CSS 最终版 V5：修复页面宽度和对齐问题 */
     /* ==================================================== */
     :root {
         --color-bg-dark: #0B1120; 
@@ -56,23 +56,26 @@
     .header-title { font-size: 1.1rem; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
     .back-arrow-link { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.1); color: #fff; }
     
-    /* 主横幅 (保持不变) */
+    /* 主横幅 (修正边距) */
     .main-banner-card {
         background: linear-gradient(145deg, #1e293b, #0f172a);
         border-radius: 24px; padding: 30px 20px; text-align: center;
         border: 2px solid transparent; 
         background-clip: padding-box, border-box; background-origin: padding-box, border-box;
         border-image: linear-gradient(to right, var(--color-checkin-1), var(--color-highlight)); border-image-slice: 1;
-        margin: 1rem 0; box-shadow: 0 10px 30px -10px rgba(16,185,129,0.2);
+        /* 修复：与 main 容器的 px-4 (1rem) 对齐 */
+        margin: 1rem 1rem 0 1rem; 
+        box-shadow: 0 10px 30px -10px rgba(16,185,129,0.2);
     }
     .main-banner-card h1 { font-size: 1.8rem; font-weight: 900; background: linear-gradient(to right, #fff, #d1fae5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .main-banner-card p { color: var(--color-text-muted); font-size: 0.9rem; margin-top: 8px; }
     
-    /* 状态筛选器 (胶囊) */
+    /* 状态筛选器 (修正边距) */
     .status-filter-container {
         display: flex; justify-content: space-between; align-items: center;
         padding: 4px; 
-        margin: 1rem 0 2rem 0;
+        /* 修复：与 main 容器的 px-4 (1rem) 对齐 */
+        margin: 1rem 1rem 2rem 1rem; 
         background-color: #1E293B; 
         border-radius: 100px;
         border: 1px solid rgba(255,255,255,0.05);
@@ -88,7 +91,6 @@
         background: transparent; border: none; transition: color 0.3s;
         position: relative; 
         z-index: 2; 
-        /* 【微调】 确保激活按钮上的文字没有多余的阴影 */
         text-shadow: none; 
     }
 
@@ -103,25 +105,23 @@
         background: linear-gradient(to right, var(--filter-active-color), #34D399); 
         border-radius: 100px;
         transition: transform 0.3s ease-in-out;
-        box-shadow: 0 2px 10px rgba(16,185,129,0.5); /* 绿色阴影 */
+        box-shadow: 0 2px 10px rgba(16,185,129,0.5); 
         z-index: 1;
     }
 
-    /* 激活按钮的文字变亮 */
     .status-button.active { 
         color: #fff; 
     }
 
-    /* 移动激活色块 */
     .status-button[data-status="Upcoming"].active ~ .status-filter-container::before {
         transform: translateX(100%);
         background: linear-gradient(to right, #EC4899, #F472B6);
-        box-shadow: 0 2px 10px rgba(236,72,153,0.5); /* 紫色阴影 */
+        box-shadow: 0 2px 10px rgba(236,72,153,0.5); 
     }
     .status-button[data-status="Expired"].active ~ .status-filter-container::before {
         transform: translateX(200%);
         background: linear-gradient(to right, #64748B, #94A3B8);
-        box-shadow: 0 2px 10px rgba(100, 116, 139, 0.4); /* 灰色阴影 */
+        box-shadow: 0 2px 10px rgba(100, 116, 139, 0.4); 
     }
 
     /* 任务列表 (保持不变) */
@@ -143,7 +143,7 @@
     
     .task-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 12px; color: #fff; font-size: 1.25rem; flex-shrink: 0; }
     
-    /* 倒计时徽章基础样式 - 【微调：移除默认 Active 状态的高亮边框】 */
+    /* 倒计时徽章基础样式 */
     .countdown-badge {
         position: absolute; top: 0; right: 0;
         background: var(--bank-badge-bg); 
@@ -153,12 +153,10 @@
         font-size: 0.75rem; font-weight: 700; z-index: 4;
         box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         border-left: 2px solid transparent; 
-        /* 【移除】默认 Active 状态的高亮边框。只有 Upcoming, Active-badge, Urgent-badge 才有边框 */
-        /* border-left-color: var(--color-primary); */ 
     }
     
     .countdown-badge.upcoming { 
-        border-left-color: var(--color-highlight); /* Upcoming 保持黄色边框 */
+        border-left-color: var(--color-highlight); 
         background: var(--bank-badge-bg); color: var(--color-text-light); 
     }
     .countdown-badge.expired { background: #334155; color: #94A3B8; box-shadow: none; border-left-color: #334155; }
@@ -234,7 +232,11 @@
         display: block; background: linear-gradient(135deg, #1e293b, #0f172a);
         border-radius: 20px; padding: 25px; text-align: center;
         border: 2px solid transparent; border-image: var(--color-premium-border); border-image-slice: 1;
-        margin-top: 2rem; text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        /* 修复：与 main 容器的 px-4 (1rem) 对齐 */
+        margin-top: 2rem;
+        margin-left: 1rem;
+        margin-right: 1rem; 
+        text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     }
     .premium-card h2 { font-size: 1.2rem; font-weight: 800; background: var(--color-premium-border); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
 
