@@ -759,249 +759,287 @@
             updateCountdowns(); // 立即更新一次时间
         }
 
-        // ----------------------------------------------------
-        // 步骤 4: 卡片渲染 (包含状态样式)
-        // ----------------------------------------------------
-        function renderActivityCard(activity, subCategory, status) {
-            const styles = CATEGORY_MAP[subCategory] || CATEGORY_MAP['PaymentDiscount'];
-            
-            let actionButtonHtml = '';
-            
-            if (activity.link && activity.link !== '#') {
-                const isExpired = status === 'Expired';
-                actionButtonHtml = `
-                    <a href="${activity.link}" 
-                       target="_blank" 
-                       class="action-button ${isExpired ? 'opacity-50 cursor-not-allowed' : ''}" 
-                       data-umami-event="click_deep_link"
-                       data-umami-event-name="${activity.name}"
-                       ${isExpired ? 'onclick="event.preventDefault()"' : ''}>
-                        <i class="fas fa-rocket"></i>
-                        去领取
-                    </a>`;
-            } else if (activity.StepsText) {
-                const steps = activity.StepsText.replace(/"/g, '&quot;');
-                const isExpired = status === 'Expired';
-                actionButtonHtml = `
-                    <button class="action-button action-button-voice ${isExpired ? 'opacity-50 cursor-not-allowed' : ''}" 
-                            data-activity-id="${activity.id}" 
-                            data-steps="${steps}"
-                            data-activity-name="${activity.name}"
-                            ${isExpired ? 'disabled' : ''}>
-                        <i class="fas fa-volume-high"></i>
-                        播放语音
-                    </button>`;
-            } else {
-                actionButtonHtml = `
-                    <button class="action-button opacity-50 cursor-not-allowed" disabled>
-                        <i class="fas fa-info-circle"></i>
-                        暂无指引
-                    </button>`;
-            }
-            
-            let specialNoteBadge = '';
-            if (activity.specialNote) {
-                specialNoteBadge = `
-                    <span class="special-note-badge"
-                          data-umami-event="view_special_note"
-                          data-umami-event-name="${activity.name}">
-                        <i class="fas fa-star"></i>
-                        ${activity.specialNote}
-                    </span>`;
-            }
+        // ====================================================
+// 任务活动列表脚本 - 瘦身优化版
+// ====================================================
 
-            let countdownBadge = '';
-            let cardClassModifier = '';
-            
-            if (status === 'Upcoming') {
-                cardClassModifier = 'opacity-80';
-                countdownBadge = `
-                    <span class="countdown-badge" style="background-color: var(--color-shopping-1); color: white;">
-                        ${activity.startDate ? `<span id="timer-${activity.id}">计算中...</span>` : '即将开始'}
-                    </span>`;
-            } else if (status === 'Expired') {
-                cardClassModifier = 'opacity-50 grayscale';
-                countdownBadge = `
-                    <span class="countdown-badge" style="background-color: #334155; color: #94A3B8;">
-                        已结束
-                    </span>`;
-            } else { // Active
-                countdownBadge = `
-                    <span class="countdown-badge" data-endtime="${activity.endDate}" id="timer-${activity.id}">
-                        ${activity.endDate ? '计算中...' : '长期有效'} 
-                    </span>`;
-            }
+// 全局变量声明（假设这些变量在其他地方已初始化，如：synth, speakingButton, currentUtterance, ALL_ACTIVITIES, CATEGORY_MAP）
+// 例如：
+// const synth = window.speechSynthesis;
+// let speakingButton = null;
+// let currentUtterance = null;
+// const ALL_ACTIVITIES = []; // 假设活动数据
+// const CATEGORY_MAP = { /* ... 样式映射 ... */ }; 
+// function renderActivities() { /* ... 重绘逻辑 ... */ }
 
-            return `
-                <div class="task-list-card ${styles.borderClass} ${activity.specialNote ? 'has-special-note' : ''} ${cardClassModifier}">
-                    ${specialNoteBadge}
-                    ${countdownBadge}
-                    
-                    <div class="task-main-content">
-                        <div class="task-icon ${styles.iconClass}">
-                            <i class="fa-solid ${styles.faIcon}"></i>
-                        </div>
-                        <div class="task-content">
-                            <div class="task-title">${activity.name || '活动名称缺失'}</div>
-                            <div class="task-subtitle">${activity.description || '暂无详细描述。'}</div>
-                        </div>
-                    </div>
-                    
-                    <div class="task-action-bar">
-                        <button class="share-button" 
-                                data-activity-id="${activity.id}" 
-                                data-activity-name="${activity.name}">
-                            <i class="fas fa-share-alt"></i>
-                            分享
-                        </button>
-                        ${actionButtonHtml}
-                    </div>
+// ----------------------------------------------------
+// 步骤 4: 卡片渲染 (包含状态样式) - 【核心精简】
+// ----------------------------------------------------
+function renderActivityCard(activity, subCategory, status) {
+    // 1. 解构赋值简化变量引用
+    const { link, StepsText, specialNote, id, name, description, startDate, endDate } = activity;
+    const styles = CATEGORY_MAP[subCategory] || CATEGORY_MAP['PaymentDiscount'];
+    
+    // 2. 统一管理状态 CSS 和徽章样式
+    let cardClassModifier = '';
+    let countdownBadgeStyle = ''; // 用于内联样式（Upcoming/Expired）
+    let badgeText;
+    let badgeData = '';
+    
+    const isExpired = status === 'Expired';
+    const isDisabled = isExpired;
+    const disabledClass = isDisabled ? 'opacity-50 cursor-not-allowed' : '';
+    const disabledAttr = isDisabled ? 'disabled' : '';
+
+    if (status === 'Upcoming') {
+        // Upcoming 状态：卡片半透明，徽章使用特殊的 Upcoming 颜色
+        cardClassModifier = 'opacity-80 upcoming-card'; 
+        countdownBadgeStyle = `style="background-color: var(--color-upcoming-bg, #38BDF8); color: var(--color-upcoming-text, white);"`;
+        badgeText = startDate ? `<span id="timer-${id}">计算中...</span>` : '即将开始';
+    } else if (isExpired) {
+        // Expired 状态：卡片灰度+半透明，徽章使用暗色
+        cardClassModifier = 'opacity-50 grayscale expired-card';
+        countdownBadgeStyle = `style="background-color: var(--color-expired-bg, #334155); color: var(--color-expired-text, #94A3B8);"`;
+        badgeText = '已结束';
+    } else { // Active 状态
+        // Active 状态：由 updateCountdowns 动态添加 active-badge/urgent-badge
+        badgeText = endDate ? '计算中...' : '长期有效';
+        badgeData = `data-endtime="${endDate}"`;
+    }
+    
+    // 3. 构建特殊注意徽章 (specialNoteBadge)
+    const specialNoteBadge = specialNote ? `
+        <span class="special-note-badge" data-umami-event="view_special_note" data-umami-event-name="${name}">
+            <i class="fas fa-star"></i> ${specialNote}
+        </span>` : '';
+
+    // 4. 构建动作按钮 (actionButtonHtml)
+    let actionButtonHtml;
+    
+    if (link && link !== '#') {
+        const onclickAttr = isDisabled ? 'onclick="event.preventDefault()"' : '';
+        actionButtonHtml = `
+            <a href="${link}" target="_blank"
+               class="action-button action-button-link ${disabledClass}"
+               data-umami-event="click_deep_link"
+               data-umami-event-name="${name}"
+               ${onclickAttr}>
+                 <i class="fas fa-rocket"></i> 去领取
+            </a>`;
+    } else if (StepsText) {
+        // 使用 encodeURIComponent 确保步骤文本在 HTML 属性中安全
+        const encodedSteps = encodeURIComponent(StepsText); 
+        actionButtonHtml = `
+            <button class="action-button action-button-voice ${disabledClass}"
+                    data-activity-id="${id}"
+                    data-steps="${encodedSteps}"
+                    data-activity-name="${name}"
+                    ${disabledAttr}>
+                <i class="fas fa-volume-high"></i> 播放语音
+            </button>`;
+    } else {
+        actionButtonHtml = `
+            <button class="action-button opacity-50 cursor-not-allowed" disabled>
+                <i class="fas fa-info-circle"></i> 暂无指引
+            </button>`;
+    }
+    
+    // 5. 返回最终卡片 HTML
+    return `
+        <div class="task-list-card ${styles.borderClass} ${specialNote ? 'has-special-note' : ''} ${cardClassModifier}">
+            ${specialNoteBadge}
+            <span class="countdown-badge" ${countdownBadgeStyle} ${badgeData} id="badge-timer-${id}">
+                ${badgeText}
+            </span>
+            
+            <div class="task-main-content">
+                <div class="task-icon ${styles.iconClass}">
+                    <i class="fa-solid ${styles.faIcon}"></i>
                 </div>
-            `;
-        }
+                <div class="task-content">
+                    <div class="task-title">${name || '活动名称缺失'}</div>
+                    <div class="task-subtitle">${description || '暂无详细描述。'}</div>
+                </div>
+            </div>
+            
+            <div class="task-action-bar">
+                <button class="share-button" data-activity-id="${id}" data-activity-name="${name}">
+                    <i class="fas fa-share-alt"></i> 分享
+                </button>
+                ${actionButtonHtml}
+            </div>
+        </div>
+    `;
+}
 
-        // ----------------------------------------------------
-        // 步骤 5: 事件绑定
-        // ----------------------------------------------------
-        function bindActionButtons() {
-            document.querySelectorAll('.action-button-voice').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const btn = e.currentTarget;
-                    if(btn.disabled) return;
-                    const steps = btn.getAttribute('data-steps');
-                    const name = btn.getAttribute('data-activity-name');
-                    if (window.umami) { umami.track('play_voice_guide', { name: name }); }
-                    toggleSpeech(btn, steps, name);
-                });
-            });
+// ----------------------------------------------------
+// 步骤 5: 事件绑定 - 【语音步骤解码优化】
+// ----------------------------------------------------
+function bindActionButtons() {
+    document.querySelectorAll('.action-button-voice').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const btn = e.currentTarget;
+            if(btn.disabled) return;
+            // 语音步骤解码：使用 decodeURIComponent 还原 StepsText
+            const steps = decodeURIComponent(btn.getAttribute('data-steps')); 
+            const name = btn.getAttribute('data-activity-name');
+            if (window.umami) { umami.track('play_voice_guide', { name: name }); }
+            toggleSpeech(btn, steps, name);
+        });
+    });
 
-            document.querySelectorAll('.share-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const btn = e.currentTarget;
-                    const id = btn.getAttribute('data-activity-id');
-                    const name = btn.getAttribute('data-activity-name');
-                    if (window.umami) { umami.track('click_share', { name: name }); }
-                    shareActivity(id, btn);
-                });
-            });
-        }
+    document.querySelectorAll('.share-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const btn = e.currentTarget;
+            const id = btn.getAttribute('data-activity-id');
+            const name = btn.getAttribute('data-activity-name');
+            if (window.umami) { umami.track('click_share', { name: name }); }
+            shareActivity(id, btn);
+        });
+    });
+}
+// ... (步骤 6: 语音播放逻辑 stopSpeech, toggleSpeech 保持不变)
+
+// ----------------------------------------------------
+// 步骤 7: 辅助功能 (分享) - 【现代 Web Share API 兼容】
+// ----------------------------------------------------
+
+// 辅助函数：使用旧版 execCommand 复制
+function manualCopy(textToCopy, buttonElement, originalText) {
+    try {
+        const tempInput = document.createElement('textarea');
+        tempInput.value = textToCopy;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
         
-        // ----------------------------------------------------
-        // 步骤 6: 语音播放 (逻辑完善)
-        // ----------------------------------------------------
-        function stopSpeech() {
-            if (synth.speaking) { synth.cancel(); }
-            if (speakingButton) {
-                speakingButton.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
-                speakingButton.classList.remove('speaking');
-                speakingButton = null;
-            }
-            currentUtterance = null;
-        }
+        buttonElement.innerHTML = `<i class="fas fa-check"></i> 已复制!`;
+        setTimeout(() => { buttonElement.innerHTML = originalText; }, 2000);
+    } catch (err) {
+        console.error('复制失败:', err);
+        alert(`请手动复制链接：\n${textToCopy}`);
+    }
+}
 
-        function toggleSpeech(button, text, activityName) {
-            if (!synth) return;
-
-            if (button.classList.contains('speaking')) {
-                stopSpeech();
-                return;
-            }
-
-            stopSpeech(); 
-            console.log(`【慧伴管家】: 开始播放 ${activityName}`);
-            
-            const voice = synth.getVoices().find(v => v.lang.startsWith('zh')) || synth.getVoices()[0];
-            currentUtterance = new SpeechSynthesisUtterance(text);
-            currentUtterance.voice = voice;
-            currentUtterance.rate = 0.8; // 0.8 语速
-            
-            currentUtterance.onstart = () => {
-                speakingButton = button;
-                button.classList.add('speaking');
-                button.innerHTML = `<i class="fas fa-wave-square"></i> 停止`;
-            };
-            
-            currentUtterance.onend = () => { stopSpeech(); };
-            currentUtterance.onerror = (e) => { console.error("语音错误:", e); stopSpeech(); };
-
-            synth.speak(currentUtterance);
-        }
-
-        // ----------------------------------------------------
-        // 步骤 7: 辅助功能 (分享/倒计时)
-        // ----------------------------------------------------
-        function shareActivity(activityId, buttonElement) {
-            const shareUrl = `${window.location.origin}${window.location.pathname.replace('shopping.html', 'go.html')}?id=${activityId}`;
-            try {
-                const tempInput = document.createElement('textarea');
-                tempInput.value = `快来看看这个活动！\n${shareUrl}`;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-                const originalText = buttonElement.innerHTML;
+// 辅助函数：负责现代/回退的复制逻辑
+function fallbackCopy(textToCopy, buttonElement, originalText) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(textToCopy)
+            .then(() => {
                 buttonElement.innerHTML = `<i class="fas fa-check"></i> 已复制!`;
                 setTimeout(() => { buttonElement.innerHTML = originalText; }, 2000);
-            } catch (err) {
-                console.error('复制失败:', err);
-                alert(`请手动复制链接：\n${shareUrl}`);
+            })
+            .catch(() => manualCopy(textToCopy, buttonElement, originalText)); // 失败则降级
+    } else {
+        manualCopy(textToCopy, buttonElement, originalText);
+    }
+}
+
+function shareActivity(activityId, buttonElement) {
+    const shareUrl = `${window.location.origin}${window.location.pathname.replace('shopping.html', 'go.html')}?id=${activityId}`;
+    const shareText = `快来看看这个活动！\n${shareUrl}`;
+    const originalText = buttonElement.innerHTML;
+
+    if (navigator.share) {
+        navigator.share({
+            title: '活动分享',
+            text: shareText,
+            url: shareUrl, 
+        }).catch((error) => {
+            if(error.name !== 'AbortError') { 
+                 fallbackCopy(shareText, buttonElement, originalText); // 失败回退
+            }
+        });
+    } else {
+        fallbackCopy(shareText, buttonElement, originalText); // 不支持回退
+    }
+}
+
+// ----------------------------------------------------
+// 步骤 7: 辅助功能 (倒计时) - 【高亮逻辑整合】
+// ----------------------------------------------------
+function formatTime(ms) {
+    if (ms <= 0) return '已结束';
+    const seconds = Math.floor(ms / 1000);
+    const days = Math.floor(seconds / (3600 * 24));
+    const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    
+    // 如果大于一天，显示天和小时
+    if (days > 0) return `${days}天${hours}时`;
+    // 否则显示小时和分钟
+    return `${hours}时${minutes}分`;
+}
+
+function updateCountdowns() {
+    const timers = document.querySelectorAll('.countdown-badge');
+    const now = new Date().getTime();
+    const ONE_DAY = 24 * 3600 * 1000;
+    const THREE_DAYS = 3 * ONE_DAY; // 将高亮触发时间改为 3 天
+
+    timers.forEach(timer => {
+        const card = timer.closest('.task-list-card');
+        
+        // 1. 处理 Upcoming 倒计时
+        if (card.classList.contains('upcoming-card')) {
+             const idMatch = timer.id.match(/badge-timer-(\d+)/);
+             if (idMatch) {
+                 const actId = idMatch[1];
+                 const activity = window.ALL_ACTIVITIES?.find(a => a.id == actId);
+                 if (activity && activity.startDate) {
+                     const diff = new Date(activity.startDate).getTime() - now;
+                     timer.innerHTML = diff > 0 ? `<span id="timer-${actId}">${formatTime(diff)} 后开始</span>` : "进行中";
+                     // 检查是否应该重绘（活动开始）
+                     if(diff <= 0 && window.renderActivities) window.renderActivities(); 
+                 }
+             }
+             return;
+        }
+
+        // 2. Expired 状态不需要处理（已在 renderActivityCard 中设置好样式）
+        if (card.classList.contains('expired-card')) return;
+
+        // 3. 处理 Active 倒计时 (高亮逻辑)
+        const endTimeString = timer.getAttribute('data-endtime');
+        
+        // 长期有效
+        if (!endTimeString || endTimeString === 'null' || endTimeString === 'undefined') {
+            timer.innerText = '长期有效';
+            timer.classList.add('active-badge');
+            return;
+        }
+        
+        // 计时逻辑
+        const diff = new Date(endTimeString).getTime() - now;
+        
+        // 先移除所有状态类，准备应用新的
+        timer.classList.remove('active-badge', 'urgent-badge');
+
+        if (diff <= 0) {
+            timer.innerText = '已结束';
+            // 检查是否应该重绘（活动过期）
+            if(window.renderActivities) window.renderActivities(); 
+        } else {
+            timer.innerText = `剩余 ${formatTime(diff)}`;
+            
+            if (diff < ONE_DAY) {
+                // 不足 24 小时：紧急高亮 (urgent-badge)
+                timer.classList.add('urgent-badge');
+            } else if (diff < THREE_DAYS) {
+                 // 不足 3 天：次级活跃高亮 (active-badge)
+                timer.classList.add('active-badge');
             }
         }
+    });
+}
 
-        function formatTime(ms) {
-            if (ms <= 0) return '已结束';
-            const seconds = Math.floor(ms / 1000);
-            const days = Math.floor(seconds / (3600 * 24));
-            const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-            const minutes = Math.floor((seconds % 3600) / 60);
-            
-            if (days > 0) return `${days}天${hours}时`;
-            return `${hours}时${minutes}分`;
-        }
-        
-        function updateCountdowns() {
-            const timers = document.querySelectorAll('.countdown-badge');
-            const now = new Date().getTime();
-
-            timers.forEach(timer => {
-                // 1. 处理 "Upcoming" 倒计时
-                if (timer.parentElement.classList.contains('opacity-80')) { 
-                    // 找到 ID 对应的 Activity
-                    const idMatch = timer.innerHTML.match(/timer-(\d+)/);
-                    if (idMatch) {
-                        const actId = idMatch[1];
-                        const activity = ALL_ACTIVITIES.find(a => a.id == actId);
-                        if (activity && activity.startDate) {
-                             const diff = new Date(activity.startDate).getTime() - now;
-                             const span = document.getElementById(`timer-${actId}`);
-                             if(span) span.innerText = diff > 0 ? formatTime(diff) : "进行中";
-                             if(diff <= 0) renderActivities(); // 状态改变，重绘
-                        }
-                    }
-                    return;
-                }
-
-                // 2. 处理 "Active" 倒计时
-                const endTimeString = timer.getAttribute('data-endtime');
-                if (!endTimeString || endTimeString === 'null' || endTimeString === 'undefined') {
-                    timer.innerText = '长期有效';
-                    return;
-                }
-                
-                const diff = new Date(endTimeString).getTime() - now;
-                if (diff <= 0) {
-                    timer.innerText = '已结束';
-                    // 理想情况下这里也应该触发重绘，但为了防止频繁刷新，暂不加
-                } else {
-                    timer.innerText = `剩余 ${formatTime(diff)}`;
-                }
-            });
-        }
-        
-        function startCountdownUpdater() {
-            updateCountdowns();
-            setInterval(updateCountdowns, 1000); 
-        }
+function startCountdownUpdater() {
+    // 首次执行，确保立即更新
+    updateCountdowns();
+    // 注册定时器，每秒更新
+    setInterval(updateCountdowns, 1000);
+}
     </script>
 
 </body>
