@@ -4,857 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>慧伴管家 - 看视频赚</title>
-    
-    <!-- Umami 统计 -->
-    <script async defer 
-        data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" 
-        src="https://umami.example.com/script.js" 
-        data-do-not-track="true" 
-        data-domains="1111gary.github.io"></script>
-
+    <script async defer src="https://umami.example.com/script.js" data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" data-do-not-track="true" data-domains="1111gary.github.io"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
-    <!-- PWA -->
-    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="慧伴管家">
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
-    
     <style>
         :root {
-            /* ... 颜色变量 ... */
-            --color-bg-dark: #0A1322; 
-            --color-card-bg: #1A2233; 
-            --color-primary: #00BFFF; 
-            --color-secondary: #FF69B4; 
-            --color-text-light: #E0E7FF;
-            --color-text-muted: #9CA3AF;
-            --color-highlight: #FFD700; 
-            --color-bank-bg: #1F2A40; 
-            --color-success: #34D399; 
-            --color-special-note: #F59E0B; 
-            --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4);
-            /* Video 颜色 */
-            --color-video: #A78BFA; /* 紫色 */
-            --color-other: #9CA3AF; /* 其他 */
+            --color-bg-dark: #0B1120; --color-text-light: #F1F5F9; --color-text-muted: #94A3B8;
+            --color-primary: #8B5CF6; /* 紫色 */
+            --color-highlight: #FACC15;
+            --grad-video: linear-gradient(135deg, #8B5CF6, #C084FC);
+            --color-video-border: #8B5CF6;
         }
-        body { 
-            /* ... 基础样式 ... */
-            background-color: var(--color-bg-dark); 
-            color: var(--color-text-light); 
-            padding-bottom: calc(85px + env(safe-area-inset-bottom)); 
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-        }
+        body { background-color: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: 85px; font-family: sans-serif; }
         
-        /* 顶部导航栏 */
         .header-bar-fixed { 
-            /* ... 样式 ... */
-            padding-top: calc(15px + env(safe-area-inset-top)); 
-            padding-bottom: 5px; 
-            background-color: var(--color-bg-dark);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 60px;
+            position: sticky; top: 0; z-index: 20; background: rgba(11,17,32,0.95); backdrop-filter: blur(10px);
+            padding-top: env(safe-area-inset-top); height: 60px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-
-        /* 页面主标题卡片 */
         .main-banner-card {
-            /* ... 样式 ... */
-            background: linear-gradient(135deg, #0f1627, #1a2233);
-            border-radius: 20px;
-            padding: 25px 20px;
-            text-align: center;
-            border: 3px solid transparent; 
-            background-clip: padding-box, border-box;
-            background-origin: padding-box, border-box;
-            border-image: linear-gradient(to right, var(--color-video), var(--color-highlight));
-            border-image-slice: 1;
-            box-shadow: 0 0 15px rgba(167, 139, 250, 0.5), 0 0 30px rgba(255, 215, 0, 0.3);
-            margin-bottom: 1.5rem;
-            position: relative;
+            background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 24px; padding: 30px 20px; text-align: center; margin: 1rem 0;
+            border: 2px solid transparent; background-clip: padding-box, border-box; background-origin: padding-box, border-box;
+            border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight)); border-image-slice: 1;
         }
-        .main-banner-card h1 {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--color-text-light);
-        }
-        
-        /* 状态筛选器 */
-        .status-filter-bar {
-            /* ... 样式 ... */
-            display: flex;
-            justify-content: space-around;
-            background-color: var(--color-card-bg);
-            border-radius: 9999px;
-            padding: 5px;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 5px rgba(0,0,0, 0.3);
-        }
-        .status-filter-btn {
-            /* ... 样式 ... */
-            flex-grow: 1;
-            padding: 8px 12px;
-            border-radius: 9999px;
-            background-color: transparent;
-            color: var(--color-text-muted);
-            font-size: 0.85rem;
-            font-weight: 600;
-            border: none;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            cursor: pointer;
-        }
-        .status-filter-btn:hover { color: var(--color-text-light); }
-        .status-filter-btn.active {
-            background-color: var(--color-video); /* 配合页面主色 */
-            color: var(--color-bg-dark);
-            box-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
-        }
-        
-        /* (此页面没有类别筛选器) */
-        
-        .section-description {
-            color: var(--color-text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 1rem; 
-            padding-left: 5px;
-        }
-        
-        /* 任务活动卡片样式 */
+        .main-banner-card h1 { font-size: 1.8rem; font-weight: 900; background: linear-gradient(to right, #fff, #ddd6fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
         .task-list-card {
-            /* ... 样式 ... */
-            background-color: var(--color-bank-bg);
-            border-radius: 15px;
-            padding: 15px 20px;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-            border-left: 5px solid; 
-            position: relative;
+            background: #1E293B; border-radius: 16px; padding: 18px; margin-bottom: 15px; border-left: 4px solid var(--color-video-border);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-top: 1px solid rgba(255,255,255,0.05);
         }
-        /* ... :hover ... */
-
-        /* 徽章 */
-        .special-note-badge { /* ... 样式 ... */ }
-        .countdown-badge { /* ... 样式 ... */ }
-        .special-note-badge + .countdown-badge { /* ... 样式 ... */ }
-        .expired-badge { /* ... 样式 ... */ }
-        .upcoming-badge { /* ... 样式 ... */ }
-        /* ... (徽章样式保持不变) ... */
-        .special-note-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background-color: var(--color-special-note);
-            color: var(--color-bg-dark);
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            z-index: 5;
-            box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
-        }
-        .countdown-badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: var(--color-secondary);
-            color: var(--color-bg-dark);
-            padding: 4px 10px;
-            border-top-right-radius: 15px;
-            border-bottom-left-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            z-index: 4;
-        }
-        .special-note-badge + .countdown-badge {
-            top: 40px;
-            right: 15px;
-            border-radius: 8px;
-        }
-        .expired-badge {
-            background-color: #EF4444;
-            color: white;
-        }
-        .upcoming-badge {
-            background-color: var(--color-highlight);
-            color: var(--color-bg-dark);
-        }
-
-        /* [【 核心 】] 类别强调色 (已更新) */
-        .task-video { border-left-color: var(--color-video); }
-        .task-other { border-left-color: var(--color-other); }
-
-        .task-main-content { display: flex; align-items: center; width: 100%; }
-
-        .task-icon { /* ... 样式 ... */ 
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            color: var(--color-bg-dark); 
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
-        /* [【 核心 】] 类别图标 (已更新) */
-        .icon-video { background-color: var(--color-video); }
-        .icon-other { background-color: var(--color-other); }
-
-        .task-content { flex-grow: 1; min-width: 0; }
-        .task-title { /* ... 样式 ... */ 
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--color-text-light);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            padding-right: 90px;
-        }
-        .has-special-note .task-title { padding-right: 120px; }
-        .task-subtitle { /* ... 样式 ... */
-            font-size: 0.8rem;
-            color: var(--color-text-muted);
-            white-space: normal; 
-            line-height: 1.4;
-            margin-top: 4px;
-        }
+        .task-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--grad-video); display: flex; align-items: center; justify-content: center; margin-right: 16px; color: #fff; font-size: 1.2rem; }
         
-        .task-action-bar { /* ... 样式 ... */ 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-            padding-top: 10px;
-            border-top: 1px solid var(--color-card-bg);
-        }
-        .share-button { /* ... 样式 ... */
-            background-color: var(--color-card-bg);
-            color: var(--color-primary);
-            border: 1px solid var(--color-primary);
-            font-weight: 600;
-            padding: 8px 15px;
-            border-radius: 9999px;
-            font-size: 0.8rem;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-        }
-        /* ... :hover ... */
-        .action-button { /* ... 样式 ... */
-            background-color: var(--color-primary);
-            color: var(--color-bg-dark);
-            font-weight: 700;
-            padding: 8px 18px;
-            border-radius: 9999px;
-            font-size: 0.8rem;
-            transition: all 0.2s;
-            text-align: center;
-            min-width: 100px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            cursor: pointer;
-        }
-        /* ... :hover ... */
-        /* [【 核心 】] 语音按钮样式 (已修复) */
-        .action-button-voice {
-            background-color: var(--color-success);
-        }
-        /* ... :hover ... */
-        .action-button-voice.speaking {
-            background-color: var(--color-secondary);
-            animation: pulse 1s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
+        .action-button { background: var(--color-primary); color: #fff; padding: 8px 20px; border-radius: 999px; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 5px; }
+        .action-button-voice { background: #10B981; }
+        .action-button-voice.speaking { background: #EF4444; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%{opacity:1} 50%{opacity:0.7} 100%{opacity:1} }
 
-        /* 底部导航栏样式 (Tab Bar) */
-        .tab-bar { /* ... 样式 ... */
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            height: 60px;
-            background-color: var(--color-bg-dark);
-            border-top: 1px solid #1A2233;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
-            padding-bottom: env(safe-area-inset-bottom);
-            z-index: 20;
-        }
-        .tab-item { /* ... 样式 ... */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            color: var(--color-text-muted);
-            font-size: 0.75rem;
-            font-weight: 500;
-            transition: color 0.2s ease;
-            padding: 5px;
-            flex-grow: 1;
-            max-width: 20%;
-        }
+        .tab-bar { position: fixed; bottom: 0; width: 100%; height: 65px; background: rgba(11,17,32,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); z-index: 50; padding-bottom: env(safe-area-inset-bottom); }
+        .tab-item { display: flex; flex-direction: column; align-items: center; color: var(--color-text-muted); font-size: 0.7rem; }
         .tab-item.active { color: var(--color-primary); }
-        .tab-icon {
-            font-size: 1.2rem;
-            margin-bottom: 3px;
-        }
-
-        /* 顶部 Logo 组 */
-        .header-logo-group { display: flex; align-items: center; }
-        .header-logo { width: 32px; height: 32px; margin-right: 10px; }
-        .header-title { font-size: 1.2rem; font-weight: 700; color: var(--color-text-light); }
-        .back-arrow-link { /* ... 样式 ... */
-            color: var(--color-text-light);
-            font-size: 1.2rem;
-            padding: 5px 10px;
-            border-radius: 50%;
-            background-color: var(--color-card-bg);
-            transition: background-color 0.2s;
-        }
-        
-        /* 付费会员诱饵卡片 */
-        .premium-card { /* ... 样式 ... */
-            background: var(--color-card-bg);
-            border-radius: 20px;
-            padding: 25px 20px;
-            text-align: center;
-            border: 3px solid transparent; 
-            background-clip: padding-box, border-box;
-            background-origin: padding-box, border-box;
-            border-image: var(--color-premium-border);
-            border-image-slice: 1;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4), 0 0 30px rgba(255, 105, 180, 0.2);
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            position: relative;
-            text-decoration: none;
-            display: block;
-            transition: all 0.3s ease;
-        }
-        /* ... :hover ... */
-        .premium-card h2 { /* ... 样式 ... */
-            font-size: 1.3rem;
-            font-weight: 800;
-            background: var(--color-premium-border);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 0;
-        }
-        .premium-card p {
-            color: var(--color-text-muted);
-            font-size: 0.9rem;
-            margin-top: 10px;
-        }
-
-        /* 空状态 */
-        .empty-state { /* ... 样式 ... */
-            text-align: center;
-            padding: 40px 20px;
-            background-color: var(--color-bank-bg);
-            border-radius: 15px;
-            margin-top: 1rem;
-        }
-        .empty-state-icon {
-            font-size: 3rem;
-            color: var(--color-video);
-            margin-bottom: 1rem;
-            opacity: 0.8;
-        }
-        .empty-state p {
-            font-size: 1rem;
-            color: var(--color-text-muted);
-            font-weight: 500;
-        }
-
     </style>
 </head>
 <body>
-
-    <!-- 顶部导航栏 -->
     <div class="header-bar-fixed px-4">
-        <!-- ... Logo ... -->
-        <div class="header-logo-group">
-            <img src="./assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/00BFFF/ffffff?text=L'" alt="Logo" class="header-logo rounded-md shadow-lg">
-            <h1 class="header-title">慧伴管家</h1>
-        </div>
-        <a href="./index.html" class="back-arrow-link" title="返回首页">
-            <i class="fas fa-arrow-left"></i>
-        </a>
+        <div class="flex items-center"><img src="./assets/icon_apple.png" class="w-8 h-8 mr-2 rounded shadow"><h1 class="text-lg font-bold">慧伴管家</h1></div>
+        <a href="./index.html" class="text-white text-xl p-2 bg-gray-800 rounded-full"><i class="fas fa-arrow-left"></i></a>
     </div>
 
-    <!-- 页面核心内容容器 -->
-    <main class="container mx-auto px-4 py-4">
-        
-        <!-- **1. 【页面主标题卡片】 ** -->
+    <main class="container mx-auto px-4">
         <div class="main-banner-card">
-            <h1>看视频赚</h1>
-            <p class="text-sm text-gray-400 mt-2">观看视频，轻松获取奖励</p>
+            <h1>看视频赚 (Video)</h1>
+            <p class="text-gray-400 mt-2 text-sm">观看视频，轻松获取奖励</p>
         </div>
-        
-        <!-- **2. 【状态筛选器】 ** -->
-        <div class="status-filter-bar">
-            <button class="status-filter-btn active" data-status="ongoing" onclick="umami.track('filter_status_ongoing', { from: 'video' })">
-                <i class="fas fa-play-circle"></i> 正在进行
-            </button>
-            <button class="status-filter-btn" data-status="upcoming" onclick="umami.track('filter_status_upcoming', { from: 'video' })">
-                <i class="fas fa-hourglass-start"></i> 即将开始
-            </button>
-            <button class="status-filter-btn" data-status="ended" onclick="umami.track('filter_status_ended', { from: 'video' })">
-                <i class="fas fa-check-circle"></i> 已结束
-            </button>
-        </div>
-        
-        <!-- **3. 【视频任务列表】 ** -->
-        <p class="section-description">
-            所有可用的看视频和直播奖励任务。
-        </p>
-        <div id="video-tasks-list">
-             <!-- 任务加载位置 -->
-        </div>
-
-        <!-- **4. 【 付费会员诱饵 】 ** -->
-        <a href="./premium.html" class="premium-card" 
-            onclick="umami.track('click_premium_card', { from: 'video' })">
-            <h2 class="flex items-center justify-center">
-                <i class="fas fa-crown mr-2" style="color: var(--color-highlight);"></i>
-                高级会员专区 (敬请期待)
-            </h2>
-            <p>学习独家“多平台优惠券叠加”神技</p>
+        <div id="video-tasks-list"></div>
+        <a href="./premium.html" class="block mt-8 mb-4 p-6 rounded-2xl bg-gray-800 text-center border border-purple-500 shadow-lg">
+            <h2 class="text-xl font-bold text-purple-400"><i class="fas fa-crown mr-2"></i> 高级会员专区</h2>
+            <p class="text-gray-400 text-sm mt-2">AI赋能ʕʘ̅͜ʘ̅ʔ 改变生活</p>
         </a>
-        
     </main>
     
-    <!-- 底部导航栏 -->
     <nav class="tab-bar">
-        <!-- ... (tab bar items) ... -->
-        <a href="./index.html" class="tab-item">
-            <i class="fas fa-home tab-icon"></i>
-            <span>首页</span>
-        </a>
-        <a href="./checkin.html" class="tab-item">
-            <i class="fas fa-gifts tab-icon"></i>
-            <span>天天有奖</span>
-        </a>
-        <span class="tab-item active">
-            <i class="fas fa-play-circle tab-icon"></i>
-            <span>看视频赚</span>
-        </span>
-        <a href="./bank.html" class="tab-item">
-            <i class="fas fa-hand-holding-usd tab-icon"></i>
-            <span>捡钱任务</span>
-        </a>
-        <a href="./shopping.html" class="tab-item">
-            <i class="fas fa-tags tab-icon"></i>
-            <span>省钱秘籍</span>
-        </a>
+        <a href="./index.html" class="tab-item"><i class="fas fa-home text-xl mb-1"></i><span>首页</span></a>
+        <a href="./checkin.html" class="tab-item"><i class="fas fa-gifts text-xl mb-1"></i><span>天天有奖</span></a>
+        <span class="tab-item active"><i class="fas fa-play-circle text-xl mb-1"></i><span>看视频赚</span></span>
+        <a href="./bank.html" class="tab-item"><i class="fas fa-hand-holding-usd text-xl mb-1"></i><span>捡钱任务</span></a>
+        <a href="./shopping.html" class="tab-item"><i class="fas fa-tags text-xl mb-1"></i><span>省钱秘籍</span></a>
     </nav>
     
     <script>
-        // ----------------------------------------------------
-        // 全局状态和数据
-        // ----------------------------------------------------
-        let ALL_ACTIVITIES = []; // L1 过滤后的原始数据
-        // (此页面没有 L2 类别筛选)
-        let CURRENT_STATUS_FILTER = 'ongoing';
-
-        // [【 核心 】] 类别样式映射 (Video 页)
-        const CATEGORY_MAP = {
-            'Video': {
-                borderClass: 'task-video',
-                iconClass: 'icon-video',
-                faIcon: 'fa-play-circle'
-            },
-            'Other': { // 备用
-                borderClass: 'task-other',
-                iconClass: 'icon-other',
-                faIcon: 'fa-box'
-            }
-        };
-        
-        // [【 核心 】] L1 页面路由（此页面包含哪些 L1 标签）
-        const PAGE_L1_CATEGORIES = ['Video'];
-
-        // [【 核心 】] 原生语音 API (Web Speech API)
         const synth = window.speechSynthesis;
-        let currentUtterance = null; 
+        let currentUtterance = null;
+        let speakingButton = null;
 
-        // ----------------------------------------------------
-        // 步骤 1: 页面加载主入口
-        // ----------------------------------------------------
         document.addEventListener('DOMContentLoaded', () => {
-            loadAndFetchActivities();
-            startCountdownUpdater();
-            bindStatusFilterButtons();
+            fetch('./activities.json').then(r=>r.json()).then(data => {
+                const list = document.getElementById('video-tasks-list');
+                const videos = data.filter(a => a.category && a.category.includes('Video'));
+                if(videos.length===0) list.innerHTML='<p class="text-center text-gray-500 p-4">暂无视频任务</p>';
+                else videos.forEach(v => list.innerHTML += renderCard(v));
+                
+                document.querySelectorAll('.action-button-voice').forEach(b => b.onclick = e => toggleSpeech(e.currentTarget, e.currentTarget.dataset.steps));
+            });
         });
 
-        // [【 核心BUG修复 】] 移除 primeSpeechEngine
-        
-        // ----------------------------------------------------
-        // 步骤 2: 加载和获取数据
-        // ----------------------------------------------------
-        async function loadAndFetchActivities() {
-            try {
-                const response = await fetch('./activities.json');
-                if (!response.ok) {
-                    throw new Error('网络响应错误，无法加载 activities.json');
-                }
-                const rawData = await response.json();
-                
-                // 1. [L1 过滤] 过滤出所有 "Video" 相关的活动
-                ALL_ACTIVITIES = rawData.filter(act => 
-                    act.category && act.category.some(cat => PAGE_L1_CATEGORIES.includes(cat))
-                );
-
-                // 2. 渲染
-                renderActivities();
-                
-            } catch (error) {
-                console.error("加载活动数据失败:", error);
-                document.getElementById('video-tasks-list').innerHTML = `<p class="text-red-400 p-4 text-center">加载活动数据失败。请检查网络或 activities.json 文件。</p>`;
-            }
-        }
-        
-        // ----------------------------------------------------
-        // 步骤 3: 绑定状态筛选器
-        // ----------------------------------------------------
-        function bindStatusFilterButtons() {
-            const container = document.querySelector('.status-filter-bar');
-            container.querySelectorAll('.status-filter-btn').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    CURRENT_STATUS_FILTER = e.currentTarget.getAttribute('data-status');
-                    container.querySelectorAll('.status-filter-btn').forEach(btn => btn.classList.remove('active'));
-                    e.currentTarget.classList.add('active');
-                    renderActivities();
-                });
-            });
-        }
-
-        // ----------------------------------------------------
-        // 步骤 4: 渲染活动 (已更新筛选逻辑)
-        // ----------------------------------------------------
-        function renderActivities() {
-            const listContainer = document.getElementById('video-tasks-list');
-            listContainer.innerHTML = '';
+        function renderCard(v) {
+            let btn = '';
+            if(v.link && v.link!=='#') btn = `<a href="${v.link}" target="_blank" class="action-button"><i class="fas fa-rocket"></i> 去观看</a>`;
+            else if(v.StepsText) btn = `<button class="action-button action-button-voice" data-steps="${v.StepsText.replace(/"/g,'&quot;')}"><i class="fas fa-volume-high"></i> 播放指引</button>`;
             
-            // 1. 按状态筛选
-            const now = new Date();
-            const filteredActivities = ALL_ACTIVITIES.filter(act => {
-                // ... (状态筛选逻辑不变) ...
-                const startDate = act.startDate ? new Date(act.startDate) : null;
-                const endDate = act.endDate ? new Date(act.endDate) : null;
-
-                if (CURRENT_STATUS_FILTER === 'ongoing') {
-                    const hasStarted = !startDate || startDate <= now;
-                    const hasNotEnded = !endDate || endDate >= now;
-                    return hasStarted && hasNotEnded;
-                }
-                if (CURRENT_STATUS_FILTER === 'upcoming') {
-                    return startDate && startDate > now;
-                }
-                if (CURRENT_STATUS_FILTER === 'ended') {
-                    return endDate && endDate < now;
-                }
-                return false;
-            });
-            
-            // (此页面没有 L2 类别筛选)
-
-            if (filteredActivities.length === 0) {
-                listContainer.innerHTML = `
-                    <div class="empty-state">
-                        <i class="empty-state-icon fas fa-folder-open"></i>
-                        <p>这个分类下暂无活动</p>
-                    </div>`;
-                return;
-            }
-
-            filteredActivities.forEach(activity => {
-                const cardHtml = renderActivityCard(activity);
-                listContainer.innerHTML += cardHtml;
-            });
-            
-            bindActionButtons();
-            updateAllCountdowns();
-        }
-
-        // ----------------------------------------------------
-        // 步骤 5: 单个活动卡片的 HTML 生成
-        // ----------------------------------------------------
-        function renderActivityCard(activity) {
-            // L1 标签 "Video" 是唯一的样式
-            const styles = CATEGORY_MAP['Video'];
-            
-            let actionButtonHtml = '';
-            // ... (动作按钮逻辑不变) ...
-            if (activity.link && activity.link !== '#') {
-                actionButtonHtml = `
-                    <a href="${activity.link}" 
-                       target="_blank" 
-                       class="action-button" 
-                       data-umami-event="click_deep_link"
-                       data-umami-event-name="${activity.name}">
-                        <i class="fas fa-rocket"></i>
-                        ${activity.actionText || '去看视频'}
-                    </a>`;
-            } else if (activity.StepsText) {
-                const steps = activity.StepsText.replace(/"/g, '&quot;');
-                actionButtonHtml = `
-                    <button class="action-button action-button-voice" 
-                            data-activity-id="${activity.id}" 
-                            data-steps="${steps}"
-                            data-activity-name="${activity.name}">
-                        <i class="fas fa-volume-high"></i>
-                        播放语音
-                    </button>`;
-            } else {
-                actionButtonHtml = `
-                    <button class="action-button opacity-50 cursor-not-allowed" disabled>
-                        <i class="fas fa-info-circle"></i>
-                        暂无指引
-                    </button>`;
-            }
-            
-            let specialNoteBadge = '';
-            if (activity.specialNote) {
-                specialNoteBadge = `
-                    <span class="special-note-badge"
-                          data-umami-event="view_special_note"
-                          data-umami-event-name="${activity.name}">
-                        <i class="fas fa-bell"></i>
-                        ${activity.specialNote}
-                    </span>`;
-            }
-
-            return `
-                <div class="task-list-card ${styles.borderClass} ${activity.specialNote ? 'has-special-note' : ''}">
-                    
-                    ${specialNoteBadge}
-
-                    <span class="countdown-badge" 
-                          data-endtime="${activity.endDate}" 
-                          data-starttime="${activity.startDate}" 
-                          id="timer-${activity.id}">
-                        计算中...
-                    </span>
-
-                    <div class="task-main-content">
-                        <div class="task-icon ${styles.iconClass}">
-                            <i class="fa-solid ${styles.faIcon}"></i>
-                        </div>
-                        <div class="task-content">
-                            <div class="task-title">${activity.name || '活动名称缺失'}</div>
-                            <div class="task-subtitle">${activity.description || '暂无详细描述。'}</div>
-                        </div>
-                    </div>
-
-                    <div class="task-action-bar">
-                        <button class="share-button" 
-                                data-activity-id="${activity.id}" 
-                                data-activity-name="${activity.name}">
-                            <i class="fas fa-share-alt"></i>
-                            分享
-                        </button>
-                        
-                        ${actionButtonHtml}
+            return `<div class="task-list-card flex items-center justify-between">
+                <div class="flex items-center flex-1 min-w-0">
+                    <div class="task-icon"><i class="fas fa-play"></i></div>
+                    <div class="truncate pr-2">
+                        <div class="font-bold text-white truncate">${v.name}</div>
+                        <div class="text-xs text-gray-400 truncate">${v.description}</div>
                     </div>
                 </div>
-            `;
+                <div>${btn}</div>
+            </div>`;
         }
 
-        // ----------------------------------------------------
-        // 步骤 6: 绑定事件
-        // ----------------------------------------------------
-        function bindActionButtons() {
-            // ... (绑定逻辑不变) ...
-            document.querySelectorAll('.action-button-voice').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const btn = e.currentTarget;
-                    const steps = btn.getAttribute('data-steps');
-                    const name = btn.getAttribute('data-activity-name');
-                    umami.track('play_voice_guide', { name: name });
-                    playSpeech(steps, btn);
-                });
-            });
-            document.querySelectorAll('.share-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const btn = e.currentTarget;
-                    const id = btn.getAttribute('data-activity-id');
-                    const name = btn.getAttribute('data-activity-name');
-                    umami.track('click_share', { name: name });
-                    shareActivity(id, btn);
-                });
-            });
-        }
-        
-        // ----------------------------------------------------
-        // 步骤 7: [【 核心BUG修复 】] 语音播放 (已修复)
-        // ----------------------------------------------------
-        function playSpeech(text, buttonElement) {
-            const isCurrentlySpeaking = synth.speaking;
-            const isSameText = currentUtterance && currentUtterance.text === text;
-
-            if (isCurrentlySpeaking) {
-                synth.cancel();
-            }
-            if (isCurrentlySpeaking && isSameText) {
-                return;
-            }
+        function toggleSpeech(btn, text) {
+            if(!synth) return;
+            if(btn.classList.contains('speaking')) { synth.cancel(); btn.classList.remove('speaking'); btn.innerHTML=`<i class="fas fa-volume-high"></i> 播放指引`; return; }
+            if(synth.speaking) synth.cancel();
+            if(speakingButton) { speakingButton.classList.remove('speaking'); speakingButton.innerHTML=`<i class="fas fa-volume-high"></i> 播放指引`; }
             
-            currentUtterance = new SpeechSynthesisUtterance(text);
-            currentUtterance.lang = 'zh-CN';
-            currentUtterance.rate = 0.8;
-            
-            document.querySelectorAll('.action-button-voice.speaking').forEach(btn => {
-                btn.classList.remove('speaking');
-                btn.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
-            });
-
-            if (buttonElement) {
-                buttonElement.classList.add('speaking');
-                buttonElement.innerHTML = `<i class="fas fa-wave-square"></i> 播放中...`;
-            }
-
-            currentUtterance.onend = () => {
-                if (buttonElement) {
-                    buttonElement.classList.remove('speaking');
-                    buttonElement.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
-                }
-                currentUtterance = null;
-            };
-            
-            currentUtterance.onerror = (event) => {
-                console.error('SpeechSynthesis 错误:', event);
-                if (buttonElement) {
-                    buttonElement.classList.remove('speaking');
-                    buttonElement.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
-                }
-                currentUtterance = null;
-            };
-
-            synth.speak(currentUtterance);
-        }
-
-        function stopSpeech() {
-            if (synth.speaking) {
-                synth.cancel();
-            }
-            document.querySelectorAll('.action-button-voice.speaking').forEach(btn => {
-                btn.classList.remove('speaking');
-                btn.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
-            });
-            currentUtterance = null;
-        }
-
-        // ----------------------------------------------------
-        // 步骤 8: 分享功能
-        // ----------------------------------------------------
-        function shareActivity(activityId, buttonElement) {
-            // ... (分享逻辑不变) ...
-            const shareUrl = `${window.location.origin}${window.location.pathname.replace('video.html', 'go.html')}?id=${activityId}`;
-            try {
-                const tempInput = document.createElement('textarea');
-                tempInput.value = `快来看看这个活动！\n${shareUrl}`;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-                
-                const originalText = buttonElement.innerHTML;
-                buttonElement.innerHTML = `<i class="fas fa-check"></i> 已复制!`;
-                setTimeout(() => {
-                    buttonElement.innerHTML = originalText;
-                }, 2000);
-
-            } catch (err) {
-                console.error('复制失败:', err);
-                alert(`请手动复制链接：\n${shareUrl}`);
-            }
-        }
-
-        // ----------------------------------------------------
-        // 步骤 9: 倒计时功能
-        // ----------------------------------------------------
-        function getRemainingTime(activity, badgeElement) {
-            // ... (倒计时逻辑不变) ...
-            const now = new Date().getTime();
-            const startDate = activity.startDate ? new Date(activity.startDate).getTime() : null;
-            const endDate = activity.endDate ? new Date(activity.endDate).getTime() : null;
-
-            badgeElement.classList.remove('expired-badge', 'upcoming-badge');
-
-            if (endDate && endDate < now) {
-                badgeElement.textContent = '已过期';
-                badgeElement.classList.add('expired-badge');
-                return;
-            }
-            if (startDate && startDate > now) {
-                const distance = startDate - now;
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                
-                let timeString = '';
-                if (days > 1) timeString = `${days} 天后`;
-                else if (days === 1 || hours > 1) timeString = `${days * 24 + hours} 小时后`;
-                else timeString = `即将开始`;
-
-                badgeElement.textContent = `${timeString}`;
-                badgeElement.classList.add('upcoming-badge');
-                return;
-            }
-            if (endDate) {
-                const distance = endDate - now;
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-                let timeString = '';
-                if (days > 1) timeString = `${days} 天`;
-                else if (days === 1 || hours > 0) timeString = `${days * 24 + hours} 时`;
-                else timeString = `${minutes} 分`;
-
-                badgeElement.textContent = `剩余 ${timeString}`;
-                return;
-            }
-            badgeElement.textContent = '长期';
-        }
-
-        function startCountdownUpdater() {
-            setInterval(updateAllCountdowns, 60000); 
-        }
-
-        function updateAllCountdowns() {
-            const timerElements = document.querySelectorAll('.countdown-badge');
-            timerElements.forEach(badge => {
-                const activity = {
-                    endDate: badge.getAttribute('data-endtime'),
-                    startDate: badge.getAttribute('data-starttime')
-                };
-                getRemainingTime(activity, badge);
-            });
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'zh-CN'; u.rate = 0.75;
+            u.onstart = () => { speakingButton=btn; btn.classList.add('speaking'); btn.innerHTML=`<i class="fas fa-stop"></i> 停止`; };
+            u.onend = () => { btn.classList.remove('speaking'); btn.innerHTML=`<i class="fas fa-volume-high"></i> 播放指引`; };
+            synth.speak(u);
         }
     </script>
-
 </body>
 </html>
