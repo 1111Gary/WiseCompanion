@@ -1,108 +1,1297 @@
 [
   {
-    "id": "101",
-    "name": "每日签到领积分",
-    "sourceApp": "支付宝",
-    "category": ["DailyCheckin"],
-    "description": "坚持签到7天，可兑换5元立减金。",
-    "link": "https://example.com/checkin",
-    "StepsText": "打开支付宝首页，点击右上角签到，连续签到7天即可。",
-    "startDate": "2023-11-01T00:00:00",
-    "endDate": "2025-12-31T23:59:59",
-    "specialNote": "必做"
-  },
-  {
-    "id": "102",
-    "name": "整点抢大额神券",
-    "sourceApp": "京东",
-    "category": ["Voucher"],
-    "description": "每日10点、14点、20点限量开抢。",
+    "id": "rec0O6puIhGuig6H5",
+    "name": "支付宝视频",
+    "description": "看视频，领支付红包，每次今天视频金额随机",
+    "icon": "❓",
     "link": "#",
-    "StepsText": "打开京东App，搜索领券中心，定好闹钟抢券。",
-    "startDate": "2024-01-01T00:00:00",
-    "endDate": "2024-12-31T23:59:59",
-    "specialNote": "10点场"
-  },
-  {
-    "id": "201",
-    "name": "看视频赚金币",
-    "sourceApp": "抖音极速版",
-    "category": ["Video"],
-    "description": "刷视频每分钟得100金币，无上限。",
-    "link": "#",
-    "StepsText": "打开抖音极速版，点击下方中间的金币按钮，开始刷视频。",
-    "startDate": "2023-01-01T00:00:00",
+    "category": [
+      "Video"
+    ],
+    "sourceApp": "支付宝APP",
+    "specialNote": null,
+    "targetApp": "支付宝APP",
     "endDate": null,
-    "specialNote": "长期"
+    "StepsText": null
   },
   {
-    "id": "301",
-    "name": "周三五折美食",
-    "sourceApp": "招商银行",
-    "category": ["DailyTask"],
-    "description": "每周三上午10点，抢购五折美食券。",
-    "link": "https://example.com/bank",
-    "StepsText": "打开招商银行App，点击生活，选择周三五折。",
-    "startDate": "2023-01-01T00:00:00",
-    "endDate": "2025-12-31T23:59:59",
-    "specialNote": "周三限定"
-  },
-  {
-    "id": "302",
-    "name": "完成转账领红包",
-    "sourceApp": "工商银行",
-    "category": ["MissionReward"],
-    "description": "完成一笔任意金额转账，抽最高88元红包。",
+    "id": "rec0bpCM3NqXMzmhY",
+    "name": "工商银行APP权益中心",
+    "description": "工银i豆乐园，点击更多，浇水有礼，每日登录浇水获得工银i豆",
+    "icon": "❓",
     "link": "#",
-    "StepsText": "打开工行App，转账给自己的他行卡1元，然后去任务中心抽奖。",
-    "startDate": "2023-11-15T00:00:00",
-    "endDate": "2024-05-01T00:00:00",
-    "specialNote": "简单"
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "工商银行APP",
+    "specialNote": null,
+    "targetApp": "工商银行APP",
+    "endDate": "2025-11-29T16:00:00.000Z",
+    "StepsText": null
   },
   {
-    "id": "303",
-    "name": "大额存单3.5%",
-    "sourceApp": "建设银行",
-    "category": ["Deposit"],
-    "description": "三年期大额存单，利率3.5%，额度有限。",
-    "link": "#",
-    "StepsText": "需去线下网点咨询理财经理办理。",
-    "startDate": "2023-01-01T00:00:00",
-    "endDate": "2024-06-30T00:00:00"
+    "id": "rec1w5ghYBkkVV8ru",
+    "name": "交行碳星荣耀",
+    "description": "每日签到绿色能量，每月领生活缴费和支付券",
+    "icon": "❓",
+    "link": "https://mbank.95559.com.cn/mobs6/tangram8/TG0/NTG0001.html?promoteCode=20250526AJMYM005&channelShare=wxhy-20250513AHXJF108",
+    "category": [
+      "CheckIn"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": null,
+    "StepsText": null
   },
   {
-    "id": "401",
-    "name": "超市购物满减",
-    "sourceApp": "微信支付",
-    "category": ["PaymentDiscount"],
-    "description": "沃尔玛、家乐福使用微信支付满100减10。",
+    "id": "rec1zKnKIGI3UeR6R",
+    "name": "工商升金有礼",
+    "description": "工商银行首页搜升金有礼，报名后当月资产达标，次月领立减",
+    "icon": "❓",
     "link": "#",
-    "StepsText": "结账时直接出示微信付款码即可自动抵扣。",
-    "startDate": "2023-11-01T00:00:00",
-    "endDate": "2024-02-01T00:00:00",
-    "specialNote": "周末"
+    "category": [
+      "Bank",
+      "Deposit"
+    ],
+    "sourceApp": "工商银行APP",
+    "specialNote": null,
+    "targetApp": "工商银行APP",
+    "endDate": null,
+    "StepsText": null
   },
   {
-    "id": "402",
-    "name": "生活缴费随机减",
-    "sourceApp": "云闪付",
-    "category": ["PaymentBill"],
-    "description": "水电煤缴费满30元随机立减，最高99元。",
-    "link": "#",
-    "StepsText": "打开云闪付，点击生活缴费，选择对应户号缴费。",
-    "startDate": "2023-01-01T00:00:00",
-    "endDate": null
+    "id": "rec2QxxMUXHEWuCcM",
+    "name": "农行信用卡活动天天返现",
+    "description": "农行首页热门活动天天返现，信用卡每天单笔满18可享随机返限",
+    "icon": "❓",
+    "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=Oid7Eqt%2BWc0%3D&dynamicData=ebwa8uMKEXJHDxzu9wFyy5I3l%2FXNlfDWRjOLKGlk7OlYbX%2FH1K8EE%2F%2BGU4AhfZLB%2BUs2fXwRmSrwdJR3vp5BCM8u0XlpsMVBT7eGvXvYlPM%3D",
+    "category": [
+      "Shopping",
+      "PaymentDiscount"
+    ],
+    "sourceApp": "中国农业银行APP",
+    "specialNote": null,
+    "targetApp": "中国农业银行APP",
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
   },
   {
-    "id": "403",
-    "name": "机票酒店立减券",
-    "sourceApp": "飞猪",
-    "category": ["TravelDiscount"],
-    "description": "新用户领50元机票立减券。",
+    "id": "rec2ST5QDPRjn5t5y",
+    "name": "中行云网支付",
+    "description": "中行云网支付，满60-10，限1次，可冲京东E卡",
+    "icon": "❓",
     "link": "#",
-    "StepsText": "打开飞猪App首页弹窗领取。",
-    "startDate": "2024-05-01T00:00:00",
-    "endDate": "2024-10-01T00:00:00",
-    "specialNote": "即将开始"
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "rec2XC9PHVfrc08dd",
+    "name": "交行月月有礼",
+    "description": "交行搜“月月有礼”，每完成一次任务皆可抽支付劵",
+    "icon": "❓",
+    "link": "https://mbank.95559.com.cn/mobs6/tangram/TG0/NTG0001.html?promoteCode=20240906AGKQX105&channelShare=wxhy-20240905AKQTU014",
+    "category": [
+      "MissionReward",
+      "Bank"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "rec2hPYI5LxSXyTUk",
+    "name": "网上国网APP签到",
+    "description": "每日签到领金币换电费优惠券",
+    "icon": "🏡",
+    "link": "#",
+    "category": [
+      "CheckIn",
+      "DailyCheckin"
+    ],
+    "sourceApp": "网上国网APP",
+    "specialNote": null,
+    "targetApp": "网上国网APP",
+    "endDate": null,
+    "StepsText": "打开国上国网APP，在下面点击我得按钮，点击右上角签到，页面下面可以金币换电费优惠券"
+  },
+  {
+    "id": "rec38bDAc3EbhDaFv",
+    "name": "建行惠消费开好礼",
+    "description": "搜建融家园，点惠消费开好礼，抽奖随机得1-168立减金 。每月1次",
+    "icon": "❓",
+    "link": "#小程序://CCB建融家园平台/pm0eSQtLCxGB39t",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP",
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "rec3SzEB2CwKeua0S",
+    "name": "农行省钱月卡",
+    "description": "农行首页热门活动，省钱月卡，最低可1元买10元",
+    "icon": "❓",
+    "link": "#",
+    "category": [],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "其他",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "rec58nWsQyLpcfhmq",
+    "name": "交行领劵中心",
+    "description": "交通银行APP首页,领劵中心，领各种优惠劵，每周五12点还可领1-8.8云网劵",
+    "icon": "❓",
+    "link": "https://mbank.95559.com.cn/mobs6/tangram8/TG0/NTG0001.html?promoteCode=20250526AJMYM005&channelShare=wxhy-20250513AHXJF108",
+    "category": [
+      "Voucher",
+      "CheckIn"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "rec5L1lYQL7GSb4Tj",
+    "name": "交行砸蛋有好礼",
+    "description": "赢1-18元消费红包",
+    "icon": "❓",
+    "link": "https://mbank.95559.com.cn/mobs6/tangram/TG0/NTG0001.html?promoteCode=20241024AJXGK016&realPage=NTG0001&channelShare=wxhy-20241024AJXGK016",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "rec6nEUJ2avZhetI5",
+    "name": "建行数币消费达标礼",
+    "description": "搜索数币消费达标礼：活动期间，用户点击“报名”按钮报名参加活动。报名后在【建行生活APP】使用本人建行数字人民币钱包（仅限一类、二类钱包）成功支付订单（限美食、商超、外卖或电影场景订单，购买有价券需在活动期间完成核销）使用建行数字人民币钱包支付。订单满2笔且金额满100元;订单满2笔且金额满300元",
+    "icon": "❓",
+    "link": "https://event.ccbft.com/ccbact/m385/AP202508126470000001-act.html?__dmsp_token=TFU6Y2NiX2dqYjp3eDoyOEJFRkQ3NEM2NjJEOUI3Qjk2NzYyQUFGQjk2N0U1QjpmMmM5ZDg2M2VhYmI0NWYxOTMwODFjYzBjNzFkOTEyZA==&__dmsp_ticket=TFU6Y2NiX2dqYjp3eDoyOEJFRkQ3NEM2NjJEOUI3Qjk2NzYyQUFGQjk2N0U1QjpiYTgxYzgxZGYxMDY0MzQ1YjRjNzg2ZWRiYzcyMjJlMw==&__dmsp_st=U1Q6Y2NiX2dqYjp3eDoyOEJFRkQ3NEM2NjJEOUI3Qjk2NzYyQUFGQjk2N0U1Qjo0YzRiZmJiNWJhOTM0OWVhYmZiZWQ3NGY4MDVhOTRjNw==",
+    "category": [
+      "Bank"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "rec9DuXPXE4gQmg1v",
+    "name": "建行数币惠生活",
+    "description": "数字人民币满30-10数币优惠券",
+    "icon": "❓",
+    "link": "https://res.yunbusiness.ccb.com/gbchannel/e_report/CloudLink/index.html?target=url&ccbParam=https%3A%2F%2Fres.yunbusiness.ccb.com%2Fgbchannel%2Fe_report%2FCCBLIFE%2F%23%2FinterLayer%2FYS44000010000078%3FLOGIN_REQUIRED%3D0%26path%3D%252Fccbact%252Fm321%252FDPBJJHSH202501160001-act-ccbLEshareFrom_jhsh.html",
+    "category": [
+      "Shopping",
+      "PaymentDiscount"
+    ],
+    "sourceApp": "建行生活APP",
+    "specialNote": null,
+    "targetApp": "建行生活APP",
+    "endDate": "2025-12-28T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "rec9IUk6KnF9BkmGe",
+    "name": "京东农行日 首绑专享优惠",
+    "description": "登录京东，在“京东支付”首次绑定农行信用卡立减5元，满5.01可用。或一分购包邮好物。两项活动不可同享",
+    "icon": "❓",
+    "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=M9L77AgUYJo%3D&dynamicData=UkdtOrPiSdavA3m6UGLdDvRUyyEBojKcC4krMtY%2FSxs%3D&displayParam=UkdtOrPiSdavA3m6UGLdDvRUyyEBojKcC4krMtY%2FSxs%3D",
+    "category": [
+      "MissionReward",
+      "Bank"
+    ],
+    "sourceApp": "中国农业银行APP",
+    "specialNote": null,
+    "targetApp": "中国农业银行APP",
+    "endDate": "2025-12-31T15:59:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recBlsqc2bYssM0pJ",
+    "name": "中行京禧回归礼",
+    "description": "特邀专享：领取10-50元微信立减金，需中国银行借记卡使用",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-12-31T10:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧回归礼"
+  },
+  {
+    "id": "recD7bZQKFepHsF9l",
+    "name": "建行社保卡福利日",
+    "description": "受邀客户每周三15：00报名，有机会参与报名领银联60-20优惠券，每个自热月领1张",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Shopping"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recDRGvwqpkgrNsXp",
+    "name": "支付宝数字人民币月享节",
+    "description": "16日准时抢16元满减券包，消费16元天天减，16日开始每天12点抽支付红包",
+    "icon": "❓",
+    "link": "https://ur.alipay.com/_2k6EtGOShdjOn35TzZYzy",
+    "category": [
+      "Voucher",
+      "CheckIn"
+    ],
+    "sourceApp": "支付宝APP",
+    "specialNote": "16日12:00准时抢",
+    "targetApp": "支付宝APP",
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recDS8C3fC34GdeJQ",
+    "name": "中国建设银行APP签到",
+    "description": "每日签到领金币开宝箱抽微信立减金",
+    "icon": "🍔",
+    "link": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=b7fbcbdcf9814297bdb479ebcd224419",
+    "category": [
+      "CheckIn",
+      "DailyCheckin"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recDdnRzFC1muym36",
+    "name": "交行扫码付周周惠商超",
+    "description": "领1-8.8商超券随机领",
+    "icon": "❓",
+    "link": "https://mbank.95559.com.cn/mobs6/tangram/TG0/NTG0001.html?promoteCode=20250109ARMWF101&realPage=NTG0001&channelShare=wxhy-20250109ARMWF101",
+    "category": [
+      "Shopping",
+      "PaymentDiscount"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recDoFz4DcToh3dia",
+    "name": "享“趣”玩车生活",
+    "description": "点热门活动，往下翻点享“趣”玩车生活，领取加油充值立减卷",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recE0Zq4419HGoWSI",
+    "name": "京东视频",
+    "description": "看视频领金币，可提现到京东钱包",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Video"
+    ],
+    "sourceApp": "京东APP",
+    "specialNote": null,
+    "targetApp": "京东APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recECUwR6oiJfObXL",
+    "name": "工行消费季",
+    "description": "工行消费季，每周五至周日抽豆",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "工商银行APP",
+    "specialNote": null,
+    "targetApp": "工商银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recEXuyKINDBR3e1Q",
+    "name": "支付宝会员积分兑换",
+    "description": "支付宝会员，会员购.品质甄选，搜索中行，99积分兑换中国银行借记卡转账立减金2元。每月限兑1次，兑换后7天内有效。",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "支付宝APP",
+    "specialNote": null,
+    "targetApp": "支付宝APP",
+    "endDate": "2025-11-29T16:00:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recEihTJhgAYkiCIh",
+    "name": "交行幸运夹娃娃",
+    "description": "“交通银行”微信小程序，活动抽奖奖励为2-18元不等微信立减金",
+    "icon": "❓",
+    "link": "#小程序://交通银行/I1u1GlJu7MxbLSu",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "微信小程序",
+    "specialNote": null,
+    "targetApp": "微信小程序",
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recF2IIll4CYhXEVy",
+    "name": "工行工享月月花",
+    "description": "工银微金融程序，“工享月月花”活动，滚动栏参加，可微信零钱通冲值，工商卡转入提限免费，达标判断要2-7个自然日",
+    "icon": "❓",
+    "link": "#小程序://微金融/PfTQxJLKXn7q8Cx",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "微信小程序",
+    "specialNote": null,
+    "targetApp": "微信小程序",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recFyVvQbdF96KzSq",
+    "name": "农业银行APP",
+    "description": "我的小豆，每日签到抽小豆，去抽奖",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "CheckIn"
+    ],
+    "sourceApp": "中国农业银行APP",
+    "specialNote": null,
+    "targetApp": "中国农业银行APP",
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recHsykt7FWAjum3F",
+    "name": "支付宝APP碰一下签到",
+    "description": "连续签到14天得3元碰一下红包",
+    "icon": "💰",
+    "link": "cmbt://...",
+    "category": [
+      "CheckIn",
+      "DailyCheckin"
+    ],
+    "sourceApp": "支付宝APP",
+    "specialNote": null,
+    "targetApp": "支付宝APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recKDuXxLsZNFdiIY",
+    "name": "农行周四秒杀",
+    "description": "每周四10；00秒杀",
+    "icon": "❓",
+    "link": "https://wx.abchina.com/webank/main-view/openTagForBJSes?id=np3hzfXK7yA%3D&source_type=SHARE",
+    "category": [
+      "Voucher",
+      "CheckIn"
+    ],
+    "sourceApp": "中国农业银行APP",
+    "specialNote": "每周四10:00抢",
+    "targetApp": "中国农业银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recKYMUu0EKoVomVB",
+    "name": "交行“京”喜财富季",
+    "description": "北京持卡用户提升资产领5-100支付贴近券，至高200元",
+    "icon": "❓",
+    "link": "https://mbank.95559.com.cn/mobs6/login/LG1/NLG0001.html?logintype=1&originUrl=tangram8%2FTG0%2FNTG0001.html%3FpromoteCode%3D20250415AGWUQ006%26realPage%3DNTG0001%26channelShare%3Dwxhy-20250415AGWUQ006&_bids=login+static&_PARAMSKEY=911844AF",
+    "category": [
+      "Bank",
+      "Deposit"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recNuTbQsXyRkkihy",
+    "name": "光大阳光值 天天兑",
+    "description": "每日签到，10点抢1元、2元、5元、10元微信立减金",
+    "icon": "❓",
+    "link": "https://wap.cebbank.com/wx_skip.html?id=newyangguanghuayuan",
+    "category": [
+      "Voucher",
+      "CheckIn"
+    ],
+    "sourceApp": "光大银行APP",
+    "specialNote": "每日10:00准时抢",
+    "targetApp": "光大银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recPz45BomzPEBKC0",
+    "name": "交行财运多多资产达标礼",
+    "description": "达标5-180元支付贴金券",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "Deposit"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recQvNXoBYA9zZv01",
+    "name": "中国建设银行APP ",
+    "description": "建行-信用卡-最新优惠，点更多，信用卡受邀用户添加企V，可获得1W积分",
+    "icon": "❓",
+    "link": "#",
+    "category": [],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recR7rWTyjCBcsira",
+    "name": "邮储银行 星级专享月月领",
+    "description": "二星至七星级客户，每月9号、19号、29号，10点开抢微信/支付宝立减金，每月一次。",
+    "icon": "❓",
+    "link": "https://wap.psbc.com/wxbank/h5/rousePage/#/?pageId=2063&type=month",
+    "category": [
+      "Voucher",
+      "CheckIn"
+    ],
+    "sourceApp": "邮储银行APP",
+    "specialNote": null,
+    "targetApp": "邮储银行APP",
+    "endDate": "2026-05-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recRThL4oThWd0UMi",
+    "name": "农行数币缤纷购物节",
+    "description": "农行数字人民币热门活动缤纷购物节，领10元",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国农业银行APP",
+    "specialNote": null,
+    "targetApp": "中国农业银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recS8JVwT7d6BbEKo",
+    "name": "交行企业微信见面礼",
+    "description": "获取2元支付券",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recTv1KGxQUaD4M7U",
+    "name": "建行低碳生活",
+    "description": "搜低碳生活，一键领取使用绿色能量兑换1-20立减金。每天10点投放立减兑换名额，部分受邀\n用户可500能量兑换8-5立减金；完成页面下指定任务得能量折扣劵。每月1次",
+    "icon": "❓",
+    "link": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=d466d3c774db476eac7c5c8673c95974",
+    "category": [
+      "Bank",
+      "DailyTask",
+      "CheckIn"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP",
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recUY8RVm3AdI3QF8",
+    "name": "农行信用卡线下超市30减10",
+    "description": "满30-10，幸福荣耀超市可用",
+    "icon": "❓",
+    "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=Oid7Eqt%2BWc0%3D&dynamicData=ebwa8uMKEXJHDxzu9wFyy5I3l%2FXNlfDWRjOLKGlk7OlYbX%2FH1K8EE%2F%2BGU4AhfZLB%2BUs2fXwRmSrwdJR3vp5BCM8u0XlpsMVBT7eGvXvYlPM%3D",
+    "category": [
+      "Shopping",
+      "PaymentDiscount"
+    ],
+    "sourceApp": "中国农业银行APP",
+    "specialNote": null,
+    "targetApp": "中国农业银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recUe0HA74x0kXfTk",
+    "name": "中行京禧周周领",
+    "description": "受邀专享：北京理财级及以上用户参加活动，每周五10：00起，5折买立减金，每月一次",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Voucher",
+      "CheckIn"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-12-31T10:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧周周领"
+  },
+  {
+    "id": "recWRrBDZdt3C2FRk",
+    "name": "邮储银行 微信银行查询赢好礼",
+    "description": "点击“中国邮政储蓄银行”服务号，成功查询账户余额，有机会领取1.16元-66元微信立减金。",
+    "icon": "❓",
+    "link": "https://wap.psbc.com/mobilebank/skipCellPhoneAPPToActivityPage.do?pageId=1145&isLinkShared=1&source=0&activityId=168005490933760",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "邮储银行APP",
+    "specialNote": null,
+    "targetApp": "邮储银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recZ2sCoxxFwhJaMN",
+    "name": "建行听港湾暖心房",
+    "description": "首页-热门活动，拉到最底下，有个听港湾暖心房，可抽1立减",
+    "icon": "❓",
+    "link": "https://event.ccbft.com/ccbact/m3883/DP00652510111023QV02-act.html#/",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "建行生活APP",
+    "specialNote": null,
+    "targetApp": "建行生活APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recZDTiNmBiXp0yH5",
+    "name": "无标题活动",
+    "description": "暂无描述",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Shopping",
+      "TravelDiscount"
+    ],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "其他",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "reca6vAdiqpehGYZn",
+    "name": "工商银行APP任务中心活动",
+    "description": "双线绘丰景布局正当时",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "工商银行APP",
+    "specialNote": null,
+    "targetApp": "工商银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recaT8bWOykQQFHZs",
+    "name": "建行充话费1.01-1",
+    "description": "移动APP，首页充话费，金额自定义，输入1.01后选择立即支付，支付方式选择云闪付，再选建行生活支付（会显示减1，没有就是当天名额用完了，每天凌晨12点发放新的)，通过云网支付，选择建行生活支付；每月可减4次",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "建行生活APP",
+    "specialNote": null,
+    "targetApp": "建行生活APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "reccRyYKbO7XKP7fN",
+    "name": "农行云游神州",
+    "description": "每日点击获取里程，完成5个打开点，分别获得2元，3元和10元立减金",
+    "icon": "❓",
+    "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=b6%2Bl20Ji0tI%3D&dynamicData=az29P1VLOKOTSAops4p8AuGN%2B8aq0ihv%2BbK%2B06TREM2FlSwJSkIHo3oKfuLWfF4OvM%2BKqbhrOlEeWcfrMRq9vIK4UXi%2BgQpBK%2FiAY3qBakwdyi8ir%2Bw1e7AUxyra1jl29dEfnkPoyLo9XSq7UM39w%2Fu2Ak8LEFX6YJc%2Fr1zRDb7YCdRP1ilV9P3vnEqo8DxGrdMfPuz7MuQ%3D",
+    "category": [
+      "MissionReward",
+      "Bank"
+    ],
+    "sourceApp": "中国农业银行APP",
+    "specialNote": null,
+    "targetApp": "中国农业银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recd9IjJxJopmEhpN",
+    "name": "交行基会多多",
+    "description": "完成任务3-85支付红包",
+    "icon": "❓",
+    "link": "https://mbank.95559.com.cn/mobs6/tangram8/TG0/NTG0001.html?promoteCode=20250401AEBAM102&channelShare=wxhy-20250331AEFPK011",
+    "category": [
+      "Bank",
+      "Deposit"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": "2025-12-24T07:00:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recdO7wDicStvJOQC",
+    "name": "交行消费抽抽抽",
+    "description": "交通银行APP首页搜“消费抽抽抽”，三个任务，每完成1次皆可抽奖，每周重复做",
+    "icon": "❓",
+    "link": "https://mbank.95559.com.cn/mobs6/tangram8/TG0/NTG0001.html?promoteCode=20250427AYGUR006&channelShare=wxhy-20250424AFGCR007",
+    "category": [
+      "Shopping",
+      "PaymentDiscount"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": "2025-12-28T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recdzXln83KURzgQB",
+    "name": "建行大江南 见北的明星港湾",
+    "description": "活动期间，用户可登录“建行生活”App首页【会员有礼-热门活动】内点击活动广告栏、微信扫描活动海报二维码、或在微信公众号推文的活动动链接中打开活动页面参与“大江南\n见北的明星港湾”活动。\n2025年11月日至11月26日，7大区域各集齐1张及以上，即可合并湾宝卡，额外获得3次抽奖机会。用户每天默认有3次抽卡机会，抽取卡片后浏览15秒卡片内容即可获得1次抽奖机会。用户点击活动首页【抽奖中心】，前往抽奖页，点击【立即抽奖】。",
+    "icon": "❓",
+    "link": "https://event.ccbft.com/ccbact/m3865/DP00672510271125XVB0-act.html",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "建行生活APP",
+    "specialNote": null,
+    "targetApp": "建行生活APP",
+    "endDate": "2025-11-16T16:00:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recebQ1qVVPkZJ05e",
+    "name": "交行福利季惠民投",
+    "description": "领2-288元支付贴金券",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "Deposit"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": "2025-12-31T15:20:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recevjZ0xcvUS3WsQ",
+    "name": "建行惠省钱",
+    "description": "随机购买16立减金和20建行生活满减券",
+    "icon": "❓",
+    "link": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=422bedb407714b079403e8ba6cb771ea&crypt_type=1&cryptParam=817oUbFF4rUQ17MOtV3nE3sO4bDkCkkPPbs3nPwKopEL9ruQYH3wxtCeds3GNW2yQmPKNvjEKPSUZrvMyDPRuv8LP2eqBaTPmtRNq5jAN3d2WIiaE0r2/dwB7xyYrsFmraZhrUtlCbG568NZ9zMfwd3u7nB0MqbY/wZMimDnwUWKW1irarOeYwCsTi0STAMsVGmUcvWtjniyeGInT5ky9mN1LMXCL073VNYTjJTCpU2Y15sNBXocM3bP/1taP7DUJKECFvhDR7Da0HeBRwb7KNcq+pZ1MimIyvtg/sWAdmn+rOKEaRLmyjLBS+YWU3YgpTQzAgqgx+8pEHZnsU0H1H7PPztBAlZr3yl6YCXDmYuqBIOx19Sw9yleip74wuFfQ/BPjALsKjqcfTwwSrf9dl2TpnSoPGZCBibteZ8gGLajBvVSGfzrV2Uj4PAKPMi1tMQzzgwI5vjBOg0/GDWuqpKy5HXaK6c6Kx3wZdHRX9RJpE8s4jyAQVjxNtOQ44zXxEv+UinWrXK2UpOrzl0gJmrNmmI+ExYsL7GmA/5VYe9hggIzSTRRMbloGB3QNkbqQ2fc9h0eEec=",
+    "category": [
+      "Bank",
+      "PaymentBill"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP",
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recfGrhSb1Wse0Goa",
+    "name": "中行京禧校园",
+    "description": "受邀专享：北京秋季入学高校学生",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-12-31T10:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧校园，支付0.18元购买"
+  },
+  {
+    "id": "recg0YQTXucrZm6SQ",
+    "name": "中国建设银行APP ",
+    "description": "建行首页底部财富点击，财富会员，财富等级礼、资产保有礼、等级晋升礼。每月10号，每月1次",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "reciMVzNdQ6XpZnNg",
+    "name": "交行薪喜多多",
+    "description": "赢2-62元支付券",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "Deposit"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recj2xKtNp5RM0yaM",
+    "name": "交行生活缴费礼遇季",
+    "description": "1-18元生活缴费券 每月一次",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Shopping",
+      "PaymentBill"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recjCoGvRafvBRSzt",
+    "name": "中行京禧新客礼",
+    "description": "北京新用户专享10起新开中行手机银行用户参与支付购买被那个",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-12-31T10:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧新客礼，支付领取"
+  },
+  {
+    "id": "recjMc4PWFJgh0BMt",
+    "name": "交行开通动账提醒",
+    "description": "获取2元支付券",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recjuc7wii3jTW2Me",
+    "name": "建行生活APP ",
+    "description": "搜财富会员，点最底下“好礼”，找到专属陪伴礼，未添加建行企V的可添加后，领取6.6立减金",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "建行生活APP",
+    "specialNote": null,
+    "targetApp": "建行生活APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "reckCZPYiFScXaxG4",
+    "name": "中行数币一触即发数币专享营销",
+    "description": "0.88元购买3.88元数币红包",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-11-30T12:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击中银数币生活馆，点击2025一触即发数币专项营销活动，选择立即支付可购买"
+  },
+  {
+    "id": "reckHP4e94zvMxwyQ",
+    "name": "农行月月领",
+    "description": "北京地区领5元话费、生活缴费立减金",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Shopping",
+      "PaymentBill"
+    ],
+    "sourceApp": "中国农业银行APP",
+    "specialNote": null,
+    "targetApp": "中国农业银行APP",
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recl5zjIuPwbkKaC6",
+    "name": "交行周周领好礼",
+    "description": "交通银行APP首页，搜周周领好礼，抽1-18，每周领支付宝搜银行卡优惠",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "MissionReward",
+      "Bank"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "reclPal3uQ4F6HVRl",
+    "name": "邮储银行 惊喜福袋月月领",
+    "description": "100%中奖，1分购0.88-188元支付宝立减金，完成任务增加抽奖机会",
+    "icon": "❓",
+    "link": "https://wap.psbc.com/wxbank/h5/rousePage/#/?pageId=1145&isLinkShared=1&source=0&activityId=228131567427584&urlTypeNo=3",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "邮储银行APP",
+    "specialNote": null,
+    "targetApp": "邮储银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "reclbJ14Zqp6PtVCJ",
+    "name": "农行数币新时代",
+    "description": "线下0.01元购买50-20数币立减券，线上15-10数币立减券",
+    "icon": "❓",
+    "link": "https://wx.abchina.com/webank/main-view/openTagForQD?id=OlBl7osJC%2BU%3D&dynamicData=bF8ovmELWd%2B3mBuY%2F%2BZQBZuszaavzmXemD7%2B6jsKk3g%3D&displayParam=bF8ovmELWd%2B3mBuY%2F%2BZQBZuszaavzmXemD7%2B6jsKk3g%3D",
+    "category": [
+      "Shopping",
+      "PaymentDiscount"
+    ],
+    "sourceApp": "中国农业银行APP",
+    "specialNote": null,
+    "targetApp": "中国农业银行APP",
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recmIutYD5XeSFkpU",
+    "name": "工行天天盈 便利还",
+    "description": "完成三个任务可抽奖",
+    "icon": "❓",
+    "link": "https://wbs.icbc.com.cn/wbsaccountserviceweb/SessionIdNull",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "其他",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recnn1jTqeQ6F6BfX",
+    "name": "中行京禧惠不停",
+    "description": "北京地手机银行用户每月购买一次1.18随机获取3-10元微信立减金",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-12-31T10:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧惠不停，支付领取"
+  },
+  {
+    "id": "recnzm5APSC2uy69A",
+    "name": "淘宝视频",
+    "description": "看视频领金币，兑换优惠券",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Video"
+    ],
+    "sourceApp": "淘宝APP",
+    "specialNote": null,
+    "targetApp": "淘宝APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "reco75PtAVUTzSWLu",
+    "name": "中行数币新客数币见面礼",
+    "description": "开通数币领取10元数币红包",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-11-30T12:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击中银数币生活馆，点击新客数币见面礼，立即领取"
+  },
+  {
+    "id": "recp7QrUCSQY7SYU6",
+    "name": "中行支付付超给利",
+    "description": "中行首页滚动播放支付付超给利，点相应月活动报名。",
+    "icon": "❓",
+    "link": "https://cdn2.jf365.boc.cn/msmt/#/index?avyScmRefno=HD2025042918138&tmplInstRefno=MBINS_20250429149269&lastShortUrl=0Cm9Mt460J&avyPageType=configPage&tmplPageVer=1&actyType=noAvyType&shareTmplInstRefno=C-MSM_20250115163616227583",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recpZqlbZ4wBFGMNY",
+    "name": "京东联合会员",
+    "description": "京东APP,京东联合会员，搜联合会员，每月都有支付卷",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Shopping",
+      "PaymentDiscount"
+    ],
+    "sourceApp": "京东APP",
+    "specialNote": null,
+    "targetApp": "京东APP",
+    "endDate": "2025-11-30T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recprUFGaK8dKhOyz",
+    "name": "中行出行有京禧",
+    "description": "北京一卡通出行有京禧，支付1.18元得6.18元专用微信立减金，使用时需支付7元以上购买",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Shopping",
+      "TravelDiscount"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-12-31T10:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击中行出行有京禧，支付1.18元可领取"
+  },
+  {
+    "id": "recrNGMUNkBAKQkHf",
+    "name": "交行扫码付周周惠美食",
+    "description": "领1-8.8美食生鲜券周周领",
+    "icon": "❓",
+    "link": "https://mbank.95559.com.cn/mobs6/tangram/TG0/NTG0001.html?promoteCode=20250109AZXPB001&realPage=NTG0001&channelShare=wxhy-20250109AZXPB001",
+    "category": [
+      "Shopping",
+      "PaymentDiscount"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recs5dX12KSsFUCEj",
+    "name": "多多视频",
+    "description": "看视频领金币，20元可提现微信",
+    "icon": "🛍️",
+    "link": "https://mobile.yangkeduo.com/fyxmkief.html?_wv=41729&_wvx=10&needs_login=1&page_from=602277&shared_time=1763058808131&shared_sign=cf9389c8c69f58de0255066a82c72ca4&invite_round_id=invite_money_1_11&channel=1&mission_code=invite&refer_share_uin=FOXYC5DMBVEMOFAZ6VIPQTZ4UI_GEXDA&activity_code=invite_money&feed_id=6749417913932317712&new_ui=1&refer_share_id=qe4dopav9kndemqgus4m0i5uuqxd9od7&refer_share_channel=message&__wls_rt=1&__wls_lt=1&__wls_fm=n",
+    "category": [
+      "Video"
+    ],
+    "sourceApp": "拼多多APP",
+    "specialNote": null,
+    "targetApp": "拼多多APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "rectnNcX8juUmHqxQ",
+    "name": "中国银行APP签到",
+    "description": "福仔云游记连续签到7天得2支付宝红包",
+    "icon": "✨",
+    "link": "复制这条信息¥BCxiPVJuLi¥打开 中国银行手机银行 查看具体信息「福仔云游记 快来开启趣味云游之旅吧！」",
+    "category": [
+      "CheckIn",
+      "DailyCheckin"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recuQPpXW7zVQnURD",
+    "name": "中国建设银行APP ",
+    "description": "搜生意帮，点达标抽立减，做任务抽立减，可抽4次，每次抽2-5立减（非必中)",
+    "icon": "❓",
+    "link": "#",
+    "category": [],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recvK9WgG6RTeE6oD",
+    "name": "交行资产提升有好礼",
+    "description": "达标40-600支付贴金券",
+    "icon": "❓",
+    "link": "https://mbank.95559.com.cn/mobs6/tangram8/TG0/NTG0001.html?promoteCode=20250826AUHGB004&channelShare=wxhy-20250905AGGCZ009",
+    "category": [
+      "Bank",
+      "Deposit"
+    ],
+    "sourceApp": "交通银行APP",
+    "specialNote": null,
+    "targetApp": "交通银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recvfq1AZknIf3vef",
+    "name": "建行美团领0.01买数币15元",
+    "description": "美团搜数字人民币，进去往下拉，有建行省钱卡，可1分领15，可还月付",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "美团APP",
+    "specialNote": null,
+    "targetApp": "美团APP",
+    "endDate": null,
+    "StepsText": "进入美团APP，搜索数字人民币，点击进去往下拉，看到建行省钱卡，可1分领15元，可以还美团月付"
+  },
+  {
+    "id": "recx8XT7d2hsm1JKH",
+    "name": "中行数币新体验",
+    "description": "北京地区未开通数字用户，开通数币随机领取8-15元数字人民币红包",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-11-30T10:00:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击中银数币生活馆，点击数币新体验，立即抽取"
+  },
+  {
+    "id": "recxN4HnN4L17AkKx",
+    "name": "邮储银行 攒钱小目标",
+    "description": "攒钱到达升金挡位后领取时点礼、满月礼立减金",
+    "icon": "❓",
+    "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=b6%2Bl20Ji0tI%3D&dynamicData=az29P1VLOKOTSAops4p8AuGN%2B8aq0ihv%2BbK%2B06TREM2FlSwJSkIHo3oKfuLWfF4OvM%2BKqbhrOlEeWcfrMRq9vIK4UXi%2BgQpBK%2FiAY3qBakwdyi8ir%2Bw1e7AUxyra1jl29dEfnkPoyLo9XSq7UM39w%2Fu2Ak8LEFX6YJc%2Fr1zRDb7YCdRP1ilV9P3vnEqo8DxGrdMfPuz7MuQ%3D",
+    "category": [
+      "Bank",
+      "Deposit"
+    ],
+    "sourceApp": "邮储银行APP",
+    "specialNote": null,
+    "targetApp": "邮储银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recxoJEDk9wB1j9Bq",
+    "name": "中行微信转账有福利",
+    "description": "微信转账满1千可抽奖1次(1万比较大,1千基本都是1立减)，10次/月",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recy2NQVCdAX8qu6M",
+    "name": "建行悦生活缴费送微信立减金",
+    "description": "生活缴费领微信立减金燃气费,水费，电费，手机话费",
+    "icon": "❓",
+    "link": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=422bedb407714b079403e8ba6cb771ea&crypt_type=1&cryptParam=817oUbFF4rUQ17MOtV3nE3sO4bDkCkkPPbs3nPwKopEL9ruQYH3wxtCeds3GNW2yQmPKNvjEKPSUZrvMyDPRuv8LP2eqBaTPmtRNq5jAN3d2WIiaE0r2/dwB7xyYrsFmraZhrUtlCbGKbodIKTNWe+N+ErE8JexYbLXlyTc2EvUaztJ7F+EsM66tnMOA15uVd5wP4U2ks60ktpUFz04tBOxDtqH0Xye8Zdvj2E257pKG4Cgp+L/HqGhZmpcXfBt4ilsOUcoCoR0JA6lCrioeaho7lna/7e5S+oz9A4buzlN4lF424HY9BZ+CON/14T4oRL0Z4Bijo5qpEyOl41ONnmba+u4dQ86mm2KFh6Ame2i0IgCoy3CZsLqlWs4uCYZlBIfnCPl3KaHvCiZTnjtXONn2wfdYhdNkj1FeMj9iEuBQ5gaSEFKctKBVdFrXngmWVbllfYgbnbdRZandlWpWdJfWwvXBpMNP/5zXQvOIHCqC/s8wDxBzRCK91r+GhZudg7X7rhJX4pJCGR4QmwiU2RM5yj8ezIwAqJ4njCEwSBwmhZ74PrJzcUzpN1xakYJoZIp45zn0Q6zGjUiVfnZhPPQ4nHYQBSglFQVnm+OvMAFwcjMtDHIHXtdcRzNI9FfGr3qLM8eIW+iA6IfKPpiOebXfroLnEoI288f5ZYcQtvg7LZ8VAaTto/tjTDrrrf37MzIGkgt/XsUihbQijNo8fUFMim/1NFDCbpPSsRI5vcwKhk/f0Nm5m7WJ3ydFbfli+bFmX2dVGAWXugCnIuAwURMECzhr1Z/JfFvXDR6/pYCL9vH0K/39+//yT0418eSDARDNLVicf1gL7rROx1rsmg==",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP",
+    "endDate": "2025-11-29T16:00:00.000Z",
+    "StepsText": null
+  },
+  {
+    "id": "recyPZ3DcoWNmkkaI",
+    "name": "工商财富学苑",
+    "description": "工商银行首页搜财富学苑，每周一测页面下答题",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Shopping"
+    ],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "其他",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "reczi5mZHWSaROE7l",
+    "name": "中行数币悦享出行",
+    "description": "充值满20元立减10元",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Shopping",
+      "TravelDiscount"
+    ],
+    "sourceApp": "中国银行APP",
+    "specialNote": null,
+    "targetApp": "中国银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "进入中国银行APP首页，点击下面生活，点击中银数币生活馆，点击中行数币悦享出行，立即领取"
+  },
+  {
+    "id": "reczuIgBf7W93VKiE",
+    "name": "农行信用卡农行消费节",
+    "description": "农行首页信用卡农行消费节，抽1-666立减",
+    "icon": "❓",
+    "link": "#",
+    "category": [
+      "Shopping",
+      "PaymentDiscount"
+    ],
+    "sourceApp": "中国农业银行APP",
+    "specialNote": null,
+    "targetApp": "中国农业银行APP",
+    "endDate": null,
+    "StepsText": null
   }
 ]
