@@ -1,175 +1,1017 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>慧伴管家 - 捡钱任务中心</title>
-    <script async defer src="https://umami.example.com/script.js" data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" data-do-not-track="true" data-domains="1111gary.github.io"></script>
+    
+    <script async defer 
+        data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" 
+        src="https://umami.example.com/script.js" 
+        data-do-not-track="true" 
+        data-domains="1111gary.github.io"></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="慧伴管家">
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
+    
     <style>
-        /* Cyber Neon - Blue/Gold Theme */
-        :root {
-            --color-bg-dark: #0B1120; --color-card-bg: #1E293B; --color-text-light: #F1F5F9; --color-text-muted: #94A3B8;
-            --color-primary: #3B82F6; --color-highlight: #FBBF24;
-            --color-bank-1: #10B981; --color-bank-2: #EC4899; --color-bank-3: #F59E0B;
-            --grad-bank-1: linear-gradient(135deg, #10B981, #34D399);
-            --grad-bank-2: linear-gradient(135deg, #EC4899, #F472B6);
-            --grad-bank-3: linear-gradient(135deg, #F59E0B, #FCD34D);
-            --color-premium-border: linear-gradient(135deg, #3B82F6, #FBBF24);
-        }
-        body { background: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .header-bar-fixed { position: sticky; top: 0; z-index: 20; background: rgba(11,17,32,0.95); backdrop-filter: blur(10px); height: 60px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-top: env(safe-area-inset-top); }
-        .header-logo { width: 32px; height: 32px; margin-right: 10px; }
-        .main-banner-card { background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 24px; padding: 30px 20px; text-align: center; margin-bottom: 1.5rem; border: 2px solid transparent; border-image: linear-gradient(to right, #3B82F6, #FBBF24); border-image-slice: 1; box-shadow: 0 10px 30px -10px rgba(59,130,246,0.3); }
-        .main-banner-card h1 { font-size: 1.8rem; font-weight: 900; background: linear-gradient(to right, #fff, #bfdbfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    :root {
+        --color-bg-dark: #0A1322; 
+        --color-card-bg: #1A2233; 
+        --color-secondary: #FF69B4; 
+        --color-text-light: #E0E7FF;
+        --color-text-muted: #9CA3AF;
+        --color-highlight: #FFD700; 
+        --color-bank-bg: #1F2A40; 
+        --color-success: #34D399; 
+        --color-special-note: #F59E0B; 
+        --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4);
         
-        /* --- 统一状态筛选器 --- */
-        .status-filter-container { display: flex; justify-content: space-between; padding: 4px; margin: 1rem 0 2rem 0; background: #1E293B; border-radius: 100px; box-shadow: inset 0 2px 6px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); position: sticky; top: 65px; z-index: 15; }
-        .status-button { flex: 1; text-align: center; padding: 10px 0; border-radius: 100px; font-size: 0.9rem; font-weight: 600; color: var(--color-text-muted); background: transparent; border: none; transition: all 0.3s; }
-        .status-button[data-status="Active"].active { color: #fff; background: #10B981; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4); }
-        .status-button[data-status="Upcoming"].active { color: #fff; background: #3B82F6; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); }
-        .status-button[data-status="Expired"].active { color: #fff; background: #64748B; box-shadow: none; }
+        /* 【 核心 】 新增 MissionReward 的颜色 */
+        --color-mission-reward: #EC4899; 
+    }
+    body { 
+        background-color: var(--color-bg-dark); 
+        color: var(--color-text-light); 
+        padding-bottom: calc(85px + env(safe-area-inset-bottom)); 
+        font-family: 'Inter', sans-serif;
+        overflow-x: hidden;
+    }
+    .header-bar-fixed { 
+        padding-top: calc(15px + env(safe-area-inset-top)); 
+        padding-bottom: 5px; 
+        background-color: var(--color-bg-dark);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+    }
+    .main-banner-card {
+        background: linear-gradient(135deg, #0f1627, #1a2233);
+        border-radius: 20px;
+        padding: 25px 20px;
+        text-align: center;
+        border: 3px solid transparent; 
+        background-clip: padding-box, border-box;
+        background-origin: padding-box, border-box;
+        border-image: linear-gradient(to right, #00BFFF, var(--color-highlight));
+        border-image-slice: 1;
+        box-shadow: 0 0 15px rgba(0, 191, 255, 0.5), 0 0 30px rgba(255, 215, 0, 0.3);
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+    .main-banner-card h1 {
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--color-text-light);
+        text-shadow: 0 0 5px var(--color-highlight);
+    }
+    
+    /* ---------------------------------------------------- */
+    /* 【 核心修改 】 L2 平台筛选器的固定容器样式 */
+    /* ---------------------------------------------------- */
+    .platform-filter-fixed {
+        position: sticky;
+        top: 60px; /* 紧贴在 header-bar-fixed (高度约60px) 下方 */
+        z-index: 9;
+        background-color: var(--color-bg-dark); 
+        padding-top: 10px; 
+        padding-bottom: 5px;
+        /* 边缘拉伸，覆盖整个屏幕宽度 */
+        margin-left: -1rem; 
+        margin-right: -1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* 增加阴影，使其像悬浮在内容之上 */
+    }
 
-        /* 平台筛选 */
-        .platform-filter-fixed { position: sticky; top: 60px; z-index: 14; background: rgba(11,17,32,0.9); backdrop-filter: blur(12px); padding: 12px 16px; margin: 0 -1rem; border-bottom: 1px solid rgba(255,255,255,0.05); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-        .filter-container { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
-        .filter-button { display: inline-flex; align-items: center; padding: 8px 16px; border-radius: 100px; font-size: 0.85rem; font-weight: 600; background: rgba(30,41,59,0.8); color: var(--color-text-muted); border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; transition: all 0.3s; }
-        .filter-button.active { background: var(--color-primary); color: #fff; border-color: transparent; box-shadow: 0 0 15px rgba(59,130,246,0.4); }
-
-        /* 列表样式 */
-        .section-title-card { background: rgba(30,41,59,0.5); border-radius: 16px; padding: 12px 0; margin-top: 2rem; margin-bottom: 1rem; display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .section-title-card h2 { font-size: 1.3rem; font-weight: 800; padding-left: 15px; color: #fff; }
-        .task-list-card { background: #1E293B; border-radius: 16px; padding: 18px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-left: 4px solid; border-top: 1px solid rgba(255,255,255,0.05); position: relative; }
-        .task-routine { border-color: var(--color-bank-1); } .icon-routine { background: var(--grad-bank-1); }
-        .task-mission { border-color: var(--color-bank-2); } .icon-mission { background: var(--grad-bank-2); }
-        .task-savings { border-color: var(--color-bank-3); } .icon-savings { background: var(--grad-bank-3); }
-        
-        .task-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 16px; color: #fff; font-size: 1.3rem; flex-shrink: 0; }
-        .task-title { font-size: 1.05rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 90px; margin-bottom: 4px; }
-        .task-subtitle { font-size: 0.85rem; color: var(--color-text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        
-        .countdown-badge { position: absolute; top: 0; right: 0; background: #334155; color: #94A3B8; padding: 4px 12px; border-radius: 0 16px 0 12px; font-size: 0.7rem; font-weight: 700; }
-        .action-button { background: var(--color-primary); color: #fff; border-radius: 999px; padding: 8px 20px; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 5px; box-shadow: 0 0 12px rgba(59,130,246,0.4); }
-        .action-button-voice { background: #10B981; box-shadow: 0 0 12px rgba(16, 185, 129, 0.4); }
-        .action-button-voice.speaking { background: #EF4444; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%{opacity:1} 50%{opacity:0.8} 100%{opacity:1} }
-
-        /* --- 统一高级会员卡 --- */
-        .premium-card { display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 30px 20px; text-align: center; border: 2px solid transparent; border-image: var(--color-premium-border); border-image-slice: 1; box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin-top: 3rem; text-decoration: none; transition: all 0.3s; }
-        .premium-card:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
-        .premium-card h2 { font-size: 1.3rem; font-weight: 800; background: var(--color-premium-border); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .premium-card p { color: var(--color-text-muted); font-size: 0.9rem; margin-top: 10px; }
-
-        .tab-bar { position: fixed; bottom: 0; width: 100%; height: 65px; background: rgba(11,17,32,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); z-index: 50; }
-        .tab-item { display: flex; flex-direction: column; align-items: center; color: var(--color-text-muted); font-size: 0.7rem; }
-        .tab-item.active { color: var(--color-primary); }
-        .tab-icon { font-size: 1.3rem; margin-bottom: 4px; }
-    </style>
+    /* 平台筛选条 (Bank Filter) - 调整内部滚动条样式 */
+    .filter-container {
+        /* 移除 margin-bottom: 1.5rem;，因为它现在位于固定容器内 */
+        padding: 0 0 0 0; /* 移除内部多余的 padding */
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; 
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        /* 注意：此容器不再负责固定，由 .platform-filter-fixed 负责 */
+    }
+    .filter-container::-webkit-scrollbar { display: none; }
+    
+    /* 【 核心 】 状态筛选条 (Status Filter) - 保持滚动 */
+    .status-filter-container {
+        margin-bottom: 2rem; /* 保持在滚动流中 */
+        display: flex;
+        background-color: var(--color-card-bg);
+        border-radius: 9999px;
+        padding: 5px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    .status-filter-button {
+        flex: 1;
+        text-align: center;
+        padding: 8px 10px;
+        border-radius: 9999px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--color-text-muted);
+        border: none;
+        background-color: transparent;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+    .status-filter-button.active {
+        background-color: var(--color-success);
+        color: var(--color-bg-dark);
+        box-shadow: 0 0 10px rgba(52, 211, 153, 0.7);
+    }
+    
+    .filter-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 15px;
+        border-radius: 9999px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        background-color: var(--color-card-bg);
+        color: var(--color-text-muted);
+        border: 2px solid var(--color-card-bg);
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+    }
+    .filter-button.active {
+        background-color: #00BFFF; 
+        color: var(--color-bg-dark);
+        border-color: #00BFFF;
+        box-shadow: 0 0 8px rgba(0, 191, 255, 0.8);
+    }
+    .filter-button i { margin-right: 6px; }
+    
+    .section-title-card {
+        background: linear-gradient(135deg, #0f1627, #1a2233);
+        border-radius: 12px;
+        padding: 15px 20px;
+        text-align: left;
+        border: 2px solid transparent; 
+        background-clip: padding-box, border-box;
+        background-origin: padding-box, border-box;
+        border-image: linear-gradient(to right, #00BFFF, var(--color-highlight));
+        border-image-slice: 1;
+        box-shadow: 0 0 8px rgba(0, 191, 255, 0.3);
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        position: relative;
+    }
+    .section-title-card h2 {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--color-text-light);
+    }
+    .section-description {
+        color: var(--color-text-muted);
+        font-size: 0.9rem;
+        margin-bottom: 1rem; 
+        padding-left: 5px;
+    }
+    .task-list-card {
+        background-color: var(--color-bank-bg);
+        border-radius: 15px;
+        padding: 15px 20px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        border-left: 5px solid; 
+        position: relative;
+    }
+    .task-list-card:hover {
+        background-color: #25334c;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+    .special-note-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background-color: var(--color-special-note);
+        color: var(--color-bg-dark);
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        z-index: 5;
+        box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
+    }
+    .countdown-badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: var(--color-secondary);
+        color: var(--color-bg-dark);
+        padding: 4px 10px;
+        border-top-right-radius: 15px;
+        border-bottom-left-radius: 15px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        z-index: 4;
+    }
+    .special-note-badge + .countdown-badge {
+        top: 40px; 
+        right: 15px;
+        border-radius: 8px;
+    }
+    .expired-badge {
+        background-color: #EF4444;
+        color: white;
+    }
+    
+    /* 任务卡片样式 */
+    .task-routine { border-left-color: var(--color-success); } 
+    .task-mission { border-left-color: var(--color-mission-reward); } 
+    .task-savings { border-left-color: var(--color-highlight); } 
+    
+    .task-main-content {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+    .task-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        color: var(--color-bg-dark); 
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+    /* 任务图标样式 */
+    .icon-routine { background-color: var(--color-success); }
+    .icon-mission { background-color: var(--color-mission-reward); } 
+    .icon-savings { background-color: var(--color-highlight); }
+    
+    .task-content {
+        flex-grow: 1;
+        min-width: 0;
+    }
+    .task-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--color-text-light);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-right: 90px; 
+    }
+    .has-special-note .task-title {
+        padding-right: 120px;
+    }
+    .task-subtitle {
+        font-size: 0.8rem;
+        color: var(--color-text-muted);
+        white-space: normal; 
+        line-height: 1.4;
+        margin-top: 4px;
+    }
+    .task-action-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px solid var(--color-card-bg);
+    }
+    .share-button {
+        background-color: var(--color-card-bg);
+        color: #00BFFF;
+        border: 1px solid #00BFFF;
+        font-weight: 600;
+        padding: 8px 15px;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .share-button:hover {
+        background-color: #00BFFF;
+        color: var(--color-bg-dark);
+    }
+    .action-button {
+        background-color: #00BFFF;
+        color: var(--color-bg-dark);
+        font-weight: 700;
+        padding: 8px 18px;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        transition: all 0.2s;
+        text-align: center;
+        min-width: 100px; 
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+    .action-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 10px rgba(0, 191, 255, 0.7);
+    }
+    .action-button-voice {
+        background-color: var(--color-success);
+    }
+    .action-button-voice:hover {
+        box-shadow: 0 0 10px rgba(52, 211, 153, 0.7);
+    }
+    .action-button-voice.speaking {
+        background-color: var(--color-secondary);
+        animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.8; }
+    }
+    .tab-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 60px;
+        background-color: var(--color-bg-dark);
+        border-top: 1px solid #1A2233;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+        padding-bottom: env(safe-area-inset-bottom);
+        z-index: 20;
+    }
+    .tab-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: var(--color-text-muted);
+        font-size: 0.75rem;
+        font-weight: 500;
+        transition: color 0.2s ease;
+        padding: 5px;
+        flex-grow: 1;
+        max-width: 20%;
+    }
+    .tab-item.active { color: #00BFFF; }
+    .tab-icon {
+        font-size: 1.2rem;
+        margin-bottom: 3px;
+    }
+    .header-logo-group {
+        display: flex;
+        align-items: center;
+    }
+    .header-logo {
+        width: 32px;
+        height: 32px;
+        margin-right: 10px;
+    }
+    .header-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--color-text-light);
+    }
+    .back-arrow-link {
+        color: var(--color-text-light);
+        font-size: 1.2rem;
+        padding: 5px 10px;
+        border-radius: 50%;
+        background-color: var(--color-card-bg);
+        transition: background-color 0.2s;
+    }
+    .premium-card {
+        background: var(--color-card-bg);
+        border-radius: 20px;
+        padding: 25px 20px;
+        text-align: center;
+        border: 3px solid transparent; 
+        background-clip: padding-box, border-box;
+        background-origin: padding-box, border-box;
+        border-image: var(--color-premium-border);
+        border-image-slice: 1;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.4), 0 0 30px rgba(255, 105, 180, 0.2);
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        position: relative;
+        text-decoration: none;
+        display: block;
+        transition: all 0.3s ease;
+    }
+    .premium-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 105, 180, 0.4);
+    }
+    .premium-card h2 {
+        font-size: 1.3rem;
+        font-weight: 800;
+        background: var(--color-premium-border);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 0;
+    }
+    .premium-card p {
+        color: var(--color-text-muted);
+        font-size: 0.9rem;
+        margin-top: 10px;
+    }
+</style>
 </head>
 <body>
+
     <div class="header-bar-fixed px-4">
-        <div class="flex items-center"><img src="./assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/3B82F6/ffffff?text=L'" class="header-logo rounded-md shadow-lg"><h1 class="header-title text-gray-100">慧伴管家</h1></div>
-        <a href="./index.html" class="text-gray-100 text-xl p-2 bg-white/10 rounded-xl"><i class="fas fa-arrow-left"></i></a>
+        <div class="header-logo-group">
+            <img src="./assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/00BFFF/ffffff?text=L'" alt="Logo" class="header-logo rounded-md shadow-lg">
+            <h1 class="header-title">慧伴管家</h1>
+        </div>
+        <a href="./index.html" class="back-arrow-link" title="返回首页">
+            <i class="fas fa-arrow-left"></i>
+        </a>
     </div>
 
     <main class="container mx-auto px-4 py-4">
-        <div class="main-banner-card"><h1>捡钱任务中心</h1><p class="text-gray-400 mt-2 text-sm">点击下方按钮，仅显示您拥有的银行卡/平台活动</p></div>
         
-        <div class="platform-filter-fixed"><div class="filter-container" id="bank-filter-container"></div></div>
+        <div class="main-banner-card">
+            <h1>捡钱任务中心</h1>
+            <p class="text-sm text-gray-400 mt-2">点击下方按钮，仅显示您拥有的银行卡/平台活动</p>
+        </div>
         
-        <div class="status-filter-container" id="status-filter-container">
-            <button class="status-button active" data-status="Active"><i class="fas fa-running"></i> 正在进行</button>
-            <button class="status-button" data-status="Upcoming"><i class="fas fa-hourglass-start"></i> 即将开始</button>
-            <button class="status-button" data-status="Expired"><i class="fas fa-check-double"></i> 已结束</button>
+        <div class="platform-filter-fixed">
+            <div class="filter-container" id="bank-filter-container">
+                <button class="filter-button active" data-bank="All">
+                    <i class="fas fa-layer-group"></i>
+                    全部活动
+                </button>
+            </div>
+        </div>
+        
+        <div class="status-filter-container">
+            <button class="status-filter-button active" data-status="ongoing">
+                <i class="fas fa-running"></i> 正在进行
+            </button>
+            <button class="status-filter-button" data-status="upcoming">
+                <i class="fas fa-hourglass-start"></i> 即将开始
+            </button>
+            <button class="status-filter-button" data-status="finished">
+                <i class="fas fa-check-double"></i> 已结束
+            </button>
         </div>
 
-        <div class="section-title-card"><h2><i class="fas fa-calendar-day mr-3 text-xl" style="color: var(--color-bank-1);"></i> 日常活动 (DailyTask)</h2></div><div id="routine-tasks-list"></div>
-        <div class="section-title-card"><h2><i class="fas fa-tasks mr-3 text-xl" style="color: var(--color-bank-2);"></i> 做任务领红包 (MissionReward)</h2></div><div id="mission-rewards-list"></div>
-        <div class="section-title-card"><h2><i class="fas fa-sack-dollar mr-3 text-xl" style="color: var(--color-bank-3);"></i> 存款理财 (Deposit)</h2></div><div id="savings-tasks-list"></div>
+        
+        <div class="section-title-card">
+            <h2 class="flex items-center">
+                <i class="fas fa-calendar-day mr-3 text-xl" style="color: var(--color-success);"></i>
+                日常活动 (DailyTask)
+            </h2>
+        </div>
+        <p class="section-description">
+            每日、每周可重复参与的低门槛任务和立减金活动。
+        </p>
+        <div id="routine-tasks-list">
+             </div>
+        
+        <div class="section-title-card">
+            <h2 class="flex items-center">
+                <i class="fas fa-tasks mr-3 text-xl" style="color: var(--color-mission-reward);"></i>
+                做任务领红包 (MissionReward)
+            </h2>
+        </div>
+        <p class="section-description">
+            需要完成指定任务（如浏览、签到、组队）才能获得的奖励。
+        </p>
+        <div id="mission-rewards-list">
+             </div>
+        
+        <div class="section-title-card">
+            <h2 class="flex items-center">
+                <i class="fas fa-sack-dollar mr-3 text-xl" style="color: var(--color-highlight);"></i>
+                存款理财活动 (Deposit)
+            </h2>
+        </div>
+        <p class="section-description">
+            需要较长时间达标的存款、理财、借贷等高价值活动。
+        </p>
+        <div id="savings-tasks-list">
+             </div>
 
-        <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'bank' })">
-            <h2><i class="fas fa-crown"></i> 高级会员专区</h2><p>AI赋能ʕʘ̅͜ʘ̅ʔ 改变生活</p>
+        <a href="./premium.html" class="premium-card" 
+            onclick="umami.track('click_premium_card', { from: 'bank' })">
+            <h2 class="flex items-center justify-center">
+                <i class="fas fa-crown mr-2" style="color: var(--color-highlight);"></i>
+                高级会员专区 (敬请期待)
+            </h2>
+            <p>AI赋能ʕʘ̅͜ʘ̅ʔ 改变生活</p>
         </a>
+        
     </main>
     
     <nav class="tab-bar">
-        <a href="./index.html" class="tab-item"><i class="fas fa-home tab-icon"></i><span>首页</span></a>
-        <a href="./checkin.html" class="tab-item"><i class="fas fa-gifts tab-icon"></i><span>天天有奖</span></a>
-        <a href="./video.html" class="tab-item"><i class="fas fa-play-circle tab-icon"></i><span>看视频赚</span></a>
-        <span class="tab-item active"><i class="fas fa-hand-holding-usd tab-icon"></i><span>捡钱任务</span></span>
-        <a href="./shopping.html" class="tab-item"><i class="fas fa-tags tab-icon"></i><span>省钱秘籍</span></a>
+        <a href="./index.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="./checkin.html" class="tab-item">
+            <i class="fas fa-gifts tab-icon"></i>
+            <span>天天有奖</span>
+        </a>
+        <a href="./video.html" class="tab-item">
+            <i class="fas fa-play-circle tab-icon"></i>
+            <span>看视频赚</span>
+        </a>
+        <span class="tab-item active">
+            <i class="fas fa-hand-holding-usd tab-icon"></i>
+            <span>捡钱任务</span>
+            </span>
+        <a href="./shopping.html" class="tab-item">
+            <i class="fas fa-tags tab-icon"></i>
+            <span>省钱秘籍</span>
+        </a>
     </nav>
     
     <script>
-        let ALL_ACTIVITIES=[], selectedBank='All', globalStatus='Active';
-        const CATEGORY_MAP = {'DailyTask':{border:'task-routine',icon:'icon-routine',fa:'fa-calendar-day'},'MissionReward':{border:'task-mission',icon:'icon-mission',fa:'fa-tasks'},'Deposit':{border:'task-savings',icon:'icon-savings',fa:'fa-sack-dollar'}};
-        const synth=window.speechSynthesis; let currentUtterance=null, speakingButton=null;
+        // ====================================================
+        // JavaScript 核心逻辑 
+        // ====================================================
+        
+        // ----------------------------------------------------
+        // 全局状态和数据
+        // ----------------------------------------------------
+        let ALL_ACTIVITIES = [];
+        let selectedBank = 'All'; 
+        let selectedStatus = 'ongoing'; 
 
+        // 分类与样式的映射
+        const CATEGORY_MAP = {
+            'DailyTask': {
+                borderClass: 'task-routine',
+                iconClass: 'icon-routine',
+                faIcon: 'fa-calendar-day'
+            },
+            'MissionReward': { 
+                borderClass: 'task-mission',
+                iconClass: 'icon-mission',
+                faIcon: 'fa-tasks'
+            },
+            'Deposit': {
+                borderClass: 'task-savings',
+                iconClass: 'icon-savings',
+                faIcon: 'fa-sack-dollar'
+            }
+        };
+
+        const synth = window.speechSynthesis;
+        let currentUtterance = null; 
+        let speakingButton = null; 
+        if (!synth) {
+            console.error("【慧伴管家】: 您的浏览器不支持 Web Speech API 语音播放。");
+        }
+        
+        // ----------------------------------------------------
+        // 步骤 1: 页面加载主入口
+        // ----------------------------------------------------
         document.addEventListener('DOMContentLoaded', () => {
-            loadData();
-            document.querySelectorAll('.status-button').forEach(b=>b.onclick=e=>{globalStatus=e.currentTarget.dataset.status; document.querySelectorAll('.status-button').forEach(x=>x.classList.remove('active')); e.currentTarget.classList.add('active'); stopSpeech(); render();});
-            setInterval(updateTimers, 1000);
+            try {
+                if(synth && synth.getVoices().length === 0) {
+                    synth.onvoiceschanged = () => {
+                        console.log("【慧伴管家】: 语音包已加载。");
+                    };
+                    synth.getVoices(); 
+                }
+            } catch(e) {
+                console.error("【慧伴管家】: 预热语音引擎失败:", e);
+            }
+            
+            loadAndFetchActivities();
+            // startCountdownUpdater 在 loadAndFetchActivities 成功后调用
+            bindStatusFilters();
         });
 
-        async function loadData() {
-            try{const r=await fetch('./activities.json'); const d=await r.json(); ALL_ACTIVITIES=d.filter(a=>a.category&&(a.category.includes('DailyTask')||a.category.includes('MissionReward')||a.category.includes('Deposit'))); initBanks(); render();}catch(e){}
+        async function loadAndFetchActivities() {
+            try {
+                const response = await fetch('./activities.json');
+                if (!response.ok) {
+                    throw new Error('网络响应错误，无法加载 activities.json');
+                }
+                const data = await response.json();
+                
+                // 筛选出属于 DailyTask, MissionReward, Deposit 的活动 (Bank 页面专属)
+                ALL_ACTIVITIES = data.filter(act => 
+                    act.category && (
+                        act.category.includes('DailyTask') ||
+                        act.category.includes('Deposit') ||
+                        act.category.includes('MissionReward')
+                    )
+                );
+                
+                console.log(`【慧伴管家】: 加载成功，找到 ${ALL_ACTIVITIES.length} 条银行/任务活动。`);
+
+                initBankFilters();
+                renderActivities();
+                startCountdownUpdater(); // 在数据加载并首次渲染后启动定时器
+                
+            } catch (error) {
+                console.error("加载活动数据失败:", error);
+                document.getElementById('routine-tasks-list').innerHTML = `<p class="text-red-400 p-4 text-center">加载活动数据失败。请检查网络或 activities.json 文件。</p>`;
+            }
         }
 
-        function initBanks() {
-            const c=document.getElementById('bank-filter-container'), s=new Set(); ALL_ACTIVITIES.forEach(a=>s.add(a.sourceApp));
-            c.innerHTML=`<button class="filter-button active" data-bank="All"><i class="fas fa-layer-group"></i> 全部</button>`;
-            s.forEach(b=>{if(b){const btn=document.createElement('button'); btn.className='filter-button'; btn.innerHTML=`<i class="fa-solid fa-bank"></i> ${b}`; btn.onclick=()=>{selectedBank=b; document.querySelectorAll('.filter-button').forEach(x=>x.classList.remove('active')); btn.classList.add('active'); stopSpeech(); render();}; c.appendChild(btn);}});
-            c.firstChild.onclick=()=>{selectedBank='All'; document.querySelectorAll('.filter-button').forEach(x=>x.classList.remove('active')); c.firstChild.classList.add('active'); stopSpeech(); render();};
-        }
-
-        function getStatus(act) { if(!act.endDate)return 'Active'; const n=Date.now(), s=act.startDate?new Date(act.startDate).getTime():n-1000, e=new Date(act.endDate).getTime(); if(n<s)return 'Upcoming'; if(n>e)return 'Expired'; return 'Active'; }
-
-        function render() {
-            const lists={'DailyTask':document.getElementById('routine-tasks-list'),'MissionReward':document.getElementById('mission-rewards-list'),'Deposit':document.getElementById('savings-tasks-list')};
-            Object.values(lists).forEach(l=>l.innerHTML='');
+        // ----------------------------------------------------
+        // 步骤 2: 筛选器逻辑
+        // ----------------------------------------------------
+        function initBankFilters() {
+            const container = document.getElementById('bank-filter-container');
+            const banks = new Set();
             
-            ALL_ACTIVITIES.forEach(act=>{
-                if(getStatus(act)!==globalStatus) return;
-                if(selectedBank!=='All' && act.sourceApp!==selectedBank) return;
-                const cat=act.category.find(c=>CATEGORY_MAP[c]);
-                if(cat && lists[cat]) lists[cat].innerHTML+=createCard(act,cat,globalStatus);
+            ALL_ACTIVITIES.forEach(activity => banks.add(activity.sourceApp));
+            console.log("【慧伴管家】: 筛选器加载, 找到的银行:", Array.from(banks));
+
+            container.innerHTML = `
+                <button class="filter-button active" data-bank="All">
+                    <i class="fas fa-layer-group"></i>
+                    全部活动
+                </button>`;
+            
+            banks.forEach(bank => {
+                if (!bank) return;
+                const icon = getBankIcon(bank);
+                const button = document.createElement('button');
+                button.className = 'filter-button';
+                button.setAttribute('data-bank', bank);
+                button.innerHTML = `<i class="fa-solid ${icon}"></i> ${bank}`;
+                
+                button.addEventListener('click', (e) => {
+                    handleFilterClick(e.currentTarget, bank);
+                });
+                container.appendChild(button);
             });
-            bindActions(); updateTimers();
-        }
-
-        function createCard(act,cat,status) {
-            const s=CATEGORY_MAP[cat], isExp=status==='Expired';
-            let btn='';
-            if(act.link&&act.link!=='#') btn=`<a href="${act.link}" target="_blank" class="action-button ${isExp?'opacity-50':''}" ${isExp?'onclick="return false"':''}><i class="fas fa-rocket"></i> 领取</a>`;
-            else if(act.StepsText) btn=`<button class="action-button action-button-voice ${isExp?'opacity-50':''}" data-steps="${act.StepsText.replace(/"/g,'&quot;')}" ${isExp?'disabled':''}><i class="fas fa-volume-high"></i> 语音</button>`;
             
-            let badge='';
-            if(status==='Upcoming') badge=`<span class="countdown-badge" style="background:#3B82F6;color:#fff" data-start="${act.startDate}">即将开始</span>`;
-            else if(status==='Expired') badge=`<span class="countdown-badge">已结束</span>`;
-            else badge=`<span class="countdown-badge" data-end="${act.endDate}">计算中...</span>`;
+            container.querySelector('[data-bank="All"]').addEventListener('click', (e) => {
+                handleFilterClick(e.currentTarget, 'All');
+            });
+        }
+        
+        function handleFilterClick(clickedButton, bankName) {
+            console.log("【慧伴管家】: 平台筛选点击 -", bankName);
+            if (window.umami) {
+                umami.track('filter_bank', { bank: bankName });
+            }
 
-            return `<div class="task-list-card ${s.border} ${isExp?'opacity-60 grayscale':''}">
-                ${act.specialNote?`<span class="absolute top-4 right-4 bg-yellow-500 text-black px-2 py-1 rounded text-xs font-bold z-10">${act.specialNote}</span>`:''}
-                ${badge}
-                <div class="flex items-center w-full mt-2">
-                    <div class="task-icon ${s.icon}"><i class="fa-solid ${s.fa}"></i></div>
-                    <div class="flex-1 min-w-0"><div class="task-title">${act.name}</div><div class="task-subtitle">${act.description||''}</div></div>
-                </div>
-                <div class="flex justify-between items-center mt-4 pt-3 border-t border-white/5">
-                    <button class="text-gray-400 text-sm font-bold flex items-center gap-1"><i class="fas fa-share-alt"></i> 分享</button>
-                    ${btn}
-                </div>
-            </div>`;
+            selectedBank = bankName;
+            
+            document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
+            clickedButton.classList.add('active');
+            
+            stopSpeech();
+            renderActivities();
         }
 
-        function bindActions() { document.querySelectorAll('.action-button-voice').forEach(b=>b.onclick=e=>toggleSpeech(e.currentTarget, e.currentTarget.dataset.steps)); }
-        function toggleSpeech(btn,text){if(!synth)return; if(btn.classList.contains('speaking')){stopSpeech();return;} stopSpeech(); const u=new SpeechSynthesisUtterance(text); u.lang='zh-CN'; u.rate=0.75; u.onstart=()=>{speakingButton=btn; btn.classList.add('speaking'); btn.innerHTML=`<i class="fas fa-stop"></i> 停止`;}; u.onend=stopSpeech; synth.speak(u);}
-        function stopSpeech(){if(synth.speaking)synth.cancel(); if(speakingButton){speakingButton.classList.remove('speaking'); speakingButton.innerHTML=`<i class="fas fa-volume-high"></i> 语音`; speakingButton=null;}}
-        function updateTimers(){ const n=Date.now(); document.querySelectorAll('.countdown-badge').forEach(e=>{ const s=e.dataset.start, en=e.dataset.end; if(s){const d=new Date(s)-n; e.innerText=d>0?`距开始 ${fmt(d)}`:'进行中';if(d<=0)render();} if(en&&en!=='null'){const d=new Date(en)-n; e.innerText=d>0?`剩余 ${fmt(d)}`:'已结束';} }); }
-        function fmt(ms){const s=Math.floor(ms/1000),d=Math.floor(s/86400),h=Math.floor((s%86400)/3600); return d>0?`${d}天${h}时`:`${h}时`;}
+        function getBankIcon(bankName) {
+            if (bankName.includes('微信')) return 'fab fa-weixin';
+            if (bankName.includes('支付宝')) return 'fab fa-alipay';
+            if (bankName.includes('建设')) return 'fa-building-columns';
+            if (bankName.includes('招商')) return 'fa-star';
+            if (bankName.includes('工商')) return 'fa-briefcase';
+            if (bankName.includes('交通')) return 'fa-route';
+            if (bankName.includes('淘宝') || bankName.includes('天猫')) return 'fab fa-taobao';
+            if (bankName.includes('京东')) return 'fa-shield-dog';
+            if (bankName.includes('拼多多')) return 'fa-users';
+            if (bankName.includes('美团')) return 'fa-hamburger';
+            if (bankName.includes('饿了么')) return 'fa-bowl-food';
+            
+            return 'fa-piggy-bank'; 
+        }
+
+        function bindStatusFilters() {
+            document.querySelectorAll('.status-filter-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const status = e.currentTarget.getAttribute('data-status');
+                    console.log("【慧伴管家】: 状态筛选点击 -", status);
+                    if (window.umami) {
+                        umami.track('filter_status', { status: status });
+                    }
+                    
+                    selectedStatus = status;
+                    
+                    document.querySelectorAll('.status-filter-button').forEach(btn => btn.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    
+                    stopSpeech();
+                    renderActivities();
+                });
+            });
+        }
+
+        // ----------------------------------------------------
+        // 步骤 3: 渲染活动
+        // ----------------------------------------------------
+        function renderActivities() {
+            
+            // 状态过滤逻辑
+            const now = new Date();
+            const statusFiltered = ALL_ACTIVITIES.filter(act => {
+                const endDate = (act.endDate && act.endDate !== 'null') ? new Date(act.endDate) : null;
+                const startDate = (act.startDate && act.startDate !== 'null') ? new Date(act.startDate) : null;
+
+                // 1. "已结束"
+                if (endDate && endDate < now) {
+                    return selectedStatus === 'finished';
+                }
+                
+                // 2. "即将开始"
+                if (startDate && startDate > now) {
+                    return selectedStatus === 'upcoming';
+                }
+
+                // 3. "进行中" (包括长期活动)
+                if (selectedStatus === 'ongoing') {
+                    // 只要不是明确的 "即将开始" 或 "已结束"，它就是 "进行中"
+                    const isUpcoming = (startDate && startDate > now);
+                    const isFinished = (endDate && endDate < now);
+                    
+                    return !isUpcoming && !isFinished;
+                }
+
+                return false;
+            });
+            
+            // 平台过滤逻辑
+            const bankFiltered = statusFiltered.filter(activity => 
+                selectedBank === 'All' || activity.sourceApp === selectedBank
+            );
+            
+            console.log(`【慧伴管家】: 渲染中... 状态[${selectedStatus}], 平台[${selectedBank}], 找到 ${bankFiltered.length} / ${ALL_ACTIVITIES.length} 条。`);
+
+            const lists = {
+                'DailyTask': document.getElementById('routine-tasks-list'),
+                'MissionReward': document.getElementById('mission-rewards-list'), 
+                'Deposit': document.getElementById('savings-tasks-list')
+            };
+            Object.values(lists).forEach(list => list.innerHTML = '');
+
+            const hasActivities = { 'DailyTask': false, 'MissionReward': false, 'Deposit': false }; 
+            
+            bankFiltered.forEach(activity => {
+                // 找到第一个匹配 CATEGORY_MAP 的分类
+                const subCategory = activity.category.find(c => CATEGORY_MAP[c]);
+                
+                if (subCategory && lists[subCategory]) {
+                    hasActivities[subCategory] = true;
+                    const cardHtml = renderActivityCard(activity, subCategory);
+                    lists[subCategory].innerHTML += cardHtml;
+                }
+            });
+            
+            Object.keys(lists).forEach(category => {
+                if (!hasActivities[category]) {
+                    lists[category].innerHTML = `<p class="text-gray-400 text-center p-4">该分类下${selectedBank !== 'All' ? `没有 ${selectedBank} 的` : ''}活动。</p>`;
+                }
+            });
+            
+            bindActionButtons();
+            
+            // 【 核心修复 】 在所有卡片渲染完成后，立即更新一次倒计时显示
+            updateAllTimers(); 
+        }
+
+        // ----------------------------------------------------
+        // 步骤 4: 单个活动卡片的 HTML 生成
+        // ----------------------------------------------------
+        function renderActivityCard(activity, subCategory) {
+            const styles = CATEGORY_MAP[subCategory] || CATEGORY_MAP['DailyTask'];
+            
+            let actionButtonHtml = '';
+            
+            if (activity.link && activity.link !== '#') {
+                actionButtonHtml = `
+                    <a href="${activity.link}" 
+                        target="_blank" 
+                        class="action-button" 
+                        data-umami-event="click_deep_link"
+                        data-umami-event-name="${activity.name}">
+                        <i class="fas fa-rocket"></i>
+                        去领取
+                    </a>`;
+            } else if (activity.StepsText) {
+                const steps = activity.StepsText.replace(/"/g, '&quot;');
+                actionButtonHtml = `
+                    <button class="action-button action-button-voice" 
+                            data-activity-id="${activity.id}" 
+                            data-steps="${steps}"
+                            data-activity-name="${activity.name}">
+                        <i class="fas fa-volume-high"></i>
+                        播放语音
+                    </button>`;
+            } else {
+                actionButtonHtml = `
+                    <button class="action-button opacity-50 cursor-not-allowed" disabled>
+                        <i class="fas fa-info-circle"></i>
+                        暂无指引
+                    </button>`;
+            }
+            
+            let specialNoteBadge = '';
+            if (activity.specialNote) {
+                specialNoteBadge = `
+                    <span class="special-note-badge"
+                            data-umami-event="view_special_note"
+                            data-umami-event-name="${activity.name}">
+                        <i class="fas fa-bell"></i>
+                        ${activity.specialNote}
+                    </span>`;
+            }
+
+            // 注意：这里保留 '加载中...' 作为默认值，等待 updateAllTimers 立即更新
+            return `
+                <div class="task-list-card ${styles.borderClass} ${activity.specialNote ? 'has-special-note' : ''}">
+                    ${specialNoteBadge}
+                    <span class="countdown-badge" data-endtime="${activity.endDate}" id="timer-${activity.id}">
+                        ${activity.endDate ? '加载中...' : '长期'}
+                    </span>
+                    
+                    <div class="task-main-content">
+                        <div class="task-icon ${styles.iconClass}">
+                            <i class="fa-solid ${styles.faIcon}"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-title">
+                                ${activity.name} (${activity.sourceApp})
+                            </div>
+                            <p class="task-subtitle">
+                                ${activity.description || '暂无描述'}
+                            </p>
+                        </div> 
+                    </div> 
+                    
+                    <div class="task-action-bar">
+                        <a href="#" class="share-button" 
+                            data-activity-id="${activity.id}" 
+                            data-umami-event="click_share" 
+                            data-umami-event-name="${activity.name}">
+                            <i class="fas fa-share-alt"></i>
+                            分享
+                        </a>
+                        ${actionButtonHtml}
+                    </div>
+                </div> 
+            `;
+        }
+        
+        // ----------------------------------------------------
+        // 步骤 5: 语音播放控制
+        // ----------------------------------------------------
+        function stopSpeech() {
+            if (synth.speaking && currentUtterance) {
+                synth.cancel();
+            }
+            if (speakingButton) {
+                speakingButton.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
+                speakingButton.classList.remove('speaking');
+                speakingButton = null;
+            }
+        }
+
+        function toggleSpeech(button, text, activityName) {
+            if (!synth) return;
+
+            if (button.classList.contains('speaking')) {
+                stopSpeech();
+                return;
+            }
+
+            stopSpeech(); 
+
+            console.log(`【慧伴管家】: 开始播放 ${activityName} 的语音指引...`);
+            
+            const voice = synth.getVoices().find(v => v.lang.startsWith('zh')) || synth.getVoices()[0];
+            
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.voice = voice;
+            currentUtterance.rate = 1.0; 
+            
+            currentUtterance.onstart = () => {
+                speakingButton = button;
+                button.classList.add('speaking');
+                button.innerHTML = `<i class="fas fa-volume-xmark"></i> 停止播放`;
+            };
+            
+            currentUtterance.onend = () => {
+                stopSpeech(); 
+            };
+
+            currentUtterance.onerror = (event) => {
+                console.error("【慧伴管家】: 语音播放错误:", event.error);
+                stopSpeech(); 
+            };
+
+            synth.speak(currentUtterance);
+        }
+        
+        function bindActionButtons() {
+            // 绑定语音播放按钮
+            document.querySelectorAll('.action-button-voice').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const stepsText = e.currentTarget.getAttribute('data-steps');
+                    const name = e.currentTarget.getAttribute('data-activity-name');
+                    toggleSpeech(e.currentTarget, stepsText, name);
+                });
+            });
+
+            // 绑定分享按钮 (使用 Web Share API 或回退到复制)
+            document.querySelectorAll('.share-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const activityId = e.currentTarget.getAttribute('data-activity-id');
+                    
+                    // 查找活动详情并构建分享内容 (需要访问 ALL_ACTIVITIES)
+                    const activity = ALL_ACTIVITIES.find(act => act.id === activityId);
+                    const shareUrl = activity ? activity.link : window.location.href; 
+                    const shareText = `【慧伴管家】发现一个好活动：${activity.name || '银行任务'}！快来看看如何领取吧：${shareUrl}`;
+
+                    if (navigator.share) {
+                        navigator.share({
+                            title: '慧伴管家 - 任务分享',
+                            text: shareText,
+                            url: shareUrl,
+                        }).catch(() => {});
+                    } else {
+                        navigator.clipboard.writeText(shareText).then(() => {
+                            alert('活动链接和描述已复制到剪贴板，快去分享吧！');
+                        }).catch(err => {
+                            console.error('复制失败:', err);
+                            alert('复制失败，请手动复制以下内容：\n' + shareText);
+                        });
+                    }
+                });
+            });
+        }
+        
+        // ----------------------------------------------------
+        // 步骤 6: 倒计时更新
+        // ----------------------------------------------------
+        function formatTimeLeft(ms) {
+            if (ms <= 0) return "已结束";
+
+            const totalSeconds = Math.floor(ms / 1000);
+            const days = Math.floor(totalSeconds / (3600 * 24));
+            const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+            let parts = [];
+            if (days > 0) parts.push(`${days}天`);
+            parts.push(`${hours}时`);
+            parts.push(`${minutes}分`);
+
+            return parts.join(' ');
+        }
+
+        function updateAllTimers() {
+            const now = Date.now();
+            document.querySelectorAll('.countdown-badge').forEach(badge => {
+                const endDateString = badge.getAttribute('data-endtime');
+                
+                if (!endDateString || endDateString === 'null') {
+                    badge.textContent = '长期';
+                    badge.classList.remove('expired-badge');
+                    return;
+                }
+
+                const endDate = new Date(endDateString);
+                const timeLeft = endDate.getTime() - now;
+
+                if (timeLeft > 0) {
+                    badge.textContent = formatTimeLeft(timeLeft);
+                    badge.classList.remove('expired-badge');
+                } else {
+                    badge.textContent = '已结束';
+                    badge.classList.add('expired-badge');
+                }
+            });
+        }
+
+        function startCountdownUpdater() {
+            updateAllTimers(); 
+            // 每 60 秒运行一次，确保分钟级倒计时是准确的
+            setInterval(updateAllTimers, 60000); 
+        }
+
     </script>
 </body>
 </html>
