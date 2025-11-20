@@ -7,24 +7,26 @@
     <script async defer src="https://umami.example.com/script.js" data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" data-do-not-track="true" data-domains="1111gary.github.io"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     <style>
-        /* 赤红主题 */
         :root { --color-bg-dark:#0B1120; --color-primary:#F43F5E; --color-highlight:#FACC15; --color-premium-border:linear-gradient(135deg, #F43F5E, #FACC15); --color-bank-bg: #1F2A40; --color-card-bg: #1E293B; }
-        /* [核心] 顶部安全距离 */
-        body { background: var(--color-bg-dark); color: #F1F5F9; padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; padding-top: max(20px, env(safe-area-inset-top)); }
+        body { background: var(--color-bg-dark); color: #F1F5F9; padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; margin: 0; }
         
-        .main-banner-card { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px 20px; text-align: center; margin: 1rem 0; border: 3px solid transparent; border-image: linear-gradient(to right, #F43F5E, #FACC15); border-image-slice: 1; }
+        .main-banner-area { padding: calc(20px + env(safe-area-inset-top)) 1rem 1rem 1rem; background: linear-gradient(to bottom, rgba(244,63,94,0.1), transparent); }
+        .main-banner-card { background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px 20px; text-align: center; border: 3px solid transparent; border-image: linear-gradient(to right, #F43F5E, #FACC15); border-image-slice: 1; }
         .main-banner-card h1 { font-size: 1.5rem; font-weight: 900; background: linear-gradient(to right, #fff, #fecdd3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* [核心] 吸顶避开刘海 */
-        .status-filter-container { display: flex; justify-content: space-between; padding: 4px; margin: 1rem 0; background: #1E293B; border-radius: 100px; border: 1px solid rgba(255,255,255,0.05); position: sticky; top: env(safe-area-inset-top); z-index: 40; box-shadow: 0 4px 20px rgba(0,0,0,0.4); backdrop-filter: blur(10px); }
+        /* 吸顶容器 */
+        .sticky-header-wrapper { position: sticky; top: 0; z-index: 40; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(15px); padding-top: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .status-filter-container { display: flex; justify-content: space-between; padding: 4px; background: #1E293B; border-radius: 100px; border: 1px solid rgba(255,255,255,0.05); margin: 0 1rem 10px 1rem; }
         .status-button { flex: 1; padding: 10px 0; border-radius: 100px; font-size: 0.85rem; font-weight: 600; color: #94A3B8; background: transparent; transition: all 0.3s; }
         .status-button.active[data-status="Active"] { color: #fff; background: #F43F5E; box-shadow: 0 2px 12px rgba(244, 63, 94, 0.5); }
         .status-button.active[data-status="Upcoming"] { color: #fff; background: #FACC15; box-shadow: 0 2px 12px rgba(250, 204, 21, 0.5); color: #000; }
         .status-button.active[data-status="Expired"] { color: #fff; background: #64748B; box-shadow: none; }
 
+        .content-area { padding: 0 1rem; }
+        
         .task-list-card { background: #1F2A40; border-radius: 15px; padding: 15px 20px; margin-bottom: 15px; border-left: 5px solid #F43F5E; box-shadow: 0 2px 10px rgba(0,0,0,0.4); position: relative; }
         .task-icon { width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #F43F5E, #FB7185); display: flex; align-items: center; justify-content: center; margin-right: 15px; color: #fff; font-size: 1.2rem; flex-shrink: 0; }
         .action-button { background: #F43F5E; color: #fff; padding: 8px 18px; border-radius: 9999px; font-weight: 700; font-size: 0.8rem; display: flex; justify-content: center; align-items: center; gap: 5px; box-shadow: 0 2px 8px rgba(244, 63, 94, 0.3); }
@@ -47,20 +49,25 @@
     </style>
 </head>
 <body>
-    <main class="container mx-auto px-4 py-4">
+    <div class="main-banner-area">
         <div class="main-banner-card"><h1 class="text-2xl font-bold text-white">看视频赚</h1><p class="text-gray-400 mt-2 text-sm">观看视频，轻松获取奖励</p></div>
-        
+    </div>
+    
+    <div class="sticky-header-wrapper">
         <div class="status-filter-container">
             <button class="status-button active" data-status="Active"><i class="fas fa-play"></i> 正在进行</button>
             <button class="status-button" data-status="Upcoming"><i class="fas fa-clock"></i> 即将开始</button>
             <button class="status-button" data-status="Expired"><i class="fas fa-check"></i> 已结束</button>
         </div>
+    </div>
 
+    <main class="content-area">
         <div id="video-tasks-list"></div>
 
         <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'video' })">
             <h2><i class="fas fa-crown"></i> 高级会员专区</h2><p class="text-gray-400 text-sm mt-2">AI赋能ʕʘ̅͜ʘ̅ʔ 改变生活</p>
         </a>
+        <div style="height: 40px;"></div>
     </main>
     
     <nav class="tab-bar">
@@ -75,11 +82,7 @@
         const synth = window.speechSynthesis; let currentUtterance = null, speakingButton = null;
         let ALL_VIDEOS = [], currentStatus = 'Active';
 
-        // [核心] 滚动记忆
-        function restoreScroll() {
-            const savedY = sessionStorage.getItem('scrollY_video');
-            if (savedY) window.scrollTo(0, parseInt(savedY));
-        }
+        function restoreScroll() { const savedY = sessionStorage.getItem('scrollY_video'); if (savedY) window.scrollTo(0, parseInt(savedY)); }
         window.addEventListener('beforeunload', () => { sessionStorage.setItem('scrollY_video', window.scrollY); });
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -94,7 +97,7 @@
                         stopSpeech(); render();
                     };
                 });
-                setTimeout(restoreScroll, 100);
+                setTimeout(restoreScroll, 50);
             });
         });
 
