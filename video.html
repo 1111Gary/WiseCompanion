@@ -4,172 +4,142 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>慧伴管家 - 看视频赚</title>
-    <!-- [核心] Umami 统计 (已恢复) -->
-    <script async defer 
-        data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" 
-        src="https://umami.example.com/script.js" 
-        data-do-not-track="true" 
-        data-domains="1111gary.github.io"></script>
+    <script async defer src="https://umami.example.com/script.js" data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" data-do-not-track="true" data-domains="1111gary.github.io"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     <style>
-        :root { --color-bg-dark:#0B1120; --color-primary:#8B5CF6; --color-highlight:#FACC15; --color-premium-border:linear-gradient(135deg, #8B5CF6, #FACC15); }
-        body { background: var(--color-bg-dark); color: #F1F5F9; padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        :root { --color-bg-dark: #0A1322; --color-card-bg: #1A2233; --color-text-light: #E0E7FF; --color-text-muted: #9CA3AF; --color-primary: #8B5CF6; --color-highlight: #FACC15; --color-bank-bg: #1F2A40; --color-success: #10B981; --color-secondary: #FF69B4; }
+        body { background-color: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
-        .header-bar-fixed { position: sticky; top: 0; z-index: 50; background: rgba(11,17,32,0.95); backdrop-filter: blur(10px); height: 60px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between; padding-left: 1rem; padding-right: 1rem; padding-top: env(safe-area-inset-top); }
-        .header-logo { width: 32px; height: 32px; border-radius: 8px; margin-right: 10px; }
-        .header-title { font-size: 1.1rem; font-weight: 800; color: #fff; }
-        .back-arrow-link { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.1); color: #fff; }
+        .header-bar { padding-top: calc(15px + env(safe-area-inset-top)); padding-bottom: 5px; background-color: var(--color-bg-dark); display: flex; align-items: center; justify-content: space-between; height: 60px; padding-left: 1rem; padding-right: 1rem; }
+        .header-logo { width: 32px; height: 32px; margin-right: 10px; } .header-title { font-size: 1.2rem; font-weight: 700; } .back-arrow-link { color: var(--color-text-light); font-size: 1.2rem; padding: 5px 10px; border-radius: 50%; background-color: var(--color-card-bg); }
 
-        .main-banner-card { background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 24px; padding: 30px 20px; text-align: center; margin: 1rem 0; border: 2px solid transparent; border-image: linear-gradient(to right, #8B5CF6, #FACC15); border-image-slice: 1; }
-        .main-banner-card h1 { font-size: 1.8rem; font-weight: 900; background: linear-gradient(to right, #fff, #ddd6fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .main-banner-card { background: linear-gradient(135deg, #0f1627, #1a2233); border-radius: 20px; padding: 25px 20px; text-align: center; border: 3px solid transparent; border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight)); border-image-slice: 1; margin-bottom: 1.5rem; }
+        .main-banner-card h1 { font-size: 1.5rem; font-weight: 900; }
+
+        .status-filter-sticky { position: sticky; top: 0; z-index: 50; background-color: rgba(10, 19, 34, 0.95); backdrop-filter: blur(10px); padding: 10px 1rem; margin: 0 -1rem 1rem -1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .status-filter-container { display: flex; background-color: var(--color-card-bg); border-radius: 9999px; padding: 5px; }
+        .status-button { flex: 1; text-align: center; padding: 8px 10px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; color: var(--color-text-muted); background: transparent; border: none; transition: all 0.3s; }
+        .status-button.active { background-color: var(--color-primary); color: #fff; box-shadow: 0 0 10px rgba(139, 92, 246, 0.7); }
+
+        .task-list-card { background-color: var(--color-bank-bg); border-radius: 15px; padding: 15px 20px; margin-bottom: 15px; border-left: 5px solid #8B5CF6; position: relative; box-shadow: 0 2px 10px rgba(0,0,0,0.4); }
         
-        .status-filter-container { display: flex; justify-content: space-between; padding: 4px; margin: 1rem 0; background: #1E293B; border-radius: 100px; border: 1px solid rgba(255,255,255,0.05); }
-        .status-button { flex: 1; padding: 10px 0; border-radius: 100px; font-size: 0.85rem; font-weight: 600; color: #94A3B8; background: transparent; transition: all 0.3s; }
-        .status-button.active { color: #fff; background: #8B5CF6; box-shadow: 0 2px 12px rgba(139, 92, 246, 0.5); }
+        .badges-container { position: absolute; top: 0; right: 0; display: flex; align-items: flex-start; }
+        .countdown-badge { background-color: #334155; color: #94A3B8; padding: 4px 10px; border-radius: 0 15px 0 12px; font-size: 0.75rem; font-weight: 700; z-index: 4; }
+        .countdown-badge.expired { background-color: #EF4444; color: white; }
 
-        .task-list-card { background: #1E293B; border-radius: 16px; padding: 16px; margin-bottom: 15px; border-left: 4px solid #8B5CF6; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: relative; }
-        .task-icon { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #8B5CF6, #C084FC); display: flex; align-items: center; justify-content: center; margin-right: 12px; color: #fff; font-size: 1.25rem; flex-shrink: 0; }
-        
-        /* [修正] 倒计时默认高亮 (紫色) */
-        .countdown-badge { position: absolute; top: 0; right: 0; background: #8B5CF6; color: #fff; padding: 3px 10px; border-radius: 0 16px 0 10px; font-size: 0.75rem; font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        .countdown-badge.upcoming { background: #FACC15; color: #000; }
-        .countdown-badge.expired { background: #334155; color: #94A3B8; box-shadow: none; }
+        .task-main-content { display: flex; align-items: center; width: 100%; margin-top: 10px; }
+        .task-icon { width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #8B5CF6, #C084FC); color: #fff; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
+        .task-content { flex-grow: 1; min-width: 0; }
+        .task-title { font-size: 1rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px; }
+        .task-subtitle { font-size: 0.8rem; color: var(--color-text-muted); margin-top: 4px; }
 
-        .action-button { background: #8B5CF6; color: #fff; padding: 6px 16px; border-radius: 999px; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; }
-        .action-button-voice { background: #10B981; }
-        .action-button-voice.speaking { background: #EF4444; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%{opacity:1} 50%{opacity:0.7} 100%{opacity:1} }
-        
-        .premium-card { display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 30px 20px; text-align: center; border: 2px solid transparent; border-image: var(--color-premium-border); border-image-slice: 1; margin-top: 3rem; text-decoration: none; }
-        .premium-card h2 { font-size: 1.2rem; font-weight: 800; background: var(--color-premium-border); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .task-action-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--color-card-bg); }
+        .share-button { background-color: var(--color-card-bg); color: #00BFFF; border: 1px solid #00BFFF; font-weight: 600; padding: 8px 15px; border-radius: 9999px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px; }
+        .action-button { background-color: #8B5CF6; color: #fff; font-weight: 700; padding: 8px 18px; border-radius: 9999px; font-size: 0.8rem; min-width: 100px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+        .action-button-voice { background-color: var(--color-success); }
+        .action-button-voice.speaking { background-color: var(--color-secondary); animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
 
-        .tab-bar { position: fixed; bottom: 0; width: 100%; height: 65px; background: rgba(11,17,32,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); z-index: 50; }
-        .tab-item { display: flex; flex-direction: column; align-items: center; color: #94A3B8; font-size: 0.7rem; }
-        .tab-item.active { color: #8B5CF6; }
+        .premium-card { display: block; background: var(--color-card-bg); border-radius: 20px; padding: 25px 20px; text-align: center; border: 3px solid transparent; border-image: linear-gradient(135deg, #8B5CF6, #FACC15); border-image-slice: 1; margin-top: 2rem; text-decoration: none; }
+        .premium-card h2 { font-size: 1.3rem; font-weight: 800; background: linear-gradient(135deg, #8B5CF6, #FACC15); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
+        .premium-card p { color: var(--color-text-muted); font-size: 0.9rem; margin-top: 10px; }
+
+        .tab-bar { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; align-items: center; height: 60px; background-color: var(--color-bg-dark); border-top: 1px solid #1A2233; z-index: 60; padding-bottom: env(safe-area-inset-bottom); }
+        .tab-item { display: flex; flex-direction: column; align-items: center; color: var(--color-text-muted); font-size: 0.75rem; font-weight: 500; }
+        .tab-item.active { color: #8B5CF6; } .tab-icon { font-size: 1.2rem; margin-bottom: 3px; }
     </style>
 </head>
 <body>
-    <div class="header-bar-fixed">
-        <div class="flex items-center">
-            <img src="./assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/8B5CF6/ffffff?text=L'" class="header-logo">
-            <h1 class="header-title">慧伴管家</h1>
-        </div>
+    <div class="header-bar">
+        <div class="flex items-center"><img src="./assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/8B5CF6/ffffff?text=L'" class="header-logo"><h1 class="header-title">慧伴管家</h1></div>
         <a href="./index.html" class="back-arrow-link"><i class="fas fa-arrow-left"></i></a>
     </div>
 
     <main class="container mx-auto px-4 py-4">
-        <div class="main-banner-card"><h1 class="text-2xl font-bold text-white">看视频赚 (Video)</h1><p class="text-gray-400 mt-2 text-sm">观看视频，轻松获取奖励</p></div>
+        <div class="main-banner-card"><h1>看视频赚 (Video)</h1><p class="text-sm text-gray-400 mt-2">观看视频，轻松获取奖励</p></div>
         
-        <div class="status-filter-container">
-            <button class="status-button active" data-status="Active"><i class="fas fa-play"></i> 正在进行</button>
-            <button class="status-button" data-status="Upcoming"><i class="fas fa-clock"></i> 即将开始</button>
-            <button class="status-button" data-status="Expired"><i class="fas fa-check"></i> 已结束</button>
+        <div class="status-filter-sticky">
+            <div class="status-filter-container">
+                <button class="status-button active" data-status="ongoing"><i class="fas fa-play"></i> 正在进行</button>
+                <button class="status-button" data-status="upcoming"><i class="fas fa-clock"></i> 即将开始</button>
+                <button class="status-button" data-status="finished"><i class="fas fa-check"></i> 已结束</button>
+            </div>
         </div>
 
         <div id="video-tasks-list"></div>
 
         <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'video' })">
-            <h2><i class="fas fa-crown"></i> 高级会员专区</h2><p class="text-gray-400 text-sm mt-2">AI赋能ʕʘ̅͜ʘ̅ʔ 改变生活</p>
+            <h2><i class="fas fa-crown mr-2"></i> 高级会员专区</h2><p>AI赋能ʕʘ̅͜ʘ̅ʔ 改变生活</p>
         </a>
+        <div style="height: 40px;"></div>
     </main>
     
     <nav class="tab-bar">
-        <a href="./index.html" class="tab-item"><i class="fas fa-home tab-icon text-xl mb-1"></i><span>首页</span></a>
-        <a href="./checkin.html" class="tab-item"><i class="fas fa-gifts tab-icon text-xl mb-1"></i><span>天天有奖</span></a>
-        <span class="tab-item active"><i class="fas fa-play-circle tab-icon text-xl mb-1"></i><span>看视频赚</span></span>
-        <a href="./bank.html" class="tab-item"><i class="fas fa-hand-holding-usd tab-icon text-xl mb-1"></i><span>捡钱任务</span></a>
-        <a href="./shopping.html" class="tab-item"><i class="fas fa-tags tab-icon text-xl mb-1"></i><span>省钱秘籍</span></a>
+        <a href="./index.html" class="tab-item"><i class="fas fa-home tab-icon"></i><span>首页</span></a>
+        <a href="./checkin.html" class="tab-item"><i class="fas fa-gifts tab-icon"></i><span>天天有奖</span></a>
+        <span class="tab-item active"><i class="fas fa-play-circle tab-icon"></i><span>看视频赚</span></span>
+        <a href="./bank.html" class="tab-item"><i class="fas fa-hand-holding-usd tab-icon"></i><span>捡钱任务</span></a>
+        <a href="./shopping.html" class="tab-item"><i class="fas fa-tags tab-icon"></i><span>省钱秘籍</span></a>
     </nav>
     
     <script>
-        const synth = window.speechSynthesis; let currentUtterance = null, speakingButton = null;
-        let ALL_VIDEOS = [], currentStatus = 'Active';
+        let ALL_VIDEOS=[], currentStatus='ongoing';
+        const synth=window.speechSynthesis; let currentUtterance=null, speakingButton=null;
 
         document.addEventListener('DOMContentLoaded', () => {
             fetch('./activities.json').then(r=>r.json()).then(data => {
                 ALL_VIDEOS = data.filter(a => a.category && a.category.includes('Video'));
-                render();
-                setInterval(updateTimers, 1000);
-                
-                // [修复] 状态按钮点击事件
-                document.querySelectorAll('.status-button').forEach(btn => {
-                    btn.onclick = (e) => {
-                        currentStatus = e.currentTarget.dataset.status;
-                        document.querySelectorAll('.status-button').forEach(b => b.classList.remove('active'));
-                        e.currentTarget.classList.add('active');
-                        stopSpeech(); render();
-                    };
-                });
+                render(); setInterval(updateTimers, 1000);
+                document.querySelectorAll('.status-button').forEach(btn => btn.onclick=e=>{currentStatus=e.currentTarget.dataset.status; document.querySelectorAll('.status-button').forEach(b=>b.classList.remove('active')); e.currentTarget.classList.add('active'); stopSpeech(); render();});
             });
         });
 
-        function getStatus(act) { if(!act.endDate) return 'Active'; const n=Date.now(), s=act.startDate?new Date(act.startDate).getTime():n-1, e=new Date(act.endDate).getTime(); if(n<s)return 'Upcoming'; if(n>e)return 'Expired'; return 'Active'; }
+        function getStatus(act) { if(!act.endDate) return 'ongoing'; const n=Date.now(), s=act.startDate?new Date(act.startDate).getTime():n-1, e=new Date(act.endDate).getTime(); if(n<s)return 'upcoming'; if(n>e)return 'finished'; return 'ongoing'; }
 
         function render() {
             const list = document.getElementById('video-tasks-list'); list.innerHTML = '';
             const filtered = ALL_VIDEOS.filter(v => getStatus(v) === currentStatus);
-            
-            if(filtered.length===0) list.innerHTML=`<p class="text-center text-gray-500 p-4 text-sm">暂无活动</p>`;
+            if(filtered.length===0) list.innerHTML=`<p class="text-center text-gray-500 py-4 text-sm">暂无活动</p>`;
             else filtered.forEach(v => list.innerHTML += renderCard(v, currentStatus));
-            
             document.querySelectorAll('.action-button-voice').forEach(b => b.onclick = e => toggleSpeech(e.currentTarget, e.currentTarget.dataset.steps));
+            document.querySelectorAll('.share-button').forEach(b => b.onclick = e => share(e.currentTarget));
             updateTimers();
         }
 
         function renderCard(v, status) {
-            let btn = '';
-            const isExp = status === 'Expired';
+            let btn = v.link&&v.link!=='#' ? `<a href="${v.link}" target="_blank" class="action-button"><i class="fas fa-rocket"></i> 去观看</a>` : (v.StepsText ? `<button class="action-button action-button-voice" data-steps="${v.StepsText.replace(/"/g,'&quot;')}"><i class="fas fa-volume-high"></i> 播放语音</button>` : `<button class="action-button opacity-50" disabled>暂无</button>`);
             
-            // [修正] 文案: 去观看 / 播放语音
-            if(v.link && v.link!=='#') btn = `<a href="${v.link}" target="_blank" class="action-button ${isExp?'opacity-50':''}"><i class="fas fa-rocket"></i> 去观看</a>`;
-            else if(v.StepsText) btn = `<button class="action-button action-button-voice ${isExp?'opacity-50':''}" data-steps="${v.StepsText.replace(/"/g,'&quot;')}" ${isExp?'disabled':''}><i class="fas fa-volume-high"></i> 播放语音</button>`;
+            const badge = status==='upcoming' ? `<span class="countdown-badge" style="background:#FACC15;color:black" data-start="${v.startDate}">即将开始</span>` : (status==='finished' ? `<span class="countdown-badge expired">已结束</span>` : `<span class="countdown-badge" data-end="${v.endDate}">计算中...</span>`);
             
-            let badgeClass = '';
-            if (status === 'Upcoming') badgeClass = 'upcoming';
-            else if (status === 'Expired') badgeClass = 'expired';
-
-            // 统一倒计时 HTML 结构
-            let badge = `<span class="countdown-badge ${badgeClass}" data-start="${v.startDate}" data-end="${v.endDate}">计算中...</span>`;
-
-            return `<div class="task-list-card flex flex-col ${isExp?'opacity-60 grayscale':''}">
-                ${badge}
-                <div class="flex items-center w-full mt-2">
+            return `<div class="task-list-card flex flex-col ${status==='finished'?'opacity-50 grayscale':''}">
+                <div class="badges-container">${badge}</div>
+                <div class="task-main-content">
                     <div class="task-icon"><i class="fas fa-play"></i></div>
-                    <div class="flex-1 min-w-0 px-3">
-                        <div class="font-bold text-white truncate">${v.name}</div>
-                        <div class="text-xs text-gray-400 truncate">${v.description||''}</div>
-                    </div>
-                    <div>${btn}</div>
+                    <div class="task-content"><div class="task-title">${v.name}</div><div class="task-subtitle">${v.description||''}</div></div>
+                </div>
+                <div class="task-action-bar">
+                    <button class="share-button" data-id="${v.id}"><i class="fas fa-share-alt"></i> 分享</button>
+                    ${btn}
                 </div>
             </div>`;
         }
 
-        function toggleSpeech(btn, text) { if(!synth) return; if(btn.classList.contains('speaking')) { stopSpeech(); return; } stopSpeech(); const u = new SpeechSynthesisUtterance(text); u.lang = 'zh-CN'; u.rate = 0.75; u.onstart = () => { speakingButton=btn; btn.classList.add('speaking'); btn.innerHTML=`<i class="fas fa-stop"></i> 停止`; }; u.onend = stopSpeech; synth.speak(u); }
-        function stopSpeech() { if(synth.speaking) synth.cancel(); if(speakingButton) { speakingButton.classList.remove('speaking'); speakingButton.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`; speakingButton=null; } }
-        
-        function updateTimers() {
-            const now = Date.now();
-            document.querySelectorAll('.countdown-badge').forEach(el => {
-                if(el.classList.contains('expired')) { el.innerText = '已结束'; return; }
-                
-                const start = el.dataset.start ? new Date(el.dataset.start).getTime() : 0;
-                const end = el.dataset.end ? new Date(el.dataset.end).getTime() : 0;
+        function toggleSpeech(btn,t){if(!synth)return; if(btn.classList.contains('speaking')){synth.cancel();btn.classList.remove('speaking');btn.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`;return;} synth.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='zh-CN'; u.rate=0.75; u.onstart=()=>{speakingButton=btn; btn.classList.add('speaking'); btn.innerHTML=`<i class="fas fa-wave-square"></i> 播放中`;}; u.onend=()=>{btn.classList.remove('speaking'); btn.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`;}; synth.speak(u);}
+        function share(btn){const url=`${location.origin}${location.pathname.replace('video.html','go.html')}?id=${btn.dataset.id}`; try{const t=document.createElement('textarea'); t.value=url; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); const old=btn.innerHTML; btn.innerHTML=`<i class="fas fa-check"></i> 已复制`; setTimeout(()=>btn.innerHTML=old,2000);}catch(e){alert(url);}}
 
-                if (start > now) { 
-                    const d = start - now; el.innerText = `距开始 ${fmt(d)}`; 
-                } else if (end > now || !el.dataset.end || el.dataset.end === 'null') {
-                    if (!el.dataset.end || el.dataset.end === 'null') { el.innerText = '长期有效'; }
-                    else { const d = end - now; el.innerText = `剩余 ${fmt(d)}`; }
-                } else {
-                    el.innerText = '已结束';
-                    el.classList.add('expired');
-                }
+        function updateTimers(){
+            const now=Date.now();
+            document.querySelectorAll('.countdown-badge').forEach(el=>{
+                const s=el.dataset.start?new Date(el.dataset.start).getTime():0, e=el.dataset.end?new Date(el.dataset.end).getTime():0;
+                if(s>now) el.innerText=`距开始 ${fmt(s-now)}`;
+                else if(e>now || !el.dataset.end || el.dataset.end==='null') el.innerText = (!el.dataset.end || el.dataset.end==='null') ? '长期' : `剩余 ${fmt(e-now)}`;
+                else { el.innerText='已结束'; el.classList.add('expired'); }
             });
         }
-        function fmt(ms) { const s=Math.floor(ms/1000), d=Math.floor(s/86400), h=Math.floor((s%86400)/3600), m=Math.floor((s%3600)/60); return d>0 ? `${d}天${h}时` : `${h}时${m}分`; }
+        function fmt(ms){ const d=Math.floor(ms/86400000), h=Math.floor((ms%86400000)/3600000), m=Math.floor((ms%3600000)/60000); return d>0?`${d}天${h}时`:`${h}时${m}分`; }
     </script>
 </body>
 </html>
