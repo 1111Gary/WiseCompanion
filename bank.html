@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>慧伴管家 - 省钱秘籍</title>
+    <title>慧伴管家 - 捡钱任务中心</title>
     <script async defer src="https://umami.example.com/script.js" data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" data-do-not-track="true" data-domains="1111gary.github.io"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -11,89 +11,87 @@
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     <style>
         :root {
-            --color-bg-dark: #0B1120; --color-card-bg: #1E293B; --color-text-light: #F1F5F9; --color-text-muted: #94A3B8;
-            --color-primary: #38BDF8; --color-highlight: #FACC15; --color-success: #10B981;
-            --color-shopping-1: #8B5CF6; --grad-shopping-1: linear-gradient(135deg, #8B5CF6, #C084FC);
-            --color-shopping-2: #F59E0B; --grad-shopping-2: linear-gradient(135deg, #F59E0B, #FBBF24);
-            --color-shopping-3: #06B6D4; --grad-shopping-3: linear-gradient(135deg, #06B6D4, #2DD4BF);
-            --color-premium-border: linear-gradient(135deg, #FACC15, #F472B6);
-            --color-bank-bg: #1F2A40; --color-secondary: #FF69B4; --color-special-note: #F59E0B;
+            --color-bg-dark: #0A1322; --color-card-bg: #1A2233; --color-text-light: #E0E7FF; --color-text-muted: #9CA3AF;
+            --color-primary: #00BFFF; --color-highlight: #FFD700; --color-bank-bg: #1F2A40; --color-success: #34D399;
+            --color-special-note: #F59E0B; --color-premium-border: linear-gradient(135deg, var(--color-highlight), #FF69B4);
+            --color-mission-reward: #EC4899;
+            --grad-bank-1: linear-gradient(135deg, #10B981, #34D399);
+            --grad-bank-2: linear-gradient(135deg, #EC4899, #F472B6);
+            --grad-bank-3: linear-gradient(135deg, #F59E0B, #FCD34D);
         }
-        body { background: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        body { background-color: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: calc(85px + env(safe-area-inset-bottom)); font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
-        .main-banner-card { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px 20px; text-align: center; border: 3px solid transparent; background-clip: padding-box, border-box; background-origin: padding-box, border-box; border-image: linear-gradient(to right, var(--color-shopping-3), var(--color-shopping-1)); border-image-slice: 1; margin-bottom: 1.5rem; margin-top: 1rem; }
-        .main-banner-card h1 { font-size: 1.5rem; font-weight: 900; } .main-banner-card p { color: var(--color-text-muted); font-size: 0.9rem; margin-top: 8px; }
+        .main-banner-card { background: linear-gradient(135deg, #0f1627, #1a2233); border-radius: 20px; padding: 25px 20px; text-align: center; border: 3px solid transparent; background-clip: padding-box, border-box; background-origin: padding-box, border-box; border-image: linear-gradient(to right, #00BFFF, var(--color-highlight)); border-image-slice: 1; margin-bottom: 1.5rem; margin-top: 1rem; }
+        .main-banner-card h1 { font-size: 1.5rem; font-weight: 900; text-shadow: 0 0 5px var(--color-highlight); }
 
-        /* 筛选吸顶 */
-        .filter-sticky-wrapper { position: sticky; top: 0; z-index: 50; background-color: rgba(11,17,32,0.95); backdrop-filter: blur(10px); padding: 10px 1rem; margin: 0 -1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .filter-container { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 5px; }
-        .filter-button { display: inline-flex; align-items: center; padding: 8px 16px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; background: rgba(30,41,59,0.8); color: var(--color-text-muted); border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; transition: all 0.3s; }
-        .filter-button.active { background: var(--color-primary); color: #000; border-color: transparent; box-shadow: 0 0 15px rgba(56,189,248,0.4); }
+        /* 筛选栏吸顶 */
+        .platform-filter-fixed { position: sticky; top: 0; z-index: 50; background-color: rgba(10, 19, 34, 0.95); backdrop-filter: blur(10px); padding-top: 10px; padding-bottom: 10px; margin-left: -1rem; margin-right: -1rem; padding-left: 1rem; padding-right: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .filter-container { overflow-x: auto; white-space: nowrap; scrollbar-width: none; display: flex; gap: 10px; }
         
-        /* 状态栏变色逻辑 */
-        .status-filter-container { display: flex; margin-top: 10px; background-color: var(--color-card-bg); border-radius: 9999px; padding: 5px; }
-        .status-button { flex: 1; text-align: center; padding: 8px 10px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; color: var(--color-text-muted); background: transparent; transition: all 0.3s; }
+        .status-filter-container { margin-bottom: 2rem; display: flex; background-color: var(--color-card-bg); border-radius: 9999px; padding: 5px; }
+        .status-filter-button { flex: 1; text-align: center; padding: 8px 10px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; color: var(--color-text-muted); background: transparent; border: none; transition: all 0.3s; }
         
-        /* [核心] 状态点击变色 */
-        .status-button.active[data-status="Active"] { color: #fff; background: #10B981; box-shadow: 0 2px 10px rgba(16,185,129,0.3); }
-        .status-button.active[data-status="Upcoming"] { color: #fff; background: #8B5CF6; box-shadow: 0 2px 10px rgba(139,92,246,0.3); }
-        .status-button.active[data-status="Expired"] { color: #fff; background: #64748B; box-shadow: none; }
+        /* [核心] 状态栏点击变色 */
+        .status-filter-button.active[data-status="ongoing"] { color: #fff; background: #10B981; box-shadow: 0 2px 10px rgba(16,185,129,0.3); }
+        .status-filter-button.active[data-status="upcoming"] { color: #fff; background: #EC4899; box-shadow: 0 2px 10px rgba(236,72,153,0.3); }
+        .status-filter-button.active[data-status="finished"] { color: #fff; background: #64748B; box-shadow: none; }
+        
+        .filter-button { display: inline-flex; align-items: center; padding: 8px 15px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; background-color: var(--color-card-bg); color: var(--color-text-muted); border: 2px solid var(--color-card-bg); flex-shrink: 0; transition: all 0.2s; }
+        .filter-button.active { background-color: #00BFFF; color: var(--color-bg-dark); border-color: #00BFFF; box-shadow: 0 0 8px rgba(0, 191, 255, 0.8); }
 
-        .section-title-card { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 12px; padding: 15px 20px; margin-top: 2rem; margin-bottom: 1rem; border: 2px solid transparent; border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight)); border-image-slice: 1; }
+        .section-title-card { background: linear-gradient(135deg, #0f1627, #1a2233); border-radius: 12px; padding: 15px 20px; border: 2px solid transparent; background-clip: padding-box, border-box; background-origin: padding-box, border-box; border-image: linear-gradient(to right, #00BFFF, var(--color-highlight)); border-image-slice: 1; margin-top: 2rem; margin-bottom: 1rem; }
         .section-title-card h2 { font-size: 1.25rem; font-weight: 800; }
         
-        .task-list-card { background: #1F2A40; border-radius: 15px; padding: 15px 20px; margin-bottom: 15px; border-left: 5px solid; position: relative; box-shadow: 0 2px 10px rgba(0,0,0,0.4); }
-        .task-shopping-1 { border-color: var(--color-shopping-1); } .icon-shopping-1 { background: var(--grad-shopping-1); }
-        .task-shopping-2 { border-color: var(--color-shopping-2); } .icon-shopping-2 { background: var(--grad-shopping-2); }
-        .task-shopping-3 { border-color: var(--color-shopping-3); } .icon-shopping-3 { background: var(--grad-shopping-3); }
+        .task-list-card { background-color: var(--color-bank-bg); border-radius: 15px; padding: 15px 20px; margin-bottom: 15px; border-left: 5px solid; position: relative; box-shadow: 0 2px 10px rgba(0,0,0,0.4); }
+        .task-routine { border-color: var(--color-success); } .icon-routine { background: var(--grad-bank-1); }
+        .task-mission { border-color: var(--color-mission-reward); } .icon-mission { background: var(--grad-bank-2); }
+        .task-savings { border-color: var(--color-highlight); } .icon-savings { background: var(--grad-bank-3); }
         
-        .badges-container { position: absolute; top: 0; right: 0; display: flex; align-items: flex-start; }
-        
-        /* [核心] 粉红倒计时 */
-        .countdown-badge { background-color: #EC4899; color: #fff; padding: 4px 10px; border-radius: 0 15px 0 12px; font-size: 0.75rem; font-weight: 700; z-index: 4; box-shadow: 0 2px 8px rgba(236, 72, 153, 0.4); }
-        .countdown-badge.expired { background-color: #334155; color: #94A3B8; box-shadow: none; }
-        .special-note-badge { background-color: var(--color-special-note); color: #000; padding: 4px 10px; border-radius: 0 0 8px 8px; font-size: 0.75rem; font-weight: 700; z-index: 5; margin-right: -5px; transform: translateY(-2px); box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        /* [核心] 倒计时粉红高亮 */
+        .countdown-badge { position: absolute; top: 0; right: 0; background: #EC4899; color: #fff; padding: 3px 10px; border-radius: 0 16px 0 10px; font-size: 0.75rem; font-weight: 700; z-index: 4; box-shadow: 0 2px 8px rgba(236, 72, 153, 0.4); }
+        .countdown-badge.expired { background-color: #EF4444; color: white; box-shadow: none; }
+        .special-note-badge { background-color: var(--color-special-note); color: var(--color-bg-dark); padding: 4px 10px; border-radius: 0 0 8px 8px; font-size: 0.75rem; font-weight: 700; z-index: 5; margin-right: -5px; transform: translateY(-2px); box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
 
         .task-main-content { display: flex; align-items: center; width: 100%; margin-top: 10px; }
-        .task-icon { width: 40px; height: 40px; border-radius: 8px; color: #fff; font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
+        .task-icon { width: 40px; height: 40px; border-radius: 8px; color: var(--color-bg-dark); font-size: 1.2rem; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
         .task-content { flex-grow: 1; min-width: 0; }
         .task-title { font-size: 1rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px; }
         .task-subtitle { font-size: 0.8rem; color: var(--color-text-muted); margin-top: 4px; }
-        
+
         .task-action-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--color-card-bg); }
         .share-button { background-color: var(--color-card-bg); color: #00BFFF; border: 1px solid #00BFFF; font-weight: 600; padding: 8px 15px; border-radius: 9999px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px; }
-        .action-button { background: var(--color-primary); color: #000; padding: 8px 18px; border-radius: 9999px; font-size: 0.8rem; font-weight: 700; min-width: 100px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
-        .action-button-voice { background: var(--color-success); }
-        .action-button-voice.speaking { background: #EF4444; color: #fff; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%{opacity:1} 50%{opacity:0.6} 100%{opacity:1} }
-        
-        .premium-card { display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px; text-align: center; border: 2px solid transparent; border-image: var(--color-premium-border); border-image-slice: 1; margin-top: 2rem; text-decoration: none; }
-        .premium-card h2 { font-size: 1.3rem; font-weight: 800; background: var(--color-premium-border); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-        
+        .action-button { background-color: #00BFFF; color: var(--color-bg-dark); font-weight: 700; padding: 8px 18px; border-radius: 9999px; font-size: 0.8rem; min-width: 100px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+        .action-button-voice { background-color: var(--color-success); }
+        .action-button-voice.speaking { background-color: #EF4444; color: white; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+
+        .premium-card { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px 20px; text-align: center; border: 2px solid transparent; border-image: linear-gradient(135deg, #3B82F6, #FBBF24); border-image-slice: 1; box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin-top: 3rem; text-decoration: none; display: block; transition: all 0.3s; }
+        .premium-card h2 { font-size: 1.3rem; font-weight: 800; background: linear-gradient(135deg, #3B82F6, #FBBF24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .premium-card p { color: var(--color-text-muted); font-size: 0.9rem; margin-top: 10px; }
+
         .tab-bar { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; align-items: center; height: 60px; background-color: var(--color-bg-dark); border-top: 1px solid #1A2233; z-index: 60; padding-bottom: env(safe-area-inset-bottom); }
         .tab-item { display: flex; flex-direction: column; align-items: center; color: var(--color-text-muted); font-size: 0.75rem; font-weight: 500; }
-        .tab-item.active { color: var(--color-primary); } .tab-icon { font-size: 1.3rem; margin-bottom: 3px; }
+        .tab-item.active { color: #00BFFF; } .tab-icon { font-size: 1.2rem; margin-bottom: 3px; }
     </style>
 </head>
 <body>
     <main class="container mx-auto px-4 py-4">
-        <div class="main-banner-card"><h1>省钱秘籍中心</h1><p>点击下方按钮，仅显示您关注的平台活动</p></div>
+        <div class="main-banner-card"><h1>捡钱任务中心</h1><p class="text-sm text-gray-400 mt-2">点击下方按钮，仅显示您拥有的银行卡/平台活动</p></div>
         
-        <div class="filter-sticky-wrapper">
-            <div class="filter-container" id="platform-filter-container"></div>
-            <div class="status-filter-container">
-                <button class="status-button active" data-status="Active"><i class="fas fa-fire-alt"></i> 正在进行</button>
-                <button class="status-button" data-status="Upcoming"><i class="fas fa-hourglass-start"></i> 即将开始</button>
-                <button class="status-button" data-status="Expired"><i class="fas fa-history"></i> 已结束</button>
-            </div>
+        <div class="platform-filter-fixed"><div class="filter-container" id="bank-filter-container"></div></div>
+        
+        <div class="status-filter-container" style="margin-top: 1rem;">
+            <button class="status-filter-button active" data-status="ongoing"><i class="fas fa-running"></i> 正在进行</button>
+            <button class="status-filter-button" data-status="upcoming"><i class="fas fa-hourglass-start"></i> 即将开始</button>
+            <button class="status-filter-button" data-status="finished"><i class="fas fa-check-double"></i> 已结束</button>
         </div>
 
-        <div class="section-title-card"><h2><i class="fas fa-shopping-bag text-[#8B5CF6]"></i> 购物有优惠 (PaymentDiscount)</h2></div><div id="paymentdiscount-list"></div>
-        <div class="section-title-card"><h2><i class="fas fa-bolt text-[#F59E0B]"></i> 缴费有优惠 (PaymentBill)</h2></div><div id="paymentbill-list"></div>
-        <div class="section-title-card"><h2><i class="fas fa-plane-departure text-[#06B6D4]"></i> 出行有优惠 (TravelDiscount)</h2></div><div id="traveldiscount-list"></div>
-
-        <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'shopping' })">
-            <h2><i class="fas fa-crown mr-2"></i> 高级会员专区</h2><p>【独家】AI自动生成省钱秘籍演示视频</p>
+        <div class="section-title-card"><h2><i class="fas fa-calendar-day mr-3 text-xl" style="color: var(--color-success);"></i> 日常活动 (DailyTask)</h2></div><div id="routine-tasks-list"></div>
+        <div class="section-title-card"><h2><i class="fas fa-tasks mr-3 text-xl" style="color: var(--color-mission-reward);"></i> 做任务领红包 (MissionReward)</h2></div><div id="mission-rewards-list"></div>
+        <div class="section-title-card"><h2><i class="fas fa-sack-dollar mr-3 text-xl" style="color: var(--color-highlight);"></i> 存款理财 (Deposit)</h2></div><div id="savings-tasks-list"></div>
+        
+        <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'bank' })">
+            <h2><i class="fas fa-crown mr-2"></i> 高级会员专区</h2><p>AI赋能ʕʘ̅͜ʘ̅ʔ 改变生活</p>
         </a>
         <div style="height: 40px;"></div>
     </main>
@@ -102,62 +100,62 @@
         <a href="./index.html" class="tab-item"><i class="fas fa-home tab-icon"></i><span>首页</span></a>
         <a href="./checkin.html" class="tab-item"><i class="fas fa-gifts tab-icon"></i><span>天天有奖</span></a>
         <a href="./video.html" class="tab-item"><i class="fas fa-play-circle tab-icon"></i><span>看视频赚</span></a>
-        <a href="./bank.html" class="tab-item"><i class="fas fa-hand-holding-usd tab-icon"></i><span>捡钱任务</span></a>
-        <span class="tab-item active"><i class="fas fa-tags tab-icon"></i><span>省钱秘籍</span></span>
+        <span class="tab-item active"><i class="fas fa-hand-holding-usd tab-icon"></i><span>捡钱任务</span></span>
+        <a href="./shopping.html" class="tab-item"><i class="fas fa-tags tab-icon"></i><span>省钱秘籍</span></a>
     </nav>
     
     <script>
-        let ALL_ACTIVITIES = [], selectedPlatform = 'All', globalStatus = 'Active';
-        const CATEGORY_MAP = { 'PaymentDiscount': { borderClass:'task-shopping-1', iconClass:'icon-shopping-1', faIcon:'fa-shopping-bag' }, 'PaymentBill': { borderClass:'task-shopping-2', iconClass:'icon-shopping-2', faIcon:'fa-bolt' }, 'TravelDiscount': { borderClass:'task-shopping-3', iconClass:'icon-shopping-3', faIcon:'fa-plane-departure' } };
-        const synth = window.speechSynthesis; let currentUtterance = null, speakingButton = null;
+        let ALL_ACTIVITIES=[], selectedBank='All', selectedStatus='ongoing';
+        const CATEGORY_MAP={'DailyTask':{border:'task-routine',icon:'icon-routine',fa:'fa-calendar-day'},'MissionReward':{border:'task-mission',icon:'icon-mission',fa:'fa-tasks'},'Deposit':{border:'task-savings',icon:'icon-savings',fa:'fa-sack-dollar'}};
+        const synth=window.speechSynthesis; let currentUtterance=null, speakingButton=null;
 
         document.addEventListener('DOMContentLoaded', () => {
             fetch('./activities.json').then(r=>r.json()).then(data => {
-                ALL_ACTIVITIES = data.filter(a => a.category && (a.category.includes('PaymentDiscount') || a.category.includes('PaymentBill') || a.category.includes('TravelDiscount')));
-                initFilters(); renderActivities(); setInterval(updateTimers, 1000);
-                document.querySelectorAll('.status-button').forEach(b => b.onclick = e => { globalStatus = e.currentTarget.dataset.status; document.querySelectorAll('.status-button').forEach(x => x.classList.remove('active')); e.currentTarget.classList.add('active'); stopSpeech(); renderActivities(); });
+                ALL_ACTIVITIES = data.filter(a => a.category && (a.category.includes('DailyTask') || a.category.includes('Deposit') || a.category.includes('MissionReward')));
+                initFilters(); render(); setInterval(updateTimers, 1000);
+                document.querySelectorAll('.status-filter-button').forEach(b => b.onclick=e=>{selectedStatus=e.currentTarget.dataset.status; document.querySelectorAll('.status-filter-button').forEach(x=>x.classList.remove('active')); e.currentTarget.classList.add('active'); render();});
             });
         });
 
-        async function initFilters() {
-            const c = document.getElementById('platform-filter-container'), s = new Set(); ALL_ACTIVITIES.forEach(a => a.sourceApp && s.add(a.sourceApp));
-            c.innerHTML = `<button class="filter-button active" data-platform="All"><i class="fas fa-layer-group"></i> 全部</button>`;
-            s.forEach(p => { const i = p.includes('淘宝')?'fab fa-taobao':p.includes('京东')?'fa-shield-dog':p.includes('微信')?'fab fa-weixin':p.includes('支付宝')?'fab fa-alipay':'fa-store'; const b = document.createElement('button'); b.className = 'filter-button'; b.innerHTML = `<i class="fa-solid ${i}"></i> ${p}`; b.onclick = () => { selectedPlatform = p; document.querySelectorAll('.filter-button').forEach(x => x.classList.remove('active')); b.classList.add('active'); stopSpeech(); renderActivities(); }; c.appendChild(b); });
-            c.firstChild.onclick = () => { selectedPlatform = 'All'; document.querySelectorAll('.filter-button').forEach(x => x.classList.remove('active')); c.firstChild.classList.add('active'); stopSpeech(); renderActivities(); };
+        function initFilters() {
+            const c=document.getElementById('bank-filter-container'), s=new Set(); ALL_ACTIVITIES.forEach(a=>s.add(a.sourceApp));
+            c.innerHTML=`<button class="filter-button active" data-bank="All"><i class="fas fa-layer-group"></i> 全部活动</button>`;
+            s.forEach(b=>{if(b){const btn=document.createElement('button'); btn.className='filter-button'; btn.innerHTML=`<i class="fa-solid fa-bank"></i> ${b}`; btn.onclick=()=>{selectedBank=b; document.querySelectorAll('.filter-button').forEach(x=>x.classList.remove('active')); btn.classList.add('active'); render();}; c.appendChild(btn);}});
+            c.firstChild.onclick=()=>{selectedBank='All'; document.querySelectorAll('.filter-button').forEach(x=>x.classList.remove('active')); c.firstChild.classList.add('active'); render();};
         }
 
-        function getStatus(act) { if (!act.endDate) return 'Active'; const n=Date.now(), s=act.startDate?new Date(act.startDate).getTime():n-1000, e=new Date(act.endDate).getTime(); if(n<s) return 'Upcoming'; if(n>e) return 'Expired'; return 'Active'; }
-
-        function renderActivities() {
-            const lists = { 'PaymentDiscount': document.getElementById('paymentdiscount-list'), 'PaymentBill': document.getElementById('paymentbill-list'), 'TravelDiscount': document.getElementById('traveldiscount-list') };
-            Object.values(lists).forEach(l => l.innerHTML = '');
-            let hasItem = false;
-            ALL_ACTIVITIES.forEach(act => {
-                if (getStatus(act) !== globalStatus) return;
-                if (selectedPlatform !== 'All' && act.sourceApp !== selectedPlatform) return;
+        function render() {
+            const lists={'DailyTask':document.getElementById('routine-tasks-list'),'MissionReward':document.getElementById('mission-rewards-list'),'Deposit':document.getElementById('savings-tasks-list')};
+            Object.values(lists).forEach(l=>l.innerHTML='');
+            const now = new Date().setHours(0,0,0,0);
+            
+            ALL_ACTIVITIES.filter(act => {
+                const e = act.endDate?new Date(act.endDate).setHours(23,59,59,999):null;
+                const s = act.startDate?new Date(act.startDate).setHours(0,0,0,0):null;
+                if(selectedStatus==='finished') return e && e<now;
+                if(selectedStatus==='upcoming') return s && s>now;
+                return (!s || s<=now) && (!e || e>=now);
+            }).filter(act => selectedBank==='All' || act.sourceApp===selectedBank).forEach(act => {
                 const cat = act.category.find(c => CATEGORY_MAP[c]);
-                if (cat && lists[cat]) { hasItem = true; lists[cat].innerHTML += createCard(act, cat, globalStatus); }
+                if(cat && lists[cat]) lists[cat].innerHTML += createCard(act, cat);
             });
-            if (!hasItem) Object.values(lists).forEach(l => l.innerHTML = `<p class="text-gray-500 text-center py-4 text-sm">暂无活动</p>`);
+            
             document.querySelectorAll('.action-button-voice').forEach(b => b.onclick = e => toggleSpeech(e.currentTarget, e.currentTarget.dataset.steps));
             document.querySelectorAll('.share-button').forEach(b => b.onclick = e => share(e.currentTarget));
             updateTimers();
         }
 
-        function createCard(act, cat, status) {
-            const s = CATEGORY_MAP[cat], isExp = status === 'Expired';
-            let btn = act.link&&act.link!=='#' ? `<a href="${act.link}" target="_blank" class="action-button ${isExp?'opacity-50':''}" ${isExp?'onclick="return false"':''}><i class="fas fa-rocket"></i> 去领取</a>` : (act.StepsText ? `<button class="action-button action-button-voice ${isExp?'opacity-50':''}" data-steps="${act.StepsText.replace(/"/g,'&quot;')}" ${isExp?'disabled':''}><i class="fas fa-volume-high"></i> 播放语音</button>` : `<button class="action-button opacity-50" disabled>暂无</button>`);
+        function createCard(act, cat) {
+            const s = CATEGORY_MAP[cat];
+            let btn = act.link&&act.link!=='#' ? `<a href="${act.link}" target="_blank" class="action-button"><i class="fas fa-rocket"></i> 去领取</a>` : (act.StepsText ? `<button class="action-button action-button-voice" data-steps="${act.StepsText.replace(/"/g,'&quot;')}"><i class="fas fa-volume-high"></i> 播放语音</button>` : `<button class="action-button opacity-50" disabled>暂无</button>`);
             
-            let badgeClass = ''; if (status === 'Upcoming') badgeClass = 'upcoming'; else if (status === 'Expired') badgeClass = 'expired';
-            let badge = `<span class="countdown-badge ${badgeClass}" data-start="${act.startDate}" data-end="${act.endDate}">计算中...</span>`;
-
-            return `<div class="task-list-card ${s.borderClass} ${isExp?'opacity-60 grayscale':''}">
+            return `<div class="task-list-card ${s.border}">
                 <div class="badges-container">
-                    ${act.specialNote ? `<span class="special-note-badge">${act.specialNote}</span>` : ''}
-                    ${badge}
+                    ${act.specialNote ? `<span class="special-note-badge"><i class="fas fa-bell"></i> ${act.specialNote}</span>` : ''}
+                    <span class="countdown-badge" data-end="${act.endDate}" data-start="${act.startDate}">计算中...</span>
                 </div>
                 <div class="task-main-content">
-                    <div class="task-icon ${s.iconClass}"><i class="fa-solid ${s.faIcon}"></i></div>
+                    <div class="task-icon ${s.icon}"><i class="fa-solid ${s.fa}"></i></div>
                     <div class="task-content"><div class="task-title">${act.name}</div><div class="task-subtitle">${act.description||''}</div></div>
                 </div>
                 <div class="task-action-bar">
@@ -167,28 +165,25 @@
             </div>`;
         }
         
-        function toggleSpeech(btn, t) { if(!synth) return; if(btn.classList.contains('speaking')) { stopSpeech(); return; } stopSpeech(); const u = new SpeechSynthesisUtterance(t); u.lang='zh-CN'; u.rate=0.75; u.onstart = () => { speakingButton=btn; btn.classList.add('speaking'); btn.innerHTML=`<i class="fas fa-stop"></i> 停止`; }; u.onend = stopSpeech; synth.speak(u); }
-        function stopSpeech() { if(synth.speaking) synth.cancel(); if(speakingButton) { speakingButton.classList.remove('speaking'); speakingButton.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`; speakingButton=null; } }
+        function toggleSpeech(btn,t){if(!synth)return; if(btn.classList.contains('speaking')){synth.cancel();btn.classList.remove('speaking');btn.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`;return;} synth.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='zh-CN'; u.rate=0.75; u.onstart=()=>{speakingButton=btn; btn.classList.add('speaking'); btn.innerHTML=`<i class="fas fa-wave-square"></i> 播放中`;}; u.onend=()=>{btn.classList.remove('speaking'); btn.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`;}; synth.speak(u);}
         function share(btn) {
-            const url = `${location.origin}${location.pathname.replace('shopping.html','go.html')}?id=${btn.dataset.id}`;
+            const url = `${location.origin}${location.pathname.replace('bank.html','go.html')}?id=${btn.dataset.id}`;
             if (navigator.share) { navigator.share({ title: '慧伴管家', text: 'Check out this activity!', url: url }).catch(console.error); }
             else {
                 try { const t=document.createElement('textarea'); t.value=`活动分享：${url}`; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); const old=btn.innerHTML; btn.innerHTML=`<i class="fas fa-check"></i> 已复制`; setTimeout(()=>btn.innerHTML=old,2000); } catch(e){ alert(url); }
             }
         }
         
-        function updateTimers() {
-            const now = Date.now();
-            document.querySelectorAll('.countdown-badge').forEach(el => {
-                if(el.classList.contains('expired')) { el.innerText = '已结束'; return; }
-                const start = el.dataset.start ? new Date(el.dataset.start).getTime() : 0;
-                const end = el.dataset.end ? new Date(el.dataset.end).getTime() : 0;
-                if (start > now) { const d = start - now; el.innerText = `距开始 ${fmt(d)}`; }
-                else if (end > now || !el.dataset.end || el.dataset.end === 'null') { if (!el.dataset.end || el.dataset.end === 'null') { el.innerText = '长期有效'; } else { const d = end - now; el.innerText = `剩余 ${fmt(d)}`; } }
-                else { el.innerText = '已结束'; el.classList.add('expired'); }
+        function updateTimers(){
+            const now=Date.now();
+            document.querySelectorAll('.countdown-badge').forEach(el=>{
+                const s=el.dataset.start?new Date(el.dataset.start).getTime():0, e=el.dataset.end?new Date(el.dataset.end).getTime():0;
+                if(s>now) el.innerText=`距开始 ${fmt(s-now)}`;
+                else if(e>now || !el.dataset.end || el.dataset.end==='null') el.innerText = (!el.dataset.end || el.dataset.end==='null') ? '长期' : `剩余 ${fmt(e-now)}`;
+                else { el.innerText='已结束'; el.classList.add('expired'); }
             });
         }
-        function fmt(ms) { const s=Math.floor(ms/1000), d=Math.floor(s/86400), h=Math.floor((s%86400)/3600), m=Math.floor((s%3600)/60); return d>0 ? `${d}天${h}时` : `${h}时${m}分`; }
+        function fmt(ms){ const d=Math.floor(ms/86400000), h=Math.floor((ms%86400000)/3600000), m=Math.floor((ms%3600000)/60000); return d>0?`${d}天${h}时`:`${h}时${m}分`; }
     </script>
 </body>
 </html>
