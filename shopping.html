@@ -21,18 +21,18 @@
             --color-premium-border: linear-gradient(135deg, #FACC15, #F472B6);
             --color-bank-bg: #1F2A40; --color-secondary: #FF69B4; --color-special-note: #F59E0B;
         }
-        body { background: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; padding-top: env(safe-area-inset-top); }
+        /* [核心] 顶部安全距离 */
+        body { background: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; padding-top: max(20px, env(safe-area-inset-top)); }
         
         .main-banner-card { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px 20px; text-align: center; border: 3px solid transparent; background-clip: padding-box, border-box; background-origin: padding-box, border-box; border-image: linear-gradient(to right, var(--color-shopping-3), var(--color-shopping-1)); border-image-slice: 1; margin-bottom: 1.5rem; margin-top: 1rem; }
         .main-banner-card h1 { font-size: 1.5rem; font-weight: 900; } .main-banner-card p { color: var(--color-text-muted); font-size: 0.9rem; margin-top: 8px; }
 
-        /* 筛选吸顶 (Top 0) */
-        .filter-sticky-wrapper { position: sticky; top: 0; z-index: 50; background-color: rgba(11,17,32,0.95); backdrop-filter: blur(10px); padding: 10px 1rem; margin: 0 -1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        /* [核心] 吸顶避开刘海 */
+        .filter-sticky-wrapper { position: sticky; top: env(safe-area-inset-top); z-index: 50; background-color: rgba(11,17,32,0.95); backdrop-filter: blur(10px); padding: 10px 1rem; margin: 0 -1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .filter-container { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 5px; }
         .filter-button { display: inline-flex; align-items: center; padding: 8px 16px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; background: rgba(30,41,59,0.8); color: var(--color-text-muted); border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; transition: all 0.3s; }
         .filter-button.active { background: var(--color-primary); color: #000; border-color: transparent; box-shadow: 0 0 15px rgba(56,189,248,0.4); }
         
-        /* 状态栏 (不固定) */
         .status-filter-container { display: flex; justify-content: space-between; padding: 4px; margin: 1.5rem 0; background: #1E293B; border-radius: 100px; box-shadow: inset 0 2px 6px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); }
         .status-button { flex: 1; text-align: center; padding: 8px 10px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; color: var(--color-text-muted); background: transparent; transition: all 0.3s; }
         
@@ -114,11 +114,16 @@
         const CATEGORY_MAP = { 'PaymentDiscount': { borderClass:'task-shopping-1', iconClass:'icon-shopping-1', faIcon:'fa-shopping-bag' }, 'PaymentBill': { borderClass:'task-shopping-2', iconClass:'icon-shopping-2', faIcon:'fa-bolt' }, 'TravelDiscount': { borderClass:'task-shopping-3', iconClass:'icon-shopping-3', faIcon:'fa-plane-departure' } };
         const synth = window.speechSynthesis; let currentUtterance = null, speakingButton = null;
 
+        // [核心] 滚动记忆
+        function restoreScroll() { const savedY = sessionStorage.getItem('scrollY_shopping'); if (savedY) window.scrollTo(0, parseInt(savedY)); }
+        window.addEventListener('beforeunload', () => { sessionStorage.setItem('scrollY_shopping', window.scrollY); });
+
         document.addEventListener('DOMContentLoaded', () => {
             fetch('./activities.json').then(r=>r.json()).then(data => {
                 ALL_ACTIVITIES = data.filter(a => a.category && (a.category.includes('PaymentDiscount') || a.category.includes('PaymentBill') || a.category.includes('TravelDiscount')));
                 initFilters(); renderActivities(); setInterval(updateTimers, 1000);
                 document.querySelectorAll('.status-button').forEach(b => b.onclick = e => { globalStatus = e.currentTarget.dataset.status; document.querySelectorAll('.status-button').forEach(x => x.classList.remove('active')); e.currentTarget.classList.add('active'); stopSpeech(); renderActivities(); });
+                setTimeout(restoreScroll, 100);
             });
         });
 
