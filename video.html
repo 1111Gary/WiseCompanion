@@ -11,34 +11,35 @@
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     <style>
         :root { --color-bg-dark:#0B1120; --color-primary:#8B5CF6; --color-highlight:#FACC15; --color-premium-border:linear-gradient(135deg, #8B5CF6, #FACC15); }
-        body { background: var(--color-bg-dark); color: #F1F5F9; padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        body { background: var(--color-bg-dark); color: #F1F5F9; padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; padding-top: env(safe-area-inset-top); }
         
         .main-banner-card { background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 24px; padding: 30px 20px; text-align: center; margin: 1rem 0; border: 2px solid transparent; border-image: linear-gradient(to right, #8B5CF6, #FACC15); border-image-slice: 1; }
         .main-banner-card h1 { font-size: 1.8rem; font-weight: 900; background: linear-gradient(to right, #fff, #ddd6fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* 状态筛选器 */
-        .status-filter-container { display: flex; justify-content: space-between; padding: 4px; margin: 1rem 0; background: #1E293B; border-radius: 100px; border: 1px solid rgba(255,255,255,0.05); position: sticky; top: 0; z-index: 40; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        /* 状态筛选器 (吸顶 Top 0) */
+        .status-filter-container { display: flex; justify-content: space-between; padding: 4px; margin: 1rem 0; background: #1E293B; border-radius: 100px; border: 1px solid rgba(255,255,255,0.05); position: sticky; top: 0; z-index: 40; box-shadow: 0 4px 20px rgba(0,0,0,0.4); backdrop-filter: blur(10px); }
         .status-button { flex: 1; padding: 10px 0; border-radius: 100px; font-size: 0.85rem; font-weight: 600; color: #94A3B8; background: transparent; transition: all 0.3s; }
-        
-        /* [核心] 状态栏点击变色 */
+        /* 点击变色 */
         .status-button.active[data-status="Active"] { color: #fff; background: #8B5CF6; box-shadow: 0 2px 12px rgba(139, 92, 246, 0.5); }
         .status-button.active[data-status="Upcoming"] { color: #fff; background: #EC4899; box-shadow: 0 2px 12px rgba(236, 72, 153, 0.5); }
         .status-button.active[data-status="Expired"] { color: #fff; background: #64748B; box-shadow: none; }
 
         .task-list-card { background: #1E293B; border-radius: 16px; padding: 16px; margin-bottom: 15px; border-left: 4px solid #8B5CF6; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: relative; }
         .task-icon { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #8B5CF6, #C084FC); display: flex; align-items: center; justify-content: center; margin-right: 12px; color: #fff; font-size: 1.25rem; flex-shrink: 0; }
-        .action-button { background: #8B5CF6; color: #fff; padding: 6px 16px; border-radius: 999px; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; }
+        .action-button { background: #8B5CF6; color: #fff; padding: 8px 18px; border-radius: 9999px; font-weight: 700; font-size: 0.8rem; display: flex; justify-content: center; align-items: center; gap: 5px; }
+        .share-button { background-color: #1E293B; color: #8B5CF6; border: 1px solid #8B5CF6; font-weight: 600; padding: 8px 15px; border-radius: 9999px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px; }
+
         .action-button-voice { background: #10B981; }
         .action-button-voice.speaking { background: #EF4444; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%{opacity:1} 50%{opacity:0.7} 100%{opacity:1} }
         
-        /* [核心] 倒计时粉红高亮 */
+        /* 粉红倒计时 */
         .countdown-badge { position: absolute; top: 0; right: 0; background: #EC4899; color: #fff; padding: 3px 10px; border-radius: 0 16px 0 10px; font-size: 0.75rem; font-weight: 700; box-shadow: 0 2px 4px rgba(236, 72, 153, 0.4); z-index: 4; }
         .countdown-badge.upcoming { background: #FACC15; color: #000; }
         .countdown-badge.expired { background: #334155; color: #94A3B8; box-shadow: none; }
 
-        .premium-card { display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 30px 20px; text-align: center; border: 2px solid transparent; border-image: var(--color-premium-border); border-image-slice: 1; margin-top: 3rem; text-decoration: none; }
-        .premium-card h2 { font-size: 1.2rem; font-weight: 800; background: var(--color-premium-border); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .premium-card { display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 30px 20px; text-align: center; border: 2px solid transparent; border-image: var(--color-premium-border); border-image-slice: 1; margin-top: 3rem; text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .premium-card h2 { font-size: 1.2rem; font-weight: 800; background: var(--color-premium-border); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
 
         .tab-bar { position: fixed; bottom: 0; width: 100%; height: 65px; background: rgba(11,17,32,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); z-index: 50; }
         .tab-item { display: flex; flex-direction: column; align-items: center; color: #94A3B8; font-size: 0.7rem; }
@@ -47,7 +48,7 @@
 </head>
 <body>
     <main class="container mx-auto px-4 py-4">
-        <div class="main-banner-card"><h1 class="text-2xl font-bold text-white">看视频赚 (Video)</h1><p class="text-gray-400 mt-2 text-sm">观看视频，轻松获取奖励</p></div>
+        <div class="main-banner-card"><h1 class="text-2xl font-bold text-white">看视频赚</h1><p class="text-gray-400 mt-2 text-sm">观看视频，轻松获取奖励</p></div>
         
         <div class="status-filter-container">
             <button class="status-button active" data-status="Active"><i class="fas fa-play"></i> 正在进行</button>
@@ -77,9 +78,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             fetch('./activities.json').then(r=>r.json()).then(data => {
                 ALL_VIDEOS = data.filter(a => a.category && a.category.includes('Video'));
-                render();
-                setInterval(updateTimers, 1000);
-                
+                render(); setInterval(updateTimers, 1000);
                 document.querySelectorAll('.status-button').forEach(btn => {
                     btn.onclick = (e) => {
                         currentStatus = e.currentTarget.dataset.status;
@@ -109,40 +108,28 @@
             if(v.link && v.link!=='#') btn = `<a href="${v.link}" target="_blank" class="action-button ${isExp?'opacity-50':''}"><i class="fas fa-rocket"></i> 去观看</a>`;
             else if(v.StepsText) btn = `<button class="action-button action-button-voice ${isExp?'opacity-50':''}" data-steps="${v.StepsText.replace(/"/g,'&quot;')}" ${isExp?'disabled':''}><i class="fas fa-volume-high"></i> 播放语音</button>`;
             
-            let badgeClass = '';
-            if (status === 'Upcoming') badgeClass = 'upcoming';
-            else if (status === 'Expired') badgeClass = 'expired';
-
+            let badgeClass = ''; if (status === 'Upcoming') badgeClass = 'upcoming'; else if (status === 'Expired') badgeClass = 'expired';
             let badge = `<span class="countdown-badge ${badgeClass}" data-start="${v.startDate}" data-end="${v.endDate}">计算中...</span>`;
 
             return `<div class="task-list-card flex flex-col ${isExp?'opacity-60 grayscale':''}">
                 ${badge}
-                <div class="flex items-center justify-between w-full mt-2">
-                    <div class="flex items-center flex-1 min-w-0">
-                        <div class="task-icon"><i class="fas fa-play"></i></div>
-                        <div class="flex-1 min-w-0 px-3">
-                            <div class="font-bold text-white truncate">${v.name}</div>
-                            <div class="text-xs text-gray-400 truncate">${v.description||''}</div>
-                        </div>
+                <div class="flex items-center w-full mt-2">
+                    <div class="task-icon"><i class="fas fa-play"></i></div>
+                    <div class="flex-1 min-w-0 px-3">
+                        <div class="font-bold text-white truncate">${v.name}</div>
+                        <div class="text-xs text-gray-400 truncate">${v.description||''}</div>
                     </div>
-                    <div>${btn}</div>
                 </div>
-                <div class="flex justify-start mt-2 pt-2 border-t border-white/5">
-                     <button class="text-gray-400 text-sm font-bold flex items-center gap-1 share-button" data-id="${v.id}"><i class="fas fa-share-alt"></i> 分享</button>
+                <div class="flex justify-between items-center mt-4 pt-3 border-t border-white/5">
+                     <button class="share-button" data-id="${v.id}"><i class="fas fa-share-alt"></i> 分享</button>
+                     ${btn}
                 </div>
             </div>`;
         }
 
         function toggleSpeech(btn, text) { if(!synth) return; if(btn.classList.contains('speaking')) { stopSpeech(); return; } stopSpeech(); const u = new SpeechSynthesisUtterance(text); u.lang = 'zh-CN'; u.rate = 0.75; u.onstart = () => { speakingButton=btn; btn.classList.add('speaking'); btn.innerHTML=`<i class="fas fa-stop"></i> 停止`; }; u.onend = stopSpeech; synth.speak(u); }
         function stopSpeech() { if(synth.speaking) synth.cancel(); if(speakingButton) { speakingButton.classList.remove('speaking'); speakingButton.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`; speakingButton=null; } }
-        
-        function share(btn) {
-            const url = `${location.origin}${location.pathname.replace('video.html','go.html')}?id=${btn.dataset.id}`;
-            if (navigator.share) { navigator.share({ title: '慧伴管家', text: 'Check out this activity!', url: url }).catch(console.error); }
-            else {
-                try { const t=document.createElement('textarea'); t.value=`活动分享：${url}`; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); const old=btn.innerHTML; btn.innerHTML=`<i class="fas fa-check"></i> 已复制`; setTimeout(()=>btn.innerHTML=old,2000); } catch(e){ alert(url); }
-            }
-        }
+        function share(btn){ const url=`${location.origin}${location.pathname.replace('video.html','go.html')}?id=${btn.dataset.id}`; if (navigator.share) { navigator.share({ title: '慧伴管家', text: 'Check out this activity!', url: url }).catch(console.error); } else { try{const t=document.createElement('textarea'); t.value=`活动分享：${url}`; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); const old=btn.innerHTML; btn.innerHTML=`<i class="fas fa-check"></i> 已复制`; setTimeout(()=>btn.innerHTML=old,2000);}catch(e){alert(url);} } }
 
         function updateTimers() {
             const now = Date.now();
@@ -151,7 +138,7 @@
                 const start = el.dataset.start ? new Date(el.dataset.start).getTime() : 0;
                 const end = el.dataset.end ? new Date(el.dataset.end).getTime() : 0;
                 if (start > now) { const d = start - now; el.innerText = `距开始 ${fmt(d)}`; }
-                else if (end > now || !el.dataset.end || el.dataset.end === 'null') { if (!el.dataset.end || el.dataset.end === 'null') { el.innerText = '长期有效'; } else { const d = end - now; el.innerText = `剩余 ${fmt(d)}`; } }
+                else if (end > now || !el.dataset.end || el.dataset.end === 'null') { if (!el.dataset.end || el.dataset.end === 'null') { el.innerText = '长期'; } else { const d = end - now; el.innerText = `剩余 ${fmt(d)}`; } }
                 else { el.innerText = '已结束'; el.classList.add('expired'); }
             });
         }
