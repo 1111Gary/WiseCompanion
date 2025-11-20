@@ -19,19 +19,19 @@
             --grad-bank-2: linear-gradient(135deg, #EC4899, #F472B6);
             --grad-bank-3: linear-gradient(135deg, #F59E0B, #FCD34D);
         }
-        body { background-color: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: calc(85px + env(safe-area-inset-bottom)); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        body { background-color: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: calc(85px + env(safe-area-inset-bottom)); font-family: 'Inter', sans-serif; overflow-x: hidden; padding-top: env(safe-area-inset-top); }
         
         .main-banner-card { background: linear-gradient(135deg, #0f1627, #1a2233); border-radius: 20px; padding: 25px 20px; text-align: center; border: 3px solid transparent; background-clip: padding-box, border-box; background-origin: padding-box, border-box; border-image: linear-gradient(to right, #00BFFF, var(--color-highlight)); border-image-slice: 1; margin-bottom: 1.5rem; margin-top: 1rem; }
         .main-banner-card h1 { font-size: 1.5rem; font-weight: 900; text-shadow: 0 0 5px var(--color-highlight); }
 
-        /* 筛选栏吸顶 */
+        /* 筛选栏吸顶 (Top 0) */
         .platform-filter-fixed { position: sticky; top: 0; z-index: 50; background-color: rgba(10, 19, 34, 0.95); backdrop-filter: blur(10px); padding-top: 10px; padding-bottom: 10px; margin-left: -1rem; margin-right: -1rem; padding-left: 1rem; padding-right: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .filter-container { overflow-x: auto; white-space: nowrap; scrollbar-width: none; display: flex; gap: 10px; }
         
-        .status-filter-container { margin-bottom: 2rem; display: flex; background-color: var(--color-card-bg); border-radius: 9999px; padding: 5px; }
+        .status-filter-container { margin-bottom: 2rem; display: flex; background-color: var(--color-card-bg); border-radius: 9999px; padding: 5px; margin-top: 1rem; }
         .status-filter-button { flex: 1; text-align: center; padding: 8px 10px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; color: var(--color-text-muted); background: transparent; border: none; transition: all 0.3s; }
         
-        /* [核心] 状态栏点击变色 */
+        /* 点击变色 */
         .status-filter-button.active[data-status="ongoing"] { color: #fff; background: #10B981; box-shadow: 0 2px 10px rgba(16,185,129,0.3); }
         .status-filter-button.active[data-status="upcoming"] { color: #fff; background: #EC4899; box-shadow: 0 2px 10px rgba(236,72,153,0.3); }
         .status-filter-button.active[data-status="finished"] { color: #fff; background: #64748B; box-shadow: none; }
@@ -65,8 +65,8 @@
         .action-button-voice.speaking { background-color: #EF4444; color: white; animation: pulse 1s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
 
-        .premium-card { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px 20px; text-align: center; border: 2px solid transparent; border-image: linear-gradient(135deg, #3B82F6, #FBBF24); border-image-slice: 1; box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin-top: 3rem; text-decoration: none; display: block; transition: all 0.3s; }
-        .premium-card h2 { font-size: 1.3rem; font-weight: 800; background: linear-gradient(135deg, #3B82F6, #FBBF24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .premium-card { display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px; text-align: center; border: 2px solid transparent; border-image: var(--color-premium-border); border-image-slice: 1; box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin-top: 3rem; text-decoration: none; transition: all 0.3s; }
+        .premium-card h2 { font-size: 1.3rem; font-weight: 800; background: var(--color-premium-border); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; display: flex; justify-content: center; align-items: center; gap: 8px; }
         .premium-card p { color: var(--color-text-muted); font-size: 0.9rem; margin-top: 10px; }
 
         .tab-bar { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; align-items: center; height: 60px; background-color: var(--color-bg-dark); border-top: 1px solid #1A2233; z-index: 60; padding-bottom: env(safe-area-inset-bottom); }
@@ -80,15 +80,15 @@
         
         <div class="platform-filter-fixed"><div class="filter-container" id="bank-filter-container"></div></div>
         
-        <div class="status-filter-container" style="margin-top: 1rem;">
+        <div class="status-filter-container">
             <button class="status-filter-button active" data-status="ongoing"><i class="fas fa-running"></i> 正在进行</button>
             <button class="status-filter-button" data-status="upcoming"><i class="fas fa-hourglass-start"></i> 即将开始</button>
             <button class="status-filter-button" data-status="finished"><i class="fas fa-check-double"></i> 已结束</button>
         </div>
 
-        <div class="section-title-card"><h2><i class="fas fa-calendar-day mr-3 text-xl" style="color: var(--color-success);"></i> 日常活动 (DailyTask)</h2></div><div id="routine-tasks-list"></div>
-        <div class="section-title-card"><h2><i class="fas fa-tasks mr-3 text-xl" style="color: var(--color-mission-reward);"></i> 做任务领红包 (MissionReward)</h2></div><div id="mission-rewards-list"></div>
-        <div class="section-title-card"><h2><i class="fas fa-sack-dollar mr-3 text-xl" style="color: var(--color-highlight);"></i> 存款理财 (Deposit)</h2></div><div id="savings-tasks-list"></div>
+        <div class="section-title-card"><h2><i class="fas fa-calendar-day mr-3 text-xl" style="color: var(--color-success);"></i> 日常活动</h2></div><div id="routine-tasks-list"></div>
+        <div class="section-title-card"><h2><i class="fas fa-tasks mr-3 text-xl" style="color: var(--color-mission-reward);"></i> 做任务领红包</h2></div><div id="mission-rewards-list"></div>
+        <div class="section-title-card"><h2><i class="fas fa-sack-dollar mr-3 text-xl" style="color: var(--color-highlight);"></i> 存款理财</h2></div><div id="savings-tasks-list"></div>
         
         <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'bank' })">
             <h2><i class="fas fa-crown mr-2"></i> 高级会员专区</h2><p>AI赋能ʕʘ̅͜ʘ̅ʔ 改变生活</p>
@@ -166,13 +166,7 @@
         }
         
         function toggleSpeech(btn,t){if(!synth)return; if(btn.classList.contains('speaking')){synth.cancel();btn.classList.remove('speaking');btn.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`;return;} synth.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='zh-CN'; u.rate=0.75; u.onstart=()=>{speakingButton=btn; btn.classList.add('speaking'); btn.innerHTML=`<i class="fas fa-wave-square"></i> 播放中`;}; u.onend=()=>{btn.classList.remove('speaking'); btn.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`;}; synth.speak(u);}
-        function share(btn) {
-            const url = `${location.origin}${location.pathname.replace('bank.html','go.html')}?id=${btn.dataset.id}`;
-            if (navigator.share) { navigator.share({ title: '慧伴管家', text: 'Check out this activity!', url: url }).catch(console.error); }
-            else {
-                try { const t=document.createElement('textarea'); t.value=`活动分享：${url}`; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); const old=btn.innerHTML; btn.innerHTML=`<i class="fas fa-check"></i> 已复制`; setTimeout(()=>btn.innerHTML=old,2000); } catch(e){ alert(url); }
-            }
-        }
+        function share(btn){ const url=`${location.origin}${location.pathname.replace('bank.html','go.html')}?id=${btn.dataset.id}`; if (navigator.share) { navigator.share({ title: '慧伴管家', text: 'Check out this activity!', url: url }).catch(console.error); } else { try{const t=document.createElement('textarea'); t.value=`活动分享：${url}`; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); const old=btn.innerHTML; btn.innerHTML=`<i class="fas fa-check"></i> 已复制`; setTimeout(()=>btn.innerHTML=old,2000);}catch(e){alert(url);} } }
         
         function updateTimers(){
             const now=Date.now();
