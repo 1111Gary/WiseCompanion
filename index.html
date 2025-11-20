@@ -4,12 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>慧伴管家</title>
-    <!-- Umami 统计 -->
-    <script async defer 
-        data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" 
-        src="https://umami.example.com/script.js" 
-        data-do-not-track="true" 
-        data-domains="1111gary.github.io"></script>
+    <script async defer src="https://umami.example.com/script.js" data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" data-do-not-track="true" data-domains="1111gary.github.io"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -31,7 +26,16 @@
         .nav-card:hover { transform: scale(1.03); background: #27354F; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
         .icon-box { width: 54px; height: 54px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         
-        /* 统一高级会员卡 */
+        /* [核心] 统一配色 */
+        /* Checkin: Green */
+        .icon-checkin { background: linear-gradient(135deg, #10B981, #34D399); }
+        /* Video: Red/Rose */
+        .icon-video { background: linear-gradient(135deg, #F43F5E, #FB7185); }
+        /* Bank: Blue */
+        .icon-bank { background: linear-gradient(135deg, #3B82F6, #60A5FA); }
+        /* Shopping: Purple */
+        .icon-shopping { background: linear-gradient(135deg, #8B5CF6, #C084FC); }
+
         .premium-card {
             display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 30px 20px; text-align: center;
             border: 2px solid transparent; border-image: linear-gradient(135deg, #FACC15, #F472B6); border-image-slice: 1;
@@ -50,22 +54,22 @@
 
     <div class="nav-grid">
         <a href="./checkin.html" class="nav-card">
-            <div class="icon-box" style="background: linear-gradient(135deg, #10B981, #34D399);"><i class="fas fa-calendar-check"></i></div>
+            <div class="icon-box icon-checkin"><i class="fas fa-calendar-check"></i></div>
             <h3 class="font-bold text-lg">天天有奖</h3>
             <p class="text-xs text-gray-400 mt-1">每日签到领福利</p>
         </a>
         <a href="./video.html" class="nav-card">
-            <div class="icon-box" style="background: linear-gradient(135deg, #8B5CF6, #C084FC);"><i class="fas fa-play-circle"></i></div>
+            <div class="icon-box icon-video"><i class="fas fa-play-circle"></i></div>
             <h3 class="font-bold text-lg">看视频赚</h3>
             <p class="text-xs text-gray-400 mt-1">刷视频得金币</p>
         </a>
         <a href="./bank.html" class="nav-card">
-            <div class="icon-box" style="background: linear-gradient(135deg, #3B82F6, #60A5FA);"><i class="fas fa-hand-holding-usd"></i></div>
+            <div class="icon-box icon-bank"><i class="fas fa-hand-holding-usd"></i></div>
             <h3 class="font-bold text-lg">捡钱任务</h3>
             <p class="text-xs text-gray-400 mt-1">银行活动大集合</p>
         </a>
         <a href="./shopping.html" class="nav-card">
-            <div class="icon-box" style="background: linear-gradient(135deg, #06B6D4, #22D3EE);"><i class="fas fa-tags"></i></div>
+            <div class="icon-box icon-shopping"><i class="fas fa-tags"></i></div>
             <h3 class="font-bold text-lg">省钱秘籍</h3>
             <p class="text-xs text-gray-400 mt-1">消费出行优惠券</p>
         </a>
