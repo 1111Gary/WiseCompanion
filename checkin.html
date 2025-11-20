@@ -15,17 +15,18 @@
             --color-primary: #10B981; --color-highlight: #FACC15;
             --color-checkin-1: #10B981; --grad-checkin-1: linear-gradient(135deg, #10B981, #34D399);
             --color-checkin-2: #EC4899; --grad-checkin-2: linear-gradient(135deg, #EC4899, #F472B6);
-            --color-bank-bg: #1F2A40; --color-card-bg: #1E293B;
+            --color-premium-border: linear-gradient(135deg, #10B981, #FACC15);
+            --color-special-note: #F59E0B; --color-bank-bg: #1F2A40; --color-card-bg: #1E293B;
         }
-        /* [核心] body 增加顶部安全距离，防止初始内容被挡 */
         body { background: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; padding-top: max(20px, env(safe-area-inset-top)); }
 
+        /* 主横幅 (标题已恢复) */
         .main-banner-card { background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px 20px; text-align: center; border: 3px solid transparent; background-clip: padding-box, border-box; background-origin: padding-box, border-box; border-image: linear-gradient(to right, var(--color-checkin-1), var(--color-highlight)); border-image-slice: 1; margin: 1rem 0; box-shadow: 0 10px 30px -10px rgba(16,185,129,0.2); }
         .main-banner-card h1 { font-size: 1.5rem; font-weight: 900; background: linear-gradient(to right, #fff, #d1fae5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .main-banner-card p { color: var(--color-text-muted); font-size: 0.9rem; margin-top: 8px; }
 
-        /* [核心] 吸顶位置设为 env(safe-area-inset-top)，避开刘海 */
-        .status-filter-container { display: flex; justify-content: space-between; padding: 4px; margin: 1rem 0 2rem 0; background: #1E293B; border-radius: 100px; border: 1px solid rgba(255,255,255,0.05); position: sticky; top: env(safe-area-inset-top); z-index: 40; box-shadow: 0 4px 20px rgba(0,0,0,0.4); backdrop-filter: blur(10px); }
+        /* 状态筛选器 (吸顶) */
+        .status-filter-container { display: flex; justify-content: space-between; padding: 4px; margin: 1rem 0 2rem 0; background: #1E293B; border-radius: 100px; border: 1px solid rgba(255,255,255,0.05); position: sticky; top: 0; z-index: 40; box-shadow: 0 4px 20px rgba(0,0,0,0.4); backdrop-filter: blur(10px); }
         .status-button { flex: 1; padding: 10px 0; border-radius: 100px; font-size: 0.85rem; font-weight: 600; color: #94A3B8; background: transparent; transition: all 0.3s; }
         .status-button.active[data-status="Active"] { color: #fff; background: #10B981; box-shadow: 0 2px 10px rgba(16,185,129,0.3); }
         .status-button.active[data-status="Upcoming"] { color: #fff; background: #EC4899; box-shadow: 0 2px 10px rgba(236,72,153,0.3); }
@@ -34,21 +35,24 @@
         .section-title-card { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 12px; padding: 15px 20px; margin-top: 2rem; margin-bottom: 1rem; border: 2px solid transparent; border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight)); border-image-slice: 1; display: flex; align-items: center; }
         .section-title-card h2 { font-size: 1.25rem; font-weight: 800; margin-left: 10px; color: #fff; }
         
+        /* 任务卡片 */
         .task-list-card { background: var(--color-bank-bg); border-radius: 15px; padding: 15px 20px; margin-bottom: 15px; border-left: 5px solid; position: relative; box-shadow: 0 2px 10px rgba(0,0,0,0.4); display: flex; flex-direction: column; }
         .task-checkin-1 { border-color: var(--color-checkin-1); } .icon-checkin-1 { background: var(--grad-checkin-1); }
         .task-checkin-2 { border-color: var(--color-checkin-2); } .icon-checkin-2 { background: var(--grad-checkin-2); }
 
-        .task-main-content { display: flex; align-items: center; width: 100%; margin-top: 25px; }
-        .task-icon { width: 44px; height: 44px; border-radius: 12px; color: #fff; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
+        /* [修复] 布局强制为 Row，确保图标在左，标题在右 */
+        .task-main-content { display: flex; flex-direction: row; align-items: flex-start; width: 100%; margin-top: 25px; }
+        .task-icon { width: 40px; height: 40px; border-radius: 8px; color: #fff; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
         
-        .task-content { flex: 1; min-width: 0; } 
-        .task-header-row { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
-        .task-title { font-size: 1.05rem; font-weight: 700; color: #F1F5F9; line-height: 1.2; margin-right: 5px; }
-        .task-subtitle { font-size: 0.85rem; color: #94A3B8; margin-top: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .task-content { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; } 
+        .task-header-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+        .task-title { font-size: 1rem; font-weight: 700; color: #F1F5F9; line-height: 1.3; }
+        .task-subtitle { font-size: 0.8rem; color: #94A3B8; margin-top: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         
         .countdown-badge { position: absolute; top: 0; right: 0; background: #EC4899; color: #fff; padding: 4px 10px; border-radius: 0 15px 0 12px; font-size: 0.75rem; font-weight: 700; z-index: 4; box-shadow: 0 2px 4px rgba(236,72,153,0.3); }
         .countdown-badge.expired { background: #334155; color: #94A3B8; box-shadow: none; }
-        .special-note-badge { font-size: 0.7rem; background: linear-gradient(to right, #F59E0B, #FBBF24); color: #000; padding: 2px 8px; border-radius: 6px; font-weight: 700; flex-shrink: 0; margin-left: 8px; display: inline-block; vertical-align: middle; box-shadow: 0 1px 3px rgba(0,0,0,0.3); margin-top: 2px; }
+        
+        .special-note-badge { font-size: 0.7rem; background: linear-gradient(to right, #F59E0B, #FBBF24); color: #000; padding: 1px 8px; border-radius: 4px; font-weight: 700; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
 
         .task-action-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--color-card-bg); }
         .share-button { background-color: var(--color-card-bg); color: var(--color-primary); border: 1px solid var(--color-primary); font-weight: 600; padding: 8px 15px; border-radius: 9999px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px; }
@@ -68,6 +72,8 @@
 </head>
 <body>
     <main class="container mx-auto px-4 py-2">
+        <div class="main-banner-card"><h1>天天有奖 </h1><p>每日签到，领取您的专属奖励</p></div>
+        
         <div class="status-filter-container">
             <button class="status-button active" data-status="Active"><i class="fas fa-fire-alt"></i> 正在进行</button>
             <button class="status-button" data-status="Upcoming"><i class="fas fa-hourglass-start"></i> 即将开始</button>
@@ -99,11 +105,8 @@
         const CATEGORY_MAP = { 'DailyCheckin': { borderClass: 'task-checkin-1', iconClass: 'icon-checkin-1', faIcon: 'fa-calendar-check' }, 'Voucher': { borderClass: 'task-checkin-2', iconClass: 'icon-checkin-2', faIcon: 'fa-stopwatch' } };
         const synth = window.speechSynthesis; let currentUtterance = null, speakingButton = null; 
 
-        // [核心] 滚动位置记忆逻辑
-        function restoreScroll() {
-            const savedY = sessionStorage.getItem('scrollY_checkin');
-            if (savedY) window.scrollTo(0, parseInt(savedY));
-        }
+        // [核心] 滚动位置记忆
+        function restoreScroll() { const savedY = sessionStorage.getItem('scrollY_checkin'); if (savedY) window.scrollTo(0, parseInt(savedY)); }
         window.addEventListener('beforeunload', () => { sessionStorage.setItem('scrollY_checkin', window.scrollY); });
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -118,7 +121,6 @@
                         stopSpeech(); renderActivities();
                     };
                 });
-                // 数据加载并渲染后，恢复滚动位置
                 setTimeout(restoreScroll, 100); 
             });
         });
@@ -152,7 +154,7 @@
                     <div class="task-icon ${s.iconClass}"><i class="fa-solid ${s.faIcon}"></i></div>
                     <div class="task-content">
                         <div class="task-header-row">
-                            <div class="task-title">${act.name}</div>
+                            <span class="task-title">${act.name}</span>
                             ${act.specialNote ? `<span class="special-note-badge">${act.specialNote}</span>` : ''}
                         </div>
                         <div class="task-subtitle">${act.description||''}</div>
