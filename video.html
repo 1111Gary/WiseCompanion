@@ -10,16 +10,17 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     <style>
-        /* [修改] 赤红主题 (Rose) */
+        /* 赤红主题 */
         :root { --color-bg-dark:#0B1120; --color-primary:#F43F5E; --color-highlight:#FACC15; --color-premium-border:linear-gradient(135deg, #F43F5E, #FACC15); --color-bank-bg: #1F2A40; --color-card-bg: #1E293B; }
-        body { background: var(--color-bg-dark); color: #F1F5F9; padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; padding-top: env(safe-area-inset-top); }
+        /* [核心] 顶部安全距离 */
+        body { background: var(--color-bg-dark); color: #F1F5F9; padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; padding-top: max(20px, env(safe-area-inset-top)); }
         
         .main-banner-card { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px 20px; text-align: center; margin: 1rem 0; border: 3px solid transparent; border-image: linear-gradient(to right, #F43F5E, #FACC15); border-image-slice: 1; }
         .main-banner-card h1 { font-size: 1.5rem; font-weight: 900; background: linear-gradient(to right, #fff, #fecdd3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        .status-filter-container { display: flex; justify-content: space-between; padding: 4px; margin: 1rem 0; background: #1E293B; border-radius: 100px; border: 1px solid rgba(255,255,255,0.05); position: sticky; top: 0; z-index: 40; box-shadow: 0 4px 20px rgba(0,0,0,0.4); backdrop-filter: blur(10px); }
+        /* [核心] 吸顶避开刘海 */
+        .status-filter-container { display: flex; justify-content: space-between; padding: 4px; margin: 1rem 0; background: #1E293B; border-radius: 100px; border: 1px solid rgba(255,255,255,0.05); position: sticky; top: env(safe-area-inset-top); z-index: 40; box-shadow: 0 4px 20px rgba(0,0,0,0.4); backdrop-filter: blur(10px); }
         .status-button { flex: 1; padding: 10px 0; border-radius: 100px; font-size: 0.85rem; font-weight: 600; color: #94A3B8; background: transparent; transition: all 0.3s; }
-        /* 点击变色 */
         .status-button.active[data-status="Active"] { color: #fff; background: #F43F5E; box-shadow: 0 2px 12px rgba(244, 63, 94, 0.5); }
         .status-button.active[data-status="Upcoming"] { color: #fff; background: #FACC15; box-shadow: 0 2px 12px rgba(250, 204, 21, 0.5); color: #000; }
         .status-button.active[data-status="Expired"] { color: #fff; background: #64748B; box-shadow: none; }
@@ -33,7 +34,6 @@
         .action-button-voice.speaking { background: #F43F5E; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%{opacity:1} 50%{opacity:0.7} 100%{opacity:1} }
         
-        /* 粉红倒计时 */
         .countdown-badge { position: absolute; top: 0; right: 0; background: #EC4899; color: #fff; padding: 3px 10px; border-radius: 0 16px 0 10px; font-size: 0.75rem; font-weight: 700; box-shadow: 0 2px 4px rgba(236, 72, 153, 0.4); z-index: 4; }
         .countdown-badge.upcoming { background: #FACC15; color: #000; }
         .countdown-badge.expired { background: #334155; color: #94A3B8; box-shadow: none; }
@@ -41,7 +41,7 @@
         .premium-card { display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 30px 20px; text-align: center; border: 2px solid transparent; border-image: var(--color-premium-border); border-image-slice: 1; margin-top: 3rem; text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
         .premium-card h2 { font-size: 1.3rem; font-weight: 800; background: var(--color-premium-border); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
 
-        .tab-bar { position: fixed; bottom: 0; width: 100%; height: 65px; background: rgba(11,17,32,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); z-index: 50; }
+        .tab-bar { position: fixed; bottom: 0; width: 100%; height: 65px; background: rgba(11,17,32,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); z-index: 50; padding-bottom: env(safe-area-inset-bottom); }
         .tab-item { display: flex; flex-direction: column; align-items: center; color: #94A3B8; font-size: 0.7rem; }
         .tab-item.active { color: #F43F5E; }
     </style>
@@ -75,6 +75,13 @@
         const synth = window.speechSynthesis; let currentUtterance = null, speakingButton = null;
         let ALL_VIDEOS = [], currentStatus = 'Active';
 
+        // [核心] 滚动记忆
+        function restoreScroll() {
+            const savedY = sessionStorage.getItem('scrollY_video');
+            if (savedY) window.scrollTo(0, parseInt(savedY));
+        }
+        window.addEventListener('beforeunload', () => { sessionStorage.setItem('scrollY_video', window.scrollY); });
+
         document.addEventListener('DOMContentLoaded', () => {
             fetch('./activities.json').then(r=>r.json()).then(data => {
                 ALL_VIDEOS = data.filter(a => a.category && a.category.includes('Video'));
@@ -87,6 +94,7 @@
                         stopSpeech(); render();
                     };
                 });
+                setTimeout(restoreScroll, 100);
             });
         });
 
@@ -105,7 +113,6 @@
         function renderCard(v, status) {
             let btn = '';
             const isExp = status === 'Expired';
-            // [修正] 按钮逻辑: 链接 > 语音 > 暂无
             if(v.link && v.link!=='#') btn = `<a href="${v.link}" target="_blank" class="action-button ${isExp?'opacity-50':''}"><i class="fas fa-rocket"></i> 去观看</a>`;
             else if(v.StepsText) btn = `<button class="action-button action-button-voice ${isExp?'opacity-50':''}" data-steps="${v.StepsText.replace(/"/g,'&quot;')}" ${isExp?'disabled':''}><i class="fas fa-volume-high"></i> 播放语音</button>`;
             else btn = `<button class="action-button opacity-50 cursor-not-allowed" disabled>暂无指引</button>`;
