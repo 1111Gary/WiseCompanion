@@ -19,13 +19,14 @@
             --grad-bank-2: linear-gradient(135deg, #EC4899, #F472B6);
             --grad-bank-3: linear-gradient(135deg, #F59E0B, #FCD34D);
         }
-        body { background-color: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: calc(85px + env(safe-area-inset-bottom)); font-family: 'Inter', sans-serif; overflow-x: hidden; padding-top: env(safe-area-inset-top); }
+        /* [核心] 顶部安全距离 */
+        body { background-color: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: calc(85px + env(safe-area-inset-bottom)); font-family: 'Inter', sans-serif; overflow-x: hidden; padding-top: max(20px, env(safe-area-inset-top)); }
         
         .main-banner-card { background: linear-gradient(135deg, #0f1627, #1a2233); border-radius: 20px; padding: 25px 20px; text-align: center; border: 3px solid transparent; background-clip: padding-box, border-box; background-origin: padding-box, border-box; border-image: linear-gradient(to right, #00BFFF, var(--color-highlight)); border-image-slice: 1; margin-bottom: 1.5rem; margin-top: 1rem; }
         .main-banner-card h1 { font-size: 1.5rem; font-weight: 900; text-shadow: 0 0 5px var(--color-highlight); }
 
-        /* 筛选栏吸顶 (Top 0) */
-        .platform-filter-fixed { position: sticky; top: 0; z-index: 50; background-color: rgba(10, 19, 34, 0.95); backdrop-filter: blur(10px); padding-top: 10px; padding-bottom: 10px; margin-left: -1rem; margin-right: -1rem; padding-left: 1rem; padding-right: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        /* [核心] 吸顶避开刘海 */
+        .platform-filter-fixed { position: sticky; top: env(safe-area-inset-top); z-index: 50; background-color: rgba(10, 19, 34, 0.95); backdrop-filter: blur(10px); padding-top: 10px; padding-bottom: 10px; margin-left: -1rem; margin-right: -1rem; padding-left: 1rem; padding-right: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .filter-container { overflow-x: auto; white-space: nowrap; scrollbar-width: none; display: flex; gap: 10px; }
         
         .status-filter-container { margin-bottom: 2rem; display: flex; background-color: var(--color-card-bg); border-radius: 9999px; padding: 5px; margin-top: 1rem; }
@@ -47,7 +48,6 @@
         .task-mission { border-color: var(--color-mission-reward); } .icon-mission { background: var(--grad-bank-2); }
         .task-savings { border-color: var(--color-highlight); } .icon-savings { background: var(--grad-bank-3); }
         
-        /* [核心] 倒计时粉红高亮 */
         .countdown-badge { position: absolute; top: 0; right: 0; background: #EC4899; color: #fff; padding: 3px 10px; border-radius: 0 16px 0 10px; font-size: 0.75rem; font-weight: 700; z-index: 4; box-shadow: 0 2px 8px rgba(236, 72, 153, 0.4); }
         .countdown-badge.expired { background-color: #EF4444; color: white; box-shadow: none; }
         .special-note-badge { background-color: var(--color-special-note); color: var(--color-bg-dark); padding: 4px 10px; border-radius: 0 0 8px 8px; font-size: 0.75rem; font-weight: 700; z-index: 5; margin-right: -5px; transform: translateY(-2px); box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
@@ -80,7 +80,7 @@
         
         <div class="platform-filter-fixed"><div class="filter-container" id="bank-filter-container"></div></div>
         
-        <div class="status-filter-container">
+        <div class="status-filter-container" style="margin-top: 1rem;">
             <button class="status-filter-button active" data-status="ongoing"><i class="fas fa-running"></i> 正在进行</button>
             <button class="status-filter-button" data-status="upcoming"><i class="fas fa-hourglass-start"></i> 即将开始</button>
             <button class="status-filter-button" data-status="finished"><i class="fas fa-check-double"></i> 已结束</button>
@@ -109,11 +109,16 @@
         const CATEGORY_MAP={'DailyTask':{border:'task-routine',icon:'icon-routine',fa:'fa-calendar-day'},'MissionReward':{border:'task-mission',icon:'icon-mission',fa:'fa-tasks'},'Deposit':{border:'task-savings',icon:'icon-savings',fa:'fa-sack-dollar'}};
         const synth=window.speechSynthesis; let currentUtterance=null, speakingButton=null;
 
+        // [核心] 记忆位置
+        function restoreScroll() { const savedY = sessionStorage.getItem('scrollY_bank'); if (savedY) window.scrollTo(0, parseInt(savedY)); }
+        window.addEventListener('beforeunload', () => { sessionStorage.setItem('scrollY_bank', window.scrollY); });
+
         document.addEventListener('DOMContentLoaded', () => {
             fetch('./activities.json').then(r=>r.json()).then(data => {
                 ALL_ACTIVITIES = data.filter(a => a.category && (a.category.includes('DailyTask') || a.category.includes('Deposit') || a.category.includes('MissionReward')));
                 initFilters(); render(); setInterval(updateTimers, 1000);
                 document.querySelectorAll('.status-filter-button').forEach(b => b.onclick=e=>{selectedStatus=e.currentTarget.dataset.status; document.querySelectorAll('.status-filter-button').forEach(x=>x.classList.remove('active')); e.currentTarget.classList.add('active'); render();});
+                setTimeout(restoreScroll, 100);
             });
         });
 
