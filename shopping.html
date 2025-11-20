@@ -4,1005 +4,184 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>慧伴管家 - 省钱秘籍</title>
-    
-    <!-- Umami 统计 -->
-    <script async defer 
-        data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" 
-        src="https://umami.example.com/script.js" 
-        data-do-not-track="true" 
-        data-domains="1111gary.github.io"></script>
-
+    <script async defer src="https://umami.example.com/script.js" data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" data-do-not-track="true" data-domains="1111gary.github.io"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="慧伴管家">
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
-    
     <style>
-        /* ---------------------------------------------------- */
-        /* 【 核心 】 顶级设计师配色系统：Neon Consumer */
-        /* ---------------------------------------------------- */
         :root {
-            --color-bg-dark: #0B1120; /* 更深邃的蓝黑底色 */
-            --color-card-bg: #1E293B; /* 稍微提亮的卡片背景 */
-            --color-text-light: #F1F5F9;
-            --color-text-muted: #94A3B8;
-            
-            /* 品牌色 */
-            --color-primary: #38BDF8; /* 天空蓝 */
-            --color-highlight: #FACC15; /* 亮金色 */
-            
-            /* 辅助色 */
-            --color-bank-bg: #1E293B; 
-            --color-success: #10B981; 
-            --color-special-note: #F59E0B; 
+            --color-bg-dark: #0B1120; --color-card-bg: #1E293B; --color-text-light: #F1F5F9; --color-text-muted: #94A3B8;
+            --color-primary: #38BDF8; --color-highlight: #FACC15; --color-success: #10B981;
+            --color-shopping-1: #8B5CF6; --color-shopping-2: #F59E0B; --color-shopping-3: #06B6D4;
             --color-premium-border: linear-gradient(135deg, #FACC15, #F472B6);
-
-            /* [设计升级] 业务渐变色系统 */
-            /* 1. 购物 (PaymentDiscount) - 幻影紫渐变 */
-            --grad-shopping-1: linear-gradient(135deg, #8B5CF6, #C084FC); 
-            --color-shopping-1: #8B5CF6; 
-
-            /* 2. 缴费 (PaymentBill) - 活力橙渐变 */
-            --grad-shopping-2: linear-gradient(135deg, #F59E0B, #FBBF24); 
-            --color-shopping-2: #F59E0B; 
-
-            /* 3. 出行 (TravelDiscount) - 极光青渐变 */
-            --grad-shopping-3: linear-gradient(135deg, #06B6D4, #2DD4BF); 
-            --color-shopping-3: #06B6D4; 
-
-            /* 状态栏激活背景 (使用全局渐变) */
-            --grad-status-active: linear-gradient(to right, #3B82F6, #06B6D4); 
+            --color-bank-bg: #1F2A40; --color-secondary: #FF69B4; --color-special-note: #F59E0B;
         }
-
-        body { 
-            background-color: var(--color-bg-dark); 
-            color: var(--color-text-light); 
-            padding-bottom: calc(85px + env(safe-area-inset-bottom)); 
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-        }
+        body { background: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
-        /* 顶部导航栏 */
-        .header-bar-fixed { 
-            padding-top: calc(15px + env(safe-area-inset-top)); 
-            padding-bottom: 5px; 
-            background-color: rgba(11, 17, 32, 0.95); /* 增加透明度 */
-            backdrop-filter: blur(10px); /* 毛玻璃效果 */
-            position: sticky;
-            top: 0;
-            z-index: 20;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 60px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .header-logo-group { display: flex; align-items: center; }
-        .header-logo { width: 32px; height: 32px; margin-right: 10px; }
-        .header-title { font-size: 1.2rem; font-weight: 700; color: var(--color-text-light); }
-        .back-arrow-link {
-            color: var(--color-text-light);
-            font-size: 1.2rem;
-            padding: 8px 12px;
-            border-radius: 12px;
-            background-color: rgba(255,255,255,0.1);
-            transition: all 0.2s;
-        }
+        .header-bar { padding-top: calc(15px + env(safe-area-inset-top)); padding-bottom: 5px; background-color: var(--color-bg-dark); display: flex; align-items: center; justify-content: space-between; height: 60px; padding-left: 1rem; padding-right: 1rem; }
+        .header-logo { width: 32px; height: 32px; margin-right: 10px; } .header-title { font-size: 1.1rem; font-weight: 800; } .back-arrow-link { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.1); color: #fff; }
         
-        /* 主横幅 */
-        .main-banner-card {
-            background: linear-gradient(145deg, #1e293b, #0f172a);
-            border-radius: 24px;
-            padding: 30px 20px;
-            text-align: center;
-            border: 2px solid transparent; 
-            background-clip: padding-box, border-box;
-            background-origin: padding-box, border-box;
-            /* 使用极光青作为边框主色调 */
-            border-image: linear-gradient(to right, var(--color-shopping-3), var(--color-shopping-1));
-            border-image-slice: 1;
-            box-shadow: 0 10px 30px -10px rgba(6, 182, 212, 0.3);
-            margin-bottom: 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-        /* 增加横幅的光泽感 */
-        .main-banner-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
-            pointer-events: none;
-        }
+        .main-banner-card { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px 20px; text-align: center; border: 3px solid transparent; background-clip: padding-box, border-box; background-origin: padding-box, border-box; border-image: linear-gradient(to right, var(--color-shopping-3), var(--color-shopping-1)); border-image-slice: 1; margin-bottom: 1.5rem; }
+        .main-banner-card h1 { font-size: 1.5rem; font-weight: 900; } .main-banner-card p { color: var(--color-text-muted); font-size: 0.9rem; margin-top: 8px; }
 
-        .main-banner-card h1 {
-            font-size: 1.8rem;
-            font-weight: 900;
-            background: linear-gradient(to right, #fff, #cbd5e1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
-        }
-        .main-banner-card p { color: var(--color-text-muted); font-size: 0.95rem; margin-top: 8px;}
+        .filter-sticky-wrapper { position: sticky; top: 0; z-index: 50; background-color: rgba(11,17,32,0.95); backdrop-filter: blur(10px); padding: 10px 1rem; margin: 0 -1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .filter-container { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 5px; }
+        .filter-button { display: inline-flex; align-items: center; padding: 8px 16px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; background: rgba(30,41,59,0.8); color: var(--color-text-muted); border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; transition: all 0.3s; }
+        .filter-button.active { background: var(--color-primary); color: #000; border-color: transparent; box-shadow: 0 0 15px rgba(56,189,248,0.4); }
         
-        /* ---------------------------------------------------- */
-        /* 筛选器样式 (吸顶 + 玻璃质感) */
-        /* ---------------------------------------------------- */
-        .filter-container {
-            padding: 12px 0;
-            overflow-x: auto;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .filter-container::-webkit-scrollbar { display: none; }
-        
-        .filter-container.sticky-top-16 {
-            position: sticky;
-            top: 60px;
-            z-index: 15;
-            background-color: rgba(11, 17, 32, 0.9); /* 半透明背景 */
-            backdrop-filter: blur(12px); /* 强力毛玻璃 */
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            margin-left: -1rem; 
-            margin-right: -1rem;
-            padding-left: 1rem;
-            padding-right: 1rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-        
-        .filter-button {
-            display: inline-flex;
-            align-items: center;
-            padding: 8px 16px;
-            border-radius: 100px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            background-color: rgba(30, 41, 59, 0.8);
-            color: var(--color-text-muted);
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
-            flex-shrink: 0;
-        }
-        .filter-button.active {
-            background: var(--color-primary);
-            color: #000;
-            border-color: transparent;
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); /* 蓝色微光 */
-            font-weight: 700;
-        }
-        .filter-button i { margin-right: 6px; }
+        .status-filter-container { display: flex; margin-top: 10px; background-color: var(--color-card-bg); border-radius: 9999px; padding: 5px; }
+        .status-button { flex: 1; text-align: center; padding: 8px 10px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; color: var(--color-text-muted); background: transparent; transition: all 0.3s; }
+        .status-button.active { color: #fff; background: var(--color-shopping-2); box-shadow: 0 4px 12px rgba(245,158,11,0.4); }
 
-        /* 状态筛选器 (Status Filter) */
-        .status-filter-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 4px; 
-            margin-top: 1rem; 
-            margin-bottom: 2rem; 
-            background-color: #1E293B; 
-            border-radius: 100px;
-            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3); /* 内阴影，增加凹陷感 */
-            border: 1px solid rgba(255,255,255,0.05);
-        }
+        .section-title-card { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 12px; padding: 15px 20px; margin-top: 2rem; margin-bottom: 1rem; border: 2px solid transparent; border-image: linear-gradient(to right, var(--color-primary), var(--color-highlight)); border-image-slice: 1; }
+        .section-title-card h2 { font-size: 1.25rem; font-weight: 800; }
+        
+        .task-list-card { background: #1F2A40; border-radius: 15px; padding: 15px 20px; margin-bottom: 15px; border-left: 5px solid; position: relative; box-shadow: 0 2px 10px rgba(0,0,0,0.4); }
+        .task-shopping-1 { border-color: var(--color-shopping-1); } .icon-shopping-1 { background: var(--color-shopping-1); }
+        .task-shopping-2 { border-color: var(--color-shopping-2); } .icon-shopping-2 { background: var(--color-shopping-2); }
+        .task-shopping-3 { border-color: var(--color-shopping-3); } .icon-shopping-3 { background: var(--color-shopping-3); }
+        
+        .badges-container { position: absolute; top: 0; right: 0; display: flex; align-items: flex-start; }
+        .countdown-badge { background-color: var(--color-primary); color: #000; padding: 4px 10px; border-radius: 0 15px 0 12px; font-size: 0.75rem; font-weight: 700; z-index: 4; }
+        .countdown-badge.expired { background-color: #334155; color: #94A3B8; }
+        .special-note-badge { background-color: var(--color-special-note); color: #000; padding: 4px 10px; border-radius: 0 0 8px 8px; font-size: 0.75rem; font-weight: 700; z-index: 5; margin-right: -5px; transform: translateY(-2px); box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
 
-        .status-button {
-            flex: 1; 
-            text-align: center;
-            padding: 10px 0;
-            border-radius: 100px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--color-text-muted); 
-            background-color: transparent; 
-            border: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            position: relative;
-            overflow: hidden;
-        }
-
-        .status-button.active {
-            color: white; 
-            background: var(--color-shopping-2); /* 默认使用活力橙 */
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-        }
-        /* 为不同状态定制颜色 */
-        .status-button[data-status="Active"].active { background: var(--color-success); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4); }
-        .status-button[data-status="Upcoming"].active { background: var(--color-shopping-1); box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4); }
-        .status-button[data-status="Expired"].active { background: #64748B; box-shadow: none; }
-        
-        /* 分区标题 */
-        .section-title-card {
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 16px;
-            padding: 12px 0;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            position: relative;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .section-title-card h2 {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: var(--color-text-light);
-            padding-left: 15px;
-            display: flex;
-            align-items: center;
-        }
-        .section-description { color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 1rem; padding-left: 5px; line-height: 1.5; }
-
-        /* 任务列表卡片 */
-        .task-list-card {
-            background-color: #1E293B;
-            border-radius: 16px;
-            padding: 18px;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid; 
-            position: relative;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            border-right: 1px solid rgba(255,255,255,0.05);
-            border-bottom: 1px solid rgba(0,0,0,0.2);
-        }
-        .task-list-card:hover {
-            background-color: #27354F;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* [配色应用] 卡片边框与图标 */
-        .task-shopping-1 { border-left-color: var(--color-shopping-1); } 
-        .task-shopping-2 { border-left-color: var(--color-shopping-2); } 
-        .task-shopping-3 { border-left-color: var(--color-shopping-3); } 
-        
-        .task-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            color: #fff; 
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 16px;
-            flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        /* 使用渐变背景的图标 */
-        .icon-shopping-1 { background: var(--grad-shopping-1); }
-        .icon-shopping-2 { background: var(--grad-shopping-2); }
-        .icon-shopping-3 { background: var(--grad-shopping-3); }
-        
-        .task-main-content { display: flex; align-items: center; width: 100%; }
+        .task-main-content { display: flex; align-items: center; width: 100%; margin-top: 10px; }
+        .task-icon { width: 40px; height: 40px; border-radius: 8px; color: #fff; font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
         .task-content { flex-grow: 1; min-width: 0; }
+        .task-title { font-size: 1rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px; }
+        .task-subtitle { font-size: 0.8rem; color: var(--color-text-muted); margin-top: 4px; }
         
-        .task-title {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--color-text-light);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            padding-right: 90px; 
-            margin-bottom: 4px;
-        }
-        .has-special-note .task-title { padding-right: 120px; }
-        .task-subtitle {
-            font-size: 0.85rem;
-            color: var(--color-text-muted);
-            white-space: normal; 
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2; /* 限制两行 */
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
+        .task-action-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--color-card-bg); }
+        .share-button { background-color: var(--color-card-bg); color: #00BFFF; border: 1px solid #00BFFF; font-weight: 600; padding: 8px 15px; border-radius: 9999px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px; }
+        .action-button { background: var(--color-primary); color: #000; padding: 8px 18px; border-radius: 9999px; font-size: 0.8rem; font-weight: 700; min-width: 100px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+        .action-button-voice { background: var(--color-success); }
+        .action-button-voice.speaking { background: #EF4444; color: #fff; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%{opacity:1} 50%{opacity:0.6} 100%{opacity:1} }
         
-        /* 徽章样式优化 */
-        .special-note-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: var(--grad-shopping-2); /* 统一用橙色渐变做Note */
-            color: #000;
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            z-index: 5;
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
-        }
-        .countdown-badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: #334155; /* 默认灰色底 */
-            color: #94A3B8;
-            padding: 4px 12px;
-            border-top-right-radius: 15px;
-            border-bottom-left-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            z-index: 4;
-            letter-spacing: 0.5px;
-        }
-        .special-note-badge + .countdown-badge { top: 42px; right: 15px; border-radius: 6px; }
+        .premium-card { display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px; text-align: center; border: 3px solid transparent; border-image: var(--color-premium-border); border-image-slice: 1; margin-top: 2rem; text-decoration: none; }
+        .premium-card h2 { font-size: 1.3rem; font-weight: 800; background: var(--color-premium-border); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
         
-        /* 按钮组优化 */
-        .task-action-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 16px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-        .share-button {
-            background-color: transparent;
-            color: var(--color-text-muted);
-            border: 1px solid rgba(255,255,255,0.1);
-            font-weight: 600;
-            padding: 6px 14px;
-            border-radius: 9999px;
-            font-size: 0.8rem;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .share-button:hover { background-color: rgba(255,255,255,0.1); color: #fff; }
-
-        .action-button {
-            background: var(--color-primary);
-            color: #000;
-            font-weight: 700;
-            padding: 8px 20px;
-            border-radius: 9999px;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-            text-align: center;
-            min-width: 100px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.4); /* 蓝色光晕 */
-        }
-        .action-button:hover { transform: scale(1.05); filter: brightness(1.1); }
-        
-        .action-button-voice { background: var(--color-success); box-shadow: 0 0 12px rgba(16, 185, 129, 0.4); color: #000; }
-        .action-button-voice.speaking { 
-            background: #EF4444; 
-            color: #fff;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
-            animation: pulse 1.5s infinite; 
-        }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
-        
-        /* 底部导航栏 (保持一致) */
-        .tab-bar {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            display: flex; justify-content: space-around; align-items: center;
-            height: 65px;
-            background-color: rgba(11, 17, 32, 0.95);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: env(safe-area-inset-bottom);
-            z-index: 20;
-        }
-        .tab-item {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-decoration: none; color: var(--color-text-muted);
-            font-size: 0.7rem; font-weight: 500; transition: color 0.2s ease;
-            padding: 5px; flex-grow: 1;
-        }
-        .tab-item.active { color: var(--color-primary); }
-        .tab-icon { font-size: 1.3rem; margin-bottom: 4px; }
-        
-        /* Premium Card */
-        .premium-card {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border-radius: 20px;
-            padding: 25px 20px;
-            text-align: center;
-            border: 2px solid transparent; 
-            background-clip: padding-box, border-box;
-            background-origin: padding-box, border-box;
-            border-image: var(--color-premium-border);
-            border-image-slice: 1;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            margin-top: 3rem;
-            margin-bottom: 1rem;
-            position: relative;
-            text-decoration: none;
-            display: block;
-            transition: all 0.3s ease;
-        }
-        .premium-card:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
-        .premium-card h2 {
-            font-size: 1.3rem; font-weight: 800;
-            background: var(--color-premium-border);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin: 0;
-        }
-        .premium-card p { color: var(--color-text-muted); font-size: 0.9rem; margin-top: 10px; }
+        .tab-bar { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; align-items: center; height: 60px; background-color: var(--color-bg-dark); border-top: 1px solid #1A2233; z-index: 60; padding-bottom: env(safe-area-inset-bottom); }
+        .tab-item { display: flex; flex-direction: column; align-items: center; color: var(--color-text-muted); font-size: 0.75rem; font-weight: 500; }
+        .tab-item.active { color: var(--color-primary); } .tab-icon { font-size: 1.2rem; margin-bottom: 3px; }
     </style>
 </head>
 <body>
-
-    <div class="header-bar-fixed px-4">
-        <div class="header-logo-group">
-            <img src="./assets/icon_apple.png" onerror="this.onerror=null;this.src='https://placehold.co/32x32/00BFFF/ffffff?text=L'" alt="Logo" class="header-logo rounded-md shadow-lg">
-            <h1 class="header-title">慧伴管家</h1>
-        </div>
-        <a href="./index.html" class="back-arrow-link" title="返回首页">
-            <i class="fas fa-arrow-left"></i>
-        </a>
+    <div class="header-bar">
+        <div class="header-logo-group"><img src="./assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/38BDF8/ffffff?text=L'" class="header-logo"><h1 class="header-title">慧伴管家</h1></div>
+        <a href="./index.html" class="back-arrow-link"><i class="fas fa-arrow-left"></i></a>
     </div>
 
     <main class="container mx-auto px-4 py-4">
+        <div class="main-banner-card"><h1>省钱秘籍中心</h1><p>点击下方按钮，仅显示您关注的平台活动</p></div>
         
-        <div class="main-banner-card">
-            <h1>省钱秘籍中心</h1>
-            <p class="text-sm text-gray-400 mt-2">点击下方按钮，仅显示您关注的平台活动</p>
-        </div>
-        
-        <!-- 平台筛选 (Sticky) -->
-        <div class="filter-container sticky-top-16" id="platform-filter-container">
-            <button class="filter-button active" data-platform="All">
-                <i class="fas fa-layer-group"></i>
-                全部平台
-            </button>
+        <div class="filter-sticky-wrapper">
+            <div class="filter-container" id="platform-filter-container"></div>
+            <div class="status-filter-container">
+                <button class="status-button active" data-status="Active"><i class="fas fa-fire-alt"></i> 正在进行</button>
+                <button class="status-button" data-status="Upcoming"><i class="fas fa-hourglass-start"></i> 即将开始</button>
+                <button class="status-button" data-status="Expired"><i class="fas fa-history"></i> 已结束</button>
+            </div>
         </div>
 
-        <!-- 状态筛选 -->
-        <div class="status-filter-container" id="status-filter-container">
-            <button class="status-button active" data-status="Active">
-                <i class="fas fa-fire-alt"></i> 正在进行
-            </button>
-            <button class="status-button" data-status="Upcoming">
-                <i class="fas fa-hourglass-start"></i> 即将开始
-            </button>
-            <button class="status-button" data-status="Expired">
-                <i class="fas fa-history"></i> 已结束
-            </button>
-        </div>
+        <div class="section-title-card"><h2><i class="fas fa-shopping-bag text-[#8B5CF6]"></i> 购物有优惠 (PaymentDiscount)</h2></div><div id="paymentdiscount-list"></div>
+        <div class="section-title-card"><h2><i class="fas fa-bolt text-[#F59E0B]"></i> 缴费有优惠 (PaymentBill)</h2></div><div id="paymentbill-list"></div>
+        <div class="section-title-card"><h2><i class="fas fa-plane-departure text-[#06B6D4]"></i> 出行有优惠 (TravelDiscount)</h2></div><div id="traveldiscount-list"></div>
 
-
-        <!-- 1. 购物有优惠 -->
-        <div class="section-title-card">
-            <h2 class="flex items-center">
-                <i class="fas fa-shopping-bag mr-3 text-xl" style="color: var(--color-shopping-1);"></i>
-                购物有优惠 (PaymentDiscount)
-            </h2>
-        </div>
-        <p class="section-description">
-            使用特定支付方式（如XX卡、XXPay）在商店购物时可享受的折扣或优惠。
-        </p>
-        <div id="paymentdiscount-list" class="mt-4">
-            <!-- JS 加载内容 -->
-        </div>
-        
-        <!-- 2. 缴费有优惠 -->
-        <div class="section-title-card">
-            <h2 class="flex items-center">
-                <i class="fas fa-bolt mr-3 text-xl" style="color: var(--color-shopping-2);"></i>
-                缴费有优惠 (PaymentBill)
-            </h2>
-        </div>
-        <p class="section-description">
-            缴纳生活费用（如水电煤、电话费）时可享受的折扣或立减优惠。
-        </p>
-        <div id="paymentbill-list" class="mt-4">
-             <!-- JS 加载内容 -->
-        </div>
-        
-        <!-- 3. 出行有优惠 -->
-        <div class="section-title-card">
-            <h2 class="flex items-center">
-                <i class="fas fa-plane-departure mr-3 text-xl" style="color: var(--color-shopping-3);"></i>
-                出行有优惠 (TravelDiscount)
-            </h2>
-        </div>
-        <p class="section-description">
-            乘坐交通工具（如打车、公交、火车、飞机）或预订酒店时的优惠。
-        </p>
-        <div id="traveldiscount-list" class="mt-4">
-             <!-- JS 加载内容 -->
-        </div>
-
-        <!-- 付费诱饵 -->
-        <a href="./premium.html" class="premium-card" 
-            onclick="umami.track('click_premium_card', { from: 'shopping' })">
-            <h2 class="flex items-center justify-center">
-                <i class="fas fa-crown mr-2" style="color: var(--color-highlight);"></i>
-                高级会员专区 (敬请期待)
-            </h2>
-            <p>【独家】AI自动生成省钱秘籍演示视频，长辈也能轻松学会！</p>
+        <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'shopping' })">
+            <h2><i class="fas fa-crown mr-2"></i> 高级会员专区</h2><p>【独家】AI自动生成省钱秘籍演示视频</p>
         </a>
-        
+        <div style="height: 40px;"></div>
     </main>
     
     <nav class="tab-bar">
-        <a href="./index.html" class="tab-item">
-            <i class="fas fa-home tab-icon"></i>
-            <span>首页</span>
-        </a>
-        <a href="./checkin.html" class="tab-item">
-            <i class="fas fa-gifts tab-icon"></i>
-            <span>天天有奖</span>
-        </a>
-        <a href="./video.html" class="tab-item">
-            <i class="fas fa-play-circle tab-icon"></i>
-            <span>看视频赚</span>
-        </a>
-        <a href="./bank.html" class="tab-item">
-            <i class="fas fa-hand-holding-usd tab-icon"></i>
-            <span>捡钱任务</span>
-        </a>
-        <span class="tab-item active">
-            <i class="fas fa-tags tab-icon"></i>
-            <span>省钱秘籍</span>
-        </span>
+        <a href="./index.html" class="tab-item"><i class="fas fa-home tab-icon"></i><span>首页</span></a>
+        <a href="./checkin.html" class="tab-item"><i class="fas fa-gifts tab-icon"></i><span>天天有奖</span></a>
+        <a href="./video.html" class="tab-item"><i class="fas fa-play-circle tab-icon"></i><span>看视频赚</span></a>
+        <a href="./bank.html" class="tab-item"><i class="fas fa-hand-holding-usd tab-icon"></i><span>捡钱任务</span></a>
+        <span class="tab-item active"><i class="fas fa-tags tab-icon"></i><span>省钱秘籍</span></span>
     </nav>
     
     <script>
-        // ----------------------------------------------------
-        // 全局状态和数据
-        // ----------------------------------------------------
-        let ALL_ACTIVITIES = [];
-        let selectedPlatform = 'All'; 
-        let globalStatus = 'Active'; 
+        let ALL_ACTIVITIES = [], selectedPlatform = 'All', globalStatus = 'Active';
+        const CATEGORY_MAP = { 'PaymentDiscount': { borderClass:'task-shopping-1', iconClass:'icon-shopping-1', faIcon:'fa-shopping-bag' }, 'PaymentBill': { borderClass:'task-shopping-2', iconClass:'icon-shopping-2', faIcon:'fa-bolt' }, 'TravelDiscount': { borderClass:'task-shopping-3', iconClass:'icon-shopping-3', faIcon:'fa-plane-departure' } };
+        const synth = window.speechSynthesis; let currentUtterance = null, speakingButton = null;
 
-        // [【 核心 】] 分类与样式的映射 (配合新 CSS)
-        const CATEGORY_MAP = {
-            'PaymentDiscount': { borderClass: 'task-shopping-1', iconClass: 'icon-shopping-1', faIcon: 'fa-shopping-bag' },
-            'PaymentBill': { borderClass: 'task-shopping-2', iconClass: 'icon-shopping-2', faIcon: 'fa-bolt' },
-            'TravelDiscount': { borderClass: 'task-shopping-3', iconClass: 'icon-shopping-3', faIcon: 'fa-plane-departure' }
-        };
-
-        // 语音 API
-        const synth = window.speechSynthesis;
-        let currentUtterance = null; 
-        let speakingButton = null; 
-        if (!synth) {
-            console.error("【慧伴管家】: 您的浏览器不支持 Web Speech API 语音播放。");
-        }
-        
-        // ----------------------------------------------------
-        // 步骤 1: 页面加载主入口
-        // ----------------------------------------------------
         document.addEventListener('DOMContentLoaded', () => {
-            try {
-                if(synth && synth.getVoices().length === 0) {
-                    synth.onvoiceschanged = () => { console.log("【慧伴管家】: 语音包已加载。"); };
-                    synth.getVoices(); 
-                }
-            } catch(e) { console.error("【慧伴管家】: 预热语音引擎失败:", e); }
-            
-            loadAndFetchActivities();
-            startCountdownUpdater();
+            fetch('./activities.json').then(r=>r.json()).then(data => {
+                ALL_ACTIVITIES = data.filter(a => a.category && (a.category.includes('PaymentDiscount') || a.category.includes('PaymentBill') || a.category.includes('TravelDiscount')));
+                initFilters(); renderActivities(); setInterval(updateTimers, 1000);
+                document.querySelectorAll('.status-button').forEach(b => b.onclick = e => { globalStatus = e.currentTarget.dataset.status; document.querySelectorAll('.status-button').forEach(x => x.classList.remove('active')); e.currentTarget.classList.add('active'); stopSpeech(); renderActivities(); });
+            });
         });
 
-        async function loadAndFetchActivities() {
-            try {
-                const response = await fetch('./activities.json');
-                if (!response.ok) { throw new Error('网络响应错误，无法加载 activities.json'); }
-                const data = await response.json();
-                
-                // 过滤出 Shopping 相关活动
-                ALL_ACTIVITIES = data.filter(act => 
-                    act.category && (
-                        act.category.includes('PaymentDiscount') || 
-                        act.category.includes('PaymentBill') || 
-                        act.category.includes('TravelDiscount')
-                    )
-                );
-
-                initPlatformFilters();
-                bindStatusFilters();
-                renderActivities();
-                
-            } catch (error) {
-                console.error("加载活动数据失败:", error);
-                const lists = ['paymentdiscount-list', 'paymentbill-list', 'traveldiscount-list'];
-                lists.forEach(id => {
-                    const el = document.getElementById(id);
-                    if(el) el.innerHTML = `<p class="text-red-400 p-4 text-center">加载活动数据失败。请检查网络或 activities.json 文件。</p>`;
-                });
-            }
+        function initFilters() {
+            const c = document.getElementById('platform-filter-container'), s = new Set(); ALL_ACTIVITIES.forEach(a => a.sourceApp && s.add(a.sourceApp));
+            c.innerHTML = `<button class="filter-button active" data-platform="All"><i class="fas fa-layer-group"></i> 全部</button>`;
+            s.forEach(p => { const i = p.includes('淘宝')?'fab fa-taobao':p.includes('京东')?'fa-shield-dog':p.includes('微信')?'fab fa-weixin':p.includes('支付宝')?'fab fa-alipay':'fa-store'; const b = document.createElement('button'); b.className = 'filter-button'; b.innerHTML = `<i class="fa-solid ${i}"></i> ${p}`; b.onclick = () => { selectedPlatform = p; document.querySelectorAll('.filter-button').forEach(x => x.classList.remove('active')); b.classList.add('active'); stopSpeech(); renderActivities(); }; c.appendChild(b); });
+            c.firstChild.onclick = () => { selectedPlatform = 'All'; document.querySelectorAll('.filter-button').forEach(x => x.classList.remove('active')); c.firstChild.classList.add('active'); stopSpeech(); renderActivities(); };
         }
 
-        // ----------------------------------------------------
-        // 步骤 2: 绑定筛选器
-        // ----------------------------------------------------
-        function getPlatformIcon(platformName) {
-            if (platformName.includes('淘宝') || platformName.includes('天猫')) return 'fab fa-taobao';
-            if (platformName.includes('京东')) return 'fa-shield-dog';
-            if (platformName.includes('拼多多')) return 'fa-users';
-            if (platformName.includes('美团')) return 'fa-hamburger';
-            if (platformName.includes('饿了么')) return 'fa-bowl-food';
-            if (platformName.includes('微信')) return 'fab fa-weixin';
-            if (platformName.includes('支付宝')) return 'fab fa-alipay';
-            return 'fa-store'; 
-        }
-
-        function initPlatformFilters() {
-            const container = document.getElementById('platform-filter-container');
-            const platforms = new Set();
-            ALL_ACTIVITIES.forEach(activity => activity.sourceApp && platforms.add(activity.sourceApp));
-
-            container.innerHTML = `
-                <button class="filter-button active" data-platform="All">
-                    <i class="fas fa-layer-group"></i>
-                    全部平台
-                </button>`;
-            
-            platforms.forEach(platform => {
-                const icon = getPlatformIcon(platform); 
-                const button = document.createElement('button');
-                button.className = 'filter-button';
-                button.setAttribute('data-platform', platform);
-                button.innerHTML = `<i class="fa-solid ${icon}"></i> ${platform}`;
-                
-                button.addEventListener('click', (e) => { handleFilterClick(e.currentTarget, platform); });
-                container.appendChild(button);
-            });
-            
-            container.querySelector('[data-platform="All"]').addEventListener('click', (e) => {
-                handleFilterClick(e.currentTarget, 'All');
-            });
-        }
-        
-        function handleFilterClick(clickedButton, platformName) {
-            if (window.umami) { umami.track('filter_platform', { platform: platformName }); }
-            
-            selectedPlatform = platformName;
-            document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
-            clickedButton.classList.add('active');
-            
-            stopSpeech();
-            renderActivities();
-        }
-
-        function bindStatusFilters() {
-            const container = document.getElementById('status-filter-container');
-            container.querySelectorAll('.status-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const btn = e.currentTarget;
-                    const status = btn.getAttribute('data-status');
-                    
-                    globalStatus = status;
-                    
-                    container.querySelectorAll('.status-button').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    
-                    stopSpeech();
-                    renderActivities();
-                });
-            });
-        }
-        
-        // ----------------------------------------------------
-        // 步骤 3: 核心逻辑
-        // ----------------------------------------------------
-        function getActivityStatus(activity) {
-            if (!activity.endDate) return 'Active'; 
-            
-            const now = new Date().getTime();
-            // 健壮性：如果没有startDate，假设已经开始
-            const startDate = activity.startDate ? new Date(activity.startDate).getTime() : now - 1000; 
-            const endDate = new Date(activity.endDate).getTime();
-
-            if (now < startDate) return 'Upcoming'; 
-            if (now > endDate) return 'Expired'; 
-            return 'Active'; 
-        }
+        function getStatus(act) { if (!act.endDate) return 'Active'; const n=Date.now(), s=act.startDate?new Date(act.startDate).getTime():n-1000, e=new Date(act.endDate).getTime(); if(n<s) return 'Upcoming'; if(n>e) return 'Expired'; return 'Active'; }
 
         function renderActivities() {
-            // 1. 平台过滤
-            const filteredActivities = ALL_ACTIVITIES.filter(activity => 
-                selectedPlatform === 'All' || activity.sourceApp === selectedPlatform
-            );
-            
-            const lists = {
-                'PaymentDiscount': document.getElementById('paymentdiscount-list'),
-                'PaymentBill': document.getElementById('paymentbill-list'),      
-                'TravelDiscount': document.getElementById('traveldiscount-list')    
-            };
-
-            Object.keys(lists).forEach(category => {
-                const listElement = lists[category];
-                if (!listElement) return;
-
-                listElement.innerHTML = ''; 
-                let hasActivities = false;
-
-                // 2. 分类过滤
-                const categoryActivities = filteredActivities.filter(activity => 
-                    activity.category && activity.category.includes(category)
-                );
-                
-                // 3. 状态过滤
-                categoryActivities.forEach(activity => {
-                    const status = getActivityStatus(activity);
-                    if (globalStatus === status) {
-                        hasActivities = true;
-                        const cardHtml = renderActivityCard(activity, category, status);
-                        listElement.innerHTML += cardHtml;
-                    }
-                });
-                
-                if (!hasActivities) {
-                    let message = '';
-                    if (selectedPlatform !== 'All') message += `平台 ${selectedPlatform} 下，`;
-                    const statusText = globalStatus === 'Active' ? '正在进行' : globalStatus === 'Upcoming' ? '即将开始' : '已结束';
-                    message += `没有处于 [${statusText}] 状态的活动。`;
-                    listElement.innerHTML = `<p class="text-gray-400 text-center p-4 text-sm">${message}</p>`;
-                }
+            const lists = { 'PaymentDiscount': document.getElementById('paymentdiscount-list'), 'PaymentBill': document.getElementById('paymentbill-list'), 'TravelDiscount': document.getElementById('traveldiscount-list') };
+            Object.values(lists).forEach(l => l.innerHTML = '');
+            ALL_ACTIVITIES.filter(act => {
+                if (getStatus(act) !== globalStatus) return false;
+                if (selectedPlatform !== 'All' && act.sourceApp !== selectedPlatform) return false;
+                return true;
+            }).forEach(act => {
+                const cat = act.category.find(c => CATEGORY_MAP[c]);
+                if (cat && lists[cat]) lists[cat].innerHTML += createCard(act, cat, globalStatus);
             });
-            
-            bindActionButtons();
-            updateCountdowns(); // 立即更新一次时间
+            document.querySelectorAll('.action-button-voice').forEach(b => b.onclick = e => toggleSpeech(e.currentTarget, e.currentTarget.dataset.steps));
+            document.querySelectorAll('.share-button').forEach(b => b.onclick = e => share(e.currentTarget));
+            updateTimers();
         }
 
-        // ----------------------------------------------------
-        // 步骤 4: 卡片渲染 (包含状态样式)
-        // ----------------------------------------------------
-        function renderActivityCard(activity, subCategory, status) {
-            const styles = CATEGORY_MAP[subCategory] || CATEGORY_MAP['PaymentDiscount'];
+        function createCard(act, cat, status) {
+            const s = CATEGORY_MAP[cat], isExp = status === 'Expired';
+            let btn = act.link&&act.link!=='#' ? `<a href="${act.link}" target="_blank" class="action-button ${isExp?'opacity-50':''}" ${isExp?'onclick="return false"':''}><i class="fas fa-rocket"></i> 去领取</a>` : (act.StepsText ? `<button class="action-button action-button-voice ${isExp?'opacity-50':''}" data-steps="${act.StepsText.replace(/"/g,'&quot;')}" ${isExp?'disabled':''}><i class="fas fa-volume-high"></i> 播放语音</button>` : `<button class="action-button opacity-50" disabled>暂无</button>`);
             
-            let actionButtonHtml = '';
-            
-            if (activity.link && activity.link !== '#') {
-                const isExpired = status === 'Expired';
-                actionButtonHtml = `
-                    <a href="${activity.link}" 
-                       target="_blank" 
-                       class="action-button ${isExpired ? 'opacity-50 cursor-not-allowed' : ''}" 
-                       data-umami-event="click_deep_link"
-                       data-umami-event-name="${activity.name}"
-                       ${isExpired ? 'onclick="event.preventDefault()"' : ''}>
-                        <i class="fas fa-rocket"></i>
-                        去领取
-                    </a>`;
-            } else if (activity.StepsText) {
-                const steps = activity.StepsText.replace(/"/g, '&quot;');
-                const isExpired = status === 'Expired';
-                actionButtonHtml = `
-                    <button class="action-button action-button-voice ${isExpired ? 'opacity-50 cursor-not-allowed' : ''}" 
-                            data-activity-id="${activity.id}" 
-                            data-steps="${steps}"
-                            data-activity-name="${activity.name}"
-                            ${isExpired ? 'disabled' : ''}>
-                        <i class="fas fa-volume-high"></i>
-                        播放语音
-                    </button>`;
-            } else {
-                actionButtonHtml = `
-                    <button class="action-button opacity-50 cursor-not-allowed" disabled>
-                        <i class="fas fa-info-circle"></i>
-                        暂无指引
-                    </button>`;
-            }
-            
-            let specialNoteBadge = '';
-            if (activity.specialNote) {
-                specialNoteBadge = `
-                    <span class="special-note-badge"
-                          data-umami-event="view_special_note"
-                          data-umami-event-name="${activity.name}">
-                        <i class="fas fa-star"></i>
-                        ${activity.specialNote}
-                    </span>`;
-            }
+            let badgeClass = '';
+            if (status === 'Upcoming') badgeClass = 'upcoming'; else if (status === 'Expired') badgeClass = 'expired';
+            let badge = `<span class="countdown-badge ${badgeClass}" data-start="${act.startDate}" data-end="${act.endDate}">计算中...</span>`;
 
-            let countdownBadge = '';
-            let cardClassModifier = '';
-            
-            if (status === 'Upcoming') {
-                cardClassModifier = 'opacity-80';
-                countdownBadge = `
-                    <span class="countdown-badge" style="background-color: var(--color-shopping-1); color: white;">
-                        ${activity.startDate ? `<span id="timer-${activity.id}">计算中...</span>` : '即将开始'}
-                    </span>`;
-            } else if (status === 'Expired') {
-                cardClassModifier = 'opacity-50 grayscale';
-                countdownBadge = `
-                    <span class="countdown-badge" style="background-color: #334155; color: #94A3B8;">
-                        已结束
-                    </span>`;
-            } else { // Active
-                countdownBadge = `
-                    <span class="countdown-badge" data-endtime="${activity.endDate}" id="timer-${activity.id}">
-                        ${activity.endDate ? '计算中...' : '长期有效'} 
-                    </span>`;
-            }
-
-            return `
-                <div class="task-list-card ${styles.borderClass} ${activity.specialNote ? 'has-special-note' : ''} ${cardClassModifier}">
-                    ${specialNoteBadge}
-                    ${countdownBadge}
-                    
-                    <div class="task-main-content">
-                        <div class="task-icon ${styles.iconClass}">
-                            <i class="fa-solid ${styles.faIcon}"></i>
-                        </div>
-                        <div class="task-content">
-                            <div class="task-title">${activity.name || '活动名称缺失'}</div>
-                            <div class="task-subtitle">${activity.description || '暂无详细描述。'}</div>
-                        </div>
-                    </div>
-                    
-                    <div class="task-action-bar">
-                        <button class="share-button" 
-                                data-activity-id="${activity.id}" 
-                                data-activity-name="${activity.name}">
-                            <i class="fas fa-share-alt"></i>
-                            分享
-                        </button>
-                        ${actionButtonHtml}
-                    </div>
+            return `<div class="task-list-card ${s.borderClass} ${isExp?'opacity-60 grayscale':''}">
+                <div class="badges-container">
+                    ${act.specialNote ? `<span class="special-note-badge">${act.specialNote}</span>` : ''}
+                    ${badge}
                 </div>
-            `;
-        }
-
-        // ----------------------------------------------------
-        // 步骤 5: 事件绑定
-        // ----------------------------------------------------
-        function bindActionButtons() {
-            document.querySelectorAll('.action-button-voice').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const btn = e.currentTarget;
-                    if(btn.disabled) return;
-                    const steps = btn.getAttribute('data-steps');
-                    const name = btn.getAttribute('data-activity-name');
-                    if (window.umami) { umami.track('play_voice_guide', { name: name }); }
-                    toggleSpeech(btn, steps, name);
-                });
-            });
-
-            document.querySelectorAll('.share-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const btn = e.currentTarget;
-                    const id = btn.getAttribute('data-activity-id');
-                    const name = btn.getAttribute('data-activity-name');
-                    if (window.umami) { umami.track('click_share', { name: name }); }
-                    shareActivity(id, btn);
-                });
-            });
+                <div class="task-main-content">
+                    <div class="task-icon ${s.iconClass}"><i class="fa-solid ${s.faIcon}"></i></div>
+                    <div class="task-content"><div class="task-title">${act.name}</div><div class="task-subtitle">${act.description||''}</div></div>
+                </div>
+                <div class="task-action-bar">
+                    <button class="share-button" data-id="${act.id}"><i class="fas fa-share-alt"></i> 分享</button>
+                    ${btn}
+                </div>
+            </div>`;
         }
         
-        // ----------------------------------------------------
-        // 步骤 6: 语音播放 (逻辑完善)
-        // ----------------------------------------------------
-        function stopSpeech() {
-            if (synth.speaking) { synth.cancel(); }
-            if (speakingButton) {
-                speakingButton.innerHTML = `<i class="fas fa-volume-high"></i> 播放语音`;
-                speakingButton.classList.remove('speaking');
-                speakingButton = null;
-            }
-            currentUtterance = null;
-        }
-
-        function toggleSpeech(button, text, activityName) {
-            if (!synth) return;
-
-            if (button.classList.contains('speaking')) {
-                stopSpeech();
-                return;
-            }
-
-            stopSpeech(); 
-            console.log(`【慧伴管家】: 开始播放 ${activityName}`);
-            
-            const voice = synth.getVoices().find(v => v.lang.startsWith('zh')) || synth.getVoices()[0];
-            currentUtterance = new SpeechSynthesisUtterance(text);
-            currentUtterance.voice = voice;
-            currentUtterance.rate = 0.8; // 0.8 语速
-            
-            currentUtterance.onstart = () => {
-                speakingButton = button;
-                button.classList.add('speaking');
-                button.innerHTML = `<i class="fas fa-wave-square"></i> 停止`;
-            };
-            
-            currentUtterance.onend = () => { stopSpeech(); };
-            currentUtterance.onerror = (e) => { console.error("语音错误:", e); stopSpeech(); };
-
-            synth.speak(currentUtterance);
-        }
-
-        // ----------------------------------------------------
-        // 步骤 7: 辅助功能 (分享/倒计时)
-        // ----------------------------------------------------
-        function shareActivity(activityId, buttonElement) {
-            const shareUrl = `${window.location.origin}${window.location.pathname.replace('shopping.html', 'go.html')}?id=${activityId}`;
-            try {
-                const tempInput = document.createElement('textarea');
-                tempInput.value = `快来看看这个活动！\n${shareUrl}`;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-                const originalText = buttonElement.innerHTML;
-                buttonElement.innerHTML = `<i class="fas fa-check"></i> 已复制!`;
-                setTimeout(() => { buttonElement.innerHTML = originalText; }, 2000);
-            } catch (err) {
-                console.error('复制失败:', err);
-                alert(`请手动复制链接：\n${shareUrl}`);
-            }
-        }
-
-        function formatTime(ms) {
-            if (ms <= 0) return '已结束';
-            const seconds = Math.floor(ms / 1000);
-            const days = Math.floor(seconds / (3600 * 24));
-            const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-            const minutes = Math.floor((seconds % 3600) / 60);
-            
-            if (days > 0) return `${days}天${hours}时`;
-            return `${hours}时${minutes}分`;
-        }
+        function toggleSpeech(btn, text) { if(!synth) return; if(btn.classList.contains('speaking')) { stopSpeech(); return; } stopSpeech(); const u = new SpeechSynthesisUtterance(text); u.lang='zh-CN'; u.rate=0.75; u.onstart = () => { speakingButton=btn; btn.classList.add('speaking'); btn.innerHTML=`<i class="fas fa-stop"></i> 停止`; }; u.onend = stopSpeech; synth.speak(u); }
+        function stopSpeech() { if(synth.speaking) synth.cancel(); if(speakingButton) { speakingButton.classList.remove('speaking'); speakingButton.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`; speakingButton=null; } }
+        function share(btn){ const url=`${location.origin}${location.pathname.replace('shopping.html','go.html')}?id=${btn.dataset.id}`; try{const t=document.createElement('textarea'); t.value=url; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); const old=btn.innerHTML; btn.innerHTML=`<i class="fas fa-check"></i> 已复制`; setTimeout(()=>btn.innerHTML=old,2000);}catch(e){alert(url);} }
         
-        function updateCountdowns() {
-            const timers = document.querySelectorAll('.countdown-badge');
-            const now = new Date().getTime();
-
-            timers.forEach(timer => {
-                // 1. 处理 "Upcoming" 倒计时
-                if (timer.parentElement.classList.contains('opacity-80')) { 
-                    // 找到 ID 对应的 Activity
-                    const idMatch = timer.innerHTML.match(/timer-(\d+)/);
-                    if (idMatch) {
-                        const actId = idMatch[1];
-                        const activity = ALL_ACTIVITIES.find(a => a.id == actId);
-                        if (activity && activity.startDate) {
-                             const diff = new Date(activity.startDate).getTime() - now;
-                             const span = document.getElementById(`timer-${actId}`);
-                             if(span) span.innerText = diff > 0 ? formatTime(diff) : "进行中";
-                             if(diff <= 0) renderActivities(); // 状态改变，重绘
-                        }
-                    }
-                    return;
-                }
-
-                // 2. 处理 "Active" 倒计时
-                const endTimeString = timer.getAttribute('data-endtime');
-                if (!endTimeString || endTimeString === 'null' || endTimeString === 'undefined') {
-                    timer.innerText = '长期有效';
-                    return;
-                }
-                
-                const diff = new Date(endTimeString).getTime() - now;
-                if (diff <= 0) {
-                    timer.innerText = '已结束';
-                    // 理想情况下这里也应该触发重绘，但为了防止频繁刷新，暂不加
-                } else {
-                    timer.innerText = `剩余 ${formatTime(diff)}`;
-                }
+        function updateTimers() {
+            const now = Date.now();
+            document.querySelectorAll('.countdown-badge').forEach(el => {
+                if(el.classList.contains('expired')) return;
+                const start = el.dataset.start ? new Date(el.dataset.start).getTime() : 0;
+                const end = el.dataset.end ? new Date(el.dataset.end).getTime() : 0;
+                if (start > now) { const d = start - now; el.innerText = `距开始 ${fmt(d)}`; }
+                else if (end > now || !el.dataset.end || el.dataset.end === 'null') { if (!el.dataset.end || el.dataset.end === 'null') { el.innerText = '长期有效'; } else { const d = end - now; el.innerText = `剩余 ${fmt(d)}`; } }
+                else { el.innerText = '已结束'; el.classList.add('expired'); }
             });
         }
-        
-        function startCountdownUpdater() {
-            updateCountdowns();
-            setInterval(updateCountdowns, 1000); 
-        }
+        function fmt(ms) { const s=Math.floor(ms/1000), d=Math.floor(s/86400), h=Math.floor((s%86400)/3600), m=Math.floor((s%3600)/60); return d>0 ? `${d}天${h}时` : `${h}时${m}分`; }
     </script>
-
 </body>
 </html>
