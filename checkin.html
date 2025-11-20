@@ -16,49 +16,53 @@
             --color-checkin-1: #10B981; --grad-checkin-1: linear-gradient(135deg, #10B981, #34D399);
             --color-checkin-2: #EC4899; --grad-checkin-2: linear-gradient(135deg, #EC4899, #F472B6);
             --color-premium-border: linear-gradient(135deg, #10B981, #FACC15);
+            --color-special-note: #F59E0B;
         }
-        body { background: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        body { background: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; padding-top: env(safe-area-inset-top); }
 
+        /* 主横幅 */
         .main-banner-card { background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 24px; padding: 30px 20px; text-align: center; border: 2px solid transparent; border-image: linear-gradient(to right, var(--color-checkin-1), var(--color-highlight)); border-image-slice: 1; margin: 1rem 0; box-shadow: 0 10px 30px -10px rgba(16,185,129,0.2); }
         .main-banner-card h1 { font-size: 1.8rem; font-weight: 900; background: linear-gradient(to right, #fff, #d1fae5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .main-banner-card p { color: var(--color-text-muted); font-size: 0.9rem; margin-top: 8px; }
 
-        /* 状态筛选器 (吸顶) */
-        .status-filter-container { display: flex; justify-content: space-between; padding: 4px; margin: 1rem 0 2rem 0; background: #1E293B; border-radius: 100px; border: 1px solid rgba(255,255,255,0.05); position: sticky; top: 0; z-index: 40; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        /* 状态筛选器 (吸顶 Top 0) */
+        .status-filter-container { display: flex; justify-content: space-between; padding: 4px; margin: 1rem 0 2rem 0; background: #1E293B; border-radius: 100px; border: 1px solid rgba(255,255,255,0.05); position: sticky; top: 0; z-index: 40; box-shadow: 0 4px 20px rgba(0,0,0,0.4); backdrop-filter: blur(10px); }
         .status-button { flex: 1; padding: 10px 0; border-radius: 100px; font-size: 0.85rem; font-weight: 600; color: #94A3B8; background: transparent; transition: all 0.3s; }
         
-        /* [核心] 状态栏点击变色 */
+        /* 点击变色 */
         .status-button.active[data-status="Active"] { color: #fff; background: #10B981; box-shadow: 0 2px 10px rgba(16,185,129,0.3); }
         .status-button.active[data-status="Upcoming"] { color: #fff; background: #EC4899; box-shadow: 0 2px 10px rgba(236,72,153,0.3); }
         .status-button.active[data-status="Expired"] { color: #fff; background: #64748B; box-shadow: none; }
 
         .section-title-card { background: rgba(30,41,59,0.5); border-radius: 16px; padding: 12px 16px; margin-top: 2rem; margin-bottom: 1rem; display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .section-title-card h2 { font-size: 1.1rem; font-weight: 800; margin-left: 10px; color: #fff; }
+        .section-title-card h2 { font-size: 1.25rem; font-weight: 800; margin-left: 10px; color: #fff; }
         
-        .task-list-card { background: #1E293B; border-radius: 16px; padding: 16px; margin-bottom: 15px; border-left: 4px solid; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .task-list-card { background: #1E293B; border-radius: 16px; padding: 16px; margin-bottom: 15px; border-left: 5px solid; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .task-checkin-1 { border-color: var(--color-checkin-1); } .icon-checkin-1 { background: var(--grad-checkin-1); }
         .task-checkin-2 { border-color: var(--color-checkin-2); } .icon-checkin-2 { background: var(--grad-checkin-2); }
 
         .task-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 12px; color: #fff; font-size: 1.25rem; flex-shrink: 0; }
-        
         .task-content { flex: 1; min-width: 0; } 
-        .task-title { font-size: 1rem; font-weight: 700; color: #F1F5F9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+        .task-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
+        .task-title { font-size: 1rem; font-weight: 700; color: #F1F5F9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .task-subtitle { font-size: 0.8rem; color: #94A3B8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        /* [核心] 倒计时粉红高亮 */
-        .countdown-badge { position: absolute; top: 0; right: 0; background: #EC4899; color: #fff; padding: 3px 10px; border-radius: 0 16px 0 10px; font-size: 0.75rem; font-weight: 700; z-index: 4; box-shadow: 0 2px 8px rgba(236, 72, 153, 0.4); }
+        /* 倒计时粉红高亮 */
+        .countdown-badge { position: absolute; top: 0; right: 0; background: #EC4899; color: #fff; padding: 3px 10px; border-radius: 0 16px 0 10px; font-size: 0.75rem; font-weight: 700; z-index: 4; box-shadow: 0 2px 4px rgba(236,72,153,0.3); }
         .countdown-badge.expired { background: #334155; color: #94A3B8; box-shadow: none; }
         
-        /* [核心] Special Note 在标题后 */
-        .special-note-inline { font-size: 0.7rem; background: linear-gradient(to right, #F59E0B, #FBBF24); color: #000; padding: 1px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle; display: inline-block; }
+        /* Special Note 右对齐 */
+        .special-note-badge { font-size: 0.7rem; background: linear-gradient(to right, #F59E0B, #FBBF24); color: #000; padding: 1px 6px; border-radius: 4px; font-weight: 700; flex-shrink: 0; margin-left: 8px; display: inline-block; vertical-align: middle; }
 
-        .action-button { background: var(--color-primary); color: #fff; border-radius: 99px; padding: 6px 16px; font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3); }
+        .action-button { background: var(--color-primary); color: #fff; border-radius: 99px; padding: 8px 18px; font-size: 0.8rem; font-weight: 700; min-width: 100px; display: flex; justify-content: center; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3); }
+        .share-button { background-color: #1E293B; color: var(--color-primary); border: 1px solid var(--color-primary); font-weight: 600; padding: 8px 15px; border-radius: 9999px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px; }
+
         .action-button-voice { background: #38BDF8; box-shadow: 0 2px 8px rgba(56, 189, 248, 0.3); }
         .action-button-voice.speaking { background: #EF4444; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%{opacity:1} 50%{opacity:0.6} 100%{opacity:1} }
         
-        .premium-card { display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px; text-align: center; border: 2px solid transparent; border-image: var(--color-premium-border); border-image-slice: 1; margin-top: 2rem; text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        .premium-card h2 { font-size: 1.2rem; font-weight: 800; background: var(--color-premium-border); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .premium-card { display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 30px 20px; text-align: center; border: 2px solid transparent; border-image: linear-gradient(135deg, #FACC15, #F472B6); border-image-slice: 1; margin-top: 2rem; text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .premium-card h2 { font-size: 1.3rem; font-weight: 800; background: linear-gradient(135deg, #FACC15, #F472B6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
 
         .tab-bar { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; align-items: center; height: 60px; background-color: var(--color-bg-dark); border-top: 1px solid #1A2233; z-index: 60; padding-bottom: env(safe-area-inset-bottom); }
         .tab-item { display: flex; flex-direction: column; align-items: center; color: #94A3B8; font-size: 0.7rem; }
@@ -67,7 +71,7 @@
 </head>
 <body>
     <main class="container mx-auto px-4 py-2">
-        <div class="main-banner-card"><h1>天天有奖 (CheckIn)</h1><p>每日签到，领取您的专属奖励</p></div>
+        <div class="main-banner-card"><h1>天天有奖</h1><p>每日签到，领取您的专属奖励</p></div>
         
         <div class="status-filter-container">
             <button class="status-button active" data-status="Active"><i class="fas fa-fire-alt"></i> 正在进行</button>
@@ -75,15 +79,15 @@
             <button class="status-button" data-status="Expired"><i class="fas fa-history"></i> 已结束</button>
         </div>
         
-        <div class="section-title-card"><h2><i class="fas fa-calendar-check text-[#10B981]"></i> 日常签到 (DailyCheckin)</h2></div>
+        <div class="section-title-card"><h2><i class="fas fa-calendar-check text-[#10B981]"></i> 日常签到</h2></div>
         <div id="daily-checkin-list" class="mt-2"></div>
 
-        <div class="section-title-card"><h2><i class="fas fa-stopwatch text-[#EC4899]"></i> 整点抢红包 (Voucher)</h2></div>
+        <div class="section-title-card"><h2><i class="fas fa-stopwatch text-[#EC4899]"></i> 整点抢红包</h2></div>
         <div id="voucher-list" class="mt-2"></div>
 
         <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'checkin' })">
             <h2><i class="fas fa-crown mr-2"></i> 高级会员专区</h2>
-            <p class="text-gray-400 text-sm mt-2">AI自动提醒抢红包，成功率提升300%！</p>
+            <p class="text-gray-400 text-sm mt-2">解锁 AI 自动任务提醒功能</p>
         </a>
     </main>
     
@@ -120,13 +124,11 @@
         function renderActivities() {
             const lists = { 'DailyCheckin': document.getElementById('daily-checkin-list'), 'Voucher': document.getElementById('voucher-list') };
             Object.values(lists).forEach(l => l.innerHTML = '');
-            let hasItem = false;
             ALL_ACTIVITIES.forEach(act => {
                 if (getStatus(act) !== globalStatus) return;
                 const cat = act.category.find(c => CATEGORY_MAP[c]);
                 if (cat && lists[cat]) { hasItem = true; lists[cat].innerHTML += createCard(act, cat, globalStatus); }
             });
-            if (!hasItem) Object.values(lists).forEach(l => l.innerHTML = `<p class="text-gray-500 text-center py-4 text-sm">暂无活动</p>`);
             document.querySelectorAll('.action-button-voice').forEach(b => b.onclick = e => toggleSpeech(e.currentTarget, e.currentTarget.dataset.steps));
             document.querySelectorAll('.share-button').forEach(b => b.onclick = e => share(e.currentTarget));
             updateTimers();
@@ -135,7 +137,6 @@
         function createCard(act, cat, status) {
             const s = CATEGORY_MAP[cat], isExp = status === 'Expired';
             let btn = act.link&&act.link!=='#' ? `<a href="${act.link}" target="_blank" class="action-button ${isExp?'opacity-50':''}" ${isExp?'onclick="return false"':''}><i class="fas fa-rocket"></i> 去领取</a>` : (act.StepsText ? `<button class="action-button action-button-voice ${isExp?'opacity-50':''}" data-steps="${act.StepsText.replace(/"/g,'&quot;')}" ${isExp?'disabled':''}><i class="fas fa-volume-high"></i> 播放语音</button>` : `<button class="action-button opacity-50" disabled>暂无指引</button>`);
-            
             let badgeClass = ''; if (status === 'Upcoming') badgeClass = 'upcoming'; else if (status === 'Expired') badgeClass = 'expired';
             let badge = `<span class="countdown-badge ${badgeClass}" data-start="${act.startDate}" data-end="${act.endDate}">计算中...</span>`;
 
@@ -144,15 +145,14 @@
                 <div class="flex items-center w-full mt-2">
                     <div class="task-icon ${s.iconClass}"><i class="fa-solid ${s.faIcon}"></i></div>
                     <div class="task-content">
-                        <div class="task-title">
-                            ${act.name}
-                            ${act.specialNote ? `<span class="special-note-inline">${act.specialNote}</span>` : ''}
+                        <div class="task-header-row">
+                            <div class="task-title">${act.name} ${act.specialNote ? `<span class="special-note-badge">${act.specialNote}</span>` : ''}</div>
                         </div>
                         <div class="task-subtitle">${act.description||''}</div>
                     </div>
                 </div>
                 <div class="flex justify-between items-center mt-4 pt-3 border-t border-white/5">
-                    <button class="text-gray-400 text-sm font-bold flex items-center gap-1 share-button" data-id="${act.id}"><i class="fas fa-share-alt"></i> 分享</button>
+                    <button class="share-button" data-id="${act.id}"><i class="fas fa-share-alt"></i> 分享</button>
                     ${btn}
                 </div>
             </div>`;
@@ -164,11 +164,9 @@
         function share(btn) {
             const url = `${location.origin}${location.pathname.replace('checkin.html','go.html')}?id=${btn.dataset.id}`;
             if (navigator.share) { navigator.share({ title: '慧伴管家', text: 'Check out this activity!', url: url }).catch(console.error); }
-            else {
-                try { const t=document.createElement('textarea'); t.value=`活动分享：${url}`; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); const old=btn.innerHTML; btn.innerHTML=`<i class="fas fa-check"></i> 已复制`; setTimeout(()=>btn.innerHTML=old,2000); } catch(e){ alert(url); }
-            }
+            else { try { const t=document.createElement('textarea'); t.value=`活动分享：${url}`; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); const old=btn.innerHTML; btn.innerHTML=`<i class="fas fa-check"></i> 已复制`; setTimeout(()=>btn.innerHTML=old,2000); } catch(e){ alert(url); } }
         }
-
+        
         function updateTimers() {
             const now = Date.now();
             document.querySelectorAll('.countdown-badge').forEach(el => {
@@ -176,7 +174,7 @@
                 const start = el.dataset.start ? new Date(el.dataset.start).getTime() : 0;
                 const end = el.dataset.end ? new Date(el.dataset.end).getTime() : 0;
                 if (start > now) { const d = start - now; el.innerText = `距开始 ${fmt(d)}`; }
-                else if (end > now || !el.dataset.end || el.dataset.end === 'null') { if (!el.dataset.end || el.dataset.end === 'null') { el.innerText = '长期有效'; } else { const d = end - now; el.innerText = `剩余 ${fmt(d)}`; } }
+                else if (end > now || !el.dataset.end || el.dataset.end === 'null') { if (!el.dataset.end || el.dataset.end === 'null') { el.innerText = '长期'; } else { const d = end - now; el.innerText = `剩余 ${fmt(d)}`; } }
                 else { el.innerText = '已结束'; el.classList.add('expired'); }
             });
         }
