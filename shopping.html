@@ -13,64 +13,92 @@
         :root {
             --bg-dark: #0B1120; --card-bg: #1E293B; --text-main: #F8FAFC; --text-sub: #94A3B8;
             --primary: #8B5CF6; --accent: #FACC15; /* Purple Theme */
+            --glass: rgba(30, 41, 59, 0.7);
             --border-glow: 0 0 15px rgba(139, 92, 246, 0.5);
             --grad-shopping-1: linear-gradient(135deg, #8B5CF6, #C084FC);
             --grad-shopping-2: linear-gradient(135deg, #F59E0B, #FBBF24);
             --grad-shopping-3: linear-gradient(135deg, #06B6D4, #2DD4BF);
         }
-        body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-top: 120px; padding-bottom: 90px; }
+        body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-top: 120px; padding-bottom: 90px; -webkit-tap-highlight-color: transparent; }
 
-        @keyframes borderFlow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+        /* Header Container */
         #smart-header { 
             position: fixed; top: 0; left: 0; right: 0; z-index: 50; 
-            background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(16px); 
+            background: rgba(11, 17, 32, 0.98); backdrop-filter: blur(16px); 
             transition: transform 0.3s ease; padding-top: env(safe-area-inset-top); 
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        #smart-header::after {
+        .nav-hidden { transform: translateY(-100%); }
+
+        /* --- [核心修正] 顶部 Logo 行 (带流光底边) --- */
+        .header-top { 
+            display: flex; align-items: center; justify-content: space-between; 
+            height: 50px; padding: 0 16px; position: relative;
+        }
+        /* 流光特效移至此处 */
+        @keyframes borderFlow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+        .header-top::after {
             content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
             background: linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--primary), transparent);
-            background-size: 200% 100%; animation: borderFlow 3s linear infinite;
-            box-shadow: 0 1px 10px rgba(139, 92, 246, 0.4);
+            background-size: 200% 100%;
+            animation: borderFlow 3s linear infinite;
+            box-shadow: 0 1px 8px rgba(139, 92, 246, 0.5);
+            z-index: 10;
         }
 
-        .nav-hidden { transform: translateY(-100%); }
-        .header-top { display: flex; align-items: center; justify-content: space-between; height: 50px; padding: 0 16px; }
         .app-logo { width: 32px; height: 32px; border-radius: 8px; margin-right: 10px; border: 1px solid rgba(255,255,255,0.1); }
-        .page-title { font-size: 1.2rem; font-weight: 800; color: #fff; text-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
+        .page-title { font-size: 1.2rem; font-weight: 800; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); letter-spacing: 0.5px; }
 
+        /* Filter Chips (位于流光下方) */
         .filter-bar { display: flex; gap: 10px; overflow-x: auto; padding: 12px 16px; scrollbar-width: none; align-items: center; }
-        .chip { display: inline-flex; align-items: center; height: 34px; padding: 0 16px; border-radius: 999px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; flex-shrink: 0; background: rgba(255,255,255,0.05); color: var(--text-sub); border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s; }
+        .chip {
+            display: inline-flex; align-items: center; height: 34px; padding: 0 16px;
+            border-radius: 999px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; flex-shrink: 0;
+            background: rgba(255,255,255,0.03); color: var(--text-sub);
+            border: 1px solid rgba(255,255,255,0.08); transition: all 0.2s;
+        }
         .chip.active { background: var(--primary); color: #fff; border-color: transparent; box-shadow: var(--border-glow); }
         .chip-trigger { background: #334155; color: #fff; border-color: rgba(255,255,255,0.2); }
         
+        /* Sidebar */
         .sidebar-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 90; opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(4px); }
         .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #0f172a; z-index: 100; transform: translateX(-100%); transition: 0.3s cubic-bezier(0.4,0,0.2,1); padding-top: env(safe-area-inset-top); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; }
-        .sidebar-open .sidebar-mask { opacity: 1; pointer-events: auto; } .sidebar-open .sidebar { transform: translateX(0); }
-        .sidebar-header { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; font-size: 1.2rem; font-weight: 700; color: #fff; background: linear-gradient(to right, rgba(139, 92, 246, 0.1), transparent); }
-        .sidebar-item { padding: 16px 20px; display: flex; align-items: center; gap: 16px; color: #ffffff; font-weight: 500; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; text-shadow: 0 0 5px rgba(0,0,0,0.5); }
+        .sidebar-open .sidebar-mask { opacity: 1; pointer-events: auto; }
+        .sidebar-open .sidebar { transform: translateX(0); }
+        .sidebar-header { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; font-size: 1.2rem; font-weight: 700; color: #fff; background: linear-gradient(to right, rgba(139, 92, 246, 0.1), transparent); }
+        
+        /* [修正] Sidebar Item: 纯白高亮 + 文字光晕 (对齐 Bank) */
+        .sidebar-item { 
+            padding: 16px 20px; display: flex; align-items: center; gap: 16px; 
+            color: #ffffff; font-weight: 500; transition: 0.2s; 
+            border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; position: relative; overflow: hidden;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5); 
+        }
         .sidebar-item:active { background: rgba(255,255,255,0.05); }
         .sidebar-item.selected { background: linear-gradient(90deg, rgba(139, 92, 246, 0.15), transparent); color: #fff; border-left: 4px solid var(--primary); text-shadow: 0 0 8px rgba(139, 92, 246, 0.6); }
         .sidebar-icon-box { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary); }
         .sidebar-item.selected .sidebar-icon-box { background: var(--primary); color: #fff; box-shadow: 0 0 10px rgba(139, 92, 246, 0.4); }
 
+        /* Content */
         .section-title-card { 
-            margin: 2rem 1rem 1rem; padding: 12px 16px; border-radius: 12px;
+            margin: 1.5rem 1rem 1rem; padding: 12px 16px; border-radius: 12px;
             background: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(15,23,42,0.8));
             border: 1px solid rgba(255,255,255,0.08);
             display: flex; align-items: center; gap: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); position: relative; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative; overflow: hidden;
         }
         .section-title-card::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:2px; background: linear-gradient(90deg, var(--primary), transparent); }
-        .section-title-h2 { font-size: 1.1rem; font-weight: 800; color: #fff; text-shadow: 0 0 5px rgba(255,255,255,0.3); }
+        .section-title-h2 { font-size: 1.1rem; font-weight: 800; color: #fff; text-shadow: 0 0 5px rgba(255,255,255,0.3); letter-spacing: 0.5px; }
 
         .task-card { background: var(--card-bg); border-radius: 16px; padding: 16px; margin: 0 1rem 1rem; border: 1px solid rgba(255,255,255,0.05); position: relative; display: flex; flex-direction: column; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
         .task-card::before { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 4px; background: var(--primary); border-radius: 16px 0 0 16px; }
         
         .badges { position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; }
+        /* [修正] 倒计时粉红高亮 */
         .badge-timer { background: #EC4899; color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; box-shadow: 0 2px 8px rgba(236, 72, 153, 0.4); }
         .badge-timer.expired { background: #475569; color: #94A3B8; box-shadow: none; }
-        .badge-note { background: linear-gradient(90deg, #F59E0B, #FBBF24); color: #000; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3); }
+        .badge-note { background: linear-gradient(90deg, #F59E0B, #FBBF24); color: #000; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; }
 
         .card-main { display: flex; align-items: center; margin-top: 12px; }
         .card-icon { width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #8B5CF6, #C084FC); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #fff; margin-right: 14px; flex-shrink: 0; }
@@ -81,6 +109,8 @@
         .card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); }
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: 6px 16px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; transition: 0.2s; border: 1px solid transparent; }
         .btn-share { background: rgba(139, 92, 246, 0.1); color: var(--primary); border-color: rgba(139, 92, 246, 0.3); }
+        
+        /* [修正] 按钮紫色主题 */
         .btn-primary { background: linear-gradient(135deg, var(--primary), #7C3AED); color: #fff; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); border: 1px solid rgba(255,255,255,0.2); }
         .btn-voice { background: #10B981; color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); border: 1px solid rgba(255,255,255,0.2); }
         .btn-voice.speaking { background: #EF4444; animation: pulse 1.5s infinite; }
@@ -205,7 +235,7 @@
                     <span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span>
                 </div>
                 <div class="card-main">
-                    <div class="card-icon" style="background:linear-gradient(135deg,${s.color},#fff)"><i class="fas ${s.icon}"></i></div>
+                    <div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div>
                     <div class="card-text">
                         <div class="card-title">${a.name}</div>
                         <div class="card-desc">${a.description||'暂无描述'}</div>
