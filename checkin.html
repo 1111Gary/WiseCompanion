@@ -17,7 +17,21 @@
         }
         body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-top: 110px; padding-bottom: 90px; }
 
-        #smart-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(16px); transition: transform 0.3s ease; border-bottom: 1px solid rgba(255,255,255,0.05); padding-top: env(safe-area-inset-top); }
+        /* Streaming Border */
+        @keyframes borderFlow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+        #smart-header { 
+            position: fixed; top: 0; left: 0; right: 0; z-index: 50; 
+            background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(16px); 
+            transition: transform 0.3s ease; padding-top: env(safe-area-inset-top); 
+            border-bottom: none;
+        }
+        #smart-header::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--primary), transparent);
+            background-size: 200% 100%; animation: borderFlow 3s linear infinite;
+            box-shadow: 0 1px 10px rgba(16, 185, 129, 0.4);
+        }
+
         .nav-hidden { transform: translateY(-100%); }
         .header-top { display: flex; align-items: center; justify-content: space-between; height: 50px; padding: 0 16px; }
         .app-logo { width: 32px; height: 32px; border-radius: 8px; margin-right: 10px; border: 1px solid rgba(255,255,255,0.1); }
@@ -31,13 +45,20 @@
         .sidebar-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 90; opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(4px); }
         .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #0f172a; z-index: 100; transform: translateX(-100%); transition: 0.3s cubic-bezier(0.4,0,0.2,1); padding-top: env(safe-area-inset-top); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; }
         .sidebar-open .sidebar-mask { opacity: 1; pointer-events: auto; } .sidebar-open .sidebar { transform: translateX(0); }
-        .sidebar-header { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; font-size: 1.2rem; font-weight: 700; color: #fff; }
-        .sidebar-item { padding: 16px 20px; display: flex; align-items: center; gap: 16px; color: #cbd5e1; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
+        .sidebar-header { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; font-size: 1.2rem; font-weight: 700; color: #fff; background: linear-gradient(to right, rgba(16,185,129,0.1), transparent); }
+        .sidebar-item { padding: 16px 20px; display: flex; align-items: center; gap: 16px; color: #ffffff; font-weight: 500; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; text-shadow: 0 0 5px rgba(0,0,0,0.5); }
         .sidebar-item:active { background: rgba(255,255,255,0.05); }
-        .sidebar-item.selected { background: linear-gradient(90deg, rgba(16,185,129,0.15), transparent); color: #fff; border-left: 4px solid var(--primary); }
+        .sidebar-item.selected { background: linear-gradient(90deg, rgba(16,185,129,0.15), transparent); color: #fff; border-left: 4px solid var(--primary); text-shadow: 0 0 8px rgba(16,185,129,0.6); }
         .sidebar-icon-box { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary); }
+        .sidebar-item.selected .sidebar-icon-box { background: var(--primary); color: #fff; box-shadow: 0 0 10px rgba(16,185,129,0.4); }
 
-        .section-title-card { margin: 2rem 1rem 1rem; padding: 12px 16px; border-radius: 12px; background: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(15,23,42,0.8)); border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); position: relative; overflow: hidden; }
+        .section-title-card { 
+            margin: 2rem 1rem 1rem; padding: 12px 16px; border-radius: 12px;
+            background: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(15,23,42,0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); position: relative; overflow: hidden;
+        }
         .section-title-card::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:2px; background: linear-gradient(90deg, var(--primary), transparent); }
         .section-title-h2 { font-size: 1.1rem; font-weight: 800; color: #fff; text-shadow: 0 0 5px rgba(255,255,255,0.3); }
 
@@ -48,22 +69,18 @@
         .badge-timer { background: #EC4899; color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; box-shadow: 0 2px 8px rgba(236, 72, 153, 0.4); }
         .badge-timer.expired { background: #475569; color: #94A3B8; box-shadow: none; }
         
-        /* [核心] Special Note 高亮霓虹灯 */
+        /* Special Note: Neon Style */
         .badge-note { 
             background: rgba(250, 204, 21, 0.15); color: #FACC15; border: 1px solid rgba(250, 204, 21, 0.4);
             padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; 
-            box-shadow: 0 0 8px rgba(250, 204, 21, 0.2);
-            margin-left: 8px; display: inline-block; vertical-align: middle;
+            box-shadow: 0 0 8px rgba(250, 204, 21, 0.2); margin-left: 8px; display: inline-block; vertical-align: middle;
         }
 
         .card-main { display: flex; align-items: flex-start; margin-top: 25px; }
         .card-icon { width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #10B981, #34D399); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #fff; margin-right: 14px; flex-shrink: 0; }
         .card-text { flex: 1; min-width: 0; }
-        
-        /* [核心] 标题行布局 */
         .card-title-row { display: flex; justify-content: space-between; align-items: flex-start; }
         .card-title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 4px; flex: 1; line-height: 1.3; }
-        
         .card-desc { font-size: 0.85rem; color: #94A3B8; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
 
         .card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); }
@@ -131,9 +148,7 @@
 
         let lastY=0; const h=document.getElementById('smart-header');
         window.addEventListener('scroll', ()=>{const y=scrollY; if(Math.abs(y-lastY)<10)return; h.classList.toggle('nav-hidden', y>lastY&&y>60); lastY=y; debounceSave();});
-        
-        let saveTimeout;
-        function debounceSave() { clearTimeout(saveTimeout); saveTimeout = setTimeout(() => sessionStorage.setItem('pos_checkin', window.scrollY), 100); }
+        let saveTimeout; function debounceSave() { clearTimeout(saveTimeout); saveTimeout = setTimeout(() => sessionStorage.setItem('pos_checkin', window.scrollY), 100); }
         if('scrollRestoration' in history) history.scrollRestoration='manual';
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -190,7 +205,7 @@
                     <span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span>
                 </div>
                 <div class="card-main">
-                    <div class="card-icon" style="background:linear-gradient(135deg,${s.color},#047857)"><i class="fas ${s.icon}"></i></div>
+                    <div class="card-icon" style="background:linear-gradient(135deg,${s.color},#fff)"><i class="fas ${s.icon}"></i></div>
                     <div class="card-text">
                         <div class="card-title-row">
                             <div class="card-title">${a.name}</div>
@@ -214,17 +229,13 @@
             document.querySelectorAll('.badge-timer').forEach(e=>{
                 const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;
                 if(s > n) { 
-                    e.innerText = `即将开始 ${fmt(s-n)}`;
-                    e.classList.remove('expired');
+                    e.innerText = `即将开始 ${fmt(s-n)}`; e.classList.remove('expired');
                 } else if (end && end < n) {
-                    e.innerText = '已结束';
-                    e.classList.add('expired');
+                    e.innerText = '已结束'; e.classList.add('expired');
                 } else if (end) {
-                    e.innerText = `剩余 ${fmt(end-n)}`;
-                    e.classList.remove('expired');
+                    e.innerText = `剩余 ${fmt(end-n)}`; e.classList.remove('expired');
                 } else {
-                    e.innerText = '长期';
-                    e.classList.remove('expired');
+                    e.innerText = '长期'; e.classList.remove('expired');
                 }
             });
         }
