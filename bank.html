@@ -11,205 +11,261 @@
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     <style>
         :root {
-            --color-bg-dark: #0f0f0f; --color-card: #1e1e1e; --color-text-main: #ffffff;
-            --color-primary: #3B82F6; /* Blue */
-            --color-secondary: #FBBF24;
-            --grad-title: linear-gradient(to right, #3B82F6, #60A5FA);
-            --grad-card-border: linear-gradient(135deg, #3B82F6, #FBBF24);
+            --bg-dark: #0B1120; --card-bg: #1E293B; --text-main: #F8FAFC; --text-sub: #94A3B8;
+            --primary: #3B82F6; --accent: #F59E0B;
+            --glass: rgba(30, 41, 59, 0.7);
+            --border-glow: 0 0 10px rgba(59, 130, 246, 0.3);
         }
-        body { background-color: var(--color-bg-dark); color: var(--color-text-main); padding-bottom: 85px; font-family: sans-serif; overflow-x: hidden; padding-top: 110px; }
+        body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-top: 110px; padding-bottom: 90px; -webkit-tap-highlight-color: transparent; }
 
-        /* --- YouTube Style Smart Header --- */
-        #smart-header {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-            background: rgba(15, 15, 15, 0.98); backdrop-filter: blur(15px);
-            transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-top: env(safe-area-inset-top);
-        }
+        /* Smart Header */
+        #smart-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(16px); transition: transform 0.3s ease; border-bottom: 1px solid rgba(255,255,255,0.05); padding-top: env(safe-area-inset-top); }
         .nav-hidden { transform: translateY(-100%); }
-
-        /* Row 1: Logo & Title */
-        .header-row-top { display: flex; align-items: center; justify-content: space-between; height: 48px; padding: 0 16px; }
-        .header-logo { width: 28px; height: 28px; border-radius: 6px; margin-right: 10px; }
-        /* [核心] 艺术标题 */
-        .header-title { 
-            font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px;
-            background: var(--grad-title); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
         
-        /* Row 2: Filter Chips */
-        .header-row-filter { display: flex; align-items: center; gap: 8px; overflow-x: auto; padding: 4px 16px 12px 16px; scrollbar-width: none; }
+        .header-top { display: flex; align-items: center; justify-content: space-between; height: 50px; padding: 0 16px; }
+        .app-logo { width: 32px; height: 32px; border-radius: 8px; margin-right: 10px; border: 1px solid rgba(255,255,255,0.1); }
+        .page-title { font-size: 1.2rem; font-weight: 800; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); letter-spacing: 0.5px; }
+
+        /* Chips Bar */
+        .filter-bar { display: flex; gap: 10px; overflow-x: auto; padding: 8px 16px 12px; scrollbar-width: none; align-items: center; }
         .chip {
-            display: inline-flex; align-items: center; height: 34px; padding: 0 14px;
-            border-radius: 8px; font-size: 0.9rem; font-weight: 600; white-space: nowrap; flex-shrink: 0;
-            background: #272727; color: #aaa; border: 1px solid rgba(255,255,255,0.05); transition: all 0.2s;
+            display: inline-flex; align-items: center; height: 34px; padding: 0 16px;
+            border-radius: 999px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; flex-shrink: 0;
+            background: rgba(255,255,255,0.05); color: var(--text-sub);
+            border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s;
         }
-        /* 特殊样式给第一个“全部”按钮 */
-        .chip-special { background: #333; color: #fff; border-color: rgba(255,255,255,0.2); }
-        .chip.active { background: var(--color-text-main); color: #000; border-color: #fff; font-weight: 700; }
-        .chip[data-val="upcoming"].active { background: #EC4899; color: #fff; border-color: transparent; }
+        .chip.active { background: var(--primary); color: #fff; border-color: transparent; box-shadow: var(--border-glow); }
+        .chip-trigger { background: #334155; color: #fff; border-color: rgba(255,255,255,0.2); }
         
-        /* --- Sidebar --- */
-        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 90; opacity: 0; pointer-events: none; transition: opacity 0.3s; backdrop-filter: blur(4px); }
-        .sidebar-menu { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #1e1e1e; z-index: 100; transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1); box-shadow: 4px 0 24px rgba(0,0,0,0.5); padding-top: env(safe-area-inset-top); display: flex; flex-direction: column; }
-        .sidebar-open .sidebar-overlay { opacity: 1; pointer-events: auto; }
-        .sidebar-open .sidebar-menu { transform: translateX(0); }
-        .sidebar-header { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; font-size: 1.2rem; font-weight: 700; color: #fff; }
-        .sidebar-item { padding: 14px 20px; display: flex; align-items: center; gap: 16px; color: #eee; font-size: 1rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .sidebar-item:active { background: rgba(255,255,255,0.1); }
+        /* Sidebar */
+        .sidebar-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 90; opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(4px); }
+        .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #0f172a; z-index: 100; transform: translateX(-100%); transition: 0.3s cubic-bezier(0.4,0,0.2,1); padding-top: env(safe-area-inset-top); border-right: 1px solid rgba(255,255,255,0.05); }
+        .sidebar-open .sidebar-mask { opacity: 1; pointer-events: auto; }
+        .sidebar-open .sidebar { transform: translateX(0); }
+        .sidebar-header { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; }
+        .sidebar-item { padding: 14px 20px; display: flex; align-items: center; gap: 12px; color: #e2e8f0; font-weight: 500; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .sidebar-item:active { background: rgba(255,255,255,0.05); }
+        .sidebar-icon { width: 24px; text-align: center; font-size: 1.1rem; color: var(--primary); }
 
-        /* --- Content --- */
-        .section-title-card { margin: 1.5rem 1rem 1rem; border-left: 4px solid var(--color-primary); padding-left: 12px; display: flex; align-items: center; }
-        .section-title-card h2 { font-size: 1.1rem; font-weight: 700; color: #fff; }
+        /* Cards */
+        .section-title { margin: 1.5rem 1rem 1rem; display: flex; align-items: center; gap: 10px; font-size: 1.1rem; font-weight: 800; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+        .section-title::before { content:''; width: 4px; height: 18px; background: var(--primary); border-radius: 2px; box-shadow: 0 0 8px var(--primary); }
+
+        .task-card {
+            background: var(--card-bg); border-radius: 16px; padding: 16px; margin: 0 1rem 1rem;
+            border: 1px solid rgba(255,255,255,0.05); position: relative; display: flex; flex-direction: column;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        /* 装饰边框 */
+        .task-card::before { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 4px; background: var(--primary); border-radius: 16px 0 0 16px; }
         
-        .task-list-card { background: var(--color-card); border-radius: 12px; margin: 0 1rem 1rem; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; position: relative; display: flex; flex-direction: column; padding: 16px; }
-        .task-list-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background: var(--color-primary); }
+        .badges { position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; }
+        .badge { padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; }
+        .badge-timer { background: #EC4899; color: #fff; box-shadow: 0 2px 8px rgba(236, 72, 153, 0.4); }
+        .badge-timer.expired { background: #475569; color: #94A3B8; box-shadow: none; }
+        .badge-note { background: linear-gradient(90deg, #F59E0B, #FBBF24); color: #000; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3); }
 
-        .badges-container { position: absolute; top: 12px; right: 12px; display: flex; align-items: flex-start; gap: 6px; }
-        .countdown-badge { background: #EC4899; color: #fff; font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
-        .countdown-badge.expired { background: #333; color: #888; }
-        .special-note-badge { background: var(--color-secondary); color: #000; font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
+        .card-main { display: flex; align-items: center; margin-top: 12px; }
+        .card-icon { width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #fff; margin-right: 14px; flex-shrink: 0; }
+        .card-text { flex: 1; min-width: 0; }
+        .card-title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-desc { font-size: 0.85rem; color: #94A3B8; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
 
-        .task-main { display: flex; align-items: center; margin-top: 10px; }
-        .task-icon { width: 42px; height: 42px; border-radius: 10px; background: #333; display: flex; align-items: center; justify-content: center; margin-right: 12px; font-size: 1.3rem; color: #fff; flex-shrink: 0; }
-        .task-title { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 2px; }
-        .task-sub { font-size: 0.8rem; color: #888; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+        .card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); }
+        
+        /* 高级按钮特效 */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; padding: 6px 16px;
+            border-radius: 999px; font-size: 0.8rem; font-weight: 700; transition: 0.2s;
+            border: 1px solid transparent;
+        }
+        .btn-share {
+            background: rgba(59, 130, 246, 0.1); color: var(--primary); border-color: rgba(59, 130, 246, 0.3);
+        }
+        .btn-share:active { background: rgba(59, 130, 246, 0.2); }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #2563EB); color: #fff;
+            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.4);
+        }
+        .btn-primary:active { transform: scale(0.96); }
+        
+        .btn-voice { background: #10B981; color: #fff; box-shadow: 0 2px 10px rgba(16, 185, 129, 0.4); }
+        .btn-voice.speaking { background: #EF4444; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 
-        .card-footer { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
-        .btn-share { color: #888; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 4px; }
-        .btn-go { background: var(--color-primary); color: #fff; padding: 6px 18px; border-radius: 99px; font-size: 0.8rem; font-weight: 700; box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3); }
-        .btn-voice { background: #10B981; color: #fff; padding: 6px 18px; border-radius: 99px; font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+        /* Premium Card */
+        .premium-card {
+            display: block; margin: 2rem 1rem; padding: 24px; border-radius: 20px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden;
+            text-align: center; text-decoration: none;
+        }
+        .premium-card::before { content:''; position: absolute; inset: 0; padding: 1px; border-radius: 20px; background: linear-gradient(135deg, #FACC15, #F472B6, transparent); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; pointer-events: none; }
+        .premium-title { font-size: 1.2rem; font-weight: 800; background: linear-gradient(to right, #FACC15, #F472B6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-flex; align-items: center; gap: 8px; }
+        .premium-desc { color: #94A3B8; font-size: 0.85rem; margin-top: 8px; }
 
-        .premium-card { display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px; text-align: center; border: 2px solid transparent; border-image: var(--grad-card-border); border-image-slice: 1; margin: 2rem 1rem; }
-        .premium-card h2 { font-size: 1.2rem; font-weight: 800; background: var(--grad-card-border); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-
-        .tab-bar { position: fixed; bottom: 0; width: 100%; height: 60px; background: rgba(15,15,15,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); z-index: 50; padding-bottom: env(safe-area-inset-bottom); }
-        .tab-item.active { color: var(--color-primary); } .tab-item { color: #666; font-size: 0.7rem; display: flex; flex-direction: column; align-items: center; }
+        /* Bottom Nav */
+        .nav-bar { position: fixed; bottom: 0; width: 100%; height: 65px; background: rgba(11,17,32,0.95); backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-around; align-items: center; z-index: 50; padding-bottom: env(safe-area-inset-bottom); }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; color: #64748B; font-size: 0.7rem; font-weight: 500; }
+        .nav-item.active { color: var(--primary); }
+        .nav-item i { font-size: 1.3rem; }
     </style>
 </head>
 <body>
     <!-- Sidebar -->
-    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
-    <div class="sidebar-menu">
+    <div class="sidebar-mask" onclick="toggleSidebar()"></div>
+    <div class="sidebar">
         <div class="sidebar-header">
-            <div style="width:32px;height:32px;background:var(--color-primary);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-right:10px;"><i class="fas fa-filter text-white"></i></div>
-            筛选平台
+            <img src="./assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/3B82F6/ffffff?text=L'" class="w-8 h-8 rounded-lg">
+            <span class="text-lg font-bold text-white">慧伴管家</span>
         </div>
-        <div style="flex:1;overflow-y:auto;" id="sidebar-content"></div>
+        <div id="sidebar-content" class="flex-1 overflow-y-auto py-2"></div>
     </div>
 
-    <!-- Header -->
     <header id="smart-header">
-        <div class="header-row-top">
-            <div style="display:flex;align-items:center;">
-                <img src="./assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/3B82F6/ffffff?text=B'" class="header-logo">
-                <span class="header-title">捡钱任务</span>
+        <div class="header-top">
+            <div class="flex items-center">
+                <img src="./assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/3B82F6/ffffff?text=B'" class="app-logo">
+                <span class="page-title">捡钱任务</span>
             </div>
-            <a href="./index.html" class="text-gray-400 text-xl"><i class="fas fa-arrow-left"></i></a>
+            <a href="./index.html" class="text-gray-300 text-xl px-2"><i class="fas fa-arrow-left"></i></a>
         </div>
-        <div class="header-row-filter" id="unified-filter-container">
-            <!-- JS Generated -->
+        <div class="filter-bar" id="filter-bar">
+            <!-- JS -->
         </div>
     </header>
 
     <main>
-        <div class="section-title-card"><h2><i class="fas fa-calendar-day text-green-400 mr-2"></i> 日常活动</h2></div><div id="routine-tasks-list"></div>
-        <div class="section-title-card"><h2><i class="fas fa-tasks text-pink-400 mr-2"></i> 做任务领红包</h2></div><div id="mission-rewards-list"></div>
-        <div class="section-title-card"><h2><i class="fas fa-sack-dollar text-yellow-400 mr-2"></i> 存款理财</h2></div><div id="savings-tasks-list"></div>
+        <div class="section-title"><i class="fas fa-calendar-day text-green-400"></i> 日常活动</div><div id="routine-tasks-list"></div>
+        <div class="section-title"><i class="fas fa-tasks text-pink-400"></i> 做任务领红包</div><div id="mission-rewards-list"></div>
+        <div class="section-title"><i class="fas fa-sack-dollar text-yellow-400"></i> 存款理财</div><div id="savings-tasks-list"></div>
         
-        <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'bank' })">
-            <h2><i class="fas fa-crown mr-2"></i> 高级会员专区</h2><p class="text-gray-400 text-sm mt-2">AI赋能ʕʘ̅͜ʘ̅ʔ 改变生活</p>
+        <a href="./premium.html" class="premium-card">
+            <div class="premium-title"><i class="fas fa-crown"></i> 高级会员专区</div>
+            <div class="premium-desc">AI 自动提醒 • 收益最大化助手</div>
         </a>
-        <div style="height:40px"></div>
     </main>
     
-    <nav class="tab-bar">
-        <a href="./index.html" class="tab-item"><i class="fas fa-home text-xl mb-1"></i>首页</a>
-        <a href="./checkin.html" class="tab-item"><i class="fas fa-gifts text-xl mb-1"></i>天天有奖</a>
-        <a href="./video.html" class="tab-item"><i class="fas fa-play-circle text-xl mb-1"></i>看视频赚</a>
-        <span class="tab-item active"><i class="fas fa-hand-holding-usd text-xl mb-1"></i>捡钱任务</span>
-        <a href="./shopping.html" class="tab-item"><i class="fas fa-tags text-xl mb-1"></i>省钱秘籍</a>
+    <nav class="nav-bar">
+        <a href="./index.html" class="nav-item"><i class="fas fa-home"></i>首页</a>
+        <a href="./checkin.html" class="nav-item"><i class="fas fa-gifts"></i>天天有奖</a>
+        <a href="./video.html" class="nav-item"><i class="fas fa-play-circle"></i>看视频赚</a>
+        <span class="nav-item active"><i class="fas fa-hand-holding-usd"></i>捡钱任务</span>
+        <a href="./shopping.html" class="nav-item"><i class="fas fa-tags"></i>省钱秘籍</a>
     </nav>
-
+    
     <script>
-        let ALL=[], selBank='All', selStatus='ongoing';
+        let ALL=[], selPlat='All', selStatus='ongoing';
         const CAT_MAP={'DailyTask':{icon:'fa-calendar-day',color:'#10B981'},'MissionReward':{icon:'fa-tasks',color:'#EC4899'},'Deposit':{icon:'fa-sack-dollar',color:'#FBBF24'}};
         const synth=window.speechSynthesis; let spkBtn=null;
 
-        // Scroll Logic
+        // Scroll & Header
         let lastY=0; const h=document.getElementById('smart-header');
-        window.addEventListener('scroll', () => { const y=scrollY; if(Math.abs(y-lastY)<10)return; h.style.transform=y>lastY&&y>60?'translateY(-100%)':'translateY(0)'; lastY=y; });
+        window.addEventListener('scroll', ()=>{const y=scrollY; if(Math.abs(y-lastY)<10)return; h.classList.toggle('nav-hidden', y>lastY&&y>60); lastY=y;});
         if('scrollRestoration' in history) history.scrollRestoration='manual';
         window.addEventListener('beforeunload', ()=>sessionStorage.setItem('pos_bank', scrollY));
 
         document.addEventListener('DOMContentLoaded', () => {
             fetch('./activities.json').then(r=>r.json()).then(d => {
                 ALL=d.filter(a=>a.category&&(a.category.includes('DailyTask')||a.category.includes('Deposit')||a.category.includes('MissionReward')));
-                initUI(); setInterval(updTm, 1000);
+                initUI(); render(); setInterval(updTm, 1000);
                 const y=sessionStorage.getItem('pos_bank'); if(y) setTimeout(()=>window.scrollTo(0,parseInt(y)),50);
             });
         });
 
         function initUI() {
-            const c=document.getElementById('unified-filter-container');
-            // 1. 全部 (Trigger)
-            c.innerHTML = `<button class="chip chip-special" onclick="toggleSidebar()"><i class="fas fa-bars mr-2"></i> ${selBank==='All'?'全部平台':selBank}</button>`;
-            // 2. 状态
+            const bar=document.getElementById('filter-bar');
+            // 1. 全部平台 (Trigger)
+            bar.innerHTML = `<button class="chip chip-trigger ${selPlat==='All'?'active':''}" onclick="toggleSidebar()">
+                <i class="fas fa-layer-group mr-1"></i> ${selPlat==='All'?'全部平台':selPlat}
+            </button>`;
+            
+            // 2. 状态筛选
             const sts=[{v:'ongoing',t:'进行中'},{v:'upcoming',t:'即将开始'},{v:'finished',t:'已结束'}];
-            sts.forEach(s=>c.innerHTML+=`<button class="chip ${selStatus===s.v?'active':''}" onclick="setSt('${s.v}')">${s.t}</button>`);
-            
-            // Sidebar
-            const sb=document.getElementById('sidebar-content'); const bs=new Set(); ALL.forEach(a=>bs.add(a.sourceApp));
-            let h=`<div class="sidebar-item" onclick="setBk('All')"><i class="fas fa-layer-group"></i> 全部平台</div>`;
-            bs.forEach(b=>{if(b)h+=`<div class="sidebar-item" onclick="setBk('${b}')"><i class="fas fa-bank"></i> ${b}</div>`});
-            sb.innerHTML=h;
-            
-            render();
+            sts.forEach(s=>bar.innerHTML+=`<button class="chip ${selStatus===s.v?'active':''}" onclick="setSt('${s.v}')">${s.t}</button>`);
+
+            // Sidebar Content
+            const sb=document.getElementById('sidebar-content'); const ps=new Set(); ALL.forEach(a=>ps.add(a.sourceApp));
+            let html = `<div class="sidebar-item" onclick="setPl('All')"><i class="fas fa-border-all sidebar-icon"></i> 全部平台</div>`;
+            ps.forEach(p=>{if(p)html+=`<div class="sidebar-item" onclick="setPl('${p}')"><i class="fas fa-mobile-alt sidebar-icon"></i> ${p}</div>`});
+            sb.innerHTML = html;
         }
 
         function toggleSidebar(){document.body.classList.toggle('sidebar-open');}
         function setSt(s){selStatus=s; initUI(); render();}
-        function setBk(b){selBank=b; toggleSidebar(); initUI(); render();}
+        function setPl(p){selPlat=p; toggleSidebar(); initUI(); render();}
 
         function render() {
             const ls={'DailyTask':document.getElementById('routine-tasks-list'),'MissionReward':document.getElementById('mission-rewards-list'),'Deposit':document.getElementById('savings-tasks-list')};
             Object.values(ls).forEach(e=>e.innerHTML='');
             const now=Date.now();
+            
             ALL.filter(a=>{
                 const e=a.endDate?new Date(a.endDate).getTime():null, s=a.startDate?new Date(a.startDate).getTime():null;
-                if(selStatus==='finished')return e&&e<now; if(selStatus==='upcoming')return s&&s>now; return (!s||s<=now)&&(!e||e>=now);
-            }).filter(a=>selBank==='All'||a.sourceApp===selBank).forEach(a=>{
+                // [核心] 倒计时逻辑修正
+                // 1. Upcoming: Start > Now
+                if(selStatus==='upcoming') return s && s > now;
+                // 2. Finished: End < Now
+                if(selStatus==='finished') return e && e < now;
+                // 3. Ongoing: (Start <= Now OR No Start) AND (End >= Now OR No End)
+                return (!s || s<=now) && (!e || e>=now);
+            }).filter(a=>selPlat==='All'||a.sourceApp===selPlat).forEach(a=>{
                 const cat=a.category.find(c=>CAT_MAP[c]); if(cat&&ls[cat]) ls[cat].innerHTML+=card(a,cat);
             });
         }
 
-        function card(a,cat) {
-            const s=CAT_MAP[cat];
-            let btn=a.link&&a.link!=='#'?`<a href="${a.link}" target="_blank" class="action-button">去领取</a>`:(a.StepsText?`<button class="btn-voice" data-t="${a.StepsText.replace(/"/g,'&quot;')}" onclick="spk(this)"><i class="fas fa-volume-high"></i> 播放语音</button>`:`<button style="opacity:0.5" disabled>暂无</button>`);
-            return `<div class="task-list-card">
-                <div class="badges-container">
-                    ${a.specialNote?`<span class="special-note-badge">${a.specialNote}</span>`:''}
-                    <span class="countdown-badge" data-e="${a.endDate}" data-s="${a.startDate}">...</span>
+        function card(a, cat) {
+            const s = CAT_MAP[cat];
+            let btn = a.link&&a.link!=='#' 
+                ? `<a href="${a.link}" target="_blank" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></a>` 
+                : (a.StepsText ? `<button class="btn btn-voice" data-t="${a.StepsText.replace(/"/g,'&quot;')}" onclick="spk(this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`);
+
+            return `<div class="task-card" style="border-left-color:${s.color}">
+                <div class="badges">
+                    ${a.specialNote?`<span class="badge badge-note">${a.specialNote}</span>`:''}
+                    <span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span>
                 </div>
-                <div class="task-main">
-                    <div class="task-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div>
-                    <div style="flex:1;min-width:0">
-                        <div class="task-title">${a.name}</div>
-                        <div class="task-sub">${a.description||''}</div>
+                <div class="card-main">
+                    <div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div>
+                    <div class="card-text">
+                        <div class="card-title">${a.name}</div>
+                        <div class="card-desc">${a.description||'暂无描述'}</div>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <button class="btn-share" onclick="shr('${a.id}')"><i class="fas fa-share-alt"></i> 分享</button>
+                <div class="card-actions">
+                    <button class="btn btn-share" onclick="shr('${a.id}')"><i class="fas fa-share-alt mr-1"></i> 分享</button>
                     ${btn}
                 </div>
             </div>`;
         }
 
-        function spk(b){const t=b.dataset.t; if(b.classList.contains('speaking')){synth.cancel();b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`;return;} synth.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='zh-CN'; u.rate=0.75; u.onstart=()=>{speakingButton=b;b.classList.add('speaking');b.innerHTML=`<i class="fas fa-stop"></i> 停止`;}; u.onend=()=>{b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`;}; synth.speak(u);}
-        function shr(id){const u=`${location.origin}/go.html?id=${id}`; try{navigator.share({title:'Share',url:u})}catch(e){prompt('Copy:',u)}}
-        function updTm(){const n=Date.now();document.querySelectorAll('.countdown-badge').forEach(e=>{ const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0; if(s>n)e.innerText=`距开始 ${fmt(s-n)}`; else if(end>n||!e.dataset.e)e.innerText=(!e.dataset.e)?'长期':`剩余 ${fmt(end-n)}`; else{e.innerText='已结束';e.classList.add('expired');} });}
-        function fmt(ms){const d=Math.floor(ms/86400000),h=Math.floor((ms%86400000)/3600000);return d>0?`${d}天${h}时`:`${h}时`;}
+        // 语音/分享/倒计时
+        function spk(b){const t=b.dataset.t;if(b.classList.contains('speaking')){synth.cancel();b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;return;}synth.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=0.75;u.onstart=()=>{b.classList.add('speaking');b.innerHTML=`<i class="fas fa-stop mr-1"></i> 停止`;};u.onend=()=>{b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;};synth.speak(u);}
+        function shr(id){const u=`${location.origin}/go.html?id=${id}`;if(navigator.share){navigator.share({title:'分享活动',url:u}).catch(()=>{})}else{prompt('复制链接:',u)}}
+        
+        // [核心] 倒计时逻辑修正
+        function updTm(){
+            const n=Date.now();
+            document.querySelectorAll('.badge-timer').forEach(e=>{
+                const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;
+                
+                if(s > n) { // Upcoming
+                    e.innerText = `即将开始 ${fmt(s-n)}`;
+                    e.classList.remove('expired');
+                } else if (end && end < n) { // Expired (Fix: Explicit check)
+                    e.innerText = '已结束';
+                    e.classList.add('expired');
+                } else if (end) { // Active with End Date
+                    e.innerText = `剩余 ${fmt(end-n)}`;
+                    e.classList.remove('expired');
+                } else { // Long Term (No End Date)
+                    e.innerText = '长期';
+                    e.classList.remove('expired');
+                }
+            });
+        }
+        function fmt(ms){const d=Math.floor(ms/86400000),h=Math.floor((ms%86400000)/3600000),m=Math.floor((ms%3600000)/60000);return d>0?`${d}天${h}时`:`${h}时${m}分`;}
     </script>
 </body>
 </html>
