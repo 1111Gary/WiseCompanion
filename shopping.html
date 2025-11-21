@@ -14,10 +14,26 @@
             --bg-dark: #0B1120; --card-bg: #1E293B; --text-main: #F8FAFC; --text-sub: #94A3B8;
             --primary: #8B5CF6; --accent: #FACC15; /* Purple Theme */
             --border-glow: 0 0 15px rgba(139, 92, 246, 0.5);
+            --grad-shopping-1: linear-gradient(135deg, #8B5CF6, #C084FC);
+            --grad-shopping-2: linear-gradient(135deg, #F59E0B, #FBBF24);
+            --grad-shopping-3: linear-gradient(135deg, #06B6D4, #2DD4BF);
         }
         body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-top: 110px; padding-bottom: 90px; }
 
-        #smart-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(16px); transition: transform 0.3s ease; border-bottom: 1px solid rgba(255,255,255,0.05); padding-top: env(safe-area-inset-top); }
+        @keyframes borderFlow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+        #smart-header { 
+            position: fixed; top: 0; left: 0; right: 0; z-index: 50; 
+            background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(16px); 
+            transition: transform 0.3s ease; padding-top: env(safe-area-inset-top); 
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        #smart-header::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--primary), transparent);
+            background-size: 200% 100%; animation: borderFlow 3s linear infinite;
+            box-shadow: 0 1px 10px rgba(139, 92, 246, 0.4);
+        }
+
         .nav-hidden { transform: translateY(-100%); }
         .header-top { display: flex; align-items: center; justify-content: space-between; height: 50px; padding: 0 16px; }
         .app-logo { width: 32px; height: 32px; border-radius: 8px; margin-right: 10px; border: 1px solid rgba(255,255,255,0.1); }
@@ -31,11 +47,12 @@
         .sidebar-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 90; opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(4px); }
         .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #0f172a; z-index: 100; transform: translateX(-100%); transition: 0.3s cubic-bezier(0.4,0,0.2,1); padding-top: env(safe-area-inset-top); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; }
         .sidebar-open .sidebar-mask { opacity: 1; pointer-events: auto; } .sidebar-open .sidebar { transform: translateX(0); }
-        .sidebar-header { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; font-size: 1.2rem; font-weight: 700; color: #fff; }
-        .sidebar-item { padding: 16px 20px; display: flex; align-items: center; gap: 16px; color: #cbd5e1; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
+        .sidebar-header { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; font-size: 1.2rem; font-weight: 700; color: #fff; background: linear-gradient(to right, rgba(139, 92, 246, 0.1), transparent); }
+        .sidebar-item { padding: 16px 20px; display: flex; align-items: center; gap: 16px; color: #ffffff; font-weight: 500; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; text-shadow: 0 0 5px rgba(0,0,0,0.5); }
         .sidebar-item:active { background: rgba(255,255,255,0.05); }
-        .sidebar-item.selected { background: linear-gradient(90deg, rgba(139, 92, 246, 0.15), transparent); color: #fff; border-left: 4px solid var(--primary); }
+        .sidebar-item.selected { background: linear-gradient(90deg, rgba(139, 92, 246, 0.15), transparent); color: #fff; border-left: 4px solid var(--primary); text-shadow: 0 0 8px rgba(139, 92, 246, 0.6); }
         .sidebar-icon-box { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary); }
+        .sidebar-item.selected .sidebar-icon-box { background: var(--primary); color: #fff; box-shadow: 0 0 10px rgba(139, 92, 246, 0.4); }
 
         .section-title-card { 
             margin: 2rem 1rem 1rem; padding: 12px 16px; border-radius: 12px;
@@ -209,15 +226,14 @@
             const n=Date.now();
             document.querySelectorAll('.badge-timer').forEach(e=>{
                 const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;
-                
-                if(s > n) { // Upcoming
-                    e.innerText = `即将开始 ${fmt(s-n)}`; e.className='badge badge-timer'; 
-                } else if (end && end < n) { // Expired
-                    e.innerText = '已结束'; e.className='badge badge-timer expired';
-                } else if (end) { // Active with End
-                    e.innerText = `剩余 ${fmt(end-n)}`; e.className='badge badge-timer';
-                } else { // Long Term
-                    e.innerText = '长期'; e.className='badge badge-timer';
+                if(s > n) { 
+                    e.innerText = `即将开始 ${fmt(s-n)}`; e.classList.remove('expired');
+                } else if (end && end < n) { 
+                    e.innerText = '已结束'; e.classList.add('expired');
+                } else if (end) { 
+                    e.innerText = `剩余 ${fmt(end-n)}`; e.classList.remove('expired');
+                } else { 
+                    e.innerText = '长期'; e.classList.remove('expired');
                 }
             });
         }
