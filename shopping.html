@@ -18,7 +18,7 @@
             --grad-shopping-2: linear-gradient(135deg, #F59E0B, #FBBF24);
             --grad-shopping-3: linear-gradient(135deg, #06B6D4, #2DD4BF);
         }
-        body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-top: 110px; padding-bottom: 90px; }
+        body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-top: 120px; padding-bottom: 90px; }
 
         @keyframes borderFlow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
         #smart-header { 
@@ -39,7 +39,7 @@
         .app-logo { width: 32px; height: 32px; border-radius: 8px; margin-right: 10px; border: 1px solid rgba(255,255,255,0.1); }
         .page-title { font-size: 1.2rem; font-weight: 800; color: #fff; text-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
 
-        .filter-bar { display: flex; gap: 10px; overflow-x: auto; padding: 8px 16px 12px; scrollbar-width: none; align-items: center; }
+        .filter-bar { display: flex; gap: 10px; overflow-x: auto; padding: 12px 16px; scrollbar-width: none; align-items: center; }
         .chip { display: inline-flex; align-items: center; height: 34px; padding: 0 16px; border-radius: 999px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; flex-shrink: 0; background: rgba(255,255,255,0.05); color: var(--text-sub); border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s; }
         .chip.active { background: var(--primary); color: #fff; border-color: transparent; box-shadow: var(--border-glow); }
         .chip-trigger { background: #334155; color: #fff; border-color: rgba(255,255,255,0.2); }
@@ -59,8 +59,7 @@
             background: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(15,23,42,0.8));
             border: 1px solid rgba(255,255,255,0.08);
             display: flex; align-items: center; gap: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            position: relative; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); position: relative; overflow: hidden;
         }
         .section-title-card::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:2px; background: linear-gradient(90deg, var(--primary), transparent); }
         .section-title-h2 { font-size: 1.1rem; font-weight: 800; color: #fff; text-shadow: 0 0 5px rgba(255,255,255,0.3); }
