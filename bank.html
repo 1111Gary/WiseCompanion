@@ -18,8 +18,24 @@
         }
         body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-top: 110px; padding-bottom: 90px; -webkit-tap-highlight-color: transparent; }
 
-        /* Header */
-        #smart-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(16px); transition: transform 0.3s ease; border-bottom: 1px solid rgba(255,255,255,0.05); padding-top: env(safe-area-inset-top); }
+        /* --- Header with Streaming Border --- */
+        @keyframes borderFlow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+        #smart-header { 
+            position: fixed; top: 0; left: 0; right: 0; z-index: 50; 
+            background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(16px); 
+            transition: transform 0.3s ease; padding-top: env(safe-area-inset-top); 
+            /* 移除旧边框，使用伪元素做流光 */
+            border-bottom: none;
+        }
+        /* 流光特效 */
+        #smart-header::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--primary), transparent);
+            background-size: 200% 100%;
+            animation: borderFlow 3s linear infinite;
+            box-shadow: 0 1px 10px rgba(59, 130, 246, 0.4);
+        }
+        
         .nav-hidden { transform: translateY(-100%); }
         .header-top { display: flex; align-items: center; justify-content: space-between; height: 50px; padding: 0 16px; }
         .app-logo { width: 32px; height: 32px; border-radius: 8px; margin-right: 10px; border: 1px solid rgba(255,255,255,0.1); }
@@ -33,19 +49,25 @@
         
         /* Sidebar */
         .sidebar-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 90; opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(4px); }
-        .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 300px; background: #0f172a; z-index: 100; transform: translateX(-100%); transition: 0.3s cubic-bezier(0.4,0,0.2,1); padding-top: env(safe-area-inset-top); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; }
+        .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #0f172a; z-index: 100; transform: translateX(-100%); transition: 0.3s cubic-bezier(0.4,0,0.2,1); padding-top: env(safe-area-inset-top); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; }
         .sidebar-open .sidebar-mask { opacity: 1; pointer-events: auto; }
         .sidebar-open .sidebar { transform: translateX(0); }
         .sidebar-header { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; font-size: 1.2rem; font-weight: 700; color: #fff; background: linear-gradient(to right, rgba(59,130,246,0.1), transparent); }
         
-        /* [高级] Sidebar Item */
-        .sidebar-item { padding: 16px 20px; display: flex; align-items: center; gap: 16px; color: #cbd5e1; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; position: relative; overflow: hidden; }
+        /* [升级] Sidebar Item: 纯白高亮 + 文字光晕 */
+        .sidebar-item { 
+            padding: 16px 20px; display: flex; align-items: center; gap: 16px; 
+            color: #ffffff; /* 纯白 */
+            font-weight: 500; transition: 0.2s; 
+            border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; position: relative; overflow: hidden;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5); /* 增强对比 */
+        }
         .sidebar-item:active { background: rgba(255,255,255,0.05); }
-        .sidebar-item.selected { background: linear-gradient(90deg, rgba(59,130,246,0.15), transparent); color: #fff; border-left: 4px solid var(--primary); }
+        .sidebar-item.selected { background: linear-gradient(90deg, rgba(59,130,246,0.15), transparent); color: #fff; border-left: 4px solid var(--primary); text-shadow: 0 0 8px rgba(59,130,246,0.6); }
         .sidebar-icon-box { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary); transition: 0.2s; }
         .sidebar-item.selected .sidebar-icon-box { background: var(--primary); color: #fff; box-shadow: 0 0 10px rgba(59,130,246,0.4); }
 
-        /* [高级] Section Title */
+        /* Section Title (With Glass Border) */
         .section-title-card { 
             margin: 2rem 1rem 1rem; padding: 12px 16px; border-radius: 12px;
             background: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(15,23,42,0.8));
@@ -74,7 +96,6 @@
 
         .card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); }
         
-        /* 椭圆弧形边框按钮 + 高级设计 */
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: 6px 16px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; transition: 0.2s; border: 1px solid transparent; }
         .btn-share { background: rgba(59, 130, 246, 0.1); color: var(--primary); border-color: rgba(59, 130, 246, 0.3); }
         .btn-primary { background: linear-gradient(135deg, var(--primary), #2563EB); color: #fff; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); border: 1px solid rgba(255,255,255,0.2); }
@@ -82,7 +103,6 @@
         .btn-voice.speaking { background: #EF4444; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 
-        /* Premium Card */
         .premium-card { display: block; margin: 2rem 1rem; padding: 24px; border-radius: 20px; background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden; text-align: center; text-decoration: none; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         .premium-card::before { content:''; position: absolute; inset: 0; padding: 1px; border-radius: 20px; background: linear-gradient(135deg, #FACC15, #F472B6, transparent); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; pointer-events: none; }
         .premium-title { font-size: 1.2rem; font-weight: 800; background: linear-gradient(to right, #FACC15, #F472B6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-flex; align-items: center; gap: 8px; }
@@ -119,7 +139,7 @@
         <div class="section-title-card"><h2 class="section-title-h2"><i class="fas fa-tasks text-pink-400 mr-2"></i> 做任务领红包</h2></div><div id="mission-rewards-list"></div>
         <div class="section-title-card"><h2 class="section-title-h2"><i class="fas fa-sack-dollar text-yellow-400 mr-2"></i> 存款理财</h2></div><div id="savings-tasks-list"></div>
         
-        <a href="./premium.html" class="premium-card">
+        <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'bank' })">
             <div class="premium-title"><i class="fas fa-crown"></i> 高级会员专区</div>
             <div class="premium-desc">AI 自动提醒 • 收益最大化助手</div>
         </a>
@@ -134,11 +154,10 @@
     </nav>
     
     <script>
-        let ALL=[], selPlat='All', selStatus='Active';
+        let ALL=[], selPlat='All', selStatus='ongoing';
         const CAT_MAP={'DailyTask':{icon:'fa-calendar-day',color:'#10B981'},'MissionReward':{icon:'fa-tasks',color:'#EC4899'},'Deposit':{icon:'fa-sack-dollar',color:'#FBBF24'}};
         const synth=window.speechSynthesis; let spkBtn=null;
 
-        // Scroll & Pos
         let lastY=0; const h=document.getElementById('smart-header');
         window.addEventListener('scroll', ()=>{const y=scrollY; if(Math.abs(y-lastY)<10)return; h.classList.toggle('nav-hidden', y>lastY&&y>60); lastY=y; debounceSave();});
         
@@ -160,9 +179,9 @@
         function initUI() {
             const bar=document.getElementById('filter-bar');
             bar.innerHTML = `<button class="chip chip-trigger ${selPlat==='All'?'active':''}" onclick="toggleSidebar()">
-                <i class="fas fa-layer-group mr-2"></i> ${selPlat==='All'?'全部平台':selPlat}
+                <i class="fas fa-layer-group mr-1"></i> ${selPlat==='All'?'全部平台':selPlat}
             </button>`;
-            const sts=[{v:'Active',t:'进行中'},{v:'Upcoming',t:'即将开始'},{v:'Expired',t:'已结束'}];
+            const sts=[{v:'ongoing',t:'进行中'},{v:'upcoming',t:'即将开始'},{v:'finished',t:'已结束'}];
             sts.forEach(s=>bar.innerHTML+=`<button class="chip ${selStatus===s.v?'active':''}" onclick="setSt('${s.v}')">${s.t}</button>`);
 
             const sb=document.getElementById('sidebar-content'); const ps=new Set(); ALL.forEach(a=>ps.add(a.sourceApp));
@@ -182,8 +201,8 @@
             
             ALL.filter(a=>{
                 const e=a.endDate?new Date(a.endDate).getTime():null, s=a.startDate?new Date(a.startDate).getTime():null;
-                if(selStatus==='Upcoming') return s && s > now;
-                if(selStatus==='Expired') return e && e < now;
+                if(selStatus==='upcoming') return s && s > now;
+                if(selStatus==='finished') return e && e < now;
                 return (!s || s<=now) && (!e || e>=now);
             }).filter(a=>selPlat==='All'||a.sourceApp===selPlat).forEach(a=>{
                 const cat=a.category.find(c=>CAT_MAP[c]); if(cat&&ls[cat]) ls[cat].innerHTML+=card(a,cat);
@@ -218,19 +237,17 @@
         function spk(b){const t=b.dataset.t;if(b.classList.contains('speaking')){synth.cancel();b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;return;}synth.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=0.75;u.onstart=()=>{b.classList.add('speaking');b.innerHTML=`<i class="fas fa-stop mr-1"></i> 停止`;};u.onend=()=>{b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;};synth.speak(u);}
         function shr(id){const u=`${location.origin}/go.html?id=${id}`;if(navigator.share){navigator.share({title:'分享活动',url:u}).catch(()=>{})}else{prompt('复制链接:',u)}}
         
-        // [核心] 倒计时逻辑修复
         function updTm(){
             const n=Date.now();
             document.querySelectorAll('.badge-timer').forEach(e=>{
                 const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;
-                
-                if(s > n) { // Upcoming
-                    e.innerText = `即将开始 ${fmt(s-n)}`; e.className='badge badge-timer'; // Blue/Normal
-                } else if (end && end < n) { // Expired
+                if(s > n) { 
+                    e.innerText = `即将开始 ${fmt(s-n)}`; e.className='badge badge-timer'; 
+                } else if (end && end < n) { 
                     e.innerText = '已结束'; e.className='badge badge-timer expired';
-                } else if (end) { // Active with End
+                } else if (end) { 
                     e.innerText = `剩余 ${fmt(end-n)}`; e.className='badge badge-timer';
-                } else { // Long Term (No End)
+                } else { 
                     e.innerText = '长期'; e.className='badge badge-timer';
                 }
             });
