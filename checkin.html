@@ -4,212 +4,166 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>慧伴管家 - 天天有奖</title>
-    <!-- Umami 埋点 -->
     <script async defer src="https://umami.example.com/script.js" data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" data-do-not-track="true" data-domains="1111gary.github.io"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     <style>
-        /* 主题色：极光绿 */
         :root {
-            --color-bg-dark: #0B1120; --color-card-bg: #1E293B; --color-text-light: #F1F5F9; --color-text-muted: #94A3B8;
-            --color-primary: #10B981; --color-highlight: #FACC15;
-            --color-checkin-1: #10B981; --grad-checkin-1: linear-gradient(135deg, #10B981, #34D399);
-            --color-checkin-2: #EC4899; --grad-checkin-2: linear-gradient(135deg, #EC4899, #F472B6);
-            --color-bank-bg: #1F2A40; --color-special-note: #F59E0B;
+            --color-bg-dark: #0B1120; --color-primary: #10B981; --color-highlight: #FACC15;
+            --grad-title: linear-gradient(to right, #10B981, #34D399);
         }
-        body { background-color: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; padding-top: 100px; /* 留出Header高度 */ }
+        body { background-color: var(--color-bg-dark); color: #fff; padding-bottom: 85px; font-family: sans-serif; padding-top: 110px; }
 
-        /* --- YouTube Style Header (Green Theme) --- */
-        #smart-header {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-            background: rgba(11, 17, 32, 0.98); backdrop-filter: blur(15px);
-            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-top: env(safe-area-inset-top);
-        }
+        #smart-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(11,17,32,0.98); backdrop-filter: blur(15px); transition: transform 0.3s; border-bottom: 1px solid rgba(255,255,255,0.05); padding-top: env(safe-area-inset-top); }
         .nav-hidden { transform: translateY(-100%); }
         .header-row-top { display: flex; align-items: center; justify-content: space-between; height: 48px; padding: 0 16px; }
-        .header-logo { width: 28px; height: 28px; border-radius: 6px; margin-right: 8px; }
-        .header-title { font-size: 1.1rem; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
-        
-        /* 筛选栏 (Unified) */
-        .unified-filter-row { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 12px 16px; scrollbar-width: none; align-items: center; }
-        .unified-filter-row::-webkit-scrollbar { display: none; }
-        
-        .chip-btn {
-            display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 8px; 
-            font-size: 0.85rem; font-weight: 600; background: rgba(30,41,59,0.8); color: var(--color-text-muted); 
-            border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; transition: all 0.2s; white-space: nowrap;
-        }
-        /* 激活态 (Green) */
-        .chip-btn.active { background: var(--color-primary); color: #fff; border-color: transparent; box-shadow: 0 2px 8px rgba(16,185,129,0.4); }
-        .chip-btn[data-val="Upcoming"].active { background: #EC4899; box-shadow: 0 2px 8px rgba(236, 72, 153, 0.4); }
-        .chip-btn[data-val="Expired"].active { background: #64748B; box-shadow: none; }
+        .header-logo { width: 28px; height: 28px; border-radius: 6px; margin-right: 10px; }
+        .header-title { font-size: 1.25rem; font-weight: 800; background: var(--grad-title); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px; }
 
-        /* 列表样式 */
-        .section-title-card { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 12px; padding: 12px 16px; margin: 1.5rem 1rem 1rem 1rem; border-left: 4px solid var(--color-primary); display: flex; align-items: center; }
-        .section-title-card h2 { font-size: 1.1rem; font-weight: 800; margin-left: 10px; color: #fff; }
+        .header-row-filter { display: flex; gap: 8px; overflow-x: auto; padding: 4px 16px 12px; scrollbar-width: none; }
+        .chip { display: inline-flex; height: 34px; padding: 0 14px; border-radius: 8px; font-size: 0.9rem; background: #272727; color: #aaa; border: 1px solid rgba(255,255,255,0.05); align-items: center; flex-shrink: 0; font-weight: 600; }
+        .chip-special { background: #333; color: #fff; }
+        .chip.active { background: #fff; color: #000; font-weight: 700; }
+        .chip[data-val="Upcoming"].active { background: #EC4899; color: #fff; }
+        .chip[data-val="Expired"].active { background: #64748B; color: #fff; }
 
-        .task-list-card { background: var(--color-bank-bg); border-radius: 15px; padding: 16px; margin: 0 1rem 15px 1rem; border-left: 5px solid; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
-        .task-checkin-1 { border-color: var(--color-checkin-1); } 
-        .icon-checkin-1 { background: var(--grad-checkin-1); }
-        .task-checkin-2 { border-color: var(--color-checkin-2); } 
-        .icon-checkin-2 { background: var(--grad-checkin-2); }
+        .section-title-card { margin: 1.5rem 1rem 1rem; border-left: 4px solid #10B981; padding-left: 12px; font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; }
+        
+        .task-list-card { background: #1F2A40; border-radius: 12px; margin: 0 1rem 1rem; border-left: 4px solid #10B981; padding: 16px; position: relative; display: flex; flex-direction: column; }
+        .badges-container { position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; }
+        .countdown-badge { background: #EC4899; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
+        .special-note-badge { background: #FBBF24; color: #000; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
+        
+        .task-main { display: flex; margin-top: 10px; align-items: flex-start; }
+        .task-icon { width: 42px; height: 42px; border-radius: 10px; background: linear-gradient(135deg, #10B981, #34D399); display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0; font-size: 1.2rem; }
+        
+        /* [核心] 标题行对齐 */
+        .task-content { flex: 1; min-width: 0; }
+        .task-head-row { display: flex; justify-content: space-between; width: 100%; align-items: flex-start; }
+        .task-title { font-weight: 700; font-size: 1rem; line-height: 1.3; }
+        
+        .card-footer { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
+        .btn-go { background: #10B981; color: #000; padding: 6px 18px; border-radius: 99px; font-weight: 700; font-size: 0.8rem; }
+        .btn-voice { background: #38BDF8; color: #000; padding: 6px 18px; border-radius: 99px; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; gap: 4px; }
 
-        /* 核心布局：Row */
-        .task-main-content { display: flex; flex-direction: row; align-items: flex-start; width: 100%; margin-top: 25px; }
-        .task-icon { width: 44px; height: 44px; border-radius: 12px; color: #fff; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
-        
-        .task-content { flex: 1; min-width: 0; display: flex; flex-direction: column; } 
-        /* 标题行：Flex Wrap */
-        .task-header-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
-        .task-title { font-size: 1rem; font-weight: 700; color: #F1F5F9; line-height: 1.3; }
-        .task-subtitle { font-size: 0.8rem; color: #94A3B8; margin-top: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        
-        /* 倒计时 (粉红高亮) */
-        .countdown-badge { position: absolute; top: 0; right: 0; background: #EC4899; color: #fff; padding: 4px 10px; border-radius: 0 15px 0 12px; font-size: 0.75rem; font-weight: 700; z-index: 4; box-shadow: 0 2px 4px rgba(236,72,153,0.3); }
-        .countdown-badge.expired { background: #334155; color: #94A3B8; box-shadow: none; }
-        
-        /* Special Note (右侧并排) */
-        .special-note-badge { font-size: 0.7rem; background: linear-gradient(to right, #F59E0B, #FBBF24); color: #000; padding: 1px 8px; border-radius: 4px; font-weight: 700; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+        /* Sidebar */
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 90; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .sidebar-menu { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #1e1e1e; z-index: 100; transform: translateX(-100%); transition: transform 0.3s; padding-top: env(safe-area-inset-top); }
+        .sidebar-open .sidebar-overlay { opacity: 1; pointer-events: auto; } .sidebar-open .sidebar-menu { transform: translateX(0); }
+        .sidebar-item { padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #eee; }
 
-        .task-action-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--color-card-bg); }
-        .share-button { background-color: var(--color-card-bg); color: var(--color-primary); border: 1px solid var(--color-primary); font-weight: 600; padding: 8px 15px; border-radius: 9999px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px; }
-        
-        .action-button { background: var(--color-primary); color: #fff; border-radius: 99px; padding: 8px 18px; font-size: 0.8rem; font-weight: 700; min-width: 100px; display: flex; justify-content: center; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3); }
-        .action-button-voice { background: #38BDF8; box-shadow: 0 2px 8px rgba(56, 189, 248, 0.3); }
-        .action-button-voice.speaking { background: #EF4444; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%{opacity:1} 50%{opacity:0.6} 100%{opacity:1} }
-        
-        .premium-card { display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px; text-align: center; border: 2px solid transparent; border-image: linear-gradient(135deg, #FACC15, #F472B6); border-image-slice: 1; box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin: 2rem 1rem; }
-        .premium-card h2 { font-size: 1.3rem; font-weight: 800; background: linear-gradient(135deg, #FACC15, #F472B6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-
-        .tab-bar { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; align-items: center; height: 60px; background-color: var(--color-bg-dark); border-top: 1px solid #1A2233; z-index: 60; padding-bottom: env(safe-area-inset-bottom); }
-        .tab-item { display: flex; flex-direction: column; align-items: center; color: #94A3B8; font-size: 0.7rem; }
-        .tab-item.active { color: var(--color-primary); } .tab-icon { font-size: 1.3rem; margin-bottom: 3px; }
+        .tab-bar { position: fixed; bottom: 0; width: 100%; height: 60px; background: rgba(15,15,15,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); z-index: 50; padding-bottom: env(safe-area-inset-bottom); }
+        .tab-item.active { color: #10B981; } .tab-item { color: #666; font-size: 0.7rem; display: flex; flex-direction: column; align-items: center; }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar-menu">
+        <div style="padding:20px;font-weight:700;font-size:1.2rem;color:#fff;border-bottom:1px solid rgba(255,255,255,0.1);">筛选平台</div>
+        <div id="sidebar-content" style="overflow-y:auto;height:calc(100% - 60px);"></div>
+    </div>
+
     <header id="smart-header">
         <div class="header-row-top">
-            <div style="display:flex;align-items:center;gap:10px;">
+            <div style="display:flex;align-items:center;">
                 <img src="./assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/10B981/ffffff?text=C'" class="header-logo">
                 <span class="header-title">天天有奖</span>
             </div>
-            <a href="./index.html" class="text-gray-300 text-xl"><i class="fas fa-arrow-left"></i></a>
+            <a href="./index.html" class="text-gray-400 text-xl"><i class="fas fa-arrow-left"></i></a>
         </div>
-        <div class="unified-filter-row" id="unified-filter-container">
-            <!-- JS -->
-        </div>
+        <div class="header-row-filter" id="unified-filter-container"></div>
     </header>
 
     <main>
-        <div class="section-title-card"><h2><i class="fas fa-calendar-check text-[#10B981]"></i> 日常签到</h2></div><div id="daily-checkin-list"></div>
-        <div class="section-title-card"><h2><i class="fas fa-stopwatch text-[#EC4899]"></i> 整点抢红包</h2></div><div id="voucher-list"></div>
-
-        <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'checkin' })">
-            <h2><i class="fas fa-crown mr-2"></i> 高级会员专区</h2>
-            <p class="text-gray-400 text-sm mt-2">解锁 AI 自动任务提醒功能</p>
-        </a>
+        <div class="section-title-card"><i class="fas fa-calendar-check mr-2 text-green-400"></i> 日常签到</div><div id="daily-checkin-list"></div>
+        <div class="section-title-card"><i class="fas fa-stopwatch mr-2 text-pink-400"></i> 整点抢红包</div><div id="voucher-list"></div>
+        <div style="height:40px"></div>
     </main>
     
     <nav class="tab-bar">
-        <a href="./index.html" class="tab-item"><i class="fas fa-home tab-icon"></i><span>首页</span></a>
-        <span class="tab-item active"><i class="fas fa-gifts tab-icon"></i><span>天天有奖</span></span>
-        <a href="./video.html" class="tab-item"><i class="fas fa-play-circle tab-icon"></i><span>看视频赚</span></a>
-        <a href="./bank.html" class="tab-item"><i class="fas fa-hand-holding-usd tab-icon"></i><span>捡钱任务</span></a>
-        <a href="./shopping.html" class="tab-item"><i class="fas fa-tags tab-icon"></i><span>省钱秘籍</span></a>
+        <a href="./index.html" class="tab-item"><i class="fas fa-home text-xl mb-1"></i>首页</a>
+        <span class="tab-item active"><i class="fas fa-gifts text-xl mb-1"></i>天天有奖</span>
+        <a href="./video.html" class="tab-item"><i class="fas fa-play-circle text-xl mb-1"></i>看视频赚</a>
+        <a href="./bank.html" class="tab-item"><i class="fas fa-hand-holding-usd text-xl mb-1"></i>捡钱任务</a>
+        <a href="./shopping.html" class="tab-item"><i class="fas fa-tags text-xl mb-1"></i>省钱秘籍</a>
     </nav>
-    
-    <script>
-        let ALL_ACTIVITIES=[], selectedPlatform='All', globalStatus='Active';
-        const CATEGORY_MAP={'DailyCheckin':{icon:'fa-calendar-check',color:'#10B981',border:'task-checkin-1'},'Voucher':{icon:'fa-stopwatch',color:'#EC4899',border:'task-checkin-2'}};
-        const synth=window.speechSynthesis; let currentUtterance=null, speakingButton=null;
 
-        // 滚动记忆 & Header 隐显
-        let lastY = 0; const h = document.getElementById('smart-header');
-        window.addEventListener('scroll', () => {
-            const y = window.scrollY; if(Math.abs(y-lastY)<10)return;
-            if(y>lastY && y>60) h.style.transform='translateY(-100%)'; else h.style.transform='translateY(0)';
-            lastY = y;
-        });
-        if('scrollRestoration' in history) history.scrollRestoration = 'manual';
-        window.addEventListener('beforeunload', () => sessionStorage.setItem('pos_checkin', window.scrollY));
+    <script>
+        let ALL=[], selStatus='Active', selPlat='All';
+        const CAT_MAP={'DailyCheckin':{icon:'fa-calendar-check',color:'#10B981'},'Voucher':{icon:'fa-stopwatch',color:'#EC4899'}};
+        const synth=window.speechSynthesis; let spkBtn=null;
+
+        let lastY=0; const h=document.getElementById('smart-header');
+        window.addEventListener('scroll', ()=>{const y=scrollY; if(Math.abs(y-lastY)<10)return; h.style.transform=y>lastY&&y>60?'translateY(-100%)':'translateY(0)'; lastY=y;});
+        if('scrollRestoration' in history) history.scrollRestoration='manual';
+        window.addEventListener('beforeunload', ()=>sessionStorage.setItem('pos_checkin', scrollY));
 
         document.addEventListener('DOMContentLoaded', () => {
-            fetch('./activities.json').then(r=>r.json()).then(data => {
-                ALL_ACTIVITIES=data.filter(a=>a.category&&(a.category.includes('DailyCheckin')||a.category.includes('Voucher')));
-                initFilters(); render(); setInterval(updateTimers, 1000);
-                const y = sessionStorage.getItem('pos_checkin'); if(y) setTimeout(()=>window.scrollTo(0,parseInt(y)),50);
+            fetch('./activities.json').then(r=>r.json()).then(d => {
+                ALL=d.filter(a=>a.category&&(a.category.includes('DailyCheckin')||a.category.includes('Voucher')));
+                initUI(); setInterval(updTm, 1000);
+                const y=sessionStorage.getItem('pos_checkin'); if(y) setTimeout(()=>window.scrollTo(0,parseInt(y)),50);
             });
         });
 
-        function initFilters() {
-            const c = document.getElementById('unified-filter-container');
-            const sts = [{v:'Active',t:'进行中',i:'fa-fire-alt'},{v:'Upcoming',t:'即将开始',i:'fa-clock'},{v:'Expired',t:'已结束',i:'fa-history'}];
-            sts.forEach(s => c.innerHTML += `<button class="chip-btn ${globalStatus===s.v?'active':''}" data-val="${s.v}" onclick="setStatus('${s.v}')"><i class="fas ${s.i} mr-1"></i> ${s.t}</button>`);
-            // 平台筛选逻辑 (如有)
-            c.innerHTML += `<div style="width:1px;height:20px;background:rgba(255,255,255,0.1);margin:0 5px;"></div>`;
-            const pSet = new Set(); ALL_ACTIVITIES.forEach(a=>pSet.add(a.sourceApp));
-            c.innerHTML += `<button class="chip-btn ${selectedPlatform==='All'?'active':''}" onclick="setPlatform('All')">全部</button>`;
-            pSet.forEach(p => { if(p) c.innerHTML += `<button class="chip-btn ${selectedPlatform===p?'active':''}" onclick="setPlatform('${p}')">${p}</button>`; });
+        function initUI() {
+            const c=document.getElementById('unified-filter-container');
+            c.innerHTML = `<button class="chip chip-special" onclick="toggleSidebar()"><i class="fas fa-bars mr-2"></i> ${selPlat==='All'?'全部':selPlat}</button>`;
+            [{v:'Active',t:'进行中'},{v:'Upcoming',t:'即将开始'},{v:'Expired',t:'已结束'}].forEach(s=>c.innerHTML+=`<button class="chip ${selStatus===s.v?'active':''}" data-val="${s.v}" onclick="setSt('${s.v}')">${s.t}</button>`);
+            
+            const sb=document.getElementById('sidebar-content'); const ps=new Set(); ALL.forEach(a=>ps.add(a.sourceApp));
+            let h=`<div class="sidebar-item" onclick="setPl('All')">全部平台</div>`;
+            ps.forEach(p=>{if(p)h+=`<div class="sidebar-item" onclick="setPl('${p}')">${p}</div>`});
+            sb.innerHTML=h;
+            render();
         }
-        function setStatus(s){ globalStatus=s; render(); initFilters(); }
-        function setPlatform(p){ selectedPlatform=p; render(); initFilters(); }
+        
+        function toggleSidebar(){document.body.classList.toggle('sidebar-open');}
+        function setSt(s){selStatus=s; initUI(); render();}
+        function setPl(p){selPlat=p; toggleSidebar(); initUI(); render();}
 
         function render() {
-            const lists={'DailyCheckin':document.getElementById('daily-checkin-list'),'Voucher':document.getElementById('voucher-list')};
-            Object.values(lists).forEach(l=>l.innerHTML='');
-            const now = Date.now();
-            let hasItem = false;
-            ALL_ACTIVITIES.filter(act => {
-                const e=act.endDate?new Date(act.endDate).getTime():null, s=act.startDate?new Date(act.startDate).getTime():null;
-                if(globalStatus==='Expired') return e && e<now;
-                if(globalStatus==='Upcoming') return s && s>now;
-                return (!s || s<=now) && (!e || e>=now);
-            }).filter(act => selectedPlatform==='All' || act.sourceApp===selectedPlatform).forEach(act => {
-                const cat = act.category.find(c => CATEGORY_MAP[c]);
-                if(cat && lists[cat]) { hasItem=true; lists[cat].innerHTML += createCard(act, cat, globalStatus); }
+            const ls={'DailyCheckin':document.getElementById('daily-checkin-list'),'Voucher':document.getElementById('voucher-list')};
+            Object.values(ls).forEach(e=>e.innerHTML='');
+            const now=Date.now();
+            ALL.filter(a=>{
+                const e=a.endDate?new Date(a.endDate).getTime():null, s=a.startDate?new Date(a.startDate).getTime():null;
+                if(selStatus==='Expired')return e&&e<now; if(selStatus==='Upcoming')return s&&s>now; return (!s||s<=now)&&(!e||e>=now);
+            }).filter(a=>selPlat==='All'||a.sourceApp===selPlat).forEach(a=>{
+                const cat=a.category.find(c=>CAT_MAP[c]); if(cat&&ls[cat]) ls[cat].innerHTML+=card(a,cat);
             });
-            if(!hasItem) document.getElementById('daily-checkin-list').innerHTML = `<p class="text-center text-gray-500 py-4 text-sm w-full">暂无活动</p>`;
-            
-            document.querySelectorAll('.action-button-voice').forEach(b => b.onclick = e => toggleSpeech(e.currentTarget, e.currentTarget.dataset.steps));
-            document.querySelectorAll('.share-button').forEach(b => b.onclick = e => share(e.currentTarget));
-            updateTimers();
         }
 
-        function createCard(act, cat, status) {
-            const s = CATEGORY_MAP[cat], isExp = status==='Expired';
-            let btn = act.link&&act.link!=='#' ? `<a href="${act.link}" target="_blank" class="action-button ${isExp?'opacity-50':''}" ${isExp?'onclick="return false"':''}><i class="fas fa-rocket"></i> 去领取</a>` : (act.StepsText ? `<button class="action-button action-button-voice ${isExp?'opacity-50':''}" data-steps="${act.StepsText.replace(/"/g,'&quot;')}" ${isExp?'disabled':''}><i class="fas fa-volume-high"></i> 播放语音</button>` : `<button class="action-button opacity-50" disabled>暂无指引</button>`);
-            let badgeClass = ''; if (status === 'Upcoming') badgeClass = 'upcoming'; else if (status === 'Expired') badgeClass = 'expired';
-            let badge = `<span class="countdown-badge ${badgeClass}" data-start="${act.startDate}" data-end="${act.endDate}">计算中...</span>`;
-
-            return `<div class="task-list-card ${s.border} ${isExp?'opacity-50 grayscale':''}">
-                ${badge}
-                <div class="task-main-content">
-                    <div class="task-icon ${s.iconClass}" style="background:${s.color}"><i class="fas ${s.icon}"></i></div>
+        function card(a,cat) {
+            const s=CAT_MAP[cat];
+            let btn=a.link&&a.link!=='#'?`<a href="${a.link}" target="_blank" class="btn-go">去领取</a>`:(a.StepsText?`<button class="btn-voice" data-t="${a.StepsText.replace(/"/g,'&quot;')}" onclick="spk(this)"><i class="fas fa-volume-high"></i> 播放语音</button>`:`<button style="opacity:0.5" disabled>暂无</button>`);
+            return `<div class="task-list-card">
+                <div class="badges-container">
+                    ${a.specialNote?`<span class="special-note-badge">${a.specialNote}</span>`:''}
+                    <span class="countdown-badge" data-e="${a.endDate}" data-s="${a.startDate}">...</span>
+                </div>
+                <div class="task-main">
+                    <div class="task-icon"><i class="fas ${s.icon}"></i></div>
                     <div class="task-content">
-                        <div class="task-header-row">
-                            <span class="task-title">${act.name}</span>
-                            ${act.specialNote ? `<span class="special-note-badge">${act.specialNote}</span>` : ''}
+                        <div class="task-head-row">
+                             <div class="task-title">${a.name}</div>
                         </div>
-                        <div class="task-subtitle">${act.description||''}</div>
+                        <div style="font-size:0.8rem;color:#aaa;margin-top:4px;">${a.description||''}</div>
                     </div>
                 </div>
-                <div class="task-action-bar">
-                    <button class="share-button" data-id="${act.id}"><i class="fas fa-share-alt"></i> 分享</button>
+                <div class="card-footer">
+                    <button style="color:#888;font-size:0.8rem;font-weight:600;" onclick="shr('${a.id}')"><i class="fas fa-share-alt"></i> 分享</button>
                     ${btn}
                 </div>
             </div>`;
         }
-        
-        function toggleSpeech(btn,t){if(!synth)return; if(btn.classList.contains('speaking')){synth.cancel();btn.classList.remove('speaking');btn.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`;return;} synth.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='zh-CN'; u.rate=0.75; u.onstart=()=>{speakingButton=btn; btn.classList.add('speaking'); btn.innerHTML=`<i class="fas fa-wave-square"></i> 播放中`;}; u.onend=()=>{btn.classList.remove('speaking'); btn.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`;}; synth.speak(u);}
-        function share(btn){ const url=`${location.origin}${location.pathname.replace('checkin.html','go.html')}?id=${btn.dataset.id}`; try{const t=document.createElement('textarea'); t.value=`活动分享：${url}`; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); const old=btn.innerHTML; btn.innerHTML=`<i class="fas fa-check"></i> 已复制`; setTimeout(()=>btn.innerHTML=old,2000);}catch(e){alert(url);} }
-        function updateTimers(){ const now=Date.now(); document.querySelectorAll('.countdown-badge').forEach(el=>{ if(el.classList.contains('expired'))return; const s=el.dataset.start?new Date(el.dataset.start).getTime():0, e=el.dataset.end?new Date(el.dataset.end).getTime():0; if(s>now) el.innerText=`距开始 ${fmt(s-now)}`; else if(e>now||!el.dataset.end) el.innerText=(!el.dataset.end)?'长期':`剩余 ${fmt(e-now)}`; else { el.innerText='已结束'; el.classList.add('expired'); } }); }
-        function fmt(ms){ const d=Math.floor(ms/86400000), h=Math.floor((ms%86400000)/3600000), m=Math.floor((ms%3600000)/60000); return d>0?`${d}天${h}时`:`${h}时${m}分`; }
+
+        function spk(b){const t=b.dataset.t; if(b.classList.contains('speaking')){synth.cancel();b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`;return;} synth.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='zh-CN'; u.rate=0.75; u.onstart=()=>{b.classList.add('speaking');b.innerHTML=`<i class="fas fa-stop"></i> 停止`;}; u.onend=()=>{b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`;}; synth.speak(u);}
+        function shr(id){const u=`${location.origin}/go.html?id=${id}`; try{navigator.share({title:'Share',url:u})}catch(e){alert(u)}}
+        function updTm(){const n=Date.now();document.querySelectorAll('.countdown-badge').forEach(e=>{ const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0; if(s>n)e.innerText=`距开始 ${fmt(s-n)}`; else if(end>n||!e.dataset.e)e.innerText=(!e.dataset.e)?'长期':`剩余 ${fmt(end-n)}`; else{e.innerText='已结束';e.style.background='#333';} });}
+        function fmt(ms){const d=Math.floor(ms/86400000),h=Math.floor((ms%86400000)/3600000);return d>0?`${d}天${h}时`:`${h}时`;}
     </script>
 </body>
 </html>
