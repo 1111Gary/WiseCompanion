@@ -22,7 +22,7 @@
             position: fixed; top: 0; left: 0; right: 0; z-index: 50; 
             background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(16px); 
             transition: transform 0.3s ease; padding-top: env(safe-area-inset-top); 
-            border-bottom: none;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         #smart-header::after {
             content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
@@ -135,7 +135,7 @@
             fetch('./activities.json').then(r=>r.json()).then(d => {
                 ALL=d.filter(a=>a.category&&a.category.includes('Video'));
                 initUI(); render(); setInterval(updTm, 1000);
-                const y=sessionStorage.getItem('pos_video'); if(y) setTimeout(()=>window.scrollTo(0,parseInt(y)),50);
+                setTimeout(() => { const y=sessionStorage.getItem('pos_video'); if(y) window.scrollTo({top: parseInt(y), behavior: 'instant'}); }, 100);
             });
         });
 
@@ -201,14 +201,13 @@
             const n=Date.now();
             document.querySelectorAll('.badge-timer').forEach(e=>{
                 const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;
-                
-                if(s > n) { // Upcoming
+                if(s > n) { 
                     e.innerText = `即将开始 ${fmt(s-n)}`; e.classList.remove('expired');
-                } else if (end && end < n) { // Expired
+                } else if (end && end < n) { 
                     e.innerText = '已结束'; e.classList.add('expired');
-                } else if (end) { // Active with End
+                } else if (end) { 
                     e.innerText = `剩余 ${fmt(end-n)}`; e.classList.remove('expired');
-                } else { // Long Term
+                } else { 
                     e.innerText = '长期'; e.classList.remove('expired');
                 }
             });
