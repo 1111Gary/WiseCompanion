@@ -17,28 +17,39 @@
         }
         body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-top: 110px; padding-bottom: 90px; }
 
-        /* Header */
-        #smart-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(16px); transition: transform 0.3s ease; border-bottom: 1px solid rgba(255,255,255,0.05); padding-top: env(safe-area-inset-top); }
+        @keyframes borderFlow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+        #smart-header { 
+            position: fixed; top: 0; left: 0; right: 0; z-index: 50; 
+            background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(16px); 
+            transition: transform 0.3s ease; padding-top: env(safe-area-inset-top); 
+            border-bottom: none;
+        }
+        #smart-header::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--primary), transparent);
+            background-size: 200% 100%; animation: borderFlow 3s linear infinite;
+            box-shadow: 0 1px 10px rgba(244, 63, 94, 0.4);
+        }
+
         .nav-hidden { transform: translateY(-100%); }
         .header-top { display: flex; align-items: center; justify-content: space-between; height: 50px; padding: 0 16px; }
         .app-logo { width: 32px; height: 32px; border-radius: 8px; margin-right: 10px; border: 1px solid rgba(255,255,255,0.1); }
         .page-title { font-size: 1.2rem; font-weight: 800; color: #fff; text-shadow: 0 0 10px rgba(244, 63, 94, 0.5); }
 
-        /* Filter Chips */
         .filter-bar { display: flex; gap: 10px; overflow-x: auto; padding: 8px 16px 12px; scrollbar-width: none; align-items: center; }
         .chip { display: inline-flex; align-items: center; height: 34px; padding: 0 16px; border-radius: 999px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; flex-shrink: 0; background: rgba(255,255,255,0.05); color: var(--text-sub); border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s; }
         .chip.active { background: var(--primary); color: #fff; border-color: transparent; box-shadow: var(--border-glow); }
         .chip-trigger { background: #334155; color: #fff; border-color: rgba(255,255,255,0.2); }
         
-        /* Sidebar */
         .sidebar-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 90; opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(4px); }
         .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #0f172a; z-index: 100; transform: translateX(-100%); transition: 0.3s cubic-bezier(0.4,0,0.2,1); padding-top: env(safe-area-inset-top); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; }
         .sidebar-open .sidebar-mask { opacity: 1; pointer-events: auto; } .sidebar-open .sidebar { transform: translateX(0); }
-        .sidebar-header { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; font-size: 1.2rem; font-weight: 700; color: #fff; }
-        .sidebar-item { padding: 16px 20px; display: flex; align-items: center; gap: 16px; color: #cbd5e1; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
+        .sidebar-header { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; font-size: 1.2rem; font-weight: 700; color: #fff; background: linear-gradient(to right, rgba(244, 63, 94, 0.1), transparent); }
+        .sidebar-item { padding: 16px 20px; display: flex; align-items: center; gap: 16px; color: #ffffff; font-weight: 500; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; text-shadow: 0 0 5px rgba(0,0,0,0.5); }
         .sidebar-item:active { background: rgba(255,255,255,0.05); }
-        .sidebar-item.selected { background: linear-gradient(90deg, rgba(244, 63, 94, 0.15), transparent); color: #fff; border-left: 4px solid var(--primary); }
+        .sidebar-item.selected { background: linear-gradient(90deg, rgba(244, 63, 94, 0.15), transparent); color: #fff; border-left: 4px solid var(--primary); text-shadow: 0 0 8px rgba(244, 63, 94, 0.6); }
         .sidebar-icon-box { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary); }
+        .sidebar-item.selected .sidebar-icon-box { background: var(--primary); color: #fff; box-shadow: 0 0 10px rgba(244, 63, 94, 0.4); }
 
         .task-card { background: var(--card-bg); border-radius: 16px; padding: 16px; margin: 0 1rem 1rem; border: 1px solid rgba(255,255,255,0.05); position: relative; display: flex; flex-direction: column; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
         .task-card::before { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 4px; background: var(--primary); border-radius: 16px 0 0 16px; }
@@ -165,12 +176,12 @@
                 ? `<a href="${v.link}" target="_blank" class="btn btn-primary">去观看 <i class="fas fa-chevron-right ml-1"></i></a>` 
                 : (v.StepsText ? `<button class="btn btn-voice" data-t="${v.StepsText.replace(/"/g,'&quot;')}" onclick="spk(this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无指引</button>`);
 
-            return `<div class="task-card" style="border-left-color:var(--primary)">
+            return `<div class="task-card" style="border-left-color:${getComputedStyle(document.documentElement).getPropertyValue('--primary')}">
                 <div class="badges">
                     <span class="badge badge-timer" data-e="${v.endDate}" data-s="${v.startDate}">...</span>
                 </div>
                 <div class="card-main">
-                    <div class="card-icon" style="background:linear-gradient(135deg,var(--primary),#FB7185)"><i class="fas fa-play"></i></div>
+                    <div class="card-icon" style="color:${getComputedStyle(document.documentElement).getPropertyValue('--primary')}"><i class="fas fa-play"></i></div>
                     <div class="card-text">
                         <div class="card-title">${v.name}</div>
                         <div class="card-desc">${v.description||'暂无描述'}</div>
@@ -190,18 +201,15 @@
             const n=Date.now();
             document.querySelectorAll('.badge-timer').forEach(e=>{
                 const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;
-                if(s > n) { 
-                    e.innerText = `即将开始 ${fmt(s-n)}`;
-                    e.classList.remove('expired');
-                } else if (end && end < n) {
-                    e.innerText = '已结束';
-                    e.classList.add('expired');
-                } else if (end) {
-                    e.innerText = `剩余 ${fmt(end-n)}`;
-                    e.classList.remove('expired');
-                } else {
-                    e.innerText = '长期';
-                    e.classList.remove('expired');
+                
+                if(s > n) { // Upcoming
+                    e.innerText = `即将开始 ${fmt(s-n)}`; e.classList.remove('expired');
+                } else if (end && end < n) { // Expired
+                    e.innerText = '已结束'; e.classList.add('expired');
+                } else if (end) { // Active with End
+                    e.innerText = `剩余 ${fmt(end-n)}`; e.classList.remove('expired');
+                } else { // Long Term
+                    e.innerText = '长期'; e.classList.remove('expired');
                 }
             });
         }
