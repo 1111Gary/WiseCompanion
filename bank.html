@@ -10,128 +10,101 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     <style>
+        /* 主题色：科技蓝 */
         :root {
-            --color-bg-dark: #0f0f0f; --color-card: #1e1e1e; --color-text-main: #ffffff; --color-text-sub: #aaaaaa;
-            --color-primary: #3B82F6; /* Bank Blue */
-            --color-accent: #FBBF24; 
-            --grad-card-border: linear-gradient(135deg, #3B82F6, #FBBF24);
+            --color-bg-dark: #0B1120; --color-card-bg: #1E293B; --color-text-light: #F1F5F9; --color-text-muted: #94A3B8;
+            --color-primary: #00BFFF; --color-highlight: #FFD700; --color-bank-bg: #1F2A40; --color-success: #10B981;
+            --color-special-note: #F59E0B; --color-mission-reward: #EC4899;
+            --grad-bank-1: linear-gradient(135deg, #10B981, #34D399);
+            --grad-bank-2: linear-gradient(135deg, #EC4899, #F472B6);
+            --grad-bank-3: linear-gradient(135deg, #F59E0B, #FCD34D);
         }
-        body { background-color: var(--color-bg-dark); color: var(--color-text-main); padding-bottom: 85px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; overflow-x: hidden; padding-top: 100px; /* 留出 Header 高度 */ }
+        body { background-color: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; padding-top: 100px; }
 
-        /* --- YouTube Style Header --- */
         #smart-header {
             position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-            background: rgba(15, 15, 15, 0.95); backdrop-filter: blur(12px);
-            transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: rgba(11, 17, 32, 0.98); backdrop-filter: blur(15px);
+            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
             padding-top: env(safe-area-inset-top);
         }
         .nav-hidden { transform: translateY(-100%); }
-        .nav-visible { transform: translateY(0); }
-
-        /* Row 1: Logo & Title */
         .header-row-top { display: flex; align-items: center; justify-content: space-between; height: 48px; padding: 0 16px; }
-        .brand-area { display: flex; align-items: center; gap: 10px; }
-        .app-logo { width: 28px; height: 28px; border-radius: 6px; }
-        .app-title { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.5px; }
-        .user-avatar { width: 28px; height: 28px; border-radius: 50%; background: #333; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #888; border: 1px solid #444; }
-
-        /* Row 2: Scrollable Chips */
-        .header-row-filter { display: flex; align-items: center; gap: 8px; overflow-x: auto; padding: 0 16px 12px 16px; scrollbar-width: none; }
-        .header-row-filter::-webkit-scrollbar { display: none; }
+        .header-logo { width: 28px; height: 28px; border-radius: 6px; margin-right: 8px; }
+        .header-title { font-size: 1.1rem; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
         
-        /* Chips Style */
-        .chip {
-            display: inline-flex; align-items: center; height: 32px; padding: 0 12px;
-            border-radius: 8px; font-size: 0.85rem; font-weight: 500; white-space: nowrap; flex-shrink: 0;
-            background: #272727; color: #fff; border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s;
+        .unified-filter-row { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 12px 16px; scrollbar-width: none; align-items: center; }
+        .unified-filter-row::-webkit-scrollbar { display: none; }
+        
+        .chip-btn {
+            display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 8px; 
+            font-size: 0.85rem; font-weight: 600; background: rgba(30,41,59,0.8); color: var(--color-text-muted); 
+            border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; transition: all 0.2s; white-space: nowrap;
         }
-        .chip.active { background: var(--color-text-main); color: #000; border-color: #fff; font-weight: 700; }
-        .chip-icon { margin-right: 6px; font-size: 0.8rem; }
-        .chip-divider { width: 1px; height: 20px; background: rgba(255,255,255,0.15); margin: 0 4px; flex-shrink: 0; }
+        /* 激活态 (Blue) */
+        .chip-btn.active { background: var(--color-primary); color: #fff; border-color: transparent; box-shadow: 0 2px 8px rgba(0,191,255,0.4); }
+        .chip-btn[data-val="upcoming"].active { background: #EC4899; box-shadow: 0 2px 8px rgba(236, 72, 153, 0.4); }
+        .chip-btn[data-val="finished"].active { background: #64748B; box-shadow: none; }
 
-        /* --- Sidebar (Drawer) --- */
-        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 90; opacity: 0; pointer-events: none; transition: opacity 0.3s; backdrop-filter: blur(2px); }
-        .sidebar-menu { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #1e1e1e; z-index: 100; transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1); box-shadow: 4px 0 24px rgba(0,0,0,0.5); padding-top: env(safe-area-inset-top); display: flex; flex-direction: column; }
-        .sidebar-open .sidebar-overlay { opacity: 1; pointer-events: auto; }
-        .sidebar-open .sidebar-menu { transform: translateX(0); }
+        .section-title-card { background: linear-gradient(135deg, #0f1627, #1a2233); border-radius: 12px; padding: 12px 16px; margin: 1.5rem 1rem 1rem 1rem; border-left: 4px solid var(--color-primary); display: flex; align-items: center; }
+        .section-title-card h2 { font-size: 1.1rem; font-weight: 800; color: #fff; margin-left: 10px; }
+
+        .task-list-card { background-color: var(--color-bank-bg); border-radius: 15px; padding: 16px; margin: 0 1rem 15px 1rem; border-left: 5px solid; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+        .task-routine { border-color: var(--color-success); } .icon-routine { background: var(--grad-bank-1); }
+        .task-mission { border-color: var(--color-mission-reward); } .icon-mission { background: var(--grad-bank-2); }
+        .task-savings { border-color: var(--color-highlight); } .icon-savings { background: var(--grad-bank-3); }
         
-        .sidebar-header { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; }
-        .sidebar-item { padding: 12px 20px; display: flex; align-items: center; gap: 16px; color: #eee; font-size: 0.95rem; transition: background 0.2s; }
-        .sidebar-item:active { background: rgba(255,255,255,0.1); }
-        .sidebar-item i { width: 24px; text-align: center; color: #aaa; }
-        .sidebar-section-title { padding: 16px 20px 8px; font-size: 0.8rem; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
-
-        /* --- Content Cards --- */
-        .section-title-card { display: flex; align-items: center; margin: 1.5rem 1rem 1rem 1rem; padding-left: 10px; border-left: 4px solid var(--color-primary); }
-        .section-title-card h2 { font-size: 1.1rem; font-weight: 700; color: #fff; }
-
-        .task-list-card {
-            background: var(--color-card); border-radius: 12px; overflow: hidden; margin: 0 1rem 1rem 1rem;
-            border: 1px solid rgba(255,255,255,0.05); position: relative; display: flex; flex-direction: column;
-        }
-        /* Image/Header Area */
-        .card-header-area { position: relative; height: 70px; background: linear-gradient(to right, rgba(59,130,246,0.1), transparent); display: flex; align-items: center; padding: 0 16px; }
-        .task-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; background: #333; color: #fff; margin-right: 12px; z-index: 2; }
+        .task-main-content { display: flex; flex-direction: row; align-items: flex-start; width: 100%; margin-top: 25px; }
+        .task-icon { width: 44px; height: 44px; border-radius: 12px; color: #fff; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
         
-        /* Badges */
-        .badge-group { position: absolute; top: 10px; right: 10px; display: flex; gap: 6px; z-index: 5; }
-        .badge { padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; color: #000; display: flex; align-items: center; }
-        .badge-timer { background: #EC4899; color: #fff; } /* 横版倒计时，粉红高亮 */
-        .badge-note { background: #FBBF24; }
+        .task-content { flex: 1; min-width: 0; display: flex; flex-direction: column; } 
+        .task-header-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+        .task-title { font-size: 1rem; font-weight: 700; color: #F1F5F9; line-height: 1.3; }
+        .task-subtitle { font-size: 0.8rem; color: #94A3B8; margin-top: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-        .card-body { padding: 12px 16px; }
-        .task-title { font-size: 1rem; font-weight: 600; color: #fff; line-height: 1.3; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
-        .task-desc { font-size: 0.8rem; color: #aaa; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; }
+        .countdown-badge { position: absolute; top: 0; right: 0; background: #EC4899; color: #fff; padding: 4px 10px; border-radius: 0 15px 0 12px; font-size: 0.75rem; font-weight: 700; z-index: 4; box-shadow: 0 2px 4px rgba(236,72,153,0.3); }
+        .countdown-badge.expired { background: #334155; color: #94A3B8; box-shadow: none; }
+        .special-note-badge { font-size: 0.7rem; background: linear-gradient(to right, #F59E0B, #FBBF24); color: #000; padding: 1px 8px; border-radius: 4px; font-weight: 700; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
 
-        .card-footer { padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
-        .btn-action { background: #fff; color: #000; padding: 6px 16px; border-radius: 99px; font-size: 0.8rem; font-weight: 700; border: none; }
-        .btn-share { color: var(--color-primary); font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+        .task-action-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--color-card-bg); }
+        .share-button { background-color: var(--color-card-bg); color: #00BFFF; border: 1px solid #00BFFF; font-weight: 600; padding: 8px 15px; border-radius: 9999px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px; }
+        .action-button { background-color: #00BFFF; color: var(--color-bg-dark); font-weight: 700; padding: 8px 18px; border-radius: 9999px; font-size: 0.8rem; min-width: 100px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 8px rgba(0,191,255,0.3); }
+        .action-button-voice { background-color: var(--color-success); }
+        .action-button-voice.speaking { background-color: #EF4444; color: white; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
         
-        /* Bottom Nav */
-        .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; background: rgba(15,15,15,0.95); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-around; align-items: center; padding-bottom: env(safe-area-inset-bottom); z-index: 50; }
-        .tab-item { display: flex; flex-direction: column; align-items: center; color: #888; font-size: 0.65rem; }
-        .tab-item.active { color: #fff; } .tab-icon { font-size: 1.4rem; margin-bottom: 2px; }
+        .premium-card { display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px; text-align: center; border: 2px solid transparent; border-image: linear-gradient(135deg, #3B82F6, #FBBF24); border-image-slice: 1; box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin: 2rem 1rem; }
+        .premium-card h2 { font-size: 1.3rem; font-weight: 800; background: linear-gradient(135deg, #3B82F6, #FBBF24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
+        
+        .tab-bar { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; align-items: center; height: 60px; background-color: var(--color-bg-dark); border-top: 1px solid #1A2233; z-index: 60; padding-bottom: env(safe-area-inset-bottom); }
+        .tab-item { display: flex; flex-direction: column; align-items: center; color: var(--color-text-muted); font-size: 0.7rem; }
+        .tab-item.active { color: #00BFFF; } .tab-icon { font-size: 1.3rem; margin-bottom: 3px; }
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
-    <div class="sidebar-menu">
-        <div class="sidebar-header">
-            <img src="./assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/3B82F6/ffffff?text=W'" style="width:32px;height:32px;border-radius:8px;">
-            <span style="font-weight:700;font-size:1.1rem;color:#fff;">慧伴管家</span>
-        </div>
-        <div style="flex:1;overflow-y:auto;padding-bottom:20px;" id="sidebar-content">
-            <!-- JS Populated -->
-        </div>
-        <div style="padding:20px;border-top:1px solid rgba(255,255,255,0.1);font-size:0.75rem;color:#666;">
-            &copy; 2024 WiseCompanion
-        </div>
-    </div>
-
-    <!-- Smart Header -->
-    <header id="smart-header" class="nav-visible">
-        <!-- Row 1 -->
+    <!-- Header -->
+    <header id="smart-header">
         <div class="header-row-top">
-            <div class="brand-area" onclick="toggleSidebar()">
-                <div style="width:32px;height:32px;background:#272727;border-radius:50%;display:flex;align-items:center;justify-content:center;"><i class="fas fa-bars text-white"></i></div>
-                <span class="app-title">捡钱任务</span>
+            <div style="display:flex;align-items:center;gap:10px;">
+                <img src="./assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/00BFFF/ffffff?text=B'" class="header-logo">
+                <span class="header-title">捡钱任务</span>
             </div>
-            <div class="user-avatar"><i class="fas fa-user"></i></div>
+            <a href="./index.html" class="text-gray-300 text-xl"><i class="fas fa-arrow-left"></i></a>
         </div>
-        <!-- Row 2: Unified Filter -->
-        <div class="header-row-filter" id="unified-filter-container">
-            <!-- JS Populated -->
+        <div class="unified-filter-row" id="unified-filter-container">
+            <!-- JS -->
         </div>
     </header>
 
-    <main id="main-content">
-        <!-- Dynamic Content -->
-        <div class="section-title-card"><h2><i class="fas fa-calendar-day text-green-400 mr-2"></i> 日常活动</h2></div><div id="routine-tasks-list"></div>
-        <div class="section-title-card"><h2><i class="fas fa-tasks text-pink-400 mr-2"></i> 做任务领红包</h2></div><div id="mission-rewards-list"></div>
-        <div class="section-title-card"><h2><i class="fas fa-sack-dollar text-yellow-400 mr-2"></i> 存款理财</h2></div><div id="savings-tasks-list"></div>
-        <div style="height:40px"></div>
+    <main>
+        <div class="section-title-card"><h2><i class="fas fa-calendar-day mr-2 text-green-400"></i> 日常活动</h2></div><div id="routine-tasks-list"></div>
+        <div class="section-title-card"><h2><i class="fas fa-tasks mr-2 text-pink-400"></i> 做任务领红包</h2></div><div id="mission-rewards-list"></div>
+        <div class="section-title-card"><h2><i class="fas fa-sack-dollar mr-2 text-yellow-400"></i> 存款理财</h2></div><div id="savings-tasks-list"></div>
+        
+        <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'bank' })">
+            <h2><i class="fas fa-crown mr-2"></i> 高级会员专区</h2><p class="text-gray-400 text-sm mt-2">AI赋能ʕʘ̅͜ʘ̅ʔ 改变生活</p>
+        </a>
+        <div style="height: 40px;"></div>
     </main>
     
     <nav class="tab-bar">
@@ -141,64 +114,47 @@
         <span class="tab-item active"><i class="fas fa-hand-holding-usd tab-icon"></i><span>捡钱任务</span></span>
         <a href="./shopping.html" class="tab-item"><i class="fas fa-tags tab-icon"></i><span>省钱秘籍</span></a>
     </nav>
-
+    
     <script>
         let ALL_ACTIVITIES=[], selectedBank='All', selectedStatus='ongoing';
-        const CATEGORY_MAP={'DailyTask':{icon:'fa-calendar-day',color:'#10B981'},'MissionReward':{icon:'fa-tasks',color:'#EC4899'},'Deposit':{icon:'fa-sack-dollar',color:'#FBBF24'}};
+        const CATEGORY_MAP={'DailyTask':{icon:'fa-calendar-day',color:'#10B981',border:'task-routine'},'MissionReward':{icon:'fa-tasks',color:'#EC4899',border:'task-mission'},'Deposit':{icon:'fa-sack-dollar',color:'#FBBF24',border:'task-savings'}};
+        const synth=window.speechSynthesis; let currentUtterance=null, speakingButton=null;
         
-        // [核心] Scroll Memory
-        if('scrollRestoration' in history) history.scrollRestoration = 'manual';
-        window.addEventListener('beforeunload', () => sessionStorage.setItem('scrollY_bank', window.scrollY));
-        
-        // [核心] YouTube Scroll Logic
-        let lastY = 0; const header = document.getElementById('smart-header');
+        // 滚动逻辑
+        let lastY = 0; const h = document.getElementById('smart-header');
         window.addEventListener('scroll', () => {
-            const y = window.scrollY;
-            if(Math.abs(y-lastY)<10) return;
-            if(y > lastY && y > 60) header.style.transform='translateY(-100%)';
-            else header.style.transform='translateY(0)';
+            const y = window.scrollY; if(Math.abs(y-lastY)<10)return;
+            if(y>lastY && y>60) h.style.transform='translateY(-100%)'; else h.style.transform='translateY(0)';
             lastY = y;
         });
+        if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+        window.addEventListener('beforeunload', () => sessionStorage.setItem('pos_bank', window.scrollY));
 
         document.addEventListener('DOMContentLoaded', () => {
             fetch('./activities.json').then(r=>r.json()).then(data => {
                 ALL_ACTIVITIES=data.filter(a=>a.category&&(a.category.includes('DailyTask')||a.category.includes('MissionReward')||a.category.includes('Deposit')));
-                initFilters(); render(); renderSidebar();
-                setInterval(updateTimers, 1000);
-                const savedY = sessionStorage.getItem('scrollY_bank');
-                if(savedY) setTimeout(()=>window.scrollTo(0, parseInt(savedY)), 50);
+                initFilters(); render(); setInterval(updateTimers, 1000);
+                const y = sessionStorage.getItem('pos_bank'); if(y) setTimeout(()=>window.scrollTo(0,parseInt(y)),50);
             });
         });
 
-        function toggleSidebar() { document.body.classList.toggle('sidebar-open'); }
-
         function initFilters() {
             const c = document.getElementById('unified-filter-container');
-            // Status Group
-            const sts = [{v:'ongoing',t:'进行中'},{v:'upcoming',t:'即将开始'},{v:'finished',t:'已结束'}];
-            c.innerHTML = `<button class="chip ${selectedBank==='All'?'active':''}" onclick="toggleSidebar()">全部 ▼</button><div class="chip-divider"></div>`;
-            sts.forEach(s => c.innerHTML += `<button class="chip ${selectedStatus===s.v?'active':''}" onclick="setStatus('${s.v}')">${s.t}</button>`);
+            const sts = [{v:'ongoing',t:'进行中',i:'fa-fire-alt'},{v:'upcoming',t:'即将开始',i:'fa-clock'},{v:'finished',t:'已结束',i:'fa-history'}];
+            sts.forEach(s => c.innerHTML += `<button class="chip-btn ${selectedStatus===s.v?'active':''}" data-val="${s.v}" onclick="setStatus('${s.v}')"><i class="fas ${s.i} mr-1"></i> ${s.t}</button>`);
+            c.innerHTML += `<div style="width:1px;height:20px;background:rgba(255,255,255,0.1);margin:0 5px;"></div>`;
+            const bs = new Set(); ALL_ACTIVITIES.forEach(a=>bs.add(a.sourceApp));
+            c.innerHTML += `<button class="chip-btn ${selectedBank==='All'?'active':''}" onclick="setBank('All')">全部</button>`;
+            bs.forEach(b => { if(b) c.innerHTML += `<button class="chip-btn ${selectedBank===b?'active':''}" onclick="setBank('${b}')">${b}</button>`; });
         }
-
-        function renderSidebar() {
-            const c = document.getElementById('sidebar-content');
-            const banks = new Set(); ALL_ACTIVITIES.forEach(a=>banks.add(a.sourceApp));
-            let html = `<div class="sidebar-section-title">来源平台</div>`;
-            banks.forEach(b => {
-                if(b) html += `<div class="sidebar-item" onclick="setBank('${b}')"><i class="fas fa-bank"></i> ${b}</div>`;
-            });
-            html += `<div class="sidebar-item" onclick="setBank('All')"><i class="fas fa-layer-group"></i> 全部显示</div>`;
-            c.innerHTML = html;
-        }
-
-        function setStatus(s) { selectedStatus=s; render(); initFilters(); window.scrollTo(0,0); }
-        function setBank(b) { selectedBank=b; toggleSidebar(); render(); window.scrollTo(0,0); }
+        function setStatus(s){ selectedStatus=s; render(); initFilters(); }
+        function setBank(b){ selectedBank=b; render(); initFilters(); }
 
         function render() {
             const lists={'DailyTask':document.getElementById('routine-tasks-list'),'MissionReward':document.getElementById('mission-rewards-list'),'Deposit':document.getElementById('savings-tasks-list')};
             Object.values(lists).forEach(l=>l.innerHTML='');
             const now = Date.now();
-            
+            let hasItem=false;
             ALL_ACTIVITIES.filter(act => {
                 const e=act.endDate?new Date(act.endDate).getTime():null, s=act.startDate?new Date(act.startDate).getTime():null;
                 if(selectedStatus==='finished') return e && e<now;
@@ -206,41 +162,50 @@
                 return (!s || s<=now) && (!e || e>=now);
             }).filter(act => selectedBank==='All' || act.sourceApp===selectedBank).forEach(act => {
                 const cat = act.category.find(c => CATEGORY_MAP[c]);
-                if(cat && lists[cat]) lists[cat].innerHTML += createCard(act, cat);
+                if(cat && lists[cat]) { hasItem=true; lists[cat].innerHTML += createCard(act, cat, selectedStatus); }
             });
+            if(!hasItem) document.getElementById('routine-tasks-list').innerHTML = `<p class="text-center text-gray-500 py-4 w-full">暂无活动</p>`;
+            document.querySelectorAll('.action-button-voice').forEach(b => b.onclick = e => toggleSpeech(e.currentTarget, e.currentTarget.dataset.steps));
+            document.querySelectorAll('.share-button').forEach(b => b.onclick = e => share(e.currentTarget));
+            updateTimers();
         }
 
-        function createCard(act, cat) {
-            const s = CATEGORY_MAP[cat];
-            return `<div class="task-list-card">
-                <div class="card-header-area">
-                    <div class="task-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div>
-                    <div style="flex:1;min-width:0">
-                         <div class="task-title">${act.name}</div>
-                         <div class="task-desc">${act.sourceApp}</div>
-                    </div>
-                    <div class="badge-group">
-                        ${act.specialNote ? `<div class="badge badge-note">${act.specialNote}</div>` : ''}
-                        <div class="badge badge-timer" data-end="${act.endDate}" data-start="${act.startDate}">计算中...</div>
+        function createCard(act, cat, status) {
+            const s = CATEGORY_MAP[cat], isExp = status==='finished';
+            let btn = act.link&&act.link!=='#' ? `<a href="${act.link}" target="_blank" class="action-button ${isExp?'opacity-50':''}" ${isExp?'onclick="return false"':''}><i class="fas fa-rocket"></i> 去领取</a>` : (act.StepsText ? `<button class="action-button action-button-voice ${isExp?'opacity-50':''}" data-steps="${act.StepsText.replace(/"/g,'&quot;')}" ${isExp?'disabled':''}><i class="fas fa-volume-high"></i> 播放语音</button>` : `<button class="action-button opacity-50" disabled>暂无</button>`);
+            let badgeClass = ''; if (status === 'upcoming') badgeClass = 'upcoming'; else if (status === 'finished') badgeClass = 'expired';
+            let badge = `<span class="countdown-badge ${badgeClass}" data-start="${act.startDate}" data-end="${act.endDate}">计算中...</span>`;
+
+            return `<div class="task-list-card ${s.border} ${isExp?'opacity-50 grayscale':''}">
+                ${badge}
+                <div class="task-main-content">
+                    <div class="task-icon" style="background:${s.color}"><i class="fas ${s.icon}"></i></div>
+                    <div class="task-content">
+                        <div class="task-header-row">
+                            <span class="task-title">${act.name}</span>
+                            ${act.specialNote ? `<span class="special-note-badge">${act.specialNote}</span>` : ''}
+                        </div>
+                        <div class="task-subtitle">${act.description||''}</div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="task-desc">${act.description||'暂无描述'}</div>
-                </div>
-                <div class="card-footer">
-                    <button class="btn-share"><i class="fas fa-share-alt"></i> 分享</button>
-                    <a href="${act.link||'#'}" target="_blank" class="btn-action">去领取</a>
+                <div class="task-action-bar">
+                    <button class="share-button" data-id="${act.id}"><i class="fas fa-share-alt"></i> 分享</button>
+                    ${btn}
                 </div>
             </div>`;
         }
-
-        function updateTimers() {
-            const now = Date.now();
-            document.querySelectorAll('.badge-timer').forEach(el => {
+        
+        function toggleSpeech(btn,t){if(!synth)return; if(btn.classList.contains('speaking')){synth.cancel();btn.classList.remove('speaking');btn.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`;return;} synth.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='zh-CN'; u.rate=0.75; u.onstart=()=>{speakingButton=btn; btn.classList.add('speaking'); btn.innerHTML=`<i class="fas fa-wave-square"></i> 播放中`;}; u.onend=()=>{btn.classList.remove('speaking'); btn.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`;}; synth.speak(u);}
+        function share(btn){ const url=`${location.origin}${location.pathname.replace('bank.html','go.html')}?id=${btn.dataset.id}`; if (navigator.share) { navigator.share({ title: '慧伴管家', text: 'Check out this activity!', url: url }).catch(console.error); } else { try{const t=document.createElement('textarea'); t.value=`活动分享：${url}`; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); const old=btn.innerHTML; btn.innerHTML=`<i class="fas fa-check"></i> 已复制`; setTimeout(()=>btn.innerHTML=old,2000);}catch(e){alert(url);} } }
+        
+        function updateTimers(){
+            const now=Date.now();
+            document.querySelectorAll('.countdown-badge').forEach(el=>{
+                if(el.classList.contains('expired'))return;
                 const s=el.dataset.start?new Date(el.dataset.start).getTime():0, e=el.dataset.end?new Date(el.dataset.end).getTime():0;
-                if(s>now) el.innerText = `距开始 ${fmt(s-now)}`;
-                else if(e>now || !el.dataset.end || el.dataset.end==='null') el.innerText = (!el.dataset.end) ? '长期' : `剩余 ${fmt(e-now)}`;
-                else { el.innerText='已结束'; el.style.background='#333'; }
+                if(s>now) el.innerText=`距开始 ${fmt(s-now)}`;
+                else if(e>now||!el.dataset.end) el.innerText=(!el.dataset.end)?'长期':`剩余 ${fmt(e-now)}`;
+                else { el.innerText='已结束'; el.classList.add('expired'); }
             });
         }
         function fmt(ms){ const d=Math.floor(ms/86400000), h=Math.floor((ms%86400000)/3600000), m=Math.floor((ms%3600000)/60000); return d>0?`${d}天${h}时`:`${h}时${m}分`; }
