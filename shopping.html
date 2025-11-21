@@ -13,7 +13,7 @@
         :root {
             --bg-dark: #0B1120; --card-bg: #1E293B; --text-main: #F8FAFC; --text-sub: #94A3B8;
             --primary: #8B5CF6; --accent: #FACC15; /* Purple Theme */
-            --border-glow: 0 0 10px rgba(139, 92, 246, 0.3);
+            --border-glow: 0 0 15px rgba(139, 92, 246, 0.5);
         }
         body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-top: 110px; padding-bottom: 90px; }
 
@@ -21,7 +21,7 @@
         .nav-hidden { transform: translateY(-100%); }
         .header-top { display: flex; align-items: center; justify-content: space-between; height: 50px; padding: 0 16px; }
         .app-logo { width: 32px; height: 32px; border-radius: 8px; margin-right: 10px; border: 1px solid rgba(255,255,255,0.1); }
-        .page-title { font-size: 1.2rem; font-weight: 800; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); letter-spacing: 0.5px; }
+        .page-title { font-size: 1.2rem; font-weight: 800; color: #fff; text-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
 
         .filter-bar { display: flex; gap: 10px; overflow-x: auto; padding: 8px 16px 12px; scrollbar-width: none; align-items: center; }
         .chip { display: inline-flex; align-items: center; height: 34px; padding: 0 16px; border-radius: 999px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; flex-shrink: 0; background: rgba(255,255,255,0.05); color: var(--text-sub); border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s; }
@@ -29,13 +29,24 @@
         .chip-trigger { background: #334155; color: #fff; border-color: rgba(255,255,255,0.2); }
         
         .sidebar-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 90; opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(4px); }
-        .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #0f172a; z-index: 100; transform: translateX(-100%); transition: 0.3s cubic-bezier(0.4,0,0.2,1); padding-top: env(safe-area-inset-top); border-right: 1px solid rgba(255,255,255,0.05); }
+        .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #0f172a; z-index: 100; transform: translateX(-100%); transition: 0.3s cubic-bezier(0.4,0,0.2,1); padding-top: env(safe-area-inset-top); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; }
         .sidebar-open .sidebar-mask { opacity: 1; pointer-events: auto; } .sidebar-open .sidebar { transform: translateX(0); }
-        .sidebar-header { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; }
-        .sidebar-item { padding: 14px 20px; display: flex; align-items: center; gap: 12px; color: #e2e8f0; font-weight: 500; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .sidebar-header { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; font-size: 1.2rem; font-weight: 700; color: #fff; }
+        .sidebar-item { padding: 16px 20px; display: flex; align-items: center; gap: 16px; color: #cbd5e1; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
+        .sidebar-item:active { background: rgba(255,255,255,0.05); }
+        .sidebar-item.selected { background: linear-gradient(90deg, rgba(139, 92, 246, 0.15), transparent); color: #fff; border-left: 4px solid var(--primary); }
+        .sidebar-icon-box { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary); }
 
-        .section-title { margin: 1.5rem 1rem 1rem; display: flex; align-items: center; gap: 10px; font-size: 1.1rem; font-weight: 800; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
-        .section-title::before { content:''; width: 4px; height: 18px; background: var(--primary); border-radius: 2px; box-shadow: 0 0 8px var(--primary); }
+        .section-title-card { 
+            margin: 2rem 1rem 1rem; padding: 12px 16px; border-radius: 12px;
+            background: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(15,23,42,0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative; overflow: hidden;
+        }
+        .section-title-card::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:2px; background: linear-gradient(90deg, var(--primary), transparent); }
+        .section-title-h2 { font-size: 1.1rem; font-weight: 800; color: #fff; text-shadow: 0 0 5px rgba(255,255,255,0.3); }
 
         .task-card { background: var(--card-bg); border-radius: 16px; padding: 16px; margin: 0 1rem 1rem; border: 1px solid rgba(255,255,255,0.05); position: relative; display: flex; flex-direction: column; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
         .task-card::before { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 4px; background: var(--primary); border-radius: 16px 0 0 16px; }
@@ -54,12 +65,12 @@
         .card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); }
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: 6px 16px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; transition: 0.2s; border: 1px solid transparent; }
         .btn-share { background: rgba(139, 92, 246, 0.1); color: var(--primary); border-color: rgba(139, 92, 246, 0.3); }
-        .btn-primary { background: linear-gradient(135deg, var(--primary), #7C3AED); color: #fff; box-shadow: 0 2px 10px rgba(139, 92, 246, 0.4); }
-        .btn-voice { background: #10B981; color: #fff; box-shadow: 0 2px 10px rgba(16, 185, 129, 0.4); }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), #7C3AED); color: #fff; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); border: 1px solid rgba(255,255,255,0.2); }
+        .btn-voice { background: #10B981; color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); border: 1px solid rgba(255,255,255,0.2); }
         .btn-voice.speaking { background: #EF4444; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 
-        .premium-card { display: block; margin: 2rem 1rem; padding: 24px; border-radius: 20px; background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden; text-align: center; text-decoration: none; }
+        .premium-card { display: block; margin: 2rem 1rem; padding: 24px; border-radius: 20px; background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden; text-align: center; text-decoration: none; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         .premium-card::before { content:''; position: absolute; inset: 0; padding: 1px; border-radius: 20px; background: linear-gradient(135deg, #FACC15, #8B5CF6, transparent); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; pointer-events: none; }
         .premium-title { font-size: 1.2rem; font-weight: 800; background: linear-gradient(to right, #FACC15, #8B5CF6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-flex; align-items: center; gap: 8px; }
         .premium-desc { color: #94A3B8; font-size: 0.85rem; margin-top: 8px; }
@@ -91,9 +102,9 @@
     </header>
 
     <main>
-        <div class="section-title"><i class="fas fa-shopping-bag text-purple-400"></i> 购物有优惠</div><div id="paymentdiscount-list"></div>
-        <div class="section-title"><i class="fas fa-bolt text-yellow-400"></i> 缴费有优惠</div><div id="paymentbill-list"></div>
-        <div class="section-title"><i class="fas fa-plane text-blue-400"></i> 出行有优惠</div><div id="traveldiscount-list"></div>
+        <div class="section-title-card"><h2 class="section-title-h2"><i class="fas fa-shopping-bag text-purple-400 mr-2"></i> 购物有优惠</h2></div><div id="paymentdiscount-list"></div>
+        <div class="section-title-card"><h2 class="section-title-h2"><i class="fas fa-bolt text-yellow-400 mr-2"></i> 缴费有优惠</h2></div><div id="paymentbill-list"></div>
+        <div class="section-title-card"><h2 class="section-title-h2"><i class="fas fa-plane text-blue-400 mr-2"></i> 出行有优惠</h2></div><div id="traveldiscount-list"></div>
 
         <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'shopping' })">
             <div class="premium-title"><i class="fas fa-crown"></i> 高级会员专区</div>
@@ -116,15 +127,20 @@
         const synth=window.speechSynthesis; let spkBtn=null;
 
         let lastY=0; const h=document.getElementById('smart-header');
-        window.addEventListener('scroll', ()=>{const y=scrollY; if(Math.abs(y-lastY)<10)return; h.classList.toggle('nav-hidden', y>lastY&&y>60); lastY=y;});
+        window.addEventListener('scroll', ()=>{const y=scrollY; if(Math.abs(y-lastY)<10)return; h.classList.toggle('nav-hidden', y>lastY&&y>60); lastY=y; debounceSave();});
+        
+        let saveTimeout;
+        function debounceSave() { clearTimeout(saveTimeout); saveTimeout = setTimeout(() => sessionStorage.setItem('pos_shopping', window.scrollY), 100); }
         if('scrollRestoration' in history) history.scrollRestoration='manual';
-        window.addEventListener('beforeunload', ()=>sessionStorage.setItem('pos_shopping', scrollY));
 
         document.addEventListener('DOMContentLoaded', () => {
             fetch('./activities.json').then(r=>r.json()).then(d => {
                 ALL=d.filter(a=>a.category&&(a.category.includes('PaymentDiscount')||a.category.includes('PaymentBill')||a.category.includes('TravelDiscount')));
                 initUI(); render(); setInterval(updTm, 1000);
-                const y=sessionStorage.getItem('pos_shopping'); if(y) setTimeout(()=>window.scrollTo(0,parseInt(y)),50);
+                setTimeout(() => {
+                     const y=sessionStorage.getItem('pos_shopping'); 
+                     if(y) window.scrollTo({top: parseInt(y), behavior: 'instant'});
+                }, 100);
             });
         });
 
@@ -137,8 +153,8 @@
             sts.forEach(s=>bar.innerHTML+=`<button class="chip ${selStatus===s.v?'active':''}" onclick="setSt('${s.v}')">${s.t}</button>`);
 
             const sb=document.getElementById('sidebar-content'); const ps=new Set(); ALL.forEach(a=>ps.add(a.sourceApp));
-            let html = `<div class="sidebar-item" onclick="setPl('All')"><i class="fas fa-border-all sidebar-icon"></i> 全部平台</div>`;
-            ps.forEach(p=>{if(p)html+=`<div class="sidebar-item" onclick="setPl('${p}')"><i class="fas fa-mobile-alt sidebar-icon"></i> ${p}</div>`});
+            let html = `<div class="sidebar-item ${selPlat==='All'?'selected':''}" onclick="setPl('All')"><div class="sidebar-icon-box"><i class="fas fa-border-all"></i></div> 全部平台</div>`;
+            ps.forEach(p=>{if(p)html+=`<div class="sidebar-item ${selPlat===p?'selected':''}" onclick="setPl('${p}')"><div class="sidebar-icon-box"><i class="fas fa-mobile-alt"></i></div> ${p}</div>`});
             sb.innerHTML = html;
         }
 
@@ -193,18 +209,15 @@
             const n=Date.now();
             document.querySelectorAll('.badge-timer').forEach(e=>{
                 const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;
-                if(s > n) { 
-                    e.innerText = `即将开始 ${fmt(s-n)}`;
-                    e.classList.remove('expired');
-                } else if (end && end < n) {
-                    e.innerText = '已结束';
-                    e.classList.add('expired');
-                } else if (end) {
-                    e.innerText = `剩余 ${fmt(end-n)}`;
-                    e.classList.remove('expired');
-                } else {
-                    e.innerText = '长期';
-                    e.classList.remove('expired');
+                
+                if(s > n) { // Upcoming
+                    e.innerText = `即将开始 ${fmt(s-n)}`; e.className='badge badge-timer'; 
+                } else if (end && end < n) { // Expired
+                    e.innerText = '已结束'; e.className='badge badge-timer expired';
+                } else if (end) { // Active with End
+                    e.innerText = `剩余 ${fmt(end-n)}`; e.className='badge badge-timer';
+                } else { // Long Term
+                    e.innerText = '长期'; e.className='badge badge-timer';
                 }
             });
         }
