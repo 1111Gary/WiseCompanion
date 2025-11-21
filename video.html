@@ -3,158 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>慧伴管家 - 看视频赚</title>
+    <title>慧伴管家 - 看视频</title>
     <script async defer src="https://umami.example.com/script.js" data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" data-do-not-track="true" data-domains="1111gary.github.io"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     <style>
-        :root { --color-bg-dark:#0B1120; --color-primary:#F43F5E; --color-highlight:#FACC15; --color-premium-border:linear-gradient(135deg, #F43F5E, #FACC15); --color-bank-bg: #1F2A40; --color-card-bg: #1E293B; }
-        body { background: var(--color-bg-dark); color: #F1F5F9; padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; margin: 0; }
-        
-        .main-banner-area { padding: calc(20px + env(safe-area-inset-top)) 1rem 1rem 1rem; background: linear-gradient(to bottom, rgba(244,63,94,0.1), transparent); }
-        .main-banner-card { background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px 20px; text-align: center; border: 3px solid transparent; border-image: linear-gradient(to right, #F43F5E, #FACC15); border-image-slice: 1; }
-        .main-banner-card h1 { font-size: 1.5rem; font-weight: 900; background: linear-gradient(to right, #fff, #fecdd3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        /* 吸顶容器 */
-        .sticky-header-wrapper { position: sticky; top: 0; z-index: 40; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(15px); padding-top: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .status-filter-container { display: flex; justify-content: space-between; padding: 4px; background: #1E293B; border-radius: 100px; border: 1px solid rgba(255,255,255,0.05); margin: 0 1rem 10px 1rem; }
-        .status-button { flex: 1; padding: 10px 0; border-radius: 100px; font-size: 0.85rem; font-weight: 600; color: #94A3B8; background: transparent; transition: all 0.3s; }
-        .status-button.active[data-status="Active"] { color: #fff; background: #F43F5E; box-shadow: 0 2px 12px rgba(244, 63, 94, 0.5); }
-        .status-button.active[data-status="Upcoming"] { color: #fff; background: #FACC15; box-shadow: 0 2px 12px rgba(250, 204, 21, 0.5); color: #000; }
-        .status-button.active[data-status="Expired"] { color: #fff; background: #64748B; box-shadow: none; }
+        :root {
+            --color-bg-dark: #0B1120; --color-primary: #F43F5E; --color-highlight: #FACC15;
+            --grad-title: linear-gradient(to right, #F43F5E, #FB7185);
+        }
+        body { background-color: var(--color-bg-dark); color: #fff; padding-bottom: 85px; font-family: sans-serif; padding-top: 100px; }
 
-        .content-area { padding: 0 1rem; }
+        #smart-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(11,17,32,0.98); backdrop-filter: blur(15px); transition: transform 0.3s; border-bottom: 1px solid rgba(255,255,255,0.05); padding-top: env(safe-area-inset-top); }
+        .header-row-top { display: flex; align-items: center; justify-content: space-between; height: 48px; padding: 0 16px; }
+        .header-logo { width: 28px; height: 28px; border-radius: 6px; margin-right: 10px; }
+        .header-title { font-size: 1.25rem; font-weight: 800; background: var(--grad-title); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px; }
+
+        .header-row-filter { display: flex; gap: 8px; overflow-x: auto; padding: 4px 16px 12px; scrollbar-width: none; }
+        .chip { display: inline-flex; height: 34px; padding: 0 14px; border-radius: 8px; font-size: 0.9rem; background: #272727; color: #aaa; border: 1px solid rgba(255,255,255,0.05); align-items: center; flex-shrink: 0; font-weight: 600; }
+        .chip.active { background: #fff; color: #000; font-weight: 700; }
+        .chip[data-val="Upcoming"].active { background: #FACC15; }
+        .chip[data-val="Expired"].active { background: #64748B; color: #fff; }
+
+        .task-list-card { background: #1F2A40; border-radius: 12px; margin: 0 1rem 1rem; border-left: 4px solid #F43F5E; padding: 16px; position: relative; display: flex; flex-direction: column; }
+        .badges-container { position: absolute; top: 12px; right: 12px; }
+        .countdown-badge { background: #EC4899; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
+
+        .task-main { display: flex; margin-top: 10px; align-items: center; }
+        .task-icon { width: 42px; height: 42px; border-radius: 10px; background: linear-gradient(135deg, #F43F5E, #FB7185); display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0; font-size: 1.2rem; }
         
-        .task-list-card { background: #1F2A40; border-radius: 15px; padding: 15px 20px; margin-bottom: 15px; border-left: 5px solid #F43F5E; box-shadow: 0 2px 10px rgba(0,0,0,0.4); position: relative; }
-        .task-icon { width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #F43F5E, #FB7185); display: flex; align-items: center; justify-content: center; margin-right: 15px; color: #fff; font-size: 1.2rem; flex-shrink: 0; }
-        .action-button { background: #F43F5E; color: #fff; padding: 8px 18px; border-radius: 9999px; font-weight: 700; font-size: 0.8rem; display: flex; justify-content: center; align-items: center; gap: 5px; box-shadow: 0 2px 8px rgba(244, 63, 94, 0.3); }
-        .share-button { background-color: #1E293B; color: #F43F5E; border: 1px solid #F43F5E; font-weight: 600; padding: 8px 15px; border-radius: 9999px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px; }
+        .card-footer { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
+        .btn-go { background: #F43F5E; color: #fff; padding: 6px 18px; border-radius: 99px; font-weight: 700; font-size: 0.8rem; }
+        .btn-voice { background: #10B981; color: #fff; padding: 6px 18px; border-radius: 99px; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; gap: 4px; }
 
-        .action-button-voice { background: #10B981; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3); }
-        .action-button-voice.speaking { background: #F43F5E; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%{opacity:1} 50%{opacity:0.7} 100%{opacity:1} }
+        .tab-bar { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; align-items: center; height: 60px; background-color: var(--color-bg-dark); border-top: 1px solid #1A2233; z-index: 60; padding-bottom: env(safe-area-inset-bottom); }
+        .tab-item.active { color: #F43F5E; } .tab-item { color: #666; font-size: 0.7rem; display: flex; flex-direction: column; align-items: center; }
         
-        .countdown-badge { position: absolute; top: 0; right: 0; background: #EC4899; color: #fff; padding: 3px 10px; border-radius: 0 16px 0 10px; font-size: 0.75rem; font-weight: 700; box-shadow: 0 2px 4px rgba(236, 72, 153, 0.4); z-index: 4; }
-        .countdown-badge.upcoming { background: #FACC15; color: #000; }
-        .countdown-badge.expired { background: #334155; color: #94A3B8; box-shadow: none; }
-
-        .premium-card { display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 30px 20px; text-align: center; border: 2px solid transparent; border-image: var(--color-premium-border); border-image-slice: 1; margin-top: 3rem; text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        .premium-card h2 { font-size: 1.3rem; font-weight: 800; background: var(--color-premium-border); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-
-        .tab-bar { position: fixed; bottom: 0; width: 100%; height: 65px; background: rgba(11,17,32,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); z-index: 50; padding-bottom: env(safe-area-inset-bottom); }
-        .tab-item { display: flex; flex-direction: column; align-items: center; color: #94A3B8; font-size: 0.7rem; }
-        .tab-item.active { color: #F43F5E; }
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 90; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .sidebar-menu { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #1e1e1e; z-index: 100; transform: translateX(-100%); transition: transform 0.3s; padding-top: env(safe-area-inset-top); }
+        .sidebar-open .sidebar-overlay { opacity: 1; pointer-events: auto; } .sidebar-open .sidebar-menu { transform: translateX(0); }
+        .sidebar-item { padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #eee; }
     </style>
 </head>
 <body>
-    <div class="main-banner-area">
-        <div class="main-banner-card"><h1 class="text-2xl font-bold text-white">看视频赚</h1><p class="text-gray-400 mt-2 text-sm">观看视频，轻松获取奖励</p></div>
-    </div>
-    
-    <div class="sticky-header-wrapper">
-        <div class="status-filter-container">
-            <button class="status-button active" data-status="Active"><i class="fas fa-play"></i> 正在进行</button>
-            <button class="status-button" data-status="Upcoming"><i class="fas fa-clock"></i> 即将开始</button>
-            <button class="status-button" data-status="Expired"><i class="fas fa-check"></i> 已结束</button>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar-menu"><div id="sidebar-content" style="overflow-y:auto;height:100%;"></div></div>
+
+    <header id="smart-header">
+        <div class="header-row-top">
+            <div style="display:flex;align-items:center;">
+                <img src="./assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/F43F5E/ffffff?text=V'" class="header-logo">
+                <span class="header-title">看视频赚</span>
+            </div>
+            <a href="./index.html" class="text-gray-400 text-xl"><i class="fas fa-arrow-left"></i></a>
         </div>
-    </div>
+        <div class="header-row-filter" id="unified-filter-container"></div>
+    </header>
 
-    <main class="content-area">
-        <div id="video-tasks-list"></div>
-
-        <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'video' })">
-            <h2><i class="fas fa-crown"></i> 高级会员专区</h2><p class="text-gray-400 text-sm mt-2">AI赋能ʕʘ̅͜ʘ̅ʔ 改变生活</p>
-        </a>
-        <div style="height: 40px;"></div>
-    </main>
+    <main><div id="video-tasks-list" style="margin-top:1.5rem;"></div><div style="height:40px"></div></main>
     
     <nav class="tab-bar">
-        <a href="./index.html" class="tab-item"><i class="fas fa-home tab-icon text-xl mb-1"></i><span>首页</span></a>
-        <a href="./checkin.html" class="tab-item"><i class="fas fa-gifts tab-icon text-xl mb-1"></i><span>天天有奖</span></a>
-        <span class="tab-item active"><i class="fas fa-play-circle tab-icon text-xl mb-1"></i><span>看视频赚</span></span>
-        <a href="./bank.html" class="tab-item"><i class="fas fa-hand-holding-usd tab-icon text-xl mb-1"></i><span>捡钱任务</span></a>
-        <a href="./shopping.html" class="tab-item"><i class="fas fa-tags tab-icon text-xl mb-1"></i><span>省钱秘籍</span></a>
+        <a href="./index.html" class="tab-item"><i class="fas fa-home text-xl mb-1"></i>首页</a>
+        <a href="./checkin.html" class="tab-item"><i class="fas fa-gifts text-xl mb-1"></i>天天有奖</a>
+        <span class="tab-item active"><i class="fas fa-play-circle text-xl mb-1"></i>看视频赚</span>
+        <a href="./bank.html" class="tab-item"><i class="fas fa-hand-holding-usd text-xl mb-1"></i>捡钱任务</a>
+        <a href="./shopping.html" class="tab-item"><i class="fas fa-tags text-xl mb-1"></i>省钱秘籍</a>
     </nav>
-    
-    <script>
-        const synth = window.speechSynthesis; let currentUtterance = null, speakingButton = null;
-        let ALL_VIDEOS = [], currentStatus = 'Active';
 
-        function restoreScroll() { const savedY = sessionStorage.getItem('scrollY_video'); if (savedY) window.scrollTo(0, parseInt(savedY)); }
-        window.addEventListener('beforeunload', () => { sessionStorage.setItem('scrollY_video', window.scrollY); });
+    <script>
+        let ALL=[], selSt='Active', selPl='All';
+        const synth=window.speechSynthesis; let spkBtn=null;
+        
+        let lastY=0; const h=document.getElementById('smart-header');
+        window.addEventListener('scroll', ()=>{const y=scrollY; if(Math.abs(y-lastY)<10)return; h.style.transform=y>lastY&&y>60?'translateY(-100%)':'translateY(0)'; lastY=y;});
+        if('scrollRestoration' in history) history.scrollRestoration='manual';
+        window.addEventListener('beforeunload', ()=>sessionStorage.setItem('pos_video', scrollY));
 
         document.addEventListener('DOMContentLoaded', () => {
-            fetch('./activities.json').then(r=>r.json()).then(data => {
-                ALL_VIDEOS = data.filter(a => a.category && a.category.includes('Video'));
-                render(); setInterval(updateTimers, 1000);
-                document.querySelectorAll('.status-button').forEach(btn => {
-                    btn.onclick = (e) => {
-                        currentStatus = e.currentTarget.dataset.status;
-                        document.querySelectorAll('.status-button').forEach(b => b.classList.remove('active'));
-                        e.currentTarget.classList.add('active');
-                        stopSpeech(); render();
-                    };
-                });
-                setTimeout(restoreScroll, 50);
+            fetch('./activities.json').then(r=>r.json()).then(d => {
+                ALL=d.filter(a=>a.category&&a.category.includes('Video'));
+                initUI(); setInterval(updTm, 1000);
+                const y=sessionStorage.getItem('pos_video'); if(y) setTimeout(()=>window.scrollTo(0,parseInt(y)),50);
             });
         });
 
-        function getStatus(act) { if(!act.endDate) return 'Active'; const n=Date.now(), s=act.startDate?new Date(act.startDate).getTime():n-1, e=new Date(act.endDate).getTime(); if(n<s)return 'Upcoming'; if(n>e)return 'Expired'; return 'Active'; }
+        function initUI() {
+            const c=document.getElementById('unified-filter-container');
+            c.innerHTML = `<button class="chip chip-special" style="background:#333;color:#fff;" onclick="toggleSidebar()"><i class="fas fa-bars mr-2"></i> ${selPl==='All'?'全部':selPl}</button>`;
+            [{v:'Active',t:'进行中'},{v:'Upcoming',t:'即将开始'},{v:'Expired',t:'已结束'}].forEach(s=>c.innerHTML+=`<button class="chip ${selSt===s.v?'active':''}" onclick="setSt('${s.v}')">${s.t}</button>`);
+            
+            const sb=document.getElementById('sidebar-content'); const ps=new Set(); ALL.forEach(a=>ps.add(a.sourceApp));
+            let h=`<div class="sidebar-item" style="font-weight:700;">筛选平台</div><div class="sidebar-item" onclick="setPl('All')">全部平台</div>`;
+            ps.forEach(p=>{if(p)h+=`<div class="sidebar-item" onclick="setPl('${p}')">${p}</div>`});
+            sb.innerHTML=h; render();
+        }
+        function toggleSidebar(){document.body.classList.toggle('sidebar-open');}
+        function setSt(s){selSt=s; initUI(); render();}
+        function setPl(p){selPl=p; toggleSidebar(); initUI(); render();}
 
         function render() {
-            const list = document.getElementById('video-tasks-list'); list.innerHTML = '';
-            const filtered = ALL_VIDEOS.filter(v => getStatus(v) === currentStatus);
-            if(filtered.length===0) list.innerHTML=`<p class="text-center text-gray-500 p-4 text-sm">暂无活动</p>`;
-            else filtered.forEach(v => list.innerHTML += renderCard(v, currentStatus));
-            document.querySelectorAll('.action-button-voice').forEach(b => b.onclick = e => toggleSpeech(e.currentTarget, e.currentTarget.dataset.steps));
-            document.querySelectorAll('.share-button').forEach(b => b.onclick = e => share(e.currentTarget));
-            updateTimers();
+            const l=document.getElementById('video-tasks-list'); l.innerHTML='';
+            const now=Date.now();
+            ALL.filter(a=>{
+                const e=a.endDate?new Date(a.endDate).getTime():null, s=a.startDate?new Date(a.startDate).getTime():null;
+                if(selSt==='Expired')return e&&e<now; if(selSt==='Upcoming')return s&&s>now; return (!s||s<=now)&&(!e||e>=now);
+            }).filter(a=>selPl==='All'||a.sourceApp===selPl).forEach(v=>{ l.innerHTML += card(v, selSt); });
         }
 
-        function renderCard(v, status) {
-            let btn = '';
-            const isExp = status === 'Expired';
-            if(v.link && v.link!=='#') btn = `<a href="${v.link}" target="_blank" class="action-button ${isExp?'opacity-50':''}"><i class="fas fa-rocket"></i> 去观看</a>`;
-            else if(v.StepsText) btn = `<button class="action-button action-button-voice ${isExp?'opacity-50':''}" data-steps="${v.StepsText.replace(/"/g,'&quot;')}" ${isExp?'disabled':''}><i class="fas fa-volume-high"></i> 播放语音</button>`;
-            else btn = `<button class="action-button opacity-50 cursor-not-allowed" disabled>暂无指引</button>`;
-            
-            let badgeClass = ''; if (status === 'Upcoming') badgeClass = 'upcoming'; else if (status === 'Expired') badgeClass = 'expired';
-            let badge = `<span class="countdown-badge ${badgeClass}" data-start="${v.startDate}" data-end="${v.endDate}">计算中...</span>`;
-
-            return `<div class="task-list-card flex flex-col ${isExp?'opacity-60 grayscale':''}">
-                ${badge}
-                <div class="flex items-center w-full mt-2">
+        function card(v, st) {
+            let btn=v.link&&v.link!=='#'?`<a href="${v.link}" target="_blank" class="btn-go">去观看</a>`:(v.StepsText?`<button class="btn-voice" data-t="${v.StepsText.replace(/"/g,'&quot;')}" onclick="spk(this)"><i class="fas fa-volume-high"></i> 播放语音</button>`:`<button style="opacity:0.5" disabled>暂无指引</button>`);
+            return `<div class="task-list-card">
+                <div class="badges-container"><span class="countdown-badge" data-e="${v.endDate}" data-s="${v.startDate}">...</span></div>
+                <div class="task-main">
                     <div class="task-icon"><i class="fas fa-play"></i></div>
-                    <div class="flex-1 min-w-0 px-3">
-                        <div class="font-bold text-white truncate">${v.name}</div>
-                        <div class="text-xs text-gray-400 truncate">${v.description||''}</div>
-                    </div>
+                    <div style="flex:1;min-width:0"><div style="font-weight:700;">${v.name}</div><div style="font-size:0.8rem;color:#aaa;">${v.description||''}</div></div>
                 </div>
-                <div class="flex justify-between items-center mt-4 pt-3 border-t border-white/5">
-                     <button class="share-button" data-id="${v.id}"><i class="fas fa-share-alt"></i> 分享</button>
-                     ${btn}
-                </div>
+                <div class="card-footer"><button style="color:#888;font-size:0.8rem;font-weight:600;" onclick="shr('${v.id}')"><i class="fas fa-share-alt"></i> 分享</button>${btn}</div>
             </div>`;
         }
-
-        function toggleSpeech(btn, text) { if(!synth) return; if(btn.classList.contains('speaking')) { stopSpeech(); return; } stopSpeech(); const u = new SpeechSynthesisUtterance(text); u.lang = 'zh-CN'; u.rate = 0.75; u.onstart = () => { speakingButton=btn; btn.classList.add('speaking'); btn.innerHTML=`<i class="fas fa-stop"></i> 停止`; }; u.onend = stopSpeech; synth.speak(u); }
-        function stopSpeech() { if(synth.speaking) synth.cancel(); if(speakingButton) { speakingButton.classList.remove('speaking'); speakingButton.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`; speakingButton=null; } }
-        function share(btn){ const url=`${location.origin}${location.pathname.replace('video.html','go.html')}?id=${btn.dataset.id}`; if (navigator.share) { navigator.share({ title: '慧伴管家', text: 'Check out this activity!', url: url }).catch(console.error); } else { try{const t=document.createElement('textarea'); t.value=`活动分享：${url}`; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); const old=btn.innerHTML; btn.innerHTML=`<i class="fas fa-check"></i> 已复制`; setTimeout(()=>btn.innerHTML=old,2000);}catch(e){alert(url);} } }
-
-        function updateTimers() {
-            const now = Date.now();
-            document.querySelectorAll('.countdown-badge').forEach(el => {
-                if(el.classList.contains('expired')) { el.innerText = '已结束'; return; }
-                const start = el.dataset.start ? new Date(el.dataset.start).getTime() : 0;
-                const end = el.dataset.end ? new Date(el.dataset.end).getTime() : 0;
-                if (start > now) { const d = start - now; el.innerText = `距开始 ${fmt(d)}`; }
-                else if (end > now || !el.dataset.end || el.dataset.end === 'null') { if (!el.dataset.end || el.dataset.end === 'null') { el.innerText = '长期'; } else { const d = end - now; el.innerText = `剩余 ${fmt(d)}`; } }
-                else { el.innerText = '已结束'; el.classList.add('expired'); }
-            });
-        }
-        function fmt(ms) { const s=Math.floor(ms/1000), d=Math.floor(s/86400), h=Math.floor((s%86400)/3600), m=Math.floor((s%3600)/60); return d>0 ? `${d}天${h}时` : `${h}时${m}分`; }
+        function spk(b){const t=b.dataset.t; if(b.classList.contains('speaking')){synth.cancel();b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`;return;} synth.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='zh-CN'; u.rate=0.75; u.onstart=()=>{b.classList.add('speaking');b.innerHTML=`<i class="fas fa-stop"></i> 停止`;}; u.onend=()=>{b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`;}; synth.speak(u);}
+        function shr(id){const u=`${location.origin}/go.html?id=${id}`; try{navigator.share({title:'Share',url:u})}catch(e){alert(u)}}
+        function updTm(){const n=Date.now();document.querySelectorAll('.countdown-badge').forEach(e=>{ const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0; if(s>n)e.innerText=`距开始 ${fmt(s-n)}`; else if(end>n||!e.dataset.e)e.innerText=(!e.dataset.e)?'长期':`剩余 ${fmt(end-n)}`; else{e.innerText='已结束';e.style.background='#333';} });}
+        function fmt(ms){const d=Math.floor(ms/86400000),h=Math.floor((ms%86400000)/3600000);return d>0?`${d}天${h}时`:`${h}时`;}
     </script>
 </body>
 </html>
