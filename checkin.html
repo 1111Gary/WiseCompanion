@@ -10,210 +10,148 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     <style>
-        :root {
-            --color-bg-dark: #0B1120; --color-text-light: #F1F5F9; --color-text-muted: #94A3B8;
-            --color-primary: #10B981; --color-highlight: #FACC15;
-            --color-checkin-1: #10B981; --grad-checkin-1: linear-gradient(135deg, #10B981, #34D399);
-            --color-checkin-2: #EC4899; --grad-checkin-2: linear-gradient(135deg, #EC4899, #F472B6);
-            --color-premium-border: linear-gradient(135deg, #10B981, #FACC15);
-            --color-special-note: #F59E0B; --color-bank-bg: #1F2A40; --color-card-bg: #1E293B;
-        }
-        body { background: var(--color-bg-dark); color: var(--color-text-light); padding-bottom: 85px; font-family: 'Inter', sans-serif; overflow-x: hidden; margin: 0; padding-top: 110px; }
+        :root { --color-bg-dark: #0f0f0f; --color-card: #1e1e1e; --color-text-main: #ffffff; --color-primary: #10B981; }
+        body { background-color: var(--color-bg-dark); color: var(--color-text-main); padding-bottom: 85px; font-family: sans-serif; padding-top: 100px; }
 
-        /* YouTube式头部 */
-        #smart-header {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-            background: rgba(11, 17, 32, 0.98); backdrop-filter: blur(15px);
-            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-top: env(safe-area-inset-top);
-        }
+        #smart-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(15,15,15,0.95); backdrop-filter: blur(12px); transition: transform 0.3s; border-bottom: 1px solid rgba(255,255,255,0.1); padding-top: env(safe-area-inset-top); }
         .nav-hidden { transform: translateY(-100%); }
-        .nav-visible { transform: translateY(0); }
-
-        .header-top-row { display: flex; align-items: center; justify-content: space-between; height: 50px; padding: 0 1rem; }
-        .header-logo { width: 28px; height: 28px; border-radius: 6px; margin-right: 8px; }
-        .header-title { font-size: 1.1rem; font-weight: 800; color: #fff; }
-
-        /* 合并筛选 */
-        .unified-filter-row { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 8px 1rem 12px 1rem; align-items: center; }
-        .unified-filter-row::-webkit-scrollbar { display: none; }
-
-        .chip-btn { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; background: rgba(30,41,59,0.8); color: var(--color-text-muted); border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; transition: all 0.2s; white-space: nowrap; }
-        .chip-btn.active { background: var(--color-primary); color: #fff; border-color: transparent; box-shadow: 0 2px 8px rgba(16,185,129,0.4); }
-        .chip-btn[data-val="upcoming"].active { background: #EC4899; }
-        .chip-btn[data-val="finished"].active { background: #64748B; }
-
-        .section-title-card { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 12px; padding: 12px 16px; margin-top: 1.5rem; margin-bottom: 1rem; border-left: 4px solid var(--color-primary); display: flex; align-items: center; }
-        .section-title-card h2 { font-size: 1.1rem; font-weight: 800; color: #fff; margin-left: 10px; }
         
-        .task-list-card { background: var(--color-bank-bg); border-radius: 15px; padding: 16px; margin-bottom: 15px; border-left: 5px solid; position: relative; box-shadow: 0 2px 10px rgba(0,0,0,0.4); display: flex; flex-direction: column; }
-        .task-checkin-1 { border-color: var(--color-checkin-1); } .icon-checkin-1 { background: var(--grad-checkin-1); }
-        .task-checkin-2 { border-color: var(--color-checkin-2); } .icon-checkin-2 { background: var(--grad-checkin-2); }
+        .header-row-top { display: flex; align-items: center; justify-content: space-between; height: 48px; padding: 0 16px; }
+        .header-row-filter { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 12px; scrollbar-width: none; }
+        
+        .chip { display: inline-flex; height: 32px; padding: 0 12px; border-radius: 8px; font-size: 0.85rem; background: #272727; color: #fff; border: 1px solid rgba(255,255,255,0.1); align-items: center; flex-shrink: 0; }
+        .chip.active { background: #fff; color: #000; font-weight: 700; }
+        
+        /* 列表样式 */
+        .section-title-card { margin: 1.5rem 1rem 1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; font-size: 1.1rem; }
+        
+        .task-list-card { background: #1e1e1e; border-radius: 12px; margin: 0 1rem 1rem; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; position: relative; }
+        .card-top { display: flex; padding: 16px; align-items: flex-start; }
+        
+        .task-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 12px; color: #fff; font-size: 1.3rem; background: #333; flex-shrink: 0; }
+        .content-box { flex: 1; min-width: 0; }
+        
+        /* [核心] 标题行布局：Flex Row */
+        .title-row { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
+        .task-title { font-size: 1rem; font-weight: 600; color: #fff; margin-right: 8px; line-height: 1.3; }
+        .special-badge { background: linear-gradient(to right, #F59E0B, #FBBF24); color: #000; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; white-space: nowrap; }
 
-        /* [核心] 布局修复：Row */
-        .task-main-content { display: flex; flex-direction: row; align-items: flex-start; width: 100%; margin-top: 25px; }
-        .task-icon { width: 44px; height: 44px; border-radius: 12px; color: #fff; font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
-        
-        .task-content { flex: 1; min-width: 0; display: flex; flex-direction: column; } 
-        .task-header-row { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
-        .task-title { font-size: 1rem; font-weight: 700; color: #F1F5F9; line-height: 1.3; text-align: left; }
-        
-        .special-note-badge { font-size: 0.7rem; background: linear-gradient(to right, #F59E0B, #FBBF24); color: #000; padding: 2px 8px; border-radius: 6px; font-weight: 700; flex-shrink: 0; margin-left: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
-        .task-subtitle { font-size: 0.8rem; color: #94A3B8; margin-top: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        
-        .countdown-badge { position: absolute; top: 0; right: 0; background: #EC4899; color: #fff; padding: 3px 10px; border-radius: 0 15px 0 12px; font-size: 0.75rem; font-weight: 700; z-index: 4; box-shadow: 0 2px 4px rgba(236,72,153,0.3); }
-        .countdown-badge.expired { background: #334155; color: #94A3B8; box-shadow: none; }
-        
-        .task-action-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--color-card-bg); }
-        .share-button { background-color: var(--color-card-bg); color: var(--color-primary); border: 1px solid var(--color-primary); font-weight: 600; padding: 8px 15px; border-radius: 9999px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px; }
-        .action-button { background: var(--color-primary); color: #fff; border-radius: 99px; padding: 8px 18px; font-size: 0.8rem; font-weight: 700; min-width: 100px; display: flex; justify-content: center; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3); }
-        .action-button-voice { background: #38BDF8; box-shadow: 0 2px 8px rgba(56, 189, 248, 0.3); }
-        .action-button-voice.speaking { background: #EF4444; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%{opacity:1} 50%{opacity:0.6} 100%{opacity:1} }
-        
-        .premium-card { display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px; text-align: center; border: 2px solid transparent; border-image: linear-gradient(135deg, #10B981, #FACC15); border-image-slice: 1; margin-top: 2rem; text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        .premium-card h2 { font-size: 1.2rem; font-weight: 800; background: linear-gradient(135deg, #10B981, #FACC15); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
+        .badges-container { position: absolute; top: 10px; right: 10px; }
+        .badge-timer { background: #EC4899; color: #fff; font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; font-weight: 700; margin-left: auto; display: table; }
 
-        .tab-bar { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; align-items: center; height: 60px; background-color: var(--color-bg-dark); border-top: 1px solid #1A2233; z-index: 60; padding-bottom: env(safe-area-inset-bottom); }
-        .tab-item { display: flex; flex-direction: column; align-items: center; color: #94A3B8; font-size: 0.7rem; }
-        .tab-item.active { color: var(--color-primary); } .tab-icon { font-size: 1.3rem; margin-bottom: 3px; }
+        .card-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-go { background: #10B981; color: #000; padding: 6px 16px; border-radius: 99px; font-size: 0.8rem; font-weight: 700; }
+
+        .tab-bar { position: fixed; bottom: 0; width: 100%; height: 60px; background: rgba(15,15,15,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); z-index: 50; padding-bottom: env(safe-area-inset-bottom); }
+        .tab-item.active { color: #10B981; } .tab-item { color: #888; font-size: 0.7rem; display: flex; flex-direction: column; align-items: center; }
     </style>
 </head>
 <body>
-    <!-- YouTube式头部 -->
-    <div id="smart-header" class="nav-visible">
-        <div class="header-top-row">
-            <div class="flex items-center">
-                <img src="./assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/10B981/ffffff?text=L'" class="header-logo">
-                <h1 class="header-title">天天有奖</h1>
+    <header id="smart-header">
+        <div class="header-row-top">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <img src="./assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/10B981/ffffff?text=C'" style="width:28px;border-radius:6px;">
+                <span style="font-weight:700;font-size:1.1rem;">天天有奖</span>
             </div>
-            <a href="./index.html" class="text-gray-300 text-xl"><i class="fas fa-arrow-left"></i></a>
+            <a href="./index.html" style="color:#888;font-size:1.2rem;"><i class="fas fa-arrow-left"></i></a>
         </div>
-        <div class="unified-filter-row" id="unified-filter-row">
-            <!-- JS填充 -->
+        <div class="header-row-filter" id="unified-filter-container">
+            <!-- JS -->
         </div>
-    </div>
-    
-    <main class="container mx-auto px-4">
-        <div class="section-title-card"><h2><i class="fas fa-calendar-check text-[#10B981]"></i> 日常签到</h2></div><div id="daily-checkin-list"></div>
-        <div class="section-title-card"><h2><i class="fas fa-stopwatch text-[#EC4899]"></i> 整点抢红包</h2></div><div id="voucher-list"></div>
+    </header>
 
-        <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'checkin' })">
-            <h2><i class="fas fa-crown mr-2"></i> 高级会员专区</h2><p class="text-gray-400 text-sm mt-2">解锁 AI 自动任务提醒功能</p>
-        </a>
-        <div style="height: 40px;"></div>
+    <main>
+        <div class="section-title-card"><i class="fas fa-calendar-check text-green-400"></i> 日常签到</div><div id="daily-checkin-list"></div>
+        <div class="section-title-card"><i class="fas fa-stopwatch text-pink-400"></i> 整点抢红包</div><div id="voucher-list"></div>
+        <div style="height:40px"></div>
     </main>
     
     <nav class="tab-bar">
-        <a href="./index.html" class="tab-item"><i class="fas fa-home tab-icon"></i><span>首页</span></a>
-        <span class="tab-item active"><i class="fas fa-gifts tab-icon"></i><span>天天有奖</span></span>
-        <a href="./video.html" class="tab-item"><i class="fas fa-play-circle tab-icon"></i><span>看视频赚</span></a>
-        <a href="./bank.html" class="tab-item"><i class="fas fa-hand-holding-usd tab-icon"></i><span>捡钱任务</span></a>
-        <a href="./shopping.html" class="tab-item"><i class="fas fa-tags tab-icon"></i><span>省钱秘籍</span></a>
+        <a href="./index.html" class="tab-item"><i class="fas fa-home text-xl mb-1"></i>首页</a>
+        <span class="tab-item active"><i class="fas fa-gifts text-xl mb-1"></i>天天有奖</span>
+        <a href="./video.html" class="tab-item"><i class="fas fa-play-circle text-xl mb-1"></i>看视频赚</a>
+        <a href="./bank.html" class="tab-item"><i class="fas fa-hand-holding-usd text-xl mb-1"></i>捡钱任务</a>
+        <a href="./shopping.html" class="tab-item"><i class="fas fa-tags text-xl mb-1"></i>省钱秘籍</a>
     </nav>
-    
+
     <script>
-        let ALL_ACTIVITIES = [], globalStatus = 'Active';
-        const CATEGORY_MAP = { 'DailyCheckin': { borderClass: 'task-checkin-1', iconClass: 'icon-checkin-1', faIcon: 'fa-calendar-check' }, 'Voucher': { borderClass: 'task-checkin-2', iconClass: 'icon-checkin-2', faIcon: 'fa-stopwatch' } };
-        const synth = window.speechSynthesis; let currentUtterance = null, speakingButton = null; 
-
-        let lastScrollY = window.scrollY;
-        const header = document.getElementById('smart-header');
-        window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
-            if (currentScrollY > lastScrollY && currentScrollY > 50) { header.classList.add('nav-hidden'); header.classList.remove('nav-visible'); } 
-            else { header.classList.add('nav-visible'); header.classList.remove('nav-hidden'); }
-            lastScrollY = currentScrollY;
-        });
-
+        let ALL_ACTIVITIES=[], globalStatus='ongoing';
+        const CATEGORY_MAP={'DailyCheckin':{icon:'fa-calendar-check',color:'#10B981'},'Voucher':{icon:'fa-stopwatch',color:'#EC4899'}};
+        
         if('scrollRestoration' in history) history.scrollRestoration = 'manual';
-        function savePos() { sessionStorage.setItem('pos_checkin', window.scrollY); }
-        function restorePos() { const y = sessionStorage.getItem('pos_checkin'); if(y) window.scrollTo(0, parseInt(y)); }
-        window.addEventListener('beforeunload', savePos);
+        window.addEventListener('beforeunload', () => sessionStorage.setItem('pos_checkin', window.scrollY));
+        
+        let lastY = 0; const h = document.getElementById('smart-header');
+        window.addEventListener('scroll', () => {
+            const y = window.scrollY; if(Math.abs(y-lastY)<10)return;
+            if(y>lastY && y>60) h.style.transform='translateY(-100%)'; else h.style.transform='translateY(0)';
+            lastY = y;
+        });
 
         document.addEventListener('DOMContentLoaded', () => {
             fetch('./activities.json').then(r=>r.json()).then(data => {
-                ALL_ACTIVITIES = data.filter(act => act.category && (act.category.includes('DailyCheckin') || act.category.includes('Voucher')));
-                initUnifiedFilters(); render(); setInterval(updateTimers, 1000);
-                setTimeout(restorePos, 100);
+                ALL_ACTIVITIES=data.filter(a=>a.category&&(a.category.includes('DailyCheckin')||a.category.includes('Voucher')));
+                initFilters(); render(); setInterval(updateTimers, 1000);
+                const y = sessionStorage.getItem('pos_checkin'); if(y) setTimeout(()=>window.scrollTo(0,parseInt(y)),50);
             });
         });
 
-        function initUnifiedFilters() {
-            const c = document.getElementById('unified-filter-row');
-            const statuses = [{val:'Active', icon:'fa-fire-alt', txt:'进行中'}, {val:'Upcoming', icon:'fa-clock', txt:'即将开始'}, {val:'Expired', icon:'fa-history', txt:'已结束'}];
-            statuses.forEach(s => {
-                c.innerHTML += `<button class="chip-btn ${globalStatus===s.val?'active':''}" data-val="${s.val}" onclick="setStatus('${s.val}', this)"><i class="fas ${s.icon}"></i> ${s.txt}</button>`;
-            });
+        function initFilters() {
+            const c = document.getElementById('unified-filter-container');
+            const sts = [{v:'ongoing',t:'进行中'},{v:'upcoming',t:'即将开始'},{v:'finished',t:'已结束'}];
+            sts.forEach(s => c.innerHTML += `<button class="chip ${globalStatus===s.v?'active':''}" onclick="setStatus('${s.v}')">${s.t}</button>`);
         }
-        
-        function setStatus(val, btn) {
-            globalStatus = val;
-            document.querySelectorAll('.chip-btn').forEach(b=>b.classList.remove('active'));
-            btn.classList.add('active'); render();
-        }
-
-        function getStatus(act) { if (!act.endDate) return 'Active'; const now=Date.now(), start=act.startDate?new Date(act.startDate).getTime():now-1000, end=new Date(act.endDate).getTime(); if(now<start) return 'Upcoming'; if(now>end) return 'Expired'; return 'Active'; }
+        function setStatus(s) { globalStatus=s; render(); initFilters(); }
 
         function render() {
-            const lists = { 'DailyCheckin': document.getElementById('daily-checkin-list'), 'Voucher': document.getElementById('voucher-list') };
-            Object.values(lists).forEach(l => l.innerHTML = '');
-            let hasItem = false;
-            ALL_ACTIVITIES.forEach(act => {
-                if (getStatus(act) !== globalStatus) return;
+            const lists={'DailyCheckin':document.getElementById('daily-checkin-list'),'Voucher':document.getElementById('voucher-list')};
+            Object.values(lists).forEach(l=>l.innerHTML='');
+            const now = Date.now();
+            ALL_ACTIVITIES.filter(act => {
+                const e=act.endDate?new Date(act.endDate).getTime():null, s=act.startDate?new Date(act.startDate).getTime():null;
+                if(globalStatus==='finished') return e && e<now;
+                if(globalStatus==='upcoming') return s && s>now;
+                return (!s || s<=now) && (!e || e>=now);
+            }).forEach(act => {
                 const cat = act.category.find(c => CATEGORY_MAP[c]);
-                if (cat && lists[cat]) { hasItem = true; lists[cat].innerHTML += createCard(act, cat, globalStatus); }
+                if(cat && lists[cat]) lists[cat].innerHTML += createCard(act, cat);
             });
-            if (!hasItem) document.getElementById('daily-checkin-list').innerHTML = `<p class="text-gray-500 text-center py-6 text-sm w-full">暂无相关活动</p>`;
-            document.querySelectorAll('.action-button-voice').forEach(b => b.onclick = e => toggleSpeech(e.currentTarget, e.currentTarget.dataset.steps));
-            document.querySelectorAll('.share-button').forEach(b => b.onclick = e => share(e.currentTarget));
             updateTimers();
         }
 
-        function createCard(act, cat, status) {
-            const s = CATEGORY_MAP[cat], isExp = status === 'Expired';
-            let btn = act.link&&act.link!=='#' ? `<a href="${act.link}" target="_blank" class="action-button ${isExp?'opacity-50':''}" ${isExp?'onclick="return false"':''}><i class="fas fa-rocket"></i> 去领取</a>` : (act.StepsText ? `<button class="action-button action-button-voice ${isExp?'opacity-50':''}" data-steps="${act.StepsText.replace(/"/g,'&quot;')}" ${isExp?'disabled':''}><i class="fas fa-volume-high"></i> 播放语音</button>` : `<button class="action-button opacity-50" disabled>暂无指引</button>`);
-            let badgeClass = ''; if (status === 'Upcoming') badgeClass = 'upcoming'; else if (status === 'Expired') badgeClass = 'expired';
-            let badge = `<span class="countdown-badge ${badgeClass}" data-start="${act.startDate}" data-end="${act.endDate}">计算中...</span>`;
-
-            return `<div class="task-list-card ${s.borderClass} ${isExp?'opacity-50 grayscale':''}">
-                <div class="absolute top-0 right-0 flex items-start">
-                    ${act.specialNote ? `<span class="special-note-badge">${act.specialNote}</span>` : ''}
-                    ${badge}
-                </div>
-                <div class="task-main-content">
-                    <div class="task-icon ${s.iconClass}"><i class="fa-solid ${s.faIcon}"></i></div>
-                    <div class="task-content">
-                        <div class="task-header-row">
-                            <span class="task-title">${act.name}</span>
+        function createCard(act, cat) {
+            const s = CATEGORY_MAP[cat];
+            return `<div class="task-list-card">
+                <div class="card-top">
+                    <div class="task-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div>
+                    <div class="content-box">
+                        <div class="title-row">
+                            <div class="task-title">${act.name}</div>
+                            ${act.specialNote ? `<div class="special-badge">${act.specialNote}</div>` : ''}
                         </div>
-                        <div class="task-subtitle">${act.description||''}</div>
+                        <div style="font-size:0.8rem;color:#aaa;margin-top:4px;">${act.description||''}</div>
                     </div>
                 </div>
-                <div class="task-action-bar">
-                    <button class="share-button" data-id="${act.id}"><i class="fas fa-share-alt"></i> 分享</button>
-                    ${btn}
+                <div style="position:relative; margin-top:-35px; margin-bottom:10px; padding-right:16px;">
+                    <div class="badge-timer" data-end="${act.endDate}" data-start="${act.startDate}">...</div>
+                </div>
+                <div class="card-bottom">
+                    <div style="color:#888;font-size:0.8rem;"><i class="fas fa-share-alt"></i> 分享</div>
+                    <a href="${act.link}" target="_blank" class="btn-go">去领取</a>
                 </div>
             </div>`;
         }
         
-        function toggleSpeech(btn, t) { if(!synth) return; if(btn.classList.contains('speaking')) { stopSpeech(); return; } stopSpeech(); const u = new SpeechSynthesisUtterance(t); u.lang='zh-CN'; u.rate=0.75; u.onstart = () => { speakingButton=btn; btn.classList.add('speaking'); btn.innerHTML=`<i class="fas fa-stop"></i> 停止`; }; u.onend = stopSpeech; synth.speak(u); }
-        function stopSpeech() { if(synth.speaking) synth.cancel(); if(speakingButton) { speakingButton.classList.remove('speaking'); speakingButton.innerHTML=`<i class="fas fa-volume-high"></i> 播放语音`; speakingButton=null; } }
-        function share(btn){ const url=`${location.origin}${location.pathname.replace('checkin.html','go.html')}?id=${btn.dataset.id}`; if (navigator.share) { navigator.share({ title: '慧伴管家', text: 'Check out this activity!', url: url }).catch(console.error); } else { try{const t=document.createElement('textarea'); t.value=`活动分享：${url}`; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); const old=btn.innerHTML; btn.innerHTML=`<i class="fas fa-check"></i> 已复制`; setTimeout(()=>btn.innerHTML=old,2000);}catch(e){alert(url);} } }
-        
         function updateTimers() {
             const now = Date.now();
-            document.querySelectorAll('.countdown-badge').forEach(el => {
-                if(el.classList.contains('expired')) { el.innerText = '已结束'; return; }
-                const start = el.dataset.start ? new Date(el.dataset.start).getTime() : 0;
-                const end = el.dataset.end ? new Date(el.dataset.end).getTime() : 0;
-                if (start > now) { const d = start - now; el.innerText = `距开始 ${fmt(d)}`; }
-                else if (end > now || !el.dataset.end || el.dataset.end === 'null') { if (!el.dataset.end || el.dataset.end === 'null') { el.innerText = '长期'; } else { const d = end - now; el.innerText = `剩余 ${fmt(d)}`; } }
-                else { el.innerText = '已结束'; el.classList.add('expired'); }
+            document.querySelectorAll('.badge-timer').forEach(el => {
+                const s=el.dataset.start?new Date(el.dataset.start).getTime():0, e=el.dataset.end?new Date(el.dataset.end).getTime():0;
+                if(s>now) el.innerText = `距开始 ${fmt(s-now)}`;
+                else if(e>now || !el.dataset.end) el.innerText = (!el.dataset.end) ? '长期' : `剩余 ${fmt(e-now)}`;
+                else { el.innerText='已结束'; el.style.background='#333'; }
             });
         }
-        function fmt(ms) { const s=Math.floor(ms/1000), d=Math.floor(s/86400), h=Math.floor((s%86400)/3600), m=Math.floor((s%3600)/60); return d>0 ? `${d}天${h}时` : `${h}时${m}分`; }
+        function fmt(ms){ const d=Math.floor(ms/86400000), h=Math.floor((ms%86400000)/3600000); return d>0?`${d}天${h}时`:`${h}时`; }
     </script>
 </body>
 </html>
