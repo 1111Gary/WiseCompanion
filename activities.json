@@ -333,7 +333,7 @@
     "name": "京东视频",
     "description": "看视频领金币，可提现到京东钱包",
     "icon": "❓",
-    "link": "https://3.cn/2vUZG-iR ",
+    "link": "https://3.cn/-2vWKdkT",
     "category": [
       "Video"
     ],
@@ -646,17 +646,16 @@
   },
   {
     "id": "recZDTiNmBiXp0yH5",
-    "name": "无标题活动",
-    "description": "暂无描述",
+    "name": "快手极速版",
+    "description": "看视频领金币，可提现支付宝",
     "icon": "❓",
-    "link": "#",
+    "link": "https://v.kuaishou.com/nVP9Wn2n",
     "category": [
-      "Shopping",
-      "TravelDiscount"
+      "Video"
     ],
-    "sourceApp": "其他",
+    "sourceApp": "快手极速版",
     "specialNote": null,
-    "targetApp": "其他",
+    "targetApp": "快手极速版",
     "endDate": null,
     "StepsText": null
   },
@@ -1090,6 +1089,21 @@
     "targetApp": "中国银行APP",
     "endDate": "2025-12-31T10:00:00.000Z",
     "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击中行出行有京禧，支付1.18元可领取"
+  },
+  {
+    "id": "recqz6CIOYISgbH0Y",
+    "name": "美团视频",
+    "description": "看视频领金币，可提现微信",
+    "icon": "❓",
+    "link": "http://dpurl.cn/5KlzRKIz",
+    "category": [
+      "Video"
+    ],
+    "sourceApp": "美团APP",
+    "specialNote": null,
+    "targetApp": "美团APP",
+    "endDate": null,
+    "StepsText": null
   },
   {
     "id": "recrNGMUNkBAKQkHf",
