@@ -113,7 +113,7 @@
     "id": "rec2hPYI5LxSXyTUk",
     "name": "网上国网APP签到",
     "description": "每日签到领金币换电费优惠券",
-    "icon": "🏡",
+    "icon": "❓",
     "link": "#",
     "category": [
       "CheckIn",
@@ -284,7 +284,7 @@
     "id": "recDS8C3fC34GdeJQ",
     "name": "中国建设银行APP签到",
     "description": "每日签到领金币开宝箱抽微信立减金",
-    "icon": "🍔",
+    "icon": "❓",
     "link": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=b7fbcbdcf9814297bdb479ebcd224419",
     "category": [
       "CheckIn",
@@ -426,7 +426,7 @@
     "id": "recHsykt7FWAjum3F",
     "name": "支付宝APP碰一下签到",
     "description": "连续签到14天得3元碰一下红包",
-    "icon": "💰",
+    "icon": "❓",
     "link": "cmbt://...",
     "category": [
       "CheckIn",
@@ -1125,7 +1125,7 @@
     "id": "recs5dX12KSsFUCEj",
     "name": "多多视频",
     "description": "看视频领金币，20元可提现微信",
-    "icon": "🛍️",
+    "icon": "❓",
     "link": "https://mobile.yangkeduo.com/fyxmkief.html?_wv=41729&_wvx=10&needs_login=1&page_from=602277&shared_time=1763058808131&shared_sign=cf9389c8c69f58de0255066a82c72ca4&invite_round_id=invite_money_1_11&channel=1&mission_code=invite&refer_share_uin=FOXYC5DMBVEMOFAZ6VIPQTZ4UI_GEXDA&activity_code=invite_money&feed_id=6749417913932317712&new_ui=1&refer_share_id=qe4dopav9kndemqgus4m0i5uuqxd9od7&refer_share_channel=message&__wls_rt=1&__wls_lt=1&__wls_fm=n",
     "category": [
       "Video"
@@ -1140,7 +1140,7 @@
     "id": "rectnNcX8juUmHqxQ",
     "name": "中国银行APP签到",
     "description": "福仔云游记连续签到7天得2支付宝红包",
-    "icon": "✨",
+    "icon": "❓",
     "link": "复制这条信息¥BCxiPVJuLi¥打开 中国银行手机银行 查看具体信息「福仔云游记 快来开启趣味云游之旅吧！」",
     "category": [
       "CheckIn",
