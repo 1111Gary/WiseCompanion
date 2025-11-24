@@ -3,89 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>NEX AI - 智能生活</title>
-    <script async defer src="https://umami.example.com/script.js" data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" data-do-not-track="true" data-domains="1111gary.github.io"></script>
+    <title>慧伴管家</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     <style>
-        body { background-color: #0B1120; color: #F1F5F9; font-family: 'Inter', sans-serif; padding: 20px; padding-top: max(20px, env(safe-area-inset-top)); padding-bottom: 40px; }
-        
+        body { background-color: #0f0f0f; color: #fff; font-family: sans-serif; padding: 20px; padding-top: max(20px, env(safe-area-inset-top)); }
         .hero-card {
-            background: linear-gradient(135deg, #8B5CF6, #F43F5E); /* NEX 专属渐变 */
-            border-radius: 24px; padding: 40px 20px; text-align: center; margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3); position: relative; overflow: hidden;
+            background: linear-gradient(135deg, #3B82F6, #8B5CF6); border-radius: 24px; padding: 40px 20px; text-align: center; margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(59,130,246,0.4);
         }
-        .hero-card::after { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%); animation: pulse 4s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
-
         .nav-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .nav-card {
-            background: #1E293B; border-radius: 20px; padding: 20px; text-align: center; text-decoration: none; color: white;
+            background: #1e1e1e; border-radius: 20px; padding: 20px; text-align: center; text-decoration: none; color: white;
             border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; aspect-ratio: 1/1; justify-content: center;
-            transition: transform 0.2s;
         }
-        .nav-card:active { transform: scale(0.98); background: #27354F; }
-        
-        .icon-box { width: 54px; height: 54px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        
-        /* 子页面配色 */
-        .icon-checkin { background: linear-gradient(135deg, #10B981, #34D399); } /* 绿 */
-        .icon-video { background: linear-gradient(135deg, #F43F5E, #FB7185); }   /* 红 */
-        .icon-bank { background: linear-gradient(135deg, #3B82F6, #60A5FA); }    /* 蓝 */
-        .icon-shopping { background: linear-gradient(135deg, #8B5CF6, #C084FC); } /* 紫 */
-
-        .premium-card {
-            display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px 20px; text-align: center;
-            border: 2px solid transparent; border-image: linear-gradient(135deg, #FACC15, #F43F5E); border-image-slice: 1;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin-top: 30px; text-decoration: none;
-        }
-        .premium-card h2 { font-size: 1.2rem; font-weight: 800; background: linear-gradient(to right, #FACC15, #F43F5E); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-        
-        /* NEX Logo SVG */
-        .brand-logo svg { width: 64px; height: 64px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); }
+        .icon-box { width: 54px; height: 54px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 12px; }
+        .icon-checkin { background: linear-gradient(135deg, #10B981, #34D399); }
+        .icon-video { background: linear-gradient(135deg, #F43F5E, #FB7185); }
+        .icon-bank { background: linear-gradient(135deg, #3B82F6, #60A5FA); }
+        .icon-shopping { background: linear-gradient(135deg, #8B5CF6, #C084FC); }
     </style>
 </head>
 <body>
     <div class="hero-card">
-        <div class="brand-logo mx-auto mb-4">
-            <svg viewBox="0 0 24 24" fill="white"><path d="M6 4v16a2 2 0 0 0 2 2h.5a2 2 0 0 0 1.6-.8l6.8-10.4V18a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-.5a2 2 0 0 0-1.6.8L10.1 13.2V4a2 2 0 0 0-2-2H7a2 2 0 0 0-1 2z"/></svg>
-        </div>
-        <h1 class="text-3xl font-black tracking-tight relative z-10">NEX AI</h1>
-        <p class="opacity-90 mt-2 text-sm font-medium relative z-10 tracking-wide">核心纽带 · 链接未来</p>
+        <img src="./assets/icon_apple.png" onerror="this.src='https://placehold.co/64x64/ffffff/3B82F6?text=H'" class="w-16 h-16 mx-auto rounded-xl shadow-lg mb-4">
+        <h1 class="text-3xl font-bold">慧伴管家</h1>
+        <p class="opacity-80 mt-2">您的AI智能省钱助手</p>
     </div>
 
     <div class="nav-grid">
         <a href="./checkin.html" class="nav-card">
             <div class="icon-box icon-checkin"><i class="fas fa-calendar-check"></i></div>
             <h3 class="font-bold text-lg">天天有奖</h3>
-            <p class="text-xs text-gray-400 mt-1">每日签到领福利</p>
+            <p class="text-xs text-gray-400 mt-1">每日签到</p>
         </a>
         <a href="./video.html" class="nav-card">
             <div class="icon-box icon-video"><i class="fas fa-play-circle"></i></div>
             <h3 class="font-bold text-lg">看视频赚</h3>
-            <p class="text-xs text-gray-400 mt-1">刷视频得金币</p>
+            <p class="text-xs text-gray-400 mt-1">刷视频金币</p>
         </a>
         <a href="./bank.html" class="nav-card">
             <div class="icon-box icon-bank"><i class="fas fa-hand-holding-usd"></i></div>
             <h3 class="font-bold text-lg">捡钱任务</h3>
-            <p class="text-xs text-gray-400 mt-1">银行活动大集合</p>
+            <p class="text-xs text-gray-400 mt-1">银行活动</p>
         </a>
         <a href="./shopping.html" class="nav-card">
             <div class="icon-box icon-shopping"><i class="fas fa-tags"></i></div>
             <h3 class="font-bold text-lg">省钱秘籍</h3>
-            <p class="text-xs text-gray-400 mt-1">消费出行优惠券</p>
+            <p class="text-xs text-gray-400 mt-1">消费优惠</p>
         </a>
-    </div>
-    
-    <a href="./premium.html" class="premium-card">
-        <h2><i class="fas fa-crown mr-2"></i> 高级会员专区</h2>
-        <p class="text-gray-400 text-xs mt-2">解锁 AI 自动代理 · 释放双手</p>
-    </a>
-    
-    <div class="text-center mt-10 text-gray-600 text-xs">
-        &copy; 2025 NEX AI Inc.
     </div>
 </body>
 </html>

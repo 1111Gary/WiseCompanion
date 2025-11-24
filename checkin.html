@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>NEX - 天天有奖</title>
+    <title>慧伴管家 - 天天有奖</title>
     <script async defer src="https://umami.example.com/script.js" data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" data-do-not-track="true" data-domains="1111gary.github.io"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -15,49 +15,53 @@
             --primary: #10B981; --accent: #FACC15; /* Green Theme */
             --border-glow: 0 0 15px rgba(16, 185, 129, 0.5);
         }
-        body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-top: 110px; padding-bottom: 90px; }
+        body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-top: 120px; padding-bottom: 90px; }
 
-        #smart-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(11, 17, 32, 0.98); backdrop-filter: blur(16px); transition: transform 0.3s ease; border-bottom: 1px solid rgba(255,255,255,0.05); padding-top: env(safe-area-inset-top); }
+        @keyframes borderFlow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+        #smart-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(16px); transition: transform 0.3s ease; border-bottom: 1px solid rgba(255,255,255,0.05); padding-top: env(safe-area-inset-top); }
         .nav-hidden { transform: translateY(-100%); }
-        .header-top { display: flex; align-items: center; justify-content: space-between; height: 50px; padding: 0 16px; position: relative; }
-        .app-logo { width: 32px; height: 32px; border-radius: 8px; margin-right: 10px; border: 1px solid rgba(255,255,255,0.1); }
-        .page-title { font-size: 1.2rem; font-weight: 800; color: #fff; text-shadow: 0 0 10px rgba(16,185,129,0.6); }
-
-        .unified-filter { display: flex; gap: 8px; overflow-x: auto; padding: 4px 16px 12px 16px; scrollbar-width: none; align-items: center; }
-        .unified-filter::-webkit-scrollbar { display: none; }
         
-        .chip { display: inline-flex; align-items: center; height: 32px; padding: 0 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; flex-shrink: 0; background: rgba(255,255,255,0.05); color: var(--text-sub); border: 1px solid rgba(255,255,255,0.1); transition: 0.2s; }
-        .chip-special { background: #334155; color: #fff; border-color: rgba(255,255,255,0.2); }
-        .chip.active { background: var(--primary); color: #fff; border-color: transparent; box-shadow: var(--border-glow); }
-        .chip[data-val="Upcoming"].active { background: #EC4899; }
-        .chip[data-val="Expired"].active { background: #64748B; box-shadow: none; }
+        .header-top { display: flex; align-items: center; justify-content: space-between; height: 50px; padding: 0 16px; position: relative; }
+        .header-top::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--primary), transparent);
+            background-size: 200% 100%; animation: borderFlow 3s linear infinite; box-shadow: 0 1px 8px rgba(16, 185, 129, 0.5); z-index: 10;
+        }
 
-        /* Sidebar */
+        .app-logo { width: 32px; height: 32px; border-radius: 8px; margin-right: 10px; border: 1px solid rgba(255,255,255,0.1); }
+        .page-title { font-size: 1.2rem; font-weight: 800; color: #fff; text-shadow: 0 0 10px rgba(16,185,129,0.5); }
+
+        .filter-bar { display: flex; gap: 10px; overflow-x: auto; padding: 12px 16px; scrollbar-width: none; align-items: center; }
+        .chip { display: inline-flex; align-items: center; height: 34px; padding: 0 16px; border-radius: 999px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; flex-shrink: 0; background: rgba(255,255,255,0.03); color: var(--text-sub); border: 1px solid rgba(255,255,255,0.08); transition: all 0.2s; }
+        .chip.active { background: var(--primary); color: #fff; border-color: transparent; box-shadow: var(--border-glow); }
+        .chip-trigger { background: #334155; color: #fff; border-color: rgba(255,255,255,0.2); }
+        
         .sidebar-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 90; opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(4px); }
         .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #0f172a; z-index: 100; transform: translateX(-100%); transition: 0.3s cubic-bezier(0.4,0,0.2,1); padding-top: env(safe-area-inset-top); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; }
         .sidebar-open .sidebar-mask { opacity: 1; pointer-events: auto; } .sidebar-open .sidebar { transform: translateX(0); }
-        .sidebar-header { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; font-size: 1.2rem; font-weight: 700; color: #fff; }
-        .sidebar-item { padding: 14px 20px; display: flex; align-items: center; gap: 16px; color: #fff; font-weight: 500; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .sidebar-icon { width: 24px; text-align: center; color: var(--primary); }
+        .sidebar-header { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; font-size: 1.2rem; font-weight: 700; color: #fff; background: linear-gradient(to right, rgba(16,185,129,0.1), transparent); }
+        .sidebar-item { padding: 16px 20px; display: flex; align-items: center; gap: 16px; color: #ffffff; font-weight: 500; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; text-shadow: 0 0 5px rgba(0,0,0,0.5); }
+        .sidebar-item:active { background: rgba(255,255,255,0.05); }
+        .sidebar-item.selected { background: linear-gradient(90deg, rgba(16,185,129,0.15), transparent); color: #fff; border-left: 4px solid var(--primary); text-shadow: 0 0 8px rgba(16,185,129,0.6); }
+        .sidebar-icon-box { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary); }
+        .sidebar-item.selected .sidebar-icon-box { background: var(--primary); color: #fff; box-shadow: 0 0 10px rgba(16,185,129,0.4); }
 
-        .section-title { margin: 1.5rem 1rem 1rem; display: flex; align-items: center; gap: 10px; font-size: 1.1rem; font-weight: 800; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
-        .section-title::before { content:''; width: 4px; height: 18px; background: var(--primary); border-radius: 2px; box-shadow: 0 0 8px var(--primary); }
+        .section-title-card { margin: 2rem 1rem 1rem; padding: 12px 16px; border-radius: 12px; background: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(15,23,42,0.8)); border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); position: relative; overflow: hidden; }
+        .section-title-card::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:2px; background: linear-gradient(90deg, var(--primary), transparent); }
+        .section-title-h2 { font-size: 1.1rem; font-weight: 800; color: #fff; text-shadow: 0 0 5px rgba(255,255,255,0.3); }
 
         .task-card { background: var(--card-bg); border-radius: 16px; padding: 16px; margin: 0 1rem 1rem; border: 1px solid rgba(255,255,255,0.05); position: relative; display: flex; flex-direction: column; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
         .task-card::before { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 4px; background: var(--primary); border-radius: 16px 0 0 16px; }
-        .task-checkin-1 { border-left-color: var(--primary); } .icon-checkin-1 { background: linear-gradient(135deg, #10B981, #34D399); }
-        .task-checkin-2 { border-left-color: #EC4899; } .icon-checkin-2 { background: linear-gradient(135deg, #EC4899, #F472B6); }
         
         .badges { position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; }
         .badge-timer { background: #EC4899; color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; box-shadow: 0 2px 8px rgba(236, 72, 153, 0.4); }
         .badge-timer.expired { background: #475569; color: #94A3B8; box-shadow: none; }
-        .badge-note { background: linear-gradient(90deg, #F59E0B, #FBBF24); color: #000; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; margin-left: 8px; }
+        .badge-note { background: linear-gradient(90deg, #F59E0B, #FBBF24); color: #000; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; box-shadow: 0 0 8px rgba(250, 204, 21, 0.2); margin-left: 8px; display: inline-block; vertical-align: middle; }
 
-        .card-main { display: flex; align-items: center; margin-top: 12px; }
-        .card-icon { width: 40px; height: 40px; border-radius: 12px; background: #333; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: #fff; margin-right: 14px; flex-shrink: 0; }
+        .card-main { display: flex; align-items: flex-start; margin-top: 25px; }
+        .card-icon { width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #10B981, #34D399); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #fff; margin-right: 14px; flex-shrink: 0; }
         .card-text { flex: 1; min-width: 0; }
-        /* [核心] 布局 */
-        .card-title-row { display: flex; justify-content: space-between; align-items: center; }
+        .card-title-row { display: flex; justify-content: space-between; align-items: flex-start; }
         .card-title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 4px; flex: 1; line-height: 1.3; }
         .card-desc { font-size: 0.85rem; color: #94A3B8; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
 
@@ -69,8 +73,9 @@
         .btn-voice.speaking { background: #EF4444; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 
-        .premium-card { display: block; margin: 2rem 1rem; padding: 24px; border-radius: 20px; background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .premium-card h2 { font-size: 1.3rem; font-weight: 800; background: linear-gradient(to right, #FACC15, #10B981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .premium-card { display: block; margin: 2rem 1rem; padding: 24px; border-radius: 20px; background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden; text-align: center; text-decoration: none; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .premium-card::before { content:''; position: absolute; inset: 0; padding: 1px; border-radius: 20px; background: linear-gradient(135deg, #FACC15, #10B981, transparent); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; pointer-events: none; }
+        .premium-title { font-size: 1.2rem; font-weight: 800; background: linear-gradient(to right, #FACC15, #10B981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-flex; align-items: center; gap: 8px; }
         .premium-desc { color: #94A3B8; font-size: 0.85rem; margin-top: 8px; }
 
         .nav-bar { position: fixed; bottom: 0; width: 100%; height: 65px; background: rgba(11,17,32,0.95); backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-around; align-items: center; z-index: 50; padding-bottom: env(safe-area-inset-bottom); }
@@ -82,7 +87,7 @@
     <div class="sidebar-mask" onclick="toggleSidebar()"></div>
     <div class="sidebar">
         <div class="sidebar-header">
-            <img src="./assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/10B981/ffffff?text=W'" class="w-8 h-8 rounded-lg">
+            <img src="./assets/icon_apple.png" onerror="this.src='https://placehold.co/32x32/10B981/ffffff?text=W'" class="w-8 h-8 rounded-lg border border-white/10">
             <span class="text-lg font-bold text-white">慧伴管家</span>
         </div>
         <div id="sidebar-content" class="flex-1 overflow-y-auto py-2"></div>
@@ -96,14 +101,12 @@
             </div>
             <a href="./index.html" class="text-gray-300 text-xl px-2"><i class="fas fa-arrow-left"></i></a>
         </div>
-        <div class="unified-filter" id="unified-filter">
-            <!-- JS -->
-        </div>
+        <div class="filter-bar" id="filter-bar"></div>
     </header>
 
     <main>
-        <div class="section-title"><i class="fas fa-calendar-check text-green-400"></i> 日常签到</div><div id="daily-checkin-list"></div>
-        <div class="section-title"><i class="fas fa-stopwatch text-pink-400"></i> 整点抢红包</div><div id="voucher-list"></div>
+        <div class="section-title-card"><h2 class="section-title-h2"><i class="fas fa-calendar-check text-green-400 mr-2"></i> 日常签到</h2></div><div id="daily-checkin-list"></div>
+        <div class="section-title-card"><h2 class="section-title-h2"><i class="fas fa-stopwatch text-pink-400 mr-2"></i> 整点抢红包</h2></div><div id="voucher-list"></div>
 
         <a href="./premium.html" class="premium-card" onclick="umami.track('click_premium_card', { from: 'checkin' })">
             <div class="premium-title"><i class="fas fa-crown"></i> 高级会员专区</div>
@@ -121,89 +124,77 @@
     </nav>
     
     <script>
-        let ALL=[], selPlat='All', selStatus='Active';
-        const CAT_MAP={'DailyCheckin':{icon:'fa-calendar-check',color:'#10B981',border:'task-checkin-1'},'Voucher':{icon:'fa-stopwatch',color:'#EC4899',border:'task-checkin-2'}};
-        const synth=window.speechSynthesis; let spkBtn=null;
-        
-        // Scroll Logic
-        let lastY=0; const h=document.getElementById('smart-header');
-        window.addEventListener('scroll', ()=>{const y=scrollY; if(Math.abs(y-lastY)<10)return; if(h.style.transition!=='none')h.classList.toggle('nav-hidden', y>lastY&&y>60); lastY=y; sessionStorage.setItem('pos_checkin', y); sessionStorage.setItem('nav_checkin', h.classList.contains('nav-hidden'));}, {passive:true});
-        if('scrollRestoration' in history) history.scrollRestoration='manual';
+    let ALL=[], selPlat='All', selStatus='Active';
+    const CAT_MAP={'DailyCheckin':{icon:'fa-calendar-check',color:'#10B981'},'Voucher':{icon:'fa-stopwatch',color:'#EC4899'}};
+    const synth=window.speechSynthesis; 
 
-        document.addEventListener('DOMContentLoaded', () => {
-            fetch('./activities.json').then(r=>r.json()).then(d => {
-                ALL=d.filter(a=>a.category&&(a.category.includes('DailyCheckin')||a.category.includes('Voucher')));
-                initUI(); render(); setInterval(updTm, 1000);
-                restoreScroll();
-            });
+    let lastY=0; 
+    const h=document.getElementById('smart-header');
+    window.addEventListener('scroll', ()=>{
+        const y=window.scrollY; 
+        if(Math.abs(y-lastY)<10)return; 
+        if (h.style.transition !== 'none') { h.classList.toggle('nav-hidden', y>lastY&&y>60); }
+        lastY=y; 
+        sessionStorage.setItem('pos_checkin', y);
+        sessionStorage.setItem('nav_state_checkin', h.classList.contains('nav-hidden'));
+    }, {passive: true});
+    
+    if('scrollRestoration' in history) history.scrollRestoration='manual';
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const cachedData = sessionStorage.getItem('data_checkin');
+        if (cachedData) { try { ALL = JSON.parse(cachedData); initUI(); render(); restoreScroll(); } catch(e) { console.error(e); } }
+        fetch('./activities.json').then(r=>r.json()).then(d => {
+            const validData = d.filter(a=>a.category&&(a.category.includes('DailyCheckin')||a.category.includes('Voucher')));
+            sessionStorage.setItem('data_checkin', JSON.stringify(validData));
+            if (!cachedData || ALL.length === 0) { ALL = validData; initUI(); render(); restoreScroll(); }
+            setInterval(updTm, 1000);
         });
+    });
 
-        function restoreScroll(){
-            const y=sessionStorage.getItem('pos_checkin'); const hid=sessionStorage.getItem('nav_checkin')==='true';
-            if(y){ h.style.transition='none'; if(hid)h.classList.add('nav-hidden'); else h.classList.remove('nav-hidden'); requestAnimationFrame(()=>{ window.scrollTo(0,parseInt(y)); lastY=parseInt(y); setTimeout(()=>{h.style.transition=''},100); }); }
-        }
-
-        function initUI() {
-            const c=document.getElementById('unified-filter');
-            c.innerHTML = `<button class="chip chip-special chip-trigger ${selPlat==='All'?'active':''}" onclick="toggleSidebar()"><i class="fas fa-bars mr-2"></i> ${selPlat==='All'?'全部平台':selPlat}</button>`;
-            const sts=[{v:'Active',t:'进行中'},{v:'Upcoming',t:'即将开始'},{v:'Expired',t:'已结束'}];
-            sts.forEach(s=>c.innerHTML+=`<button class="chip ${selStatus===s.v?'active':''}" data-val="${s.v}" onclick="setSt('${s.v}')">${s.t}</button>`);
-
-            const sb=document.getElementById('sidebar-content'); const ps=new Set(); ALL.forEach(a=>ps.add(a.sourceApp));
-            let html = `<div class="sidebar-item" onclick="setPl('All')"><i class="fas fa-border-all sidebar-icon"></i> 全部平台</div>`;
-            ps.forEach(p=>{if(p)html+=`<div class="sidebar-item" onclick="setPl('${p}')"><i class="fas fa-mobile-alt sidebar-icon"></i> ${p}</div>`});
-            sb.innerHTML = html;
-        }
-
-        function toggleSidebar(){document.body.classList.toggle('sidebar-open');}
-        function setSt(s){selStatus=s; initUI(); render();}
-        function setPl(p){selPlat=p; toggleSidebar(); initUI(); render();}
-
-        function render() {
-            const ls={'DailyCheckin':document.getElementById('daily-checkin-list'),'Voucher':document.getElementById('voucher-list')};
-            Object.values(ls).forEach(e=>e.innerHTML='');
-            const now=Date.now();
-            ALL.filter(a=>{
-                const e=a.endDate?new Date(a.endDate).getTime():null, s=a.startDate?new Date(a.startDate).getTime():null;
-                if(selStatus==='Expired') return e && e<now;
-                if(selStatus==='Upcoming') return s && s>now;
-                return (!s || s<=now) && (!e || e>=now);
-            }).filter(a=>selPlat==='All'||a.sourceApp===selPlat).forEach(a=>{
-                const cat=a.category.find(c=>CAT_MAP[c]); if(cat&&ls[cat]) { ls[cat].innerHTML+=card(a,cat); }
+    function restoreScroll() {
+        const y = sessionStorage.getItem('pos_checkin'); 
+        const isHidden = sessionStorage.getItem('nav_state_checkin') === 'true';
+        if(y) {
+            h.style.transition = 'none';
+            if(isHidden) h.classList.add('nav-hidden'); else h.classList.remove('nav-hidden');
+            requestAnimationFrame(() => {
+                window.scrollTo({top: parseInt(y), behavior: 'instant'});
+                lastY = parseInt(y);
+                setTimeout(() => { h.style.transition = ''; }, 100);
             });
         }
+    }
 
-        function card(a, cat) {
-            const s = CAT_MAP[cat];
-            let btn = a.link&&a.link!=='#' 
-                ? `<a href="${a.link}" target="_blank" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></a>` 
-                : (a.StepsText ? `<button class="btn btn-voice" data-t="${a.StepsText.replace(/"/g,'&quot;')}" onclick="spk(this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`);
-
-            return `<div class="task-card" style="border-left-color:${s.color}">
-                <div class="badges">
-                    <span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span>
-                </div>
-                <div class="card-main">
-                    <div class="card-icon" style="background:linear-gradient(135deg,${s.color},#047857)"><i class="fas ${s.icon}"></i></div>
-                    <div class="card-text">
-                        <div class="card-title-row">
-                            <div class="card-title">${a.name}</div>
-                            ${a.specialNote?`<span class="badge-note">${a.specialNote}</span>`:''}
-                        </div>
-                        <div class="card-desc">${a.description||'暂无描述'}</div>
-                    </div>
-                </div>
-                <div class="card-actions">
-                    <button class="btn btn-share" onclick="shr('${a.id}')"><i class="fas fa-share-alt mr-1"></i> 分享</button>
-                    ${btn}
-                </div>
-            </div>`;
-        }
-
-        function spk(b){const t=b.dataset.t;if(b.classList.contains('speaking')){synth.cancel();b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;return;}synth.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=0.75;u.onstart=()=>{b.classList.add('speaking');b.innerHTML=`<i class="fas fa-stop mr-1"></i> 停止`;};u.onend=()=>{b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;};synth.speak(u);}
-        function shr(id){const u=`${location.origin}/go.html?id=${id}`;if(navigator.share){navigator.share({title:'分享活动',url:u}).catch(()=>{})}else{prompt('复制链接:',u)}}
-        function updTm(){const n=Date.now();document.querySelectorAll('.badge-timer').forEach(e=>{const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;if(s > n) {e.innerText = `即将开始 ${fmt(s-n)}`; e.classList.remove('expired');} else if (end && end < n) {e.innerText = '已结束'; e.classList.add('expired');} else if (end) {e.innerText = `剩余 ${fmt(end-n)}`; e.classList.remove('expired');} else {e.innerText = '长期'; e.classList.remove('expired');}});}
-        function fmt(ms){const d=Math.floor(ms/86400000),h=Math.floor((ms%86400000)/3600000),m=Math.floor((ms%3600000)/60000);return d>0?`${d}天${h}时`:`${h}时${m}分`;}
-    </script>
+    function initUI() {
+        const bar=document.getElementById('filter-bar');
+        bar.innerHTML = `<button class="chip chip-trigger ${selPlat==='All'?'active':''}" onclick="toggleSidebar()"><i class="fas fa-layer-group mr-1"></i> ${selPlat==='All'?'全部平台':selPlat}</button>`;
+        const sts=[{v:'Active',t:'进行中'},{v:'Upcoming',t:'即将开始'},{v:'Expired',t:'已结束'}];
+        sts.forEach(s=>bar.innerHTML+=`<button class="chip ${selStatus===s.v?'active':''}" onclick="setSt('${s.v}')">${s.t}</button>`);
+        const sb=document.getElementById('sidebar-content'); const ps=new Set(); ALL.forEach(a=>ps.add(a.sourceApp));
+        let html = `<div class="sidebar-item ${selPlat==='All'?'selected':''}" onclick="setPl('All')"><div class="sidebar-icon-box"><i class="fas fa-border-all"></i></div> 全部平台</div>`;
+        ps.forEach(p=>{if(p)html+=`<div class="sidebar-item ${selPlat===p?'selected':''}" onclick="setPl('${p}')"><div class="sidebar-icon-box"><i class="fas fa-mobile-alt"></i></div> ${p}</div>`});
+        sb.innerHTML = html;
+    }
+    function toggleSidebar(){document.body.classList.toggle('sidebar-open');}
+    function setSt(s){selStatus=s; initUI(); render();}
+    function setPl(p){selPlat=p; toggleSidebar(); initUI(); render();}
+    function render() {
+        const ls={'DailyCheckin':document.getElementById('daily-checkin-list'),'Voucher':document.getElementById('voucher-list')};
+        Object.values(ls).forEach(e=>e.innerHTML='');
+        const now=Date.now();
+        ALL.filter(a=>{const e=a.endDate?new Date(a.endDate).getTime():null, s=a.startDate?new Date(a.startDate).getTime():null; if(selStatus==='Upcoming') return s && s > now; if(selStatus==='Expired') return e && e < now; return (!s || s<=now) && (!e || e>=now);}).filter(a=>selPlat==='All'||a.sourceApp===selPlat).forEach(a=>{const cat=a.category.find(c=>CAT_MAP[c]); if(cat&&ls[cat]) ls[cat].innerHTML+=card(a,cat);});
+        updTm();
+    }
+    function card(a, cat) {
+        const s = CAT_MAP[cat];
+        let btn = a.link&&a.link!=='#' ? `<a href="${a.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></a>` : (a.StepsText ? `<button class="btn btn-voice" data-t="${a.StepsText.replace(/"/g,'&quot;')}" onclick="spk(this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`);
+        return `<div class="task-card" style="border-left-color:${s.color}"><div class="badges"><span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span></div><div class="card-main"><div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div><div class="card-text"><div class="card-title-row"><div class="card-title">${a.name}</div>${a.specialNote?`<span class="badge-note">${a.specialNote}</span>`:''}</div><div class="card-desc">${a.description||'暂无描述'}</div></div></div><div class="card-actions"><button class="btn btn-share" onclick="shr('${a.id}')"><i class="fas fa-share-alt mr-1"></i> 分享</button>${btn}</div></div>`;
+    }
+    function spk(b){const t=b.dataset.t;if(b.classList.contains('speaking')){synth.cancel();b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;return;}synth.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=0.75;u.onstart=()=>{b.classList.add('speaking');b.innerHTML=`<i class="fas fa-stop mr-1"></i> 停止`;};u.onend=()=>{b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;};synth.speak(u);}
+    function shr(id){const u=`${location.origin}/go.html?id=${id}`;if(navigator.share){navigator.share({title:'分享活动',url:u}).catch(()=>{})}else{prompt('复制链接:',u)}}
+    function updTm(){const n=Date.now();document.querySelectorAll('.badge-timer').forEach(e=>{const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;if(s > n) {e.innerText = `即将开始 ${fmt(s-n)}`; e.classList.remove('expired');} else if (end && end < n) {e.innerText = '已结束'; e.classList.add('expired');} else if (end) {e.innerText = `剩余 ${fmt(end-n)}`; e.classList.remove('expired');} else {e.innerText = '长期'; e.classList.remove('expired');}});}
+    function fmt(ms){const d=Math.floor(ms/86400000),h=Math.floor((ms%86400000)/3600000),m=Math.floor((ms%3600000)/60000);return d>0?`${d}天${h}时`:`${h}时${m}分`;}
+</script>
 </body>
 </html>
