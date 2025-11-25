@@ -1,7 +1,7 @@
 {
-"name": "AI奈斯 - NEX AI",
-"short_name": "AI奈斯",
-"description": "长辈专用优惠活动直达工具，每天一点小惊喜",
+"name": "奈斯 - Nex AI",
+"short_name": "奈斯",
+"description": "奈斯(Nex )AI带你体验捡钱的每一天",
 "start_url": "/WiseCompanion/index.html",
 "display": "standalone",
 "orientation": "portrait",
