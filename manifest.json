@@ -1,6 +1,6 @@
 {
-"name": "NEX AI - 智能生活",
-"short_name": "NEX AI",
+"name": "AI奈斯 - NEX AI",
+"short_name": "AI奈斯",
 "description": "长辈专用优惠活动直达工具，每天一点小惊喜",
 "start_url": "/WiseCompanion/index.html",
 "display": "standalone",
@@ -28,3 +28,4 @@
     }
 ]
 }
+
