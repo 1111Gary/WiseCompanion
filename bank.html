@@ -224,11 +224,9 @@
 
     function card(a, cat) {
         const s = CAT_MAP[cat];
-        let targetUrl = a.link;
-        if (a.copyOnly) { targetUrl = `./go.html?id=${a.id}`; }
-
+        // 【已恢复直连模式】
         let btn = a.link&&a.link!=='#' 
-            ? `<a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></a>` 
+            ? `<a href="${a.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></a>` 
             : (a.StepsText ? `<button class="btn btn-voice" data-t="${a.StepsText.replace(/"/g,'&quot;')}" onclick="spk(this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`);
         return `<div class="task-card" style="border-left-color:${s.color}"><div class="badges">${a.specialNote?`<span class="badge badge-note">${a.specialNote}</span>`:''}<span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span></div><div class="card-main"><div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div><div class="card-text"><div class="card-title">${a.name}</div><div class="card-desc">${a.description||'暂无描述'}</div></div></div><div class="card-actions"><button class="btn btn-share" onclick="shr('${a.id}')"><i class="fas fa-share-alt mr-1"></i> 分享</button>${btn}</div></div>`;
     }
