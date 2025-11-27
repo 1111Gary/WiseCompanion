@@ -125,97 +125,55 @@
     </nav>
     
     <script>
-    let ALL = [], selPlat = 'All', selStatus = 'Active';
-    const CAT_MAP = { 'DailyCheckin': { icon: 'fa-calendar-check', color: '#10B981' }, 'Voucher': { icon: 'fa-stopwatch', color: '#EC4899' } };
-    const synth = window.speechSynthesis;
-    let isInitialLoad = true; // 新增标志位，确保只在首次加载时进行全量初始化
+    let ALL=[], selPlat='All', selStatus='Active';
+    const CAT_MAP={'DailyCheckin':{icon:'fa-calendar-check',color:'#10B981'},'Voucher':{icon:'fa-stopwatch',color:'#EC4899'}};
+    const synth=window.speechSynthesis; 
 
-    function isSensitiveLink(link, activity) {
-        if (!link || link === '#') return false;
-        const sensitiveKeywords = ['icbc.com.cn', 'weixin.qq.com', 'qq.com'];
-        const isLinkSensitive = sensitiveKeywords.some(keyword => link.includes(keyword));
-        const isActivitySensitive = activity.wechatOnly === true;
-        return isLinkSensitive || isActivitySensitive;
-    }
+    let lastY=0; const h=document.getElementById('smart-header');
+    window.addEventListener('scroll', ()=>{
+        const y=window.scrollY; if(Math.abs(y-lastY)<10)return; 
+        if (h.style.transition !== 'none') { h.classList.toggle('nav-hidden', y>lastY&&y>60); }
+        lastY=y; sessionStorage.setItem('pos_checkin', y); sessionStorage.setItem('nav_state_checkin', h.classList.contains('nav-hidden'));
+    }, {passive: true});
+    if('scrollRestoration' in history) history.scrollRestoration='manual';
 
-    let lastY = 0; const h = document.getElementById('smart-header');
-    window.addEventListener('scroll', () => {
-        const y = window.scrollY; if (Math.abs(y - lastY) < 10) return;
-        if (h.style.transition !== 'none') { h.classList.toggle('nav-hidden', y > lastY && y > 60); }
-        lastY = y; sessionStorage.setItem('pos_checkin', y); sessionStorage.setItem('nav_state_checkin', h.classList.contains('nav-hidden'));
-    }, { passive: true });
-    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. 先启动定时器，防止任何情况下倒计时不走
+        setInterval(updTm, 1000);
 
-
-    // ----------------------------------------------------------------------
-    // 【核心修复：确保缓存数据加载立即完成，并避免在返回时重新渲染 UI】
-    // ----------------------------------------------------------------------
-    window.addEventListener('pageshow', (event) => {
-        // 步骤 1: BFCache 恢复检测
-        if (event.persisted) {
-            console.log('Page restored (BFCache). Skipping JS initialization.');
-            restoreScroll();
-            // 确保计时器仍然运行，并立即更新一次，以防 BFCache 恢复有延迟
-            updTm(); 
-            return;
-        }
-
-        // 步骤 2: 首次加载或完全刷新
-
-        // 2A. 尝试从缓存加载数据并立即渲染
+        // 2. 读取缓存
         const cachedData = sessionStorage.getItem('data_checkin');
-        if (cachedData) {
+        if (cachedData) { 
             try { 
                 ALL = JSON.parse(cachedData); 
                 initUI(); 
-                render(); // 立即使用缓存数据渲染，解决“加载时间长”
+                render(); 
                 restoreScroll(); 
-            } catch (e) { 
-                console.error("Failed to parse cache", e); 
-            }
+            } catch(e) { console.error(e); } 
         }
-        
-        // 2B. 异步请求最新数据
-        fetch('./activities.json').then(r => r.json()).then(d => {
-            const validData = d.filter(a => a.category && (a.category.includes('DailyCheckin') || a.category.includes('Voucher')));
-            
-            // 检查数据是否发生了变化
-            const newDataString = JSON.stringify(validData);
-            const isDataChanged = newDataString !== sessionStorage.getItem('data_checkin');
 
-            if (isDataChanged) {
-                console.log('New data fetched. Re-rendering UI.');
-                sessionStorage.setItem('data_checkin', newDataString);
-                ALL = validData;
+        // 3. 网络请求
+        fetch('./activities.json').then(r=>r.json()).then(d => {
+            const validData = d.filter(a=>a.category&&(a.category.includes('DailyCheckin')||a.category.includes('Voucher')));
+            sessionStorage.setItem('data_checkin', JSON.stringify(validData));
+            
+            // 如果缓存没数据，或者数据有更新（这里简单处理为没缓存才渲染，避免闪烁）
+            if (!cachedData || ALL.length === 0) { 
+                ALL = validData; 
                 initUI(); 
-                render(); // 只有数据更新时才重新渲染
-            } else {
-                 console.log('Data is up to date.');
-            }
-        }).catch(err => {
-            console.error("Error fetching data:", err);
-            if (!cachedData) {
-                // 如果没有缓存且网络请求失败，这里可以显示一个错误提示
+                render(); 
+                restoreScroll(); 
             }
         });
-        
-        // 2C. 确保计时器只设置一次
-        if (isInitialLoad) {
-            window.countdownTimer = setInterval(updTm, 1000);
-            isInitialLoad = false;
-        }
     });
-    // ----------------------------------------------------------------------
-    
-    // ... (其他函数保持不变)
 
     function restoreScroll() {
         const y = sessionStorage.getItem('pos_checkin'); const isHidden = sessionStorage.getItem('nav_state_checkin') === 'true';
-        if (y) {
+        if(y) {
             h.style.transition = 'none';
-            if (isHidden) h.classList.add('nav-hidden'); else h.classList.remove('nav-hidden');
+            if(isHidden) h.classList.add('nav-hidden'); else h.classList.remove('nav-hidden');
             requestAnimationFrame(() => {
-                window.scrollTo({ top: parseInt(y), behavior: 'instant' });
+                window.scrollTo({top: parseInt(y), behavior: 'instant'});
                 lastY = parseInt(y);
                 setTimeout(() => { h.style.transition = ''; }, 100);
             });
@@ -223,93 +181,73 @@
     }
 
     function initUI() {
-        const bar = document.getElementById('filter-bar');
-        bar.innerHTML = `<button class="chip chip-trigger ${selPlat === 'All' ? 'active' : ''}" onclick="toggleSidebar()">
-                <i class="fas fa-layer-group mr-1"></i> ${selPlat === 'All' ? '全部平台' : selPlat}
-            </button>`;
-        const sts = [{ v: 'Active', t: '进行中' }, { v: 'Upcoming', t: '即将开始' }, { v: 'Expired', t: '已结束' }];
-        sts.forEach(s => bar.innerHTML += `<button class="chip ${selStatus === s.v ? 'active' : ''}" onclick="setSt('${s.v}')">${s.t}</button>`);
+        const bar=document.getElementById('filter-bar');
+        bar.innerHTML = `<button class="chip chip-trigger ${selPlat==='All'?'active':''}" onclick="toggleSidebar()">
+            <i class="fas fa-layer-group mr-1"></i> ${selPlat==='All'?'全部平台':selPlat}
+        </button>`;
+        const sts=[{v:'Active',t:'进行中'},{v:'Upcoming',t:'即将开始'},{v:'Expired',t:'已结束'}];
+        sts.forEach(s=>bar.innerHTML+=`<button class="chip ${selStatus===s.v?'active':''}" onclick="setSt('${s.v}')">${s.t}</button>`);
 
-        const sb = document.getElementById('sidebar-content'); const ps = new Set(); ALL.forEach(a => ps.add(a.sourceApp));
-        let html = `<div class="sidebar-item ${selPlat === 'All' ? 'selected' : ''}" onclick="setPl('All')"><div class="sidebar-icon-box"><i class="fas fa-border-all"></i></div> 全部平台</div>`;
-        ps.forEach(p => { if (p) html += `<div class="sidebar-item ${selPlat === p ? 'selected' : ''}" onclick="setPl('${p}')"><div class="sidebar-icon-box"><i class="fas fa-mobile-alt"></i></div> ${p}</div>` });
+        const sb=document.getElementById('sidebar-content'); const ps=new Set(); ALL.forEach(a=>ps.add(a.sourceApp));
+        let html = `<div class="sidebar-item ${selPlat==='All'?'selected':''}" onclick="setPl('All')"><div class="sidebar-icon-box"><i class="fas fa-border-all"></i></div> 全部平台</div>`;
+        ps.forEach(p=>{if(p)html+=`<div class="sidebar-item ${selPlat===p?'selected':''}" onclick="setPl('${p}')"><div class="sidebar-icon-box"><i class="fas fa-mobile-alt"></i></div> ${p}</div>`});
         sb.innerHTML = html;
     }
 
-    function toggleSidebar() { document.body.classList.toggle('sidebar-open'); }
-    function setSt(s) { selStatus = s; initUI(); render(); }
-    function setPl(p) { selPlat = p; toggleSidebar(); initUI(); render(); }
+    function toggleSidebar(){document.body.classList.toggle('sidebar-open');}
+    function setSt(s){selStatus=s; initUI(); render();}
+    function setPl(p){selPlat=p; toggleSidebar(); initUI(); render();}
 
     function render() {
-        const ls = { 'DailyCheckin': document.getElementById('daily-checkin-list'), 'Voucher': document.getElementById('voucher-list') };
-        Object.values(ls).forEach(e => e.innerHTML = ''); 
-        const now = Date.now();
-
-        ALL.filter(a => {
-            const e = a.endDate ? new Date(a.endDate).getTime() : null, s = a.startDate ? new Date(a.startDate).getTime() : null;
-            if (selStatus === 'Upcoming') return s && s > now;
-            if (selStatus === 'Expired') return e && e < now;
-            return (!s || s <= now) && (!e || e >= now);
-        }).filter(a => selPlat === 'All' || a.sourceApp === selPlat).forEach(a => {
-            const cat = a.category.find(c => CAT_MAP[c]); if (cat && ls[cat]) ls[cat].innerHTML += card(a, cat);
+        const ls={'DailyCheckin':document.getElementById('daily-checkin-list'),'Voucher':document.getElementById('voucher-list')};
+        Object.values(ls).forEach(e=>e.innerHTML='');
+        const now=Date.now();
+        
+        ALL.filter(a=>{
+            const e=a.endDate?new Date(a.endDate).getTime():null, s=a.startDate?new Date(a.startDate).getTime():null;
+            if(selStatus==='Upcoming') return s && s > now;
+            if(selStatus==='Expired') return e && e < now;
+            return (!s || s<=now) && (!e || e>=now);
+        }).filter(a=>selPlat==='All'||a.sourceApp===selPlat).forEach(a=>{
+            const cat=a.category.find(c=>CAT_MAP[c]); if(cat&&ls[cat]) ls[cat].innerHTML+=card(a,cat);
         });
         
-        // 确保 render 后立即更新倒计时，消除 `...` 闪烁
-        updTm(); 
+        // 【核心修复】渲染完立即计算一次时间，消除 "..." 闪烁
+        updTm();
     }
 
     function card(a, cat) {
         const s = CAT_MAP[cat];
-        
-        let targetLink = a.link;
-        if (a.link && a.link !== '#' && isSensitiveLink(a.link, a)) {
-            targetLink = `./go.html?id=${a.id}`;
-        }
-        
-        let btn = a.link && a.link !== '#'
-    // 【修改点：移除 target="_blank"】
-    ? `<a href="${targetLink}" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></a>`
-    : (a.StepsText ? `<button class="btn btn-voice" data-t="${a.StepsText.replace(/"/g, '&quot;')}" onclick="spk(this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无指引</button>`);
+        // 链接指向 go.html，使用 target="_blank"
+        let btn = a.link&&a.link!=='#' 
+            ? `<a href="./go.html?id=${a.id}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></a>` 
+            : (a.StepsText ? `<button class="btn btn-voice" data-t="${a.StepsText.replace(/"/g,'&quot;')}" onclick="spk(this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无指引</button>`);
+
         return `<div class="task-card" style="border-left-color:${s.color}">
-                <div class="badges">
-                    <span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span>
-                </div>
-                <div class="card-main">
-                    <div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div>
-                    <div class="card-text">
-                        <div class="card-title-row">
-                            <div class="card-title">${a.name}</div>
-                            ${a.specialNote ? `<span class="badge-note">${a.specialNote}</span>` : ''}
-                        </div>
-                        <div class="card-desc">${a.description || '暂无描述'}</div>
+            <div class="badges">
+                <span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span>
+            </div>
+            <div class="card-main">
+                <div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div>
+                <div class="card-text">
+                    <div class="card-title-row">
+                        <div class="card-title">${a.name}</div>
+                        ${a.specialNote?`<span class="badge-note">${a.specialNote}</span>`:''}
                     </div>
+                    <div class="card-desc">${a.description||'暂无描述'}</div>
                 </div>
-                <div class="card-actions">
-                    <button class="btn btn-share" onclick="shr('${a.id}')"><i class="fas fa-share-alt mr-1"></i> 分享</button>
-                    ${btn}
-                </div>
-            </div>`;
+            </div>
+            <div class="card-actions">
+                <button class="btn btn-share" onclick="shr('${a.id}')"><i class="fas fa-share-alt mr-1"></i> 分享</button>
+                ${btn}
+            </div>
+        </div>`;
     }
 
-    function spk(b) { const t = b.dataset.t; if (b.classList.contains('speaking')) { synth.cancel(); b.classList.remove('speaking'); b.innerHTML = `<i class="fas fa-volume-up mr-1"></i> 播放`; return; } synth.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'zh-CN'; u.rate = 0.75; u.onstart = () => { b.classList.add('speaking'); b.innerHTML = `<i class="fas fa-stop mr-1"></i> 停止`; }; u.onend = () => { b.classList.remove('speaking'); b.innerHTML = `<i class="fas fa-volume-up mr-1"></i> 播放`; }; synth.speak(u); }
-    function shr(id) { const u = `${location.origin}/go.html?id=${id}`; if (navigator.share) { navigator.share({ title: '分享活动', url: u }).catch(() => { }) } else { prompt('复制链接:', u) } }
-    
-    window.countdownTimer = null; 
-    
-    function updTm() { 
-        const n = Date.now(); 
-        document.querySelectorAll('.badge-timer').forEach(e => { 
-            const s = e.dataset.s ? new Date(e.dataset.s).getTime() : 0, 
-                  end = e.dataset.e ? new Date(e.dataset.e).getTime() : 0; 
-            
-            if (s > n) { e.innerText = `即将开始 ${fmt(s - n)}`; e.classList.remove('expired'); } 
-            else if (end && end < n) { e.innerText = '已结束'; e.classList.add('expired'); } 
-            else if (end) { e.innerText = `剩余 ${fmt(end - n)}`; e.classList.remove('expired'); } 
-            else { e.innerText = '长期'; e.classList.remove('expired'); } 
-        }); 
-    }
-    
-    function fmt(ms) { const d = Math.floor(ms / 86400000), h = Math.floor((ms % 86400000) / 3600000), m = Math.floor((ms % 3600000) / 60000); return d > 0 ? `${d}天${h}时` : `${h}时${m}分`; }
+    function spk(b){const t=b.dataset.t;if(b.classList.contains('speaking')){synth.cancel();b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;return;}synth.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=0.75;u.onstart=()=>{b.classList.add('speaking');b.innerHTML=`<i class="fas fa-stop mr-1"></i> 停止`;};u.onend=()=>{b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;};synth.speak(u);}
+    function shr(id){const u=`${location.origin}/go.html?id=${id}`;if(navigator.share){navigator.share({title:'分享活动',url:u}).catch(()=>{})}else{prompt('复制链接:',u)}}
+    function updTm(){const n=Date.now();document.querySelectorAll('.badge-timer').forEach(e=>{const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;if(s>n){e.innerText=`即将开始 ${fmt(s-n)}`;e.classList.remove('expired');}else if(end&&end<n){e.innerText='已结束';e.classList.add('expired');}else if(end){e.innerText=`剩余 ${fmt(end-n)}`;e.classList.remove('expired');}else{e.innerText='长期';e.classList.remove('expired');}});}
+    function fmt(ms){const d=Math.floor(ms/86400000),h=Math.floor((ms%86400000)/3600000),m=Math.floor((ms%3600000)/60000);return d>0?`${d}天${h}时`:`${h}时${m}分`;}
 </script>
 </body>
 </html>
