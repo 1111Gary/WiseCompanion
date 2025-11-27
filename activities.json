@@ -46,22 +46,6 @@
     "StepsText": null
   },
   {
-    "id": "rec1zKnKIGI3UeR6R",
-    "name": "工行越升越有礼(11月)",
-    "description": "月均资产提升1万元以上，得5000豆",
-    "icon": "❓",
-    "link": "#",
-    "category": [
-      "Bank",
-      "Deposit"
-    ],
-    "sourceApp": "工商银行APP",
-    "specialNote": null,
-    "targetApp": "工商银行APP",
-    "endDate": null,
-    "StepsText": null
-  },
-  {
     "id": "rec2QxxMUXHEWuCcM",
     "name": "农行信用卡活动天天返现",
     "description": "农行首页热门活动天天返现，信用卡每天单笔满18可享随机返限",
@@ -297,22 +281,6 @@
     "sourceApp": "京东APP",
     "specialNote": null,
     "targetApp": "京东APP",
-    "endDate": null,
-    "StepsText": null
-  },
-  {
-    "id": "recECUwR6oiJfObXL",
-    "name": "工行消费季",
-    "description": "工行消费季，每周五至周日抽豆",
-    "icon": "❓",
-    "link": "#",
-    "category": [
-      "Bank",
-      "DailyTask"
-    ],
-    "sourceApp": "工商银行APP",
-    "specialNote": null,
-    "targetApp": "工商银行APP",
     "endDate": null,
     "StepsText": null
   },
@@ -681,22 +649,6 @@
     "specialNote": null,
     "targetApp": "工商银行APP",
     "endDate": "2025-11-30T15:30:00.000Z",
-    "StepsText": null
-  },
-  {
-    "id": "recaT8bWOykQQFHZs",
-    "name": "建行充话费1.01-1",
-    "description": "移动APP，首页充话费，金额自定义，输入1.01后选择立即支付，支付方式选择云闪付，再选建行生活支付（会显示减1，没有就是当天名额用完了，每天凌晨12点发放新的)，通过云网支付，选择建行生活支付；每月可减4次",
-    "icon": "❓",
-    "link": "#",
-    "category": [
-      "Bank",
-      "DailyTask"
-    ],
-    "sourceApp": "建行生活APP",
-    "specialNote": null,
-    "targetApp": "建行生活APP",
-    "endDate": null,
     "StepsText": null
   },
   {
