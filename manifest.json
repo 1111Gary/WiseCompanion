@@ -2,21 +2,23 @@
 "name": "奈斯 - Nex AI",
 "short_name": "奈斯",
 "description": "奈斯(Nex )AI带你体验捡钱的每一天",
-"start_url": "/WiseCompanion/index.html",
+"start_url": "/index.html",
 "display": "standalone",
 "orientation": "portrait",
 "background_color": "#0f172a",
 "theme_color": "#1e293b",
 "icons": [
     {
-        "src": "./assets/icon_192.png", "sizes": "192x192", "type": "image/png"
+        "src": "/assets/icon_192.png", 
+        "sizes": "192x192", "type": "image/png"
     },
     {
-        "src": "./assets/icon_512.png", "sizes": "512x512", "type": "image/png"
+        "src": "/assets/icon_512.png",
+        "sizes": "512x512", "type": "image/png"
     },
     {
-        "src": "./assets/icon_apple.png", "sizes": "180x180", "type": "image/png", "purpose": "apple touch icon"
+        "src": "/assets/icon_apple.png",
+        "sizes": "180x180", "type": "image/png", "purpose": "apple touch icon"
     }
 ]
 }
-
