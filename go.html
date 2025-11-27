@@ -3,197 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>正在前往 - 奈斯 (Nex)</title>
-    <script async defer src="https://umami.example.com/script.js" data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" data-do-not-track="true" data-domains="1111gary.github.io"></script>
+    <title>正在前往...</title> <!-- 简化标题 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     <style>
         :root { --bg-dark: #0B1120; --primary: #3B82F6; --accent: #FACC15; }
         body { background-color: var(--bg-dark); color: #F1F5F9; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; min-height: 100vh; align-items: center; justify-content: center; padding: 20px; }
-        
-        .card {
-            background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 24px; padding: 40px 30px; width: 100%; max-width: 380px;
-            border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            text-align: center; position: relative; overflow: hidden;
-        }
-        .card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-        }
-        
-        .icon-box {
-            width: 80px; height: 80px; border-radius: 20px; margin: 0 auto 24px;
-            display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #fff;
-            background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(15,23,42,0.5));
-            border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
-            animation: float 3s ease-in-out infinite;
-        }
+        .card { background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 24px; padding: 40px 30px; width: 100%; max-width: 380px; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 20px 40px rgba(0,0,0,0.6); text-align: center; }
+        .icon-box { width: 80px; height: 80px; border-radius: 20px; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #fff; background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(15,23,42,0.5)); animation: float 3s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        
-        .title { font-size: 1.4rem; font-weight: 800; margin-bottom: 12px; line-height: 1.3; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .desc { font-size: 0.95rem; color: #64748B; margin-bottom: 30px; line-height: 1.6; }
-        
-        .btn {
-            display: flex; align-items: center; justify-content: center; width: 100%; padding: 14px; 
-            border-radius: 16px; font-weight: 700; text-align: center; margin-bottom: 12px; 
-            transition: all 0.2s; font-size: 0.95rem;
-        }
+        .title { font-size: 1.4rem; font-weight: 800; margin-bottom: 12px; }
+        .desc { font-size: 0.95rem; color: #64748B; margin-bottom: 30px; }
+        .btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 14px; border-radius: 16px; font-weight: 700; margin-bottom: 12px; transition: all 0.2s; font-size: 0.95rem; cursor: pointer; }
         .btn:active { transform: scale(0.98); }
-        .btn-primary { background: linear-gradient(135deg, var(--primary), #2563EB); color: #fff; box-shadow: 0 4px 15px rgba(59,130,246,0.4); border: 1px solid rgba(255,255,255,0.1); }
-        .btn-copy { background: linear-gradient(135deg, #10B981, #059669); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
-        .btn-secondary { background: rgba(255,255,255,0.05); color: #94A3B8; border: 1px solid rgba(255,255,255,0.05); }
-
-        .status-badge {
-            display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 99px;
-            background: rgba(59, 130, 246, 0.1); color: var(--primary); font-size: 0.75rem; font-weight: 600;
-            margin-bottom: 20px; border: 1px solid rgba(59, 130, 246, 0.2);
-        }
-        
-        /* 微信提示遮罩 */
-        .wx-tip { display: none; background: #fef9c3; color: #854d0e; padding: 10px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 20px; border: 1px solid #fde047; text-align: left; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), #2563EB); color: #fff; }
+        .btn-copy { background: linear-gradient(135deg, #10B981, #059669); color: #fff; }
+        .btn-secondary { background: rgba(255,255,255,0.05); color: #94A3B8; }
+        .wx-tip { display: none; background: #fef9c3; color: #854d0e; padding: 10px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 20px; text-align: left; }
     </style>
 </head>
 <body>
-
     <div id="content" class="card">
         <div class="icon-box"><i class="fas fa-circle-notch fa-spin"></i></div>
-        <h1 class="title">正在解析活动...</h1>
-        <p class="desc">请稍候，正在为您连接目标平台</p>
-    </div>
-
-    <div class="mt-8 text-gray-600 text-xs text-center opacity-50">
-        &copy; 2025 NEX AI Inc. <br> 安全链接中转服务
+        <h1 class="title">正在解析...</h1>
     </div>
 
     <script>
-    // 判断是否在微信环境
-    const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
-    let isRedirecting = false; // 新增标志位，防止重复跳转
+        const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
 
-    document.addEventListener('DOMContentLoaded', async () => {
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            if (!id) { location.href = './index.html'; return; } // 无ID直接回首页
 
-        if (!id) { renderError('无效的活动ID'); return; }
-
-        try {
-            // 假设 activities.json 位于网站根目录
-            const res = await fetch('./activities.json');
-            const data = await res.json();
-            const activity = data.find(a => a.id === id);
-
-            if (activity) {
-                renderPage(activity);
-                handleAutoRedirect(activity); // 激活自动跳转逻辑
-            } else {
-                renderError('活动可能已过期或不存在');
-            }
-        } catch (e) {
-            renderError('数据加载失败，请检查网络');
-        }
-    });
-
-    function handleAutoRedirect(act) {
-        if (isRedirecting) return; // 防止重复执行
-
-        // 判断哪些链接必须在微信打开
-        const isWeChatLink = act.link.includes('icbc') || act.link.includes('weixin') || act.wechatOnly;
-
-        if (isWeChatLink && !isWeChat) {
-            // 如果是敏感链接，且不在微信里 -> 停止跳转，显示复制引导
-            // 此时页面已渲染复制按钮，不需要进一步操作
-            return;
-        }
-
-        // --- 【修改：环境允许时立即跳转】 ---
-        isRedirecting = true;
-        
-        // 立即跳转到目标链接，实现“无感”中转
-        window.location.href = act.link;
-
-        // 设置一个延时，作为跳转失败时的备用提示（例如，如果唤起 App 失败或链接无效）
-        setTimeout(() => {
-            if (document.visibilityState === 'visible') {
-                // 如果页面还在当前浏览器标签页（未跳转成功），更新提示
-                const iconBox = document.querySelector('.icon-box');
-                const title = document.querySelector('.title');
-                const desc = document.querySelector('.desc');
+            try {
+                // 1. 优先尝试从 sessionStorage 获取数据，加快速度
+                let activity = null;
+                const cached = sessionStorage.getItem('data_checkin') || sessionStorage.getItem('data_bank') || sessionStorage.getItem('shopping_data');
                 
-                if (iconBox) iconBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
-                if (title) title.textContent = '跳转失败，请手动点击';
-                if (desc) desc.textContent = 'App 可能未安装，请点击下方按钮重新尝试。';
+                if (cached) {
+                    try {
+                        const list = JSON.parse(cached);
+                        activity = list.find(a => a.id === id);
+                    } catch(e){}
+                }
+
+                // 2. 如果缓存没找到，再请求网络
+                if (!activity) {
+                    const res = await fetch('./activities.json');
+                    const data = await res.json();
+                    activity = data.find(a => a.id === id);
+                }
+                
+                if (activity) {
+                    handleLogic(activity);
+                } else {
+                    document.querySelector('.title').innerText = '活动不存在';
+                }
+            } catch (e) {
+                document.querySelector('.title').innerText = '加载失败';
             }
-        }, 3000);
-        // ------------------------------------
-    }
+        });
 
-    function renderPage(act) {
-        // 检查是否需要微信打开
-        const isWeChatLink = act.link.includes('icbc') || act.link.includes('weixin') || act.wechatOnly;
-        const needCopy = isWeChatLink && !isWeChat;
+        function handleLogic(act) {
+            // 定义必须在微信打开的条件
+            const needsWx = act.link.includes('icbc') || act.link.includes('weixin') || act.wechatOnly;
 
-        let icon = 'fa-rocket';
-        if (act.sourceApp && act.sourceApp.includes('支付')) icon = 'fa-alipay';
-        if (act.sourceApp && act.sourceApp.includes('微信')) icon = 'fa-weixin';
-        if (act.sourceApp && (act.sourceApp.includes('工行') || act.sourceApp.includes('建设'))) icon = 'fa-university';
+            // 情况A：需要在微信打开，但当前不是微信 -> 停止跳转，显示引导 UI
+            if (needsWx && !isWeChat) {
+                renderWxGuide(act);
+                return; 
+            }
+            
+            // 情况B：正常链接，或者已经在微信里 -> 立即跳转
+            // 使用 replace 不留历史记录，体验更像直连
+            document.querySelector('.title').innerText = '正在跳转...';
+            // 稍微延迟 300ms 避免浏览器拦截过快的重定向，也给用户一个视觉反馈
+            setTimeout(() => {
+                window.location.replace(act.link);
+            }, 300);
+        }
 
-        let actionHtml = '';
-        let tipHtml = '';
-
-        if (needCopy) {
-            // 需要复制链接的情况
-            tipHtml = `
+        function renderWxGuide(act) {
+            document.getElementById('content').innerHTML = `
+                <div class="icon-box"><i class="fas fa-comment-dots"></i></div>
+                <h1 class="title">需在微信打开</h1>
                 <div class="wx-tip" style="display:block">
-                    <i class="fas fa-exclamation-circle mr-1"></i> 
-                    此活动限制在<strong>微信客户端</strong>打开。请点击下方按钮复制链接，然后发送给微信“文件传输助手”打开。
+                    <i class="fas fa-exclamation-circle mr-1"></i> 此活动限制在微信客户端访问。
                 </div>
-            `;
-            actionHtml = `
                 <button onclick="copyLink('${act.link}')" class="btn btn-copy">
-                    <i class="fas fa-copy mr-2"></i> 复制活动链接
+                    <i class="fas fa-copy mr-2"></i> 复制链接
                 </button>
-                <div class="text-xs text-gray-500 mt-2">复制后请去微信粘贴打开</div>
-            `;
-        } else {
-            // 正常跳转，但由于 handleAutoRedirect 会立即执行，这里是备用按钮
-            actionHtml = `
-                <a href="${act.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-                    <i class="fas fa-external-link-alt mr-2"></i> 立即前往 (手动)
-                </a>
+                <div class="text-xs text-gray-500 mt-2 mb-4">复制后发送给微信“文件传输助手”打开</div>
+                <a href="javascript:history.back()" class="btn btn-secondary">返回</a>
             `;
         }
 
-        document.getElementById('content').innerHTML = `
-            <div class="icon-box"><i class="fas ${icon}"></i></div>
-            <div class="status-badge"><i class="fas fa-shield-alt mr-1"></i> 安全检测通过</div>
-            <h1 class="title">${act.name}</h1>
-            ${tipHtml}
-            <p class="desc">${act.description || '暂无详细描述'}</p>
-            ${actionHtml}
-            <a href="javascript:history.back()" class="btn btn-secondary">
-                <i class="fas fa-reply mr-2"></i> 返回列表
-            </a>
-        `;
-    }
-
-    function copyLink(url) {
-        navigator.clipboard.writeText(url).then(() => {
-            alert('链接已复制！\n请打开微信 -> 发送给文件传输助手 -> 点击链接参与活动');
-        }).catch(err => {
-            prompt('请手动复制以下链接去微信打开：', url);
-        });
-    }
-
-    function renderError(msg) {
-        document.getElementById('content').innerHTML = `
-            <div class="icon-box" style="background:linear-gradient(135deg,#EF4444,#991B1B)"><i class="fas fa-times"></i></div>
-            <h1 class="title">无法访问</h1>
-            <p class="desc">${msg}</p>
-            <a href="./index.html" class="btn btn-secondary">返回首页</a>
-        `;
-    }
-</script>
+        function copyLink(url) {
+            navigator.clipboard.writeText(url).then(() => {
+                alert('链接已复制！请去微信打开。');
+            }).catch(() => prompt('请手动复制：', url));
+        }
+    </script>
 </body>
 </html>
