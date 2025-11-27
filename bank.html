@@ -223,18 +223,40 @@
     }
 
     function card(a, cat) {
-        const s = CAT_MAP[cat];
-        // 【已恢复直连模式】
-        let btn = a.link&&a.link!=='#' 
-            ? `<a href="${a.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></a>` 
-            : (a.StepsText ? `<button class="btn btn-voice" data-t="${a.StepsText.replace(/"/g,'&quot;')}" onclick="spk(this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`);
-        return `<div class="task-card" style="border-left-color:${s.color}"><div class="badges">${a.specialNote?`<span class="badge badge-note">${a.specialNote}</span>`:''}<span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span></div><div class="card-main"><div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div><div class="card-text"><div class="card-title">${a.name}</div><div class="card-desc">${a.description||'暂无描述'}</div></div></div><div class="card-actions"><button class="btn btn-share" onclick="shr('${a.id}')"><i class="fas fa-share-alt mr-1"></i> 分享</button>${btn}</div></div>`;
+    const s = cat ? CAT_MAP[cat] : {color: getComputedStyle(document.documentElement).getPropertyValue('--primary').trim(), icon: 'fa-play'};
+    const isWxCode = a.link && a.link.trim().startsWith('#'); // 检测小程序口令
+
+    let btn = '';
+    if (isWxCode) {
+        // 遇到小程序口令，强制给复制按钮
+        btn = `<button onclick="copyCode('${a.link}')" class="btn" style="background:linear-gradient(135deg, #07C160, #059669); color:white;"><i class="fas fa-copy mr-1"></i> 复制口令</button>`;
+    } else if (a.link && a.link !== '#') {
+        // 普通链接，直连
+        btn = `<a href="${a.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></a>`;
+    } else if (a.StepsText) {
+        btn = `<button class="btn btn-voice" data-t="${a.StepsText.replace(/"/g,'&quot;')}" onclick="spk(this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>`;
+    } else {
+        btn = `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`;
     }
+
+    // 小程序提示语
+    const note = isWxCode ? '<div style="font-size:0.7rem; color:#07C160; margin-top:4px;"><i class="fab fa-weixin"></i> 需复制到微信打开</div>' : '';
+
+    return `<div class="task-card" style="border-left-color:${s.color}"><div class="badges">${a.specialNote?`<span class="badge badge-note">${a.specialNote}</span>`:''}<span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span></div><div class="card-main"><div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div><div class="card-text"><div class="card-title">${a.name}</div><div class="card-desc">${a.description||'暂无描述'}</div>${note}</div></div><div class="card-actions"><button class="btn btn-share" onclick="shr('${a.id}')"><i class="fas fa-share-alt mr-1"></i> 分享</button>${btn}</div></div>`;
+}
     
     function spk(b){const t=b.dataset.t;if(b.classList.contains('speaking')){synth.cancel();b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;return;}synth.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=0.75;u.onstart=()=>{b.classList.add('speaking');b.innerHTML=`<i class="fas fa-stop mr-1"></i> 停止`;};u.onend=()=>{b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;};synth.speak(u);}
     function shr(id){const u=`${location.origin}/go.html?id=${id}`;if(navigator.share){navigator.share({title:'分享活动',url:u}).catch(()=>{})}else{prompt('复制链接:',u)}}
     function updTm(){const n=Date.now();document.querySelectorAll('.badge-timer').forEach(e=>{const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;if(s>n){e.innerText=`即将开始 ${fmt(s-n)}`;e.classList.remove('expired');}else if(end&&end<n){e.innerText='已结束';e.classList.add('expired');}else if(end){e.innerText=`剩余 ${fmt(end-n)}`;e.classList.remove('expired');}else{e.innerText='长期';e.classList.remove('expired');}});}
     function fmt(ms){const d=Math.floor(ms/86400000),h=Math.floor((ms%86400000)/3600000),m=Math.floor((ms%3600000)/60000);return d>0?`${d}天${h}时`:`${h}时${m}分`;}
+        
+    function copyCode(str) {
+        navigator.clipboard.writeText(str).then(() => {
+            alert(`口令已复制：\n${str}\n\n请打开微信 -> 发送给“文件传输助手” -> 点击卡片进入`);
+        }).catch(() => {
+            prompt('长按复制口令，然后去微信粘贴：', str);
+        });
+    }
 </script>
 </body>
 </html>
