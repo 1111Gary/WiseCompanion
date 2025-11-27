@@ -2,100 +2,57 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>正在前往...</title> <!-- 简化标题 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跳转中...</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        :root { --bg-dark: #0B1120; --primary: #3B82F6; --accent: #FACC15; }
-        body { background-color: var(--bg-dark); color: #F1F5F9; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; min-height: 100vh; align-items: center; justify-content: center; padding: 20px; }
-        .card { background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 24px; padding: 40px 30px; width: 100%; max-width: 380px; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 20px 40px rgba(0,0,0,0.6); text-align: center; }
-        .icon-box { width: 80px; height: 80px; border-radius: 20px; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #fff; background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(15,23,42,0.5)); animation: float 3s ease-in-out infinite; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        .title { font-size: 1.4rem; font-weight: 800; margin-bottom: 12px; }
-        .desc { font-size: 0.95rem; color: #64748B; margin-bottom: 30px; }
-        .btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 14px; border-radius: 16px; font-weight: 700; margin-bottom: 12px; transition: all 0.2s; font-size: 0.95rem; cursor: pointer; }
-        .btn:active { transform: scale(0.98); }
-        .btn-primary { background: linear-gradient(135deg, var(--primary), #2563EB); color: #fff; }
-        .btn-copy { background: linear-gradient(135deg, #10B981, #059669); color: #fff; }
-        .btn-secondary { background: rgba(255,255,255,0.05); color: #94A3B8; }
-        .wx-tip { display: none; background: #fef9c3; color: #854d0e; padding: 10px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 20px; text-align: left; }
+        body { background: #0B1120; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif; }
+        .btn { padding: 12px 24px; background: #3B82F6; border-radius: 99px; font-weight: bold; margin-top: 20px; text-decoration: none; color: white; display: inline-flex; align-items: center; }
     </style>
 </head>
 <body>
-    <div id="content" class="card">
-        <div class="icon-box"><i class="fas fa-circle-notch fa-spin"></i></div>
-        <h1 class="title">正在解析...</h1>
+    <div id="msg" class="text-xl font-bold animate-pulse">正在前往目标页面...</div>
+    <div id="manual-box" style="display:none; text-align:center;">
+        <p class="text-gray-400 mt-4 text-sm">如果页面没有反应，请点击下方按钮</p>
+        <a id="jump-btn" href="#" class="btn" rel="noopener noreferrer">手动前往 <i class="fas fa-arrow-right ml-2"></i></a>
     </div>
 
     <script>
-        const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
-
         document.addEventListener('DOMContentLoaded', async () => {
             const params = new URLSearchParams(window.location.search);
             const id = params.get('id');
-            if (!id) { location.href = './index.html'; return; } // 无ID直接回首页
+            if(!id) return;
 
-            try {
-                // 1. 优先尝试从 sessionStorage 获取数据，加快速度
-                let activity = null;
-                const cached = sessionStorage.getItem('data_checkin') || sessionStorage.getItem('data_bank') || sessionStorage.getItem('shopping_data');
-                
-                if (cached) {
-                    try {
-                        const list = JSON.parse(cached);
-                        activity = list.find(a => a.id === id);
-                    } catch(e){}
-                }
+            // 1. 极速获取数据 (优先缓存)
+            let act = null;
+            const cached = sessionStorage.getItem('data_checkin') || sessionStorage.getItem('data_bank') || sessionStorage.getItem('shopping_data') || sessionStorage.getItem('data_video');
+            if(cached) { try { act = JSON.parse(cached).find(a=>a.id===id); } catch(e){} }
+            
+            if(!act) {
+                const res = await fetch('./activities.json');
+                const data = await res.json();
+                act = data.find(a=>a.id===id);
+            }
 
-                // 2. 如果缓存没找到，再请求网络
-                if (!activity) {
-                    const res = await fetch('./activities.json');
-                    const data = await res.json();
-                    activity = data.find(a => a.id === id);
-                }
+            if(act) {
+                const link = act.link;
+                // 设置手动按钮链接（解决自动跳转失败的问题）
+                document.getElementById('jump-btn').href = link;
                 
-                if (activity) {
-                    handleLogic(activity);
-                } else {
-                    document.querySelector('.title').innerText = '活动不存在';
-                }
-            } catch (e) {
-                document.querySelector('.title').innerText = '加载失败';
+                // 2. 尝试自动跳转
+                // 使用 replace，不留历史记录
+                window.location.replace(link);
+
+                // 3. 如果 500ms 后还没跳走，显示手动按钮
+                setTimeout(() => {
+                    document.getElementById('msg').innerText = "即将到达";
+                    document.getElementById('manual-box').style.display = 'block';
+                }, 500);
+            } else {
+                document.getElementById('msg').innerText = "活动不存在";
             }
         });
-
-         function handleLogic(act) {
-        // 1. 判断是否是在微信内
-        const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
-        
-        // 2. 判断链接类型
-        const isScheme = act.link.startsWith('weixin://') || act.link.includes('wxaurl.cn'); // 小程序/Scheme
-        const isStrictH5 = act.copyOnly || (act.link.includes('某些必须复制的特征') && !isWeChat);
-
-        // 3. 极速跳转逻辑
-        if (isStrictH5) {
-            // 必须复制的，显示 UI，不跳转
-            renderWxGuide(act);
-        } else {
-            // 其他情况（包括普通H5、小程序Scheme），直接跳转
-            // 使用 replace() 替换当前历史记录，这样用户点“返回”不会死循环
-            window.location.replace(act.link);
-            
-            // 为了防止有些浏览器不跳转，显示一个备用按钮
-            document.getElementById('content').innerHTML = `
-                <div class="icon-box"><i class="fas fa-spinner fa-spin"></i></div>
-                <h1 class="title">正在跳转...</h1>
-                <p class="desc">如果没有反应，请点击下方按钮</p>
-                <a href="${act.link}" class="btn btn-primary" rel="noopener noreferrer">手动前往</a>
-            `;
-        }
-    }
-        function copyLink(url) {
-            navigator.clipboard.writeText(url).then(() => {
-                alert('链接已复制！请去微信打开。');
-            }).catch(() => prompt('请手动复制：', url));
-        }
     </script>
 </body>
 </html>
