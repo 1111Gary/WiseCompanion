@@ -217,32 +217,60 @@
     }
 
     function card(a, cat) {
-        const s = CAT_MAP[cat];
-        // 链接指向 go.html，使用 target="_blank"
-        let btn = a.link&&a.link!=='#' 
-            ? `<a href="./go.html?id=${a.id}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></a>` 
-            : (a.StepsText ? `<button class="btn btn-voice" data-t="${a.StepsText.replace(/"/g,'&quot;')}" onclick="spk(this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无指引</button>`);
+    const s = CAT_MAP[cat];
 
-        return `<div class="task-card" style="border-left-color:${s.color}">
-            <div class="badges">
-                <span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span>
-            </div>
-            <div class="card-main">
-                <div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div>
-                <div class="card-text">
-                    <div class="card-title-row">
-                        <div class="card-title">${a.name}</div>
-                        ${a.specialNote?`<span class="badge-note">${a.specialNote}</span>`:''}
-                    </div>
-                    <div class="card-desc">${a.description||'暂无描述'}</div>
-                </div>
-            </div>
-            <div class="card-actions">
-                <button class="btn btn-share" onclick="shr('${a.id}')"><i class="fas fa-share-alt mr-1"></i> 分享</button>
-                ${btn}
-            </div>
-        </div>`;
+    // --- 【核心修改开始】 智能跳转逻辑 ---
+    
+    // 1. 定义哪些特征可以直接跳（小程序、银行App Scheme、普通网页）
+    // 注意：如果是 weixin:// 开头的 Scheme，浏览器点击也会直接尝试唤起微信
+    const isDirectJump = 
+        a.link.includes('wxaurl.cn') ||  // 微信 URL Link
+        a.link.startsWith('weixin://') || // 微信 Scheme
+        !a.link.includes('必须微信');     // 假设你有个字段标记或者默认都直连
+
+    // 2. 定义哪些必须走中间页（通常是那些在浏览器打开会报错、必须复制到微信的 H5）
+    // 你可以在 activities.json 里加一个字段 "copyOnly": true
+    const isCopyOnly = a.copyOnly || (a.link.includes('icbc') && !a.link.includes('JumpToApp')); 
+
+    let btnHtml = '';
+
+    if (a.link && a.link !== '#') {
+        if (isCopyOnly) {
+            // 情况1：必须复制的，走中间页 go.html
+            btnHtml = `<a href="./go.html?id=${a.id}" target="_blank" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></a>`;
+        } else {
+            // 情况2：可以直接跳的（小程序/普通H5），直接放链接，不走 go.html
+            // rel="noopener" 防卡顿
+            btnHtml = `<a href="${a.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></a>`;
+        }
+    } else if (a.StepsText) {
+        // 语音播报按钮
+        btnHtml = `<button class="btn btn-voice" data-t="${a.StepsText.replace(/"/g,'&quot;')}" onclick="spk(this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>`;
+    } else {
+        btnHtml = `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无指引</button>`;
     }
+    // --- 【核心修改结束】 ---
+
+    return `<div class="task-card" style="border-left-color:${s.color}">
+        <div class="badges">
+            <span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span>
+        </div>
+        <div class="card-main">
+            <div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div>
+            <div class="card-text">
+                <div class="card-title-row">
+                    <div class="card-title">${a.name}</div>
+                    ${a.specialNote?`<span class="badge-note">${a.specialNote}</span>`:''}
+                </div>
+                <div class="card-desc">${a.description||'暂无描述'}</div>
+            </div>
+        </div>
+        <div class="card-actions">
+            <button class="btn btn-share" onclick="shr('${a.id}')"><i class="fas fa-share-alt mr-1"></i> 分享</button>
+            ${btnHtml}
+        </div>
+    </div>`;
+}
 
     function spk(b){const t=b.dataset.t;if(b.classList.contains('speaking')){synth.cancel();b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;return;}synth.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=0.75;u.onstart=()=>{b.classList.add('speaking');b.innerHTML=`<i class="fas fa-stop mr-1"></i> 停止`;};u.onend=()=>{b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;};synth.speak(u);}
     function shr(id){const u=`${location.origin}/go.html?id=${id}`;if(navigator.share){navigator.share({title:'分享活动',url:u}).catch(()=>{})}else{prompt('复制链接:',u)}}
