@@ -267,9 +267,9 @@
         }
         
         let btn = a.link && a.link !== '#'
-            ? `<a href="${targetLink}" target="_blank" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></a>`
-            : (a.StepsText ? `<button class="btn btn-voice" data-t="${a.StepsText.replace(/"/g, '&quot;')}" onclick="spk(this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无指引</button>`);
-
+    // 【修改点：移除 target="_blank"】
+    ? `<a href="${targetLink}" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></a>`
+    : (a.StepsText ? `<button class="btn btn-voice" data-t="${a.StepsText.replace(/"/g, '&quot;')}" onclick="spk(this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无指引</button>`);
         return `<div class="task-card" style="border-left-color:${s.color}">
                 <div class="badges">
                     <span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span>
