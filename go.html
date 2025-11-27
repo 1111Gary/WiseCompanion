@@ -65,40 +65,32 @@
             }
         });
 
-        function handleLogic(act) {
-            // 定义必须在微信打开的条件
-            const needsWx = act.link.includes('icbc') || act.link.includes('weixin') || act.wechatOnly;
+         function handleLogic(act) {
+        // 1. 判断是否是在微信内
+        const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+        
+        // 2. 判断链接类型
+        const isScheme = act.link.startsWith('weixin://') || act.link.includes('wxaurl.cn'); // 小程序/Scheme
+        const isStrictH5 = act.copyOnly || (act.link.includes('某些必须复制的特征') && !isWeChat);
 
-            // 情况A：需要在微信打开，但当前不是微信 -> 停止跳转，显示引导 UI
-            if (needsWx && !isWeChat) {
-                renderWxGuide(act);
-                return; 
-            }
+        // 3. 极速跳转逻辑
+        if (isStrictH5) {
+            // 必须复制的，显示 UI，不跳转
+            renderWxGuide(act);
+        } else {
+            // 其他情况（包括普通H5、小程序Scheme），直接跳转
+            // 使用 replace() 替换当前历史记录，这样用户点“返回”不会死循环
+            window.location.replace(act.link);
             
-            // 情况B：正常链接，或者已经在微信里 -> 立即跳转
-            // 使用 replace 不留历史记录，体验更像直连
-            document.querySelector('.title').innerText = '正在跳转...';
-            // 稍微延迟 300ms 避免浏览器拦截过快的重定向，也给用户一个视觉反馈
-            setTimeout(() => {
-                window.location.replace(act.link);
-            }, 300);
-        }
-
-        function renderWxGuide(act) {
+            // 为了防止有些浏览器不跳转，显示一个备用按钮
             document.getElementById('content').innerHTML = `
-                <div class="icon-box"><i class="fas fa-comment-dots"></i></div>
-                <h1 class="title">需在微信打开</h1>
-                <div class="wx-tip" style="display:block">
-                    <i class="fas fa-exclamation-circle mr-1"></i> 此活动限制在微信客户端访问。
-                </div>
-                <button onclick="copyLink('${act.link}')" class="btn btn-copy">
-                    <i class="fas fa-copy mr-2"></i> 复制链接
-                </button>
-                <div class="text-xs text-gray-500 mt-2 mb-4">复制后发送给微信“文件传输助手”打开</div>
-                <a href="javascript:history.back()" class="btn btn-secondary">返回</a>
+                <div class="icon-box"><i class="fas fa-spinner fa-spin"></i></div>
+                <h1 class="title">正在跳转...</h1>
+                <p class="desc">如果没有反应，请点击下方按钮</p>
+                <a href="${act.link}" class="btn btn-primary" rel="noopener noreferrer">手动前往</a>
             `;
         }
-
+    }
         function copyLink(url) {
             navigator.clipboard.writeText(url).then(() => {
                 alert('链接已复制！请去微信打开。');
