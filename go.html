@@ -68,112 +68,132 @@
     </div>
 
     <script>
-        // 判断是否在微信环境
-        const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+    // 判断是否在微信环境
+    const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+    let isRedirecting = false; // 新增标志位，防止重复跳转
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get('id');
-            
-            if (!id) { renderError('无效的活动ID'); return; }
+    document.addEventListener('DOMContentLoaded', async () => {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
 
-            try {
-                const res = await fetch('./activities.json');
-                const data = await res.json();
-                const activity = data.find(a => a.id === id);
-                
-                if (activity) {
-                    renderPage(activity);
-                    // 尝试自动跳转逻辑
-                    handleAutoRedirect(activity);
-                } else {
-                    renderError('活动可能已过期或不存在');
-                }
-            } catch (e) {
-                renderError('数据加载失败，请检查网络');
+        if (!id) { renderError('无效的活动ID'); return; }
+
+        try {
+            // 假设 activities.json 位于网站根目录
+            const res = await fetch('./activities.json');
+            const data = await res.json();
+            const activity = data.find(a => a.id === id);
+
+            if (activity) {
+                renderPage(activity);
+                handleAutoRedirect(activity); // 激活自动跳转逻辑
+            } else {
+                renderError('活动可能已过期或不存在');
             }
-        });
+        } catch (e) {
+            renderError('数据加载失败，请检查网络');
+        }
+    });
 
-        function handleAutoRedirect(act) {
-            // 定义哪些链接必须在微信打开
-            // 1. 包含 'icbc' (工行), 'weixin' (微信), 'qq' (腾讯) 等关键词
-            // 2. 或者您在 activities.json 里给它加一个字段 "wechatOnly": true
-            const isWeChatLink = act.link.includes('icbc') || act.link.includes('weixin') || act.wechatOnly;
+    function handleAutoRedirect(act) {
+        if (isRedirecting) return; // 防止重复执行
 
-            if (isWeChatLink && !isWeChat) {
-                // 如果是微信链接，且不在微信里 -> 停止跳转，显示复制引导
-                return; 
-            }
-            
-            // 其他情况，延迟 1.5 秒自动跳转
-            // setTimeout(() => { window.location.href = act.link; }, 1500);
+        // 判断哪些链接必须在微信打开
+        const isWeChatLink = act.link.includes('icbc') || act.link.includes('weixin') || act.wechatOnly;
+
+        if (isWeChatLink && !isWeChat) {
+            // 如果是敏感链接，且不在微信里 -> 停止跳转，显示复制引导
+            // 此时页面已渲染复制按钮，不需要进一步操作
+            return;
         }
 
-        function renderPage(act) {
-            // 检查是否需要微信打开
-            const isWeChatLink = act.link.includes('icbc') || act.link.includes('weixin') || act.wechatOnly;
-            const needCopy = isWeChatLink && !isWeChat;
+        // --- 【修改：环境允许时立即跳转】 ---
+        isRedirecting = true;
+        
+        // 立即跳转到目标链接，实现“无感”中转
+        window.location.href = act.link;
 
-            let icon = 'fa-rocket';
-            if (act.sourceApp.includes('支付')) icon = 'fa-alipay';
-            if (act.sourceApp.includes('微信')) icon = 'fa-weixin';
-            if (act.sourceApp.includes('工行') || act.sourceApp.includes('建设')) icon = 'fa-university';
-
-            let actionHtml = '';
-            let tipHtml = '';
-
-            if (needCopy) {
-                // 需要复制链接的情况
-                tipHtml = `
-                    <div class="wx-tip" style="display:block">
-                        <i class="fas fa-exclamation-circle mr-1"></i> 
-                        此活动限制在<strong>微信客户端</strong>打开。请点击下方按钮复制链接，然后发送给微信“文件传输助手”打开。
-                    </div>
-                `;
-                actionHtml = `
-                    <button onclick="copyLink('${act.link}')" class="btn btn-copy">
-                        <i class="fas fa-copy mr-2"></i> 复制活动链接
-                    </button>
-                    <div class="text-xs text-gray-500 mt-2">复制后请去微信粘贴打开</div>
-                `;
-            } else {
-                // 正常跳转
-                actionHtml = `
-                    <a href="${act.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-                        <i class="fas fa-external-link-alt mr-2"></i> 立即前往
-                    </a>
-                `;
+        // 设置一个延时，作为跳转失败时的备用提示（例如，如果唤起 App 失败或链接无效）
+        setTimeout(() => {
+            if (document.visibilityState === 'visible') {
+                // 如果页面还在当前浏览器标签页（未跳转成功），更新提示
+                const iconBox = document.querySelector('.icon-box');
+                const title = document.querySelector('.title');
+                const desc = document.querySelector('.desc');
+                
+                if (iconBox) iconBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+                if (title) title.textContent = '跳转失败，请手动点击';
+                if (desc) desc.textContent = 'App 可能未安装，请点击下方按钮重新尝试。';
             }
+        }, 3000);
+        // ------------------------------------
+    }
 
-            document.getElementById('content').innerHTML = `
-                <div class="icon-box"><i class="fas ${icon}"></i></div>
-                <div class="status-badge"><i class="fas fa-shield-alt mr-1"></i> 安全检测通过</div>
-                <h1 class="title">${act.name}</h1>
-                ${tipHtml}
-                <p class="desc">${act.description || '暂无详细描述'}</p>
-                ${actionHtml}
-                <a href="javascript:history.back()" class="btn btn-secondary">
-                    <i class="fas fa-reply mr-2"></i> 返回列表
+    function renderPage(act) {
+        // 检查是否需要微信打开
+        const isWeChatLink = act.link.includes('icbc') || act.link.includes('weixin') || act.wechatOnly;
+        const needCopy = isWeChatLink && !isWeChat;
+
+        let icon = 'fa-rocket';
+        if (act.sourceApp && act.sourceApp.includes('支付')) icon = 'fa-alipay';
+        if (act.sourceApp && act.sourceApp.includes('微信')) icon = 'fa-weixin';
+        if (act.sourceApp && (act.sourceApp.includes('工行') || act.sourceApp.includes('建设'))) icon = 'fa-university';
+
+        let actionHtml = '';
+        let tipHtml = '';
+
+        if (needCopy) {
+            // 需要复制链接的情况
+            tipHtml = `
+                <div class="wx-tip" style="display:block">
+                    <i class="fas fa-exclamation-circle mr-1"></i> 
+                    此活动限制在<strong>微信客户端</strong>打开。请点击下方按钮复制链接，然后发送给微信“文件传输助手”打开。
+                </div>
+            `;
+            actionHtml = `
+                <button onclick="copyLink('${act.link}')" class="btn btn-copy">
+                    <i class="fas fa-copy mr-2"></i> 复制活动链接
+                </button>
+                <div class="text-xs text-gray-500 mt-2">复制后请去微信粘贴打开</div>
+            `;
+        } else {
+            // 正常跳转，但由于 handleAutoRedirect 会立即执行，这里是备用按钮
+            actionHtml = `
+                <a href="${act.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                    <i class="fas fa-external-link-alt mr-2"></i> 立即前往 (手动)
                 </a>
             `;
         }
 
-        function copyLink(url) {
-            navigator.clipboard.writeText(url).then(() => {
-                alert('链接已复制！\n请打开微信 -> 发送给文件传输助手 -> 点击链接参与活动');
-            }).catch(err => {
-                prompt('请手动复制以下链接去微信打开：', url);
-            });
-        }
+        document.getElementById('content').innerHTML = `
+            <div class="icon-box"><i class="fas ${icon}"></i></div>
+            <div class="status-badge"><i class="fas fa-shield-alt mr-1"></i> 安全检测通过</div>
+            <h1 class="title">${act.name}</h1>
+            ${tipHtml}
+            <p class="desc">${act.description || '暂无详细描述'}</p>
+            ${actionHtml}
+            <a href="javascript:history.back()" class="btn btn-secondary">
+                <i class="fas fa-reply mr-2"></i> 返回列表
+            </a>
+        `;
+    }
 
-        function renderError(msg) {
-            document.getElementById('content').innerHTML = `
-                <div class="icon-box" style="background:linear-gradient(135deg,#EF4444,#991B1B)"><i class="fas fa-times"></i></div>
-                <h1 class="title">无法访问</h1>
-                <p class="desc">${msg}</p>
-                <a href="./index.html" class="btn btn-secondary">返回首页</a>
-            `;
-        }
-    </script>
+    function copyLink(url) {
+        navigator.clipboard.writeText(url).then(() => {
+            alert('链接已复制！\n请打开微信 -> 发送给文件传输助手 -> 点击链接参与活动');
+        }).catch(err => {
+            prompt('请手动复制以下链接去微信打开：', url);
+        });
+    }
+
+    function renderError(msg) {
+        document.getElementById('content').innerHTML = `
+            <div class="icon-box" style="background:linear-gradient(135deg,#EF4444,#991B1B)"><i class="fas fa-times"></i></div>
+            <h1 class="title">无法访问</h1>
+            <p class="desc">${msg}</p>
+            <a href="./index.html" class="btn btn-secondary">返回首页</a>
+        `;
+    }
+</script>
 </body>
 </html>
