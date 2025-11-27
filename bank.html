@@ -166,33 +166,41 @@
     const CAT_MAP={'DailyTask':{icon:'fa-calendar-day',color:'#10B981'},'MissionReward':{icon:'fa-tasks',color:'#EC4899'},'Deposit':{icon:'fa-sack-dollar',color:'#FBBF24'}};
     const synth=window.speechSynthesis; 
 
-    let lastY=0; const h=document.getElementById('smart-header');
+    let lastY=0; 
+    const h=document.getElementById('smart-header');
     window.addEventListener('scroll', ()=>{
-        const y=window.scrollY; if(Math.abs(y-lastY)<10)return; 
+        const y=window.scrollY; 
+        if(Math.abs(y-lastY)<10)return; 
         if (h.style.transition !== 'none') { h.classList.toggle('nav-hidden', y>lastY&&y>60); }
-        lastY=y; sessionStorage.setItem('pos_bank', y); sessionStorage.setItem('nav_state_bank', h.classList.contains('nav-hidden'));
+        lastY=y; 
+        sessionStorage.setItem('pos_bank', y);
+        sessionStorage.setItem('nav_state_bank', h.classList.contains('nav-hidden'));
     }, {passive: true});
+    
     if('scrollRestoration' in history) history.scrollRestoration='manual';
 
     document.addEventListener('DOMContentLoaded', () => {
-        setInterval(updTm, 1000);
         const cachedData = sessionStorage.getItem('data_bank');
-        if (cachedData) { try { ALL = JSON.parse(cachedData); initUI(); render(); restoreScroll(); } catch(e) {} }
+        if (cachedData) { try { ALL = JSON.parse(cachedData); initUI(); render(); restoreScroll(); } catch(e) { console.error(e); } }
         fetch('./activities.json').then(r=>r.json()).then(d => {
             const validData = d.filter(a=>a.category&&(a.category.includes('DailyTask')||a.category.includes('Deposit')||a.category.includes('MissionReward')));
             sessionStorage.setItem('data_bank', JSON.stringify(validData));
             if (!cachedData || ALL.length === 0) { ALL = validData; initUI(); render(); restoreScroll(); }
+            setInterval(updTm, 1000);
         });
     });
 
     function restoreScroll() {
-        const y = sessionStorage.getItem('pos_bank'); const isHidden = sessionStorage.getItem('nav_state_bank') === 'true';
+        const y = sessionStorage.getItem('pos_bank'); 
+        const isHidden = sessionStorage.getItem('nav_state_bank') === 'true';
         if(y) {
             h.style.transition = 'none';
             if(isHidden) h.classList.add('nav-hidden'); else h.classList.remove('nav-hidden');
-            window.scrollTo({top: parseInt(y), behavior: 'instant'});
-            lastY = parseInt(y);
-            requestAnimationFrame(() => { setTimeout(() => { h.style.transition = ''; }, 100); });
+            requestAnimationFrame(() => {
+                window.scrollTo({top: parseInt(y), behavior: 'instant'});
+                lastY = parseInt(y);
+                setTimeout(() => { h.style.transition = ''; }, 100);
+            });
         }
     }
 
@@ -209,31 +217,21 @@
     function toggleSidebar(){document.body.classList.toggle('sidebar-open');}
     function setSt(s){selStatus=s; initUI(); render();}
     function setPl(p){selPlat=p; toggleSidebar(); initUI(); render();}
-
     function render() {
         const ls={'DailyTask':document.getElementById('routine-tasks-list'),'MissionReward':document.getElementById('mission-rewards-list'),'Deposit':document.getElementById('savings-tasks-list')};
         Object.values(ls).forEach(e=>e.innerHTML='');
-        ALL.filter(a=>{
-            const now=Date.now(); const e=a.endDate?new Date(a.endDate).getTime():null, s=a.startDate?new Date(a.startDate).getTime():null;
-            if(selStatus==='upcoming') return s && s > now; if(selStatus==='finished') return e && e < now; return (!s || s<=now) && (!e || e>=now);
-        }).filter(a=>selPlat==='All'||a.sourceApp===selPlat).forEach(a=>{
-            const cat=a.category.find(c=>CAT_MAP[c]); if(cat&&ls[cat]) ls[cat].innerHTML+=card(a,cat);
-        });
+        const now=Date.now();
+        ALL.filter(a=>{const e=a.endDate?new Date(a.endDate).getTime():null, s=a.startDate?new Date(a.startDate).getTime():null; if(selStatus==='upcoming') return s && s > now; if(selStatus==='finished') return e && e < now; return (!s || s<=now) && (!e || e>=now);}).filter(a=>selPlat==='All'||a.sourceApp===selPlat).forEach(a=>{const cat=a.category.find(c=>CAT_MAP[c]); if(cat&&ls[cat]) ls[cat].innerHTML+=card(a,cat);});
         updTm();
     }
-
     function card(a, cat) {
         const s = CAT_MAP[cat];
-        // 【已恢复直连模式】
-        let btn = a.link&&a.link!=='#' 
-            ? `<a href="${a.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></a>` 
-            : (a.StepsText ? `<button class="btn btn-voice" data-t="${a.StepsText.replace(/"/g,'&quot;')}" onclick="spk(this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`);
+        let btn = a.link&&a.link!=='#' ? `<a href="${a.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></a>` : (a.StepsText ? `<button class="btn btn-voice" data-t="${a.StepsText.replace(/"/g,'&quot;')}" onclick="spk(this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`);
         return `<div class="task-card" style="border-left-color:${s.color}"><div class="badges">${a.specialNote?`<span class="badge badge-note">${a.specialNote}</span>`:''}<span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span></div><div class="card-main"><div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div><div class="card-text"><div class="card-title">${a.name}</div><div class="card-desc">${a.description||'暂无描述'}</div></div></div><div class="card-actions"><button class="btn btn-share" onclick="shr('${a.id}')"><i class="fas fa-share-alt mr-1"></i> 分享</button>${btn}</div></div>`;
     }
-    
     function spk(b){const t=b.dataset.t;if(b.classList.contains('speaking')){synth.cancel();b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;return;}synth.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=0.75;u.onstart=()=>{b.classList.add('speaking');b.innerHTML=`<i class="fas fa-stop mr-1"></i> 停止`;};u.onend=()=>{b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;};synth.speak(u);}
     function shr(id){const u=`${location.origin}/go.html?id=${id}`;if(navigator.share){navigator.share({title:'分享活动',url:u}).catch(()=>{})}else{prompt('复制链接:',u)}}
-    function updTm(){const n=Date.now();document.querySelectorAll('.badge-timer').forEach(e=>{const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;if(s>n){e.innerText=`即将开始 ${fmt(s-n)}`;e.classList.remove('expired');}else if(end&&end<n){e.innerText='已结束';e.classList.add('expired');}else if(end){e.innerText=`剩余 ${fmt(end-n)}`;e.classList.remove('expired');}else{e.innerText='长期';e.classList.remove('expired');}});}
+    function updTm(){const n=Date.now();document.querySelectorAll('.badge-timer').forEach(e=>{const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;if(s > n) {e.innerText = `即将开始 ${fmt(s-n)}`; e.classList.remove('expired');} else if (end && end < n) {e.innerText = '已结束'; e.classList.add('expired');} else if (end) {e.innerText = `剩余 ${fmt(end-n)}`; e.classList.remove('expired');} else {e.innerText = '长期'; e.classList.remove('expired');}});}
     function fmt(ms){const d=Math.floor(ms/86400000),h=Math.floor((ms%86400000)/3600000),m=Math.floor((ms%3600000)/60000);return d>0?`${d}天${h}时`:`${h}时${m}分`;}
 </script>
 </body>
