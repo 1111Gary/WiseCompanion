@@ -128,76 +128,167 @@
         <a href="./shopping.html" class="nav-item"><i class="fas fa-tags"></i>省钱秘籍</a>
     </nav>
     
+    <!-- 添加一个用于显示 Toast 的容器 -->
+    <div id="toast-container" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-none transition-opacity duration-300 opacity-0">
+        <div class="bg-black/80 text-white px-6 py-3 rounded-xl backdrop-blur-md shadow-2xl flex items-center gap-3 border border-white/10">
+            <i class="fas fa-check-circle text-green-400 text-xl"></i>
+            <span id="toast-message" class="font-medium text-sm">操作成功</span>
+        </div>
+    </div>
+
     <script>
-    let ALL=[], selPlat='All', selStatus='Active';
-    const synth=window.speechSynthesis; 
+        let ALL=[], selBank='All', selStatus='ongoing';
+        const CAT_MAP={'DailyTask':{icon:'fa-calendar-day',color:'#10B981'},'MissionReward':{icon:'fa-tasks',color:'#EC4899'},'Deposit':{icon:'fa-sack-dollar',color:'#FBBF24'}};
+        
+        // 滚动逻辑
+        let lastY=0; const h=document.getElementById('smart-header');
+        window.addEventListener('scroll', ()=>{const y=window.scrollY; if(Math.abs(y-lastY)<10)return; if(h.style.transition!=='none')h.classList.toggle('nav-hidden', y>lastY&&y>60); lastY=y; sessionStorage.setItem('pos_bank', y); sessionStorage.setItem('nav_bank', h.classList.contains('nav-hidden'));}, {passive:true});
+        if('scrollRestoration' in history) history.scrollRestoration='manual';
 
-    let lastY=0; 
-    const h=document.getElementById('smart-header');
-    window.addEventListener('scroll', ()=>{
-        const y=window.scrollY; 
-        if(Math.abs(y-lastY)<10)return; 
-        if (h.style.transition !== 'none') { h.classList.toggle('nav-hidden', y>lastY&&y>60); }
-        lastY=y; 
-        sessionStorage.setItem('pos_video', y);
-        sessionStorage.setItem('nav_state_video', h.classList.contains('nav-hidden'));
-    }, {passive: true});
-    
-    if('scrollRestoration' in history) history.scrollRestoration='manual';
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const cachedData = sessionStorage.getItem('data_video');
-        if (cachedData) { try { ALL = JSON.parse(cachedData); initUI(); render(); restoreScroll(); } catch(e) { console.error(e); } }
-        fetch('./activities.json').then(r=>r.json()).then(d => {
-            const validData = d.filter(a=>a.category&&a.category.includes('Video'));
-            sessionStorage.setItem('data_video', JSON.stringify(validData));
-            if (!cachedData || ALL.length === 0) { ALL = validData; initUI(); render(); restoreScroll(); }
-            setInterval(updTm, 1000);
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('./activities.json').then(r=>r.json()).then(d => {
+                ALL=d.filter(a=>a.category&&(a.category.includes('DailyTask')||a.category.includes('Deposit')||a.category.includes('MissionReward')));
+                initUI(); render(); setInterval(updTm, 1000);
+                // 恢复位置
+                const y=sessionStorage.getItem('pos_bank'); if(y) setTimeout(()=>window.scrollTo(0,parseInt(y)),50);
+            });
         });
-    });
 
-    function restoreScroll() {
-        const y = sessionStorage.getItem('pos_video'); 
-        const isHidden = sessionStorage.getItem('nav_state_video') === 'true';
-        if(y) {
-            h.style.transition = 'none';
-            if(isHidden) h.classList.add('nav-hidden'); else h.classList.remove('nav-hidden');
-            requestAnimationFrame(() => {
-                window.scrollTo({top: parseInt(y), behavior: 'instant'});
-                lastY = parseInt(y);
-                setTimeout(() => { h.style.transition = ''; }, 100);
+        // --- [核心] 智能跳转系统 ---
+        function handleSmartJump(link, name) {
+            if (!link || link === '#') return;
+
+            // 1. 定义“钉子户”特征 (微信、工行、农行、小程序)
+            const isStubborn = link.includes('micromessenger') || 
+                               link.includes('wx.abchina') || 
+                               link.includes('wbs.icbc') || 
+                               link.includes('weixin://') ||
+                               link.includes('miniprogram');
+
+            if (isStubborn) {
+                // 方案 B: 复制 + 提示
+                copyToClipboard(link);
+                showToast(`链接已复制！请打开${link.includes('abchina')?'农行':(link.includes('icbc')?'工行':'微信')}粘贴`);
+            } else {
+                // 方案 A: 直接跳转 (极速)
+                window.open(link, '_blank');
+            }
+            
+            // 埋点统计
+            if (window.umami) umami.track('click_action', { name: name, type: isStubborn ? 'copy' : 'jump' });
+        }
+
+        // --- [核心] 极速分享 ---
+        function handleShare(id, name) {
+            // 生成当前详情页链接（如果没有详情页，就生成首页带参数，或者直接复制活动链接）
+            // 这里策略调整：直接复制活动链接给好友，最直接
+            const act = ALL.find(a => a.id === id);
+            const shareText = `【NEX福利】${act.name}\n${act.description||''}\n传送门：${act.link}`;
+            
+            if (navigator.share) {
+                navigator.share({ title: '慧伴管家', text: shareText, url: act.link }).catch(()=>{ copyToClipboard(shareText); showToast('文案已复制'); });
+            } else {
+                copyToClipboard(shareText);
+                showToast('分享文案已复制');
+            }
+            if (window.umami) umami.track('click_share', { name: name });
+        }
+
+        // 通用复制函数
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text);
+            } else {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.position = "fixed"; textArea.style.left = "-9999px";
+                document.body.appendChild(textArea);
+                textArea.focus(); textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
+        }
+
+        // 通用 Toast 提示
+        function showToast(msg) {
+            const box = document.getElementById('toast-container');
+            const text = document.getElementById('toast-message');
+            text.innerText = msg;
+            box.classList.remove('opacity-0');
+            setTimeout(() => { box.classList.add('opacity-0'); }, 2500);
+        }
+
+        // --- 渲染逻辑保持不变 (只需修改 onclick) ---
+        function initUI() {
+            const bar=document.getElementById('filter-bar');
+            bar.innerHTML = `<button class="chip chip-trigger ${selBank==='All'?'active':''}" onclick="toggleSidebar()"><i class="fas fa-layer-group mr-2"></i> ${selBank==='All'?'全部平台':selBank}</button>`;
+            const sts=[{v:'ongoing',t:'进行中'},{v:'upcoming',t:'即将开始'},{v:'finished',t:'已结束'}];
+            sts.forEach(s=>bar.innerHTML+=`<button class="chip ${selStatus===s.v?'active':''}" onclick="setSt('${s.v}')">${s.t}</button>`);
+            const sb=document.getElementById('sidebar-content'); const ps=new Set(); ALL.forEach(a=>ps.add(a.sourceApp));
+            let html = `<div class="sidebar-item" onclick="setBk('All')"><div class="sidebar-icon-box"><i class="fas fa-border-all"></i></div> 全部平台</div>`;
+            ps.forEach(p=>{if(p)html+=`<div class="sidebar-item" onclick="setBk('${p}')"><div class="sidebar-icon-box"><i class="fas fa-mobile-alt"></i></div> ${p}</div>`});
+            sb.innerHTML = html;
+        }
+        function toggleSidebar(){document.body.classList.toggle('sidebar-open');}
+        function setSt(s){selStatus=s; initUI(); render();}
+        function setBk(b){selBank=b; toggleSidebar(); initUI(); render();}
+        function render() {
+            const ls={'DailyTask':document.getElementById('routine-tasks-list'),'MissionReward':document.getElementById('mission-rewards-list'),'Deposit':document.getElementById('savings-tasks-list')};
+            Object.values(ls).forEach(e=>e.innerHTML='');
+            const now=Date.now();
+            let hasItem=false;
+            ALL.filter(act => {
+                const e=act.endDate?new Date(act.endDate).getTime():null, s=act.startDate?new Date(act.startDate).getTime():null;
+                if(selStatus==='finished') return e && e<now;
+                if(selStatus==='upcoming') return s && s>now;
+                return (!s || s<=now) && (!e || e>=now);
+            }).filter(a=>selBank==='All'||a.sourceApp===selBank).forEach(a=>{
+                const cat=a.category.find(c=>CAT_MAP[c]); if(cat&&ls[cat]) { hasItem=true; ls[cat].innerHTML+=card(a,cat); }
+            });
+            if(!hasItem) document.getElementById('routine-tasks-list').innerHTML = `<p class="text-center text-gray-500 py-6 w-full">暂无活动</p>`;
+            updateTimers();
+        }
+
+        function card(a, cat) {
+            const s = CAT_MAP[cat];
+            // [关键修改] 按钮不再跳转 go.html，而是调用 handleSmartJump
+            let btn = a.link&&a.link!=='#' 
+                ? `<button onclick="handleSmartJump('${a.link}', '${a.name}')" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></button>` 
+                : (a.StepsText ? `<button class="btn btn-voice" onclick="spk('${a.StepsText.replace(/"/g,'&quot;')}', this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`);
+
+            return `<div class="task-card" style="border-left-color:${s.color}">
+                <div class="badges">
+                    ${a.specialNote?`<span class="badge badge-note">${a.specialNote}</span>`:''}
+                    <span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span>
+                </div>
+                <div class="card-main">
+                    <div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div>
+                    <div class="card-text">
+                        <div class="card-title">${a.name}</div>
+                        <div class="card-desc">${a.description||'暂无描述'}</div>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-share" onclick="handleShare('${a.id}', '${a.name}')"><i class="fas fa-share-alt mr-1"></i> 分享</button>
+                    ${btn}
+                </div>
+            </div>`;
+        }
+
+        const synth=window.speechSynthesis;
+        function spk(t, b){if(!synth)return; if(b.classList.contains('speaking')){synth.cancel();b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;return;}synth.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=0.75;u.onstart=()=>{b.classList.add('speaking');b.innerHTML=`<i class="fas fa-stop mr-1"></i> 停止`;};u.onend=()=>{b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;};synth.speak(u);}
+        
+        function updTm(){
+            const n=Date.now();
+            document.querySelectorAll('.badge-timer').forEach(e=>{
+                const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;
+                if(s > n) { e.innerText = `即将开始 ${fmt(s-n)}`; e.classList.remove('expired'); } 
+                else if (end && end < n) { e.innerText = '已结束'; e.classList.add('expired'); } 
+                else if (end) { e.innerText = `剩余 ${fmt(end-n)}`; e.classList.remove('expired'); } 
+                else { e.innerText = '长期'; e.classList.remove('expired'); }
             });
         }
-    }
-
-    function initUI() {
-        const bar=document.getElementById('filter-bar');
-        bar.innerHTML = `<button class="chip chip-trigger ${selPlat==='All'?'active':''}" onclick="toggleSidebar()"><i class="fas fa-layer-group mr-1"></i> ${selPlat==='All'?'全部平台':selPlat}</button>`;
-        const sts=[{v:'Active',t:'进行中'},{v:'Upcoming',t:'即将开始'},{v:'Expired',t:'已结束'}];
-        sts.forEach(s=>bar.innerHTML+=`<button class="chip ${selStatus===s.v?'active':''}" onclick="setSt('${s.v}')">${s.t}</button>`);
-        const sb=document.getElementById('sidebar-content'); const ps=new Set(); ALL.forEach(a=>ps.add(a.sourceApp));
-        let html = `<div class="sidebar-item ${selPlat==='All'?'selected':''}" onclick="setPl('All')"><div class="sidebar-icon-box"><i class="fas fa-border-all"></i></div> 全部平台</div>`;
-        ps.forEach(p=>{if(p)html+=`<div class="sidebar-item ${selPlat===p?'selected':''}" onclick="setPl('${p}')"><div class="sidebar-icon-box"><i class="fas fa-mobile-alt"></i></div> ${p}</div>`});
-        sb.innerHTML = html;
-    }
-    function toggleSidebar(){document.body.classList.toggle('sidebar-open');}
-    function setSt(s){selStatus=s; initUI(); render();}
-    function setPl(p){selPlat=p; toggleSidebar(); initUI(); render();}
-    function render() {
-        const l=document.getElementById('video-tasks-list'); if(l) l.innerHTML=''; 
-        const now=Date.now();
-        ALL.filter(a=>{const e=a.endDate?new Date(a.endDate).getTime():null, s=a.startDate?new Date(a.startDate).getTime():null; if(selStatus==='Upcoming') return s && s > now; if(selStatus==='Expired') return e && e < now; return (!s || s<=now) && (!e || e>=now);}).filter(a=>selPlat==='All'||a.sourceApp===selPlat).forEach(v=>{if(l) l.innerHTML += card(v);});
-        updTm();
-    }
-    function card(v) {
-        const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#8B5CF6';
-        let btn = v.link&&v.link!=='#' ? `<a href="${v.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">去观看 <i class="fas fa-chevron-right ml-1"></i></a>` : (v.StepsText ? `<button class="btn btn-voice" data-t="${v.StepsText.replace(/"/g,'&quot;')}" onclick="spk(this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无指引</button>`);
-        return `<div class="task-card" style="border-left-color:${primaryColor}"><div class="badges"><span class="badge badge-timer" data-e="${v.endDate}" data-s="${v.startDate}">...</span></div><div class="card-main"><div class="card-icon" style="color:${primaryColor}"><i class="fas fa-play"></i></div><div class="card-text"><div class="card-title">${v.name}</div><div class="card-desc">${v.description||'暂无描述'}</div></div></div><div class="card-actions"><button class="btn btn-share" onclick="shr('${v.id}')"><i class="fas fa-share-alt mr-1"></i> 分享</button>${btn}</div></div>`;
-    }
-    function spk(b){const t=b.dataset.t;if(b.classList.contains('speaking')){synth.cancel();b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;return;}synth.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=0.75;u.onstart=()=>{b.classList.add('speaking');b.innerHTML=`<i class="fas fa-stop mr-1"></i> 停止`;};u.onend=()=>{b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;};synth.speak(u);}
-    function shr(id){const u=`${location.origin}/go.html?id=${id}`;if(navigator.share){navigator.share({title:'分享活动',url:u}).catch(()=>{})}else{prompt('复制链接:',u)}}
-    function updTm(){const n=Date.now();document.querySelectorAll('.badge-timer').forEach(e=>{const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;if(s > n) {e.innerText = `即将开始 ${fmt(s-n)}`; e.classList.remove('expired');} else if (end && end < n) {e.innerText = '已结束'; e.classList.add('expired');} else if (end) {e.innerText = `剩余 ${fmt(end-n)}`; e.classList.remove('expired');} else {e.innerText = '长期'; e.classList.remove('expired');}});}
-    function fmt(ms){const d=Math.floor(ms/86400000),h=Math.floor((ms%86400000)/3600000),m=Math.floor((ms%3600000)/60000);return d>0?`${d}天${h}时`:`${h}时${m}分`;}
-</script>
+        function fmt(ms){const d=Math.floor(ms/86400000),h=Math.floor((ms%86400000)/3600000),m=Math.floor((ms%3600000)/60000);return d>0?`${d}天${h}时`:`${h}时${m}分`;}
+    </script>
 </body>
 </html>
