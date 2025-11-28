@@ -62,22 +62,6 @@
     "StepsText": null
   },
   {
-    "id": "rec2ST5QDPRjn5t5y",
-    "name": "中行云网支付",
-    "description": "中行云网支付，满60-10，限1次，可冲京东E卡",
-    "icon": "❓",
-    "link": "#",
-    "category": [
-      "Bank",
-      "DailyTask"
-    ],
-    "sourceApp": "中国银行APP",
-    "specialNote": null,
-    "targetApp": "中国银行APP",
-    "endDate": null,
-    "StepsText": null
-  },
-  {
     "id": "rec2XC9PHVfrc08dd",
     "name": "交行月月有礼",
     "description": "交行搜“月月有礼”，每完成一次任务皆可抽支付劵",
