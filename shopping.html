@@ -226,9 +226,9 @@
             lowerLink.includes('open.weixin');      // 微信开放平台
 
         if (isStubborn) {
-            // 方案 B: 复制 + 提示
+            // 方案 B: 复制链接 + 提示
             copyToClipboard(link);
-
+            
             // 智能生成提示语
             let appName = '微信';
             if (lowerLink.includes('icbc')) appName = '工行App';
@@ -239,7 +239,7 @@
 
             showToast(`链接已复制！\n请打开【${appName}】粘贴访问`, 'success');
         } else {
-            // 方案 A: 普通链接直接跳转 (使用 window.open 兼容性更好)
+            // 方案 A: 普通链接直接跳转
             window.open(link, '_blank');
         }
 
@@ -255,39 +255,49 @@
         const platform = act.sourceApp || '精选活动';
         const shareText = `【${platform}】${act.name}\n${act.description || '点击查看详情'}\n传送门：${act.link}`;
 
-        // 尝试调用系统分享
-        if (navigator.share) {
-            navigator.share({
-                title: '慧伴管家 - 省钱秘籍',
-                text: shareText,
-                url: act.link
-            }).catch((err) => {
-                // 用户取消分享或不支持，降级为复制
-                console.log('Share cancelled, fallback to copy');
+        // 判断是否是微信浏览器
+        const isWeChat = /micromessenger/i.test(navigator.userAgent);
+
+        if (isWeChat) {
+            // 微信浏览器中，使用微信JS SDK来处理分享
+            if (typeof wx !== 'undefined' && wx.onMenuShareAppMessage) {
+                // 调用微信JS-SDK分享功能
+                wx.onMenuShareAppMessage({
+                    title: `慧伴管家 - 省钱秘籍`,  // 分享标题
+                    desc: shareText,               // 分享描述
+                    link: act.link,                // 分享链接
+                    imgUrl: '',                    // 分享图标（可以为空，或者填写URL）
+                    success: function () {
+                        showToast('分享成功！', 'success');
+                    },
+                    cancel: function () {
+                        showToast('分享取消！', 'info');
+                    }
+                });
+            } else {
+                // 如果微信JS-SDK不可用，提供一个 fallback 方案
+                copyToClipboard(shareText);
+                showToast('分享文案已复制\n请打开微信粘贴分享给好友', 'info');
+            }
+        } else {
+            // 非微信浏览器，使用系统分享或者复制
+            if (navigator.share) {
+                navigator.share({
+                    title: '慧伴管家 - 省钱秘籍',
+                    text: shareText,
+                    url: act.link
+                }).catch((err) => {
+                    console.log('Share cancelled, fallback to copy');
+                    copyToClipboard(shareText);
+                    showToast(`分享文案已复制\n快去粘贴给好友吧`);
+                });
+            } else {
                 copyToClipboard(shareText);
                 showToast(`分享文案已复制\n快去粘贴给好友吧`);
-            });
-        } else {
-            // PC或不支持分享的浏览器 -> 直接复制
-            copyToClipboard(shareText);
-            showToast(`分享文案已复制\n快去粘贴给好友吧`);
+            }
         }
 
         if (window.umami) umami.track('click_share', { name: name });
-    }
-
-    // 通用复制函数
-    function copyToClipboard(text) {
-        // 优先使用新 API
-        if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(text).then(() => {
-                // Success (Toast is handled by caller usually, but strictly speaking copy is instant)
-            }).catch(err => {
-                fallbackCopyTextToClipboard(text);
-            });
-        } else {
-            fallbackCopyTextToClipboard(text);
-        }
     }
 
     // 兼容性复制 (用于不支持 clipboard API 的环境)
