@@ -129,14 +129,6 @@
         </div>
     </div>
 
-    <!-- 添加一个用于显示 Toast 的容器 -->
-    <div id="toast-container" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-none transition-opacity duration-300 opacity-0">
-        <div class="bg-black/80 text-white px-6 py-3 rounded-xl backdrop-blur-md shadow-2xl flex items-center gap-3 border border-white/10">
-            <i class="fas fa-check-circle text-green-400 text-xl"></i>
-            <span id="toast-message" class="font-medium text-sm">操作成功</span>
-        </div>
-    </div>
-
     <script>
         let ALL=[], selBank='All', selStatus='ongoing';
         const CAT_MAP={'DailyTask':{icon:'fa-calendar-day',color:'#10B981'},'MissionReward':{icon:'fa-tasks',color:'#EC4899'},'Deposit':{icon:'fa-sack-dollar',color:'#FBBF24'}};
