@@ -191,6 +191,8 @@
             else if (lowerLink.includes('ccb')) appName = '建行App';
             else if (lowerLink.includes('95516') || lowerLink.includes('benefits')) appName = '云闪付App';
 
+            // 调试输出
+            console.log(`正在复制链接：${link}`);
             showToast(`链接已复制！\n请打开【${appName}】粘贴访问`, 'success');
         } else {
             // 方案 A: 普通链接直接跳转
