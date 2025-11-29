@@ -167,11 +167,11 @@
         <span class="nav-item active"><i class="fas fa-tags"></i>省钱秘籍</span>
     </nav>
     
-<!-- 添加一个用于显示 Toast 的容器 -->
-    <div id="toast-container" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-none transition-opacity duration-300 opacity-0">
-        <div class="bg-black/80 text-white px-6 py-3 rounded-xl backdrop-blur-md shadow-2xl flex items-center gap-3 border border-white/10">
-            <i class="fas fa-check-circle text-green-400 text-xl"></i>
-            <span id="toast-message" class="font-medium text-sm">操作成功</span>
+<!-- 1. Toast 提示容器 (Z-index 调高到 9999 确保最顶层) -->
+    <div id="toast-container" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[9999] pointer-events-none transition-all duration-300 opacity-0 scale-90">
+        <div class="bg-black/90 text-white px-6 py-4 rounded-2xl backdrop-blur-md shadow-2xl flex flex-col items-center gap-2 border border-white/10 min-w-[200px]">
+            <i id="toast-icon" class="fas fa-check-circle text-green-400 text-3xl mb-1"></i>
+            <span id="toast-message" class="font-medium text-sm text-center leading-relaxed">操作成功</span>
         </div>
     </div>
 
@@ -188,82 +188,141 @@
             fetch('./activities.json').then(r=>r.json()).then(d => {
                 ALL=d.filter(a=>a.category&&(a.category.includes('DailyTask')||a.category.includes('Deposit')||a.category.includes('MissionReward')));
                 initUI(); render(); setInterval(updTm, 1000);
-                // 恢复位置
                 const y=sessionStorage.getItem('pos_bank'); if(y) setTimeout(()=>window.scrollTo(0,parseInt(y)),50);
             });
         });
 
-        // --- [核心] 智能跳转系统 ---
+        // --- [核心升级] 智能跳转系统 ---
         function handleSmartJump(link, name) {
             if (!link || link === '#') return;
 
-            // 1. 定义“钉子户”特征 (微信、工行、农行、小程序)
-            const isStubborn = link.includes('micromessenger') || 
-                               link.includes('wx.abchina') || 
-                               link.includes('wbs.icbc') || 
-                               link.includes('weixin://') ||
-                               link.includes('miniprogram');
+            const lowerLink = link.toLowerCase().trim();
+            
+            // 1. 定义“钉子户”特征 (遇到这些绝对不跳转，只复制)
+            const isStubborn = 
+                lowerLink.startsWith('#') ||            // 小程序口令 #小程序...
+                lowerLink.includes('小程序') ||          // 中文关键词
+                lowerLink.includes('micromessenger') || // 微信协议
+                lowerLink.includes('weixin://') ||      // 微信协议
+                lowerLink.includes('miniprogram') ||    // 小程序英文
+                lowerLink.includes('icbc') ||           // 工行
+                lowerLink.includes('abchina') ||        // 农行
+                lowerLink.includes('cmbchina') ||       // 招行
+                lowerLink.includes('boc.cn') ||         // 中行
+                lowerLink.includes('ccb.com') ||        // 建行
+                lowerLink.includes('95516') ||          // 云闪付
+                lowerLink.includes('benefits') ||       // 云闪付活动域名
+                lowerLink.includes('open.weixin');      // 微信开放平台
 
             if (isStubborn) {
                 // 方案 B: 复制 + 提示
                 copyToClipboard(link);
-                // 优化后的代码逻辑
-                let targetApp = '微信/浏览器'; // 默认通用提示
-                if (link.includes('abchina')) targetApp = '农行App';
-                else if (link.includes('icbc')) targetApp = '工行App';
-                else if (link.includes('miniprogram')) targetApp = '微信/小程序'; 
-
-                showToast(`链接已复制！请前往【${targetApp}】粘贴并打开`);
+                
+                // 智能生成提示语
+                let appName = '微信';
+                if (lowerLink.includes('icbc')) appName = '工行App';
+                else if (lowerLink.includes('abchina')) appName = '农行App';
+                else if (lowerLink.includes('cmbchina')) appName = '招行App';
+                else if (lowerLink.includes('ccb')) appName = '建行App';
+                else if (lowerLink.includes('95516') || lowerLink.includes('benefits')) appName = '云闪付App';
+                
+                showToast(`链接已复制！\n请打开【${appName}】粘贴访问`, 'success');
             } else {
-                // 方案 A: 直接跳转 (极速)
+                // 方案 A: 普通链接直接跳转 (使用 window.open 兼容性更好)
                 window.open(link, '_blank');
             }
             
-            // 埋点统计
             if (window.umami) umami.track('click_action', { name: name, type: isStubborn ? 'copy' : 'jump' });
         }
 
-        // --- [核心] 极速分享 ---
+        // --- [核心升级] 分享功能 ---
         function handleShare(id, name) {
-            // 生成当前详情页链接（如果没有详情页，就生成首页带参数，或者直接复制活动链接）
-            // 这里策略调整：直接复制活动链接给好友，最直接
             const act = ALL.find(a => a.id === id);
-            const shareText = `【NEX福利】${act.name}\n${act.description||''}\n传送门：${act.link}`;
+            if (!act) return;
             
+            // 拼接文案：包含平台、名称、描述
+            const platform = act.sourceApp || '精选活动';
+            const shareText = `【${platform}】${act.name}\n${act.description||'点击查看详情'}\n传送门：${act.link}`;
+            
+            // 尝试调用系统分享
             if (navigator.share) {
-                navigator.share({ title: '慧伴管家', text: shareText, url: act.link }).catch(()=>{ copyToClipboard(shareText); showToast('文案已复制'); });
+                navigator.share({ 
+                    title: '慧伴管家 - 省钱秘籍', 
+                    text: shareText, 
+                    url: act.link 
+                }).catch((err) => {
+                    // 用户取消分享或不支持，降级为复制
+                    console.log('Share cancelled, fallback to copy');
+                    copyToClipboard(shareText);
+                    showToast(`分享文案已复制\n快去粘贴给好友吧`);
+                });
             } else {
+                // PC或不支持分享的浏览器 -> 直接复制
                 copyToClipboard(shareText);
-                showToast('分享文案已复制');
+                showToast(`分享文案已复制\n快去粘贴给好友吧`);
             }
+            
             if (window.umami) umami.track('click_share', { name: name });
         }
 
         // 通用复制函数
         function copyToClipboard(text) {
+            // 优先使用新 API
             if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text);
+                navigator.clipboard.writeText(text).then(() => {
+                    // Success (Toast is handled by caller usually, but strictly speaking copy is instant)
+                }).catch(err => {
+                    fallbackCopyTextToClipboard(text);
+                });
             } else {
-                const textArea = document.createElement("textarea");
-                textArea.value = text;
-                textArea.style.position = "fixed"; textArea.style.left = "-9999px";
-                document.body.appendChild(textArea);
-                textArea.focus(); textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
+                fallbackCopyTextToClipboard(text);
             }
         }
 
-        // 通用 Toast 提示
-        function showToast(msg) {
-            const box = document.getElementById('toast-container');
-            const text = document.getElementById('toast-message');
-            text.innerText = msg;
-            box.classList.remove('opacity-0');
-            setTimeout(() => { box.classList.add('opacity-0'); }, 2500);
+        // 兼容性复制 (用于不支持 clipboard API 的环境)
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            textArea.style.top = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+            } catch (err) {
+                alert('复制失败，请手动长按链接复制');
+            }
+            document.body.removeChild(textArea);
         }
 
-        // --- 渲染逻辑保持不变 (只需修改 onclick) ---
+        // 统一 Toast 提示
+        function showToast(msg, type='success') {
+            const box = document.getElementById('toast-container');
+            const text = document.getElementById('toast-message');
+            const icon = document.getElementById('toast-icon');
+            
+            text.innerText = msg;
+            
+            // 切换图标颜色
+            if(type === 'success') {
+                icon.className = 'fas fa-check-circle text-green-400 text-3xl mb-1';
+            } else {
+                icon.className = 'fas fa-info-circle text-blue-400 text-3xl mb-1';
+            }
+
+            box.classList.remove('opacity-0', 'scale-90');
+            box.classList.add('opacity-100', 'scale-100');
+            
+            // 防抖，清除之前的定时器 (如果有全局变量的话，这里简化处理)
+            setTimeout(() => { 
+                box.classList.remove('opacity-100', 'scale-100');
+                box.classList.add('opacity-0', 'scale-90');
+            }, 3000);
+        }
+
+        // 渲染函数保持不变
         function initUI() {
             const bar=document.getElementById('filter-bar');
             bar.innerHTML = `<button class="chip chip-trigger ${selBank==='All'?'active':''}" onclick="toggleSidebar()"><i class="fas fa-layer-group mr-2"></i> ${selBank==='All'?'全部平台':selBank}</button>`;
@@ -280,10 +339,9 @@
         function render() {
             const ls={'DailyTask':document.getElementById('routine-tasks-list'),'MissionReward':document.getElementById('mission-rewards-list'),'Deposit':document.getElementById('savings-tasks-list')};
             Object.values(ls).forEach(e=>e.innerHTML='');
-            const now=Date.now();
             let hasItem=false;
             ALL.filter(act => {
-                const e=act.endDate?new Date(act.endDate).getTime():null, s=act.startDate?new Date(act.startDate).getTime():null;
+                const now=Date.now(); const e=act.endDate?new Date(act.endDate).getTime():null, s=act.startDate?new Date(act.startDate).getTime():null;
                 if(selStatus==='finished') return e && e<now;
                 if(selStatus==='upcoming') return s && s>now;
                 return (!s || s<=now) && (!e || e>=now);
@@ -291,12 +349,13 @@
                 const cat=a.category.find(c=>CAT_MAP[c]); if(cat&&ls[cat]) { hasItem=true; ls[cat].innerHTML+=card(a,cat); }
             });
             if(!hasItem) document.getElementById('routine-tasks-list').innerHTML = `<p class="text-center text-gray-500 py-6 w-full">暂无活动</p>`;
-            updateTimers();
+            updTm();
         }
 
         function card(a, cat) {
             const s = CAT_MAP[cat];
-            // [关键修改] 按钮不再跳转 go.html，而是调用 handleSmartJump
+            
+            // 按钮逻辑
             let btn = a.link&&a.link!=='#' 
                 ? `<button onclick="handleSmartJump('${a.link}', '${a.name}')" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></button>` 
                 : (a.StepsText ? `<button class="btn btn-voice" onclick="spk('${a.StepsText.replace(/"/g,'&quot;')}', this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`);
@@ -319,20 +378,10 @@
                 </div>
             </div>`;
         }
-
-        const synth=window.speechSynthesis;
-        function spk(t, b){if(!synth)return; if(b.classList.contains('speaking')){synth.cancel();b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;return;}synth.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=0.75;u.onstart=()=>{b.classList.add('speaking');b.innerHTML=`<i class="fas fa-stop mr-1"></i> 停止`;};u.onend=()=>{b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;};synth.speak(u);}
         
-        function updTm(){
-            const n=Date.now();
-            document.querySelectorAll('.badge-timer').forEach(e=>{
-                const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;
-                if(s > n) { e.innerText = `即将开始 ${fmt(s-n)}`; e.classList.remove('expired'); } 
-                else if (end && end < n) { e.innerText = '已结束'; e.classList.add('expired'); } 
-                else if (end) { e.innerText = `剩余 ${fmt(end-n)}`; e.classList.remove('expired'); } 
-                else { e.innerText = '长期'; e.classList.remove('expired'); }
-            });
-        }
+        // 语音与其他辅助函数
+        function spk(t, b){if(!synth)return; if(b.classList.contains('speaking')){synth.cancel();b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;return;}synth.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=0.75;u.onstart=()=>{b.classList.add('speaking');b.innerHTML=`<i class="fas fa-stop mr-1"></i> 停止`;};u.onend=()=>{b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;};synth.speak(u);}
+        function updTm(){const n=Date.now();document.querySelectorAll('.badge-timer').forEach(e=>{const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;if(s>n){e.innerText=`即将开始 ${fmt(s-n)}`;e.classList.remove('expired');}else if(end&&end<n){e.innerText='已结束';e.classList.add('expired');}else if(end){e.innerText=`剩余 ${fmt(end-n)}`;e.classList.remove('expired');}else{e.innerText='长期';e.classList.remove('expired');}});}
         function fmt(ms){const d=Math.floor(ms/86400000),h=Math.floor((ms%86400000)/3600000),m=Math.floor((ms%3600000)/60000);return d>0?`${d}天${h}时`:`${h}时${m}分`;}
     </script>
 </body>

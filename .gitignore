@@ -1,0 +1,14 @@
+# 忽略所有可执行文件、配置文件等
+*.exe
+*.dll
+*.pak
+*.dat
+Code.exe
+ffmpeg.dll
+
+# 忽略操作系统和VS Code的临时文件
+.vscode/
+Thumbs.db
+
+# 忽略其他大型或不相关文件
+# 确保您的 activities.json 不在其中，因为它需要被提交
