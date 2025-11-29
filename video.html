@@ -168,7 +168,13 @@
             if (isStubborn) {
                 // 方案 B: 复制 + 提示
                 copyToClipboard(link);
-                showToast(`链接已复制！请打开${link.includes('abchina')?'农行':(link.includes('icbc')?'工行':'微信')}粘贴`);
+                // 优化后的代码逻辑
+                let targetApp = '微信/浏览器'; // 默认通用提示
+                if (link.includes('abchina')) targetApp = '农行App';
+                else if (link.includes('icbc')) targetApp = '工行App';
+                else if (link.includes('miniprogram')) targetApp = '微信/小程序'; 
+
+                showToast(`链接已复制！请前往【${targetApp}】粘贴并打开`);
             } else {
                 // 方案 A: 直接跳转 (极速)
                 window.open(link, '_blank');
