@@ -16,7 +16,11 @@
         }
         body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-top: 110px; padding-bottom: 90px; }
 
+<<<<<<< HEAD
         /* Toast 强制样式 */
+=======
+        /* Toast 样式 */
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
         #toast-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             z-index: 99999 !important; pointer-events: none;
@@ -35,12 +39,27 @@
         .toast-icon { font-size: 36px !important; margin-bottom: 10px !important; display: block; }
         .toast-text { font-size: 16px !important; line-height: 1.5 !important; font-weight: bold !important; }
 
+<<<<<<< HEAD
         /* 顶部导航 */
+=======
+        /* 按钮颜色修复 */
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 6px 16px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; transition: 0.2s; cursor: pointer; border: 1px solid transparent; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), #2563EB); color: #fff; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
+        .btn-share { background: rgba(59, 130, 246, 0.15); color: #60A5FA; border: 1px solid rgba(59, 130, 246, 0.3); }
+        
+        /* [修复] 语音按钮颜色找回 */
+        .btn-voice { background: #10B981; color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); border: 1px solid rgba(255,255,255,0.2); }
+        .btn-voice.speaking { background: #EF4444; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+        /* 其他布局 */
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
         #smart-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(16px); transition: transform 0.3s ease; padding-top: env(safe-area-inset-top); }
         .nav-hidden { transform: translateY(-100%); }
         .header-top { display: flex; align-items: center; justify-content: space-between; height: 50px; padding: 0 16px; }
         .app-logo { width: 32px; height: 32px; border-radius: 8px; margin-right: 10px; border: 1px solid rgba(255,255,255,0.1); }
         .page-title { font-size: 1.2rem; font-weight: 800; color: #fff; }
+<<<<<<< HEAD
         
         /* 筛选栏 */
         .filter-bar { display: flex; gap: 10px; overflow-x: auto; padding: 12px 16px; scrollbar-width: none; }
@@ -59,6 +78,16 @@
         .section-title-h2 { font-size: 1.1rem; font-weight: 800; color: #fff; }
         
         .task-card { background: #1E293B; border-radius: 16px; padding: 16px; margin: 0 1rem 1rem; border: 1px solid rgba(255,255,255,0.05); position: relative; border-left: 4px solid var(--primary); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+=======
+        .filter-bar { display: flex; gap: 10px; overflow-x: auto; padding: 12px 16px; scrollbar-width: none; }
+        .chip { display: inline-flex; align-items: center; height: 34px; padding: 0 16px; border-radius: 999px; font-size: 0.85rem; background: rgba(255,255,255,0.05); color: var(--text-sub); flex-shrink: 0; white-space: nowrap; }
+        .chip.active { background: var(--primary); color: #fff; }
+        .sidebar-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 90; display: none; }
+        .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #0f172a; z-index: 100; transform: translateX(-100%); transition: 0.3s; padding-top: env(safe-area-inset-top); }
+        .sidebar-open .sidebar-mask { display: block; } .sidebar-open .sidebar { transform: translateX(0); }
+        .sidebar-item { padding: 15px 20px; color: white; display: flex; gap: 10px; align-items: center; }
+        .task-card { background: #1E293B; border-radius: 16px; padding: 16px; margin: 0 1rem 1rem; border: 1px solid rgba(255,255,255,0.05); position: relative; border-left: 4px solid var(--primary); }
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
         .badges { position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; }
         .badge-timer { background: #EC4899; color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; }
         .badge-note { background: linear-gradient(90deg, #F59E0B, #FBBF24); color: #000; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; }
@@ -67,6 +96,7 @@
         .card-text { flex: 1; min-width: 0; }
         .card-title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .card-desc { font-size: 0.85rem; color: #94A3B8; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+<<<<<<< HEAD
         
         .card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); }
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: 6px 16px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; transition: 0.2s; cursor: pointer; border: 1px solid transparent; }
@@ -76,6 +106,9 @@
         .btn-voice.speaking { background: #EF4444; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 
+=======
+        .card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); }
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
         .nav-bar { position: fixed; bottom: 0; width: 100%; height: 65px; background: rgba(11,17,32,0.95); backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-around; align-items: center; z-index: 50; padding-bottom: env(safe-area-inset-bottom); }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; color: #64748B; font-size: 0.7rem; }
         .nav-item.active { color: var(--primary); }
@@ -84,15 +117,23 @@
 <body>
     <div class="sidebar-mask" onclick="toggleSidebar()"></div>
     <div class="sidebar">
+<<<<<<< HEAD
         <!-- 品牌名更新 -->
         <div style="padding:20px;font-size:1.2rem;font-weight:bold;color:white;border-bottom:1px solid #333;">NEX AI 助手</div>
+=======
+        <div style="padding:20px;font-size:1.2rem;font-weight:bold;color:white;border-bottom:1px solid #333;">慧伴管家</div>
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
         <div id="sidebar-content" class="flex-1 overflow-y-auto py-2"></div>
     </div>
 
     <header id="smart-header">
         <div class="header-top">
             <div class="flex items-center">
+<<<<<<< HEAD
                 <img src="./assets/icon_apple.svg" onerror="this.src='https://placehold.co/32x32/3B82F6/ffffff?text=N'" class="app-logo">
+=======
+                <img src="./assets/icon_apple.svg" onerror="this.src='https://placehold.co/32x32/3B82F6/ffffff?text=B'" class="app-logo">
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
                 <span class="page-title">捡钱任务</span>
             </div>
             <a href="./index.html" class="text-gray-300 text-xl px-2"><i class="fas fa-arrow-left"></i></a>
@@ -101,6 +142,7 @@
     </header>
 
     <main>
+<<<<<<< HEAD
         <!-- 分类容器：日常活动 -->
         <div id="sec-DailyTask" class="section-container">
             <div class="section-title-card"><h2 class="section-title-h2"><i class="fas fa-calendar-day text-green-400 mr-2"></i> 日常活动</h2></div>
@@ -123,13 +165,30 @@
             <div class="premium-title" style="font-size:1.2rem;font-weight:800;color:#FACC15"><i class="fas fa-crown"></i> 高级会员专区</div>
             <div class="premium-desc" style="color:#94A3B8;font-size:0.85rem;margin-top:8px">AI 自动提醒 • 收益最大化助手</div>
         </a>
+=======
+        <div class="section-title-card"><h2 class="section-title-h2"><i class="fas fa-calendar-day text-green-400 mr-2"></i> 日常活动</h2></div><div id="routine-tasks-list"></div>
+        <div class="section-title-card"><h2 class="section-title-h2"><i class="fas fa-tasks text-pink-400 mr-2"></i> 做任务领红包</h2></div><div id="mission-rewards-list"></div>
+        <div class="section-title-card"><h2 class="section-title-h2"><i class="fas fa-sack-dollar text-yellow-400 mr-2"></i> 存款理财</h2></div><div id="savings-tasks-list"></div>
+        
+        <a href="./premium.html" class="premium-card" style="display:block;margin:2rem 1rem;padding:24px;border-radius:20px;background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid rgba(255,255,255,0.05);text-align:center;">
+            <div class="premium-title" style="font-size:1.2rem;font-weight:800;color:#FACC15"><i class="fas fa-crown"></i> 高级会员专区</div>
+            <div class="premium-desc" style="color:#94A3B8;font-size:0.85rem;margin-top:8px">AI 自动提醒 • 收益最大化助手</div>
+        </a>
+        
+        <div style="text-align:center; color:#475569; font-size:0.7rem; margin-top:20px; opacity:0.5;">
+            Version 4.0 (No-Shake Fix)
+        </div>
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
     </main>
     
     <nav class="nav-bar">
         <a href="./index.html" class="nav-item"><i class="fas fa-home"></i>首页</a>
         <a href="./checkin.html" class="nav-item"><i class="fas fa-gifts"></i>天天有奖</a>
         <a href="./video.html" class="nav-item"><i class="fas fa-play-circle"></i>看视频赚</a>
+<<<<<<< HEAD
         <!-- 注意：这里高亮的是捡钱任务，建议文件名改为 rewards.html -->
+=======
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
         <span class="nav-item active"><i class="fas fa-hand-holding-usd"></i>捡钱任务</span>
         <a href="./shopping.html" class="nav-item"><i class="fas fa-tags"></i>省钱秘籍</a>
     </nav>
@@ -142,6 +201,7 @@
     </div>
 
     <script>
+<<<<<<< HEAD
         let ALL=[], selBank='All', selCategory='All';
         const CAT_MAP={'DailyTask':{icon:'fa-calendar-day',color:'#10B981'},'MissionReward':{icon:'fa-tasks',color:'#EC4899'},'Deposit':{icon:'fa-sack-dollar',color:'#FBBF24'}};
         const CAT_FILTERS = [
@@ -156,10 +216,19 @@
         // 滚动逻辑 (Key 改为 pos_rewards)
         let lastY=0; const h=document.getElementById('smart-header');
         window.addEventListener('scroll', ()=>{const y=window.scrollY; if(Math.abs(y-lastY)<10)return; if(h.style.transition!=='none')h.classList.toggle('nav-hidden', y>lastY&&y>60); lastY=y; sessionStorage.setItem('pos_rewards', y); sessionStorage.setItem('nav_rewards', h.classList.contains('nav-hidden'));}, {passive:true});
+=======
+        let ALL=[], selBank='All', selStatus='ongoing';
+        const CAT_MAP={'DailyTask':{icon:'fa-calendar-day',color:'#10B981'},'MissionReward':{icon:'fa-tasks',color:'#EC4899'},'Deposit':{icon:'fa-sack-dollar',color:'#FBBF24'}};
+        let toastTimer = null;
+
+        let lastY=0; const h=document.getElementById('smart-header');
+        window.addEventListener('scroll', ()=>{const y=window.scrollY; if(Math.abs(y-lastY)<10)return; if(h.style.transition!=='none')h.classList.toggle('nav-hidden', y>lastY&&y>60); lastY=y; sessionStorage.setItem('pos_bank', y); sessionStorage.setItem('nav_bank', h.classList.contains('nav-hidden'));}, {passive:true});
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
         if('scrollRestoration' in history) history.scrollRestoration='manual';
 
         document.addEventListener('DOMContentLoaded', () => {
             fetch('./activities.json').then(r=>r.json()).then(d => {
+<<<<<<< HEAD
                 const now = Date.now();
                 ALL = d.filter(a => {
                     const isCat = a.category && (a.category.includes('DailyTask')||a.category.includes('Deposit')||a.category.includes('MissionReward'));
@@ -186,29 +255,105 @@
 
             if (isBlocked) doCopy(link, lower);
             else window.open(link, '_blank');
+=======
+                ALL=d.filter(a=>a.category&&(a.category.includes('DailyTask')||a.category.includes('Deposit')||a.category.includes('MissionReward')));
+                initUI(); render(); setInterval(updTm, 1000);
+                const y=sessionStorage.getItem('pos_bank'); if(y) setTimeout(()=>window.scrollTo(0,parseInt(y)),50);
+            });
+        });
+
+        // 核心跳转逻辑 (优化名单)
+        function handleBtnClick(el) {
+            const link = el.getAttribute('data-link');
+            const name = el.getAttribute('data-name');
+            
+            if (!link || link === '#') return;
+
+            const lower = link.toLowerCase().trim();
+
+            // 【黑名单】只拦截这些必须复制的钉子户
+            // 移除了 boc (中行), psbc/youzheng (邮储), ccb (建行)，让它们尝试直连
+            const blockList = [
+                '#', '小程序', 'miniprogram', 'micromessenger', 'weixin://',
+                'wx.abchina', 'abchina.com', // 农行 (APP内直连通常失效)
+                'wbs.icbc', 'icbc.com.cn',   // 工行 (直连通常失效)
+                '95516', 'benefits'          // 云闪付
+            ];
+
+            const isBlocked = blockList.some(k => lower.includes(k));
+
+            if (isBlocked) {
+                doCopy(link, lower);
+            } else {
+                window.open(link, '_blank');
+            }
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
             
             if (window.umami) umami.track('click_action', { name: name || 'unknown', type: isBlocked ? 'copy' : 'jump' });
         }
 
+<<<<<<< HEAD
         function doCopy(text, lowerLink) {
             let appName = '微信';
+=======
+        // [修复] 无抖动复制方案
+        function doCopy(text, lowerLink) {
+            let appName = '微信';
+            // 智能识别提示
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
             if (lowerLink && lowerLink.includes('icbc')) appName = '工行App';
             else if (lowerLink && lowerLink.includes('abchina')) appName = '农行App';
             else if (lowerLink && (lowerLink.includes('95516')||lowerLink.includes('benefits'))) appName = '云闪付App';
 
+<<<<<<< HEAD
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(text).then(() => showMyToast(`链接已复制！\n请打开【${appName}】粘贴访问`)).catch(() => fallbackCopy(text, appName));
+=======
+            // 1. 优先使用静默 API (不抖动)
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showMyToast(`链接已复制！\n请打开【${appName}】粘贴访问`);
+                }).catch(() => {
+                    fallbackCopy(text, appName);
+                });
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
             } else {
                 fallbackCopy(text, appName);
             }
         }
 
+<<<<<<< HEAD
         function fallbackCopy(text, appName) {
             const textArea = document.createElement("textarea");
             textArea.value = text;
             textArea.style.cssText = "position:fixed;top:50%;left:50%;opacity:0;pointer-events:none;";
             document.body.appendChild(textArea);
             textArea.focus(); textArea.select();
+=======
+        // 降级复制 (防止屏幕跳动)
+        function fallbackCopy(text, appName) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            
+            // 关键：固定在当前视口顶部，透明，不可点击，防止滚动
+            textArea.style.position = "fixed";
+            textArea.style.top = "50%";
+            textArea.style.left = "50%";
+            textArea.style.transform = "translate(-50%, -50%)";
+            textArea.style.width = "1px";
+            textArea.style.height = "1px";
+            textArea.style.padding = "0";
+            textArea.style.border = "none";
+            textArea.style.outline = "none";
+            textArea.style.boxShadow = "none";
+            textArea.style.background = "transparent";
+            textArea.style.opacity = "0";
+            
+            document.body.appendChild(textArea);
+            textArea.focus({preventScroll: true}); // 尝试阻止滚动
+            textArea.select();
+            
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
             try {
                 document.execCommand('copy');
                 showMyToast(`链接已复制！\n请打开【${appName}】粘贴访问`);
@@ -218,10 +363,15 @@
             document.body.removeChild(textArea);
         }
 
+<<<<<<< HEAD
+=======
+        // [修复] 分享功能：无链接时不显示传送门
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
         function handleShareBtn(el) {
             const id = el.getAttribute('data-id');
             const act = ALL.find(a => a.id === id);
             if (!act) return;
+<<<<<<< HEAD
             // 品牌名改为 NEX AI
             let shareText = `【NEX AI | ${act.sourceApp||'福利'}】${act.name}\n${act.description||'点击查看'}`;
             if (act.link && act.link !== '#') shareText += `\n传送门：${act.link}`;
@@ -230,6 +380,22 @@
             if (navigator.share) {
                 navigator.share({ title: 'NEX AI', text: shareText, url: (act.link && act.link!=='#') ? act.link : window.location.href })
                     .then(() => showMyToast('文案已复制\n请发给好友')).catch(() => showMyToast('文案已复制\n请去微信粘贴'));
+=======
+            
+            // 只有当有链接且不是#时，才追加传送门
+            let shareText = `【${act.sourceApp||'福利'}】${act.name}\n${act.description||'点击查看'}`;
+            if (act.link && act.link !== '#') {
+                shareText += `\n传送门：${act.link}`;
+            }
+            
+            // 预复制
+            doCopy(shareText, '');
+
+            if (navigator.share) {
+                navigator.share({ title: '慧伴管家', text: shareText, url: (act.link && act.link!=='#') ? act.link : window.location.href })
+                    .then(() => showMyToast('文案已复制\n请发给好友'))
+                    .catch(() => showMyToast('文案已复制\n请去微信粘贴'));
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
             } else {
                 showMyToast('文案已复制\n请去微信粘贴');
             }
@@ -239,14 +405,27 @@
             const box = document.getElementById('toast-box');
             const txt = document.getElementById('toast-text');
             if(!box || !txt) return;
+<<<<<<< HEAD
             txt.innerText = msg; txt.style.whiteSpace = 'pre-line';
             box.classList.add('active');
             if(toastTimer) clearTimeout(toastTimer);
             toastTimer = setTimeout(() => box.classList.remove('active'), 2500);
+=======
+
+            txt.innerText = msg;
+            txt.style.whiteSpace = 'pre-line';
+            box.classList.add('active');
+            
+            if(toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                box.classList.remove('active');
+            }, 2500);
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
         }
 
         function initUI() {
             const bar=document.getElementById('filter-bar');
+<<<<<<< HEAD
             let html = `<button class="chip chip-trigger ${selBank==='All'?'active':''}" onclick="toggleSidebar()"><i class="fas fa-layer-group mr-2"></i> ${selBank==='All'?'全部平台':selBank}</button>`;
             
             // 分类筛选
@@ -303,6 +482,43 @@
             if (a.link && a.link !== '#') {
                 btnHtml = `<button class="btn btn-primary" data-link="${a.link.replace(/"/g, '&quot;')}" data-name="${a.name.replace(/"/g, '&quot;')}" onclick="handleBtnClick(this)">去领取 <i class="fas fa-chevron-right ml-1"></i></button>`;
             } else if (a.StepsText) {
+=======
+            bar.innerHTML = `<button class="chip chip-trigger ${selBank==='All'?'active':''}" onclick="toggleSidebar()"><i class="fas fa-layer-group mr-2"></i> ${selBank==='All'?'全部平台':selBank}</button>`;
+            const sts=[{v:'ongoing',t:'进行中'},{v:'upcoming',t:'即将开始'},{v:'finished',t:'已结束'}];
+            sts.forEach(s=>bar.innerHTML+=`<button class="chip ${selStatus===s.v?'active':''}" onclick="setSt('${s.v}')">${s.t}</button>`);
+            const sb=document.getElementById('sidebar-content'); const ps=new Set(); ALL.forEach(a=>ps.add(a.sourceApp));
+            let html = `<div class="sidebar-item" onclick="setBk('All')"><div class="sidebar-icon-box"><i class="fas fa-border-all"></i></div> 全部平台</div>`;
+            ps.forEach(p=>{if(p)html+=`<div class="sidebar-item" onclick="setBk('${p}')"><div class="sidebar-icon-box"><i class="fas fa-mobile-alt"></i></div> ${p}</div>`});
+            sb.innerHTML = html;
+        }
+        function toggleSidebar(){document.body.classList.toggle('sidebar-open');}
+        function setSt(s){selStatus=s; initUI(); render();}
+        function setBk(b){selBank=b; toggleSidebar(); initUI(); render();}
+        function render() {
+            const ls={'DailyTask':document.getElementById('routine-tasks-list'),'MissionReward':document.getElementById('mission-rewards-list'),'Deposit':document.getElementById('savings-tasks-list')};
+            Object.values(ls).forEach(e=>e.innerHTML='');
+            let hasItem=false;
+            ALL.filter(act => {
+                const now=Date.now(); const e=act.endDate?new Date(act.endDate).getTime():null, s=act.startDate?new Date(act.startDate).getTime():null;
+                if(selStatus==='finished') return e && e<now;
+                if(selStatus==='upcoming') return s && s>now;
+                return (!s || s<=now) && (!e || e>=now);
+            }).filter(a=>selBank==='All'||a.sourceApp===selBank).forEach(a=>{
+                const cat=a.category.find(c=>CAT_MAP[c]); if(cat&&ls[cat]) { hasItem=true; ls[cat].innerHTML+=card(a,cat); }
+            });
+            if(!hasItem) document.getElementById('routine-tasks-list').innerHTML = `<p class="text-center text-gray-500 py-6 w-full">暂无活动</p>`;
+            updTm();
+        }
+
+        function card(a, cat) {
+            const s = CAT_MAP[cat];
+            let btnHtml = '';
+            
+            if (a.link && a.link !== '#') {
+                btnHtml = `<button class="btn btn-primary" data-link="${a.link.replace(/"/g, '&quot;')}" data-name="${a.name.replace(/"/g, '&quot;')}" onclick="handleBtnClick(this)">去领取 <i class="fas fa-chevron-right ml-1"></i></button>`;
+            } else if (a.StepsText) {
+                // [修复] 语音按钮 CSS 类名为 btn-voice
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
                 btnHtml = `<button class="btn btn-voice" onclick="spk('${a.StepsText.replace(/"/g,'&quot;').replace(/'/g, "\\'")}', this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>`;
             } else {
                 btnHtml = `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`;
@@ -335,4 +551,8 @@
         function fmt(ms){const d=Math.floor(ms/86400000),h=Math.floor((ms%86400000)/3600000),m=Math.floor((ms%3600000)/60000);return d>0?`${d}天${h}时`:`${h}时${m}分`;}
     </script>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> 76e7c7a66d8a56dd17450b3fd2e7556f2b939248
