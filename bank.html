@@ -16,28 +16,42 @@
         }
         body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-top: 110px; padding-bottom: 90px; }
 
-        /* Toast 样式 (强制覆盖) */
-        #toast-box {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
-            background: rgba(0,0,0,0.9); color: white; padding: 20px 30px; border-radius: 16px;
-            z-index: 10000; text-align: center; pointer-events: none; opacity: 0; transition: all 0.3s;
-            border: 1px solid rgba(255,255,255,0.1); min-width: 220px; display: none;
+        /* 强力 Toast 样式 (确保置顶显示) */
+        #toast-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 2147483647; pointer-events: none;
+            display: flex; align-items: center; justify-content: center;
         }
-        #toast-box.show { opacity: 1; transform: translate(-50%, -50%) scale(1); display: block; }
+        #toast-box {
+            background: rgba(0, 0, 0, 0.95); color: #fff;
+            padding: 24px 32px; border-radius: 16px;
+            text-align: center; min-width: 260px; max-width: 80%;
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            transform: scale(0.9); opacity: 0; transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: auto;
+        }
+        #toast-box.active { transform: scale(1); opacity: 1; }
+        .toast-icon { font-size: 32px; margin-bottom: 12px; display: block; }
+        .toast-text { font-size: 15px; line-height: 1.6; font-weight: 500; }
 
-        /* 顶部导航动画 */
+        /* Header & Nav */
         #smart-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(16px); transition: transform 0.3s ease; padding-top: env(safe-area-inset-top); }
         .nav-hidden { transform: translateY(-100%); }
-
-        /* 其他原有样式保持简化 */
+        .header-top { display: flex; align-items: center; justify-content: space-between; height: 50px; padding: 0 16px; }
         .app-logo { width: 32px; height: 32px; border-radius: 8px; margin-right: 10px; border: 1px solid rgba(255,255,255,0.1); }
         .page-title { font-size: 1.2rem; font-weight: 800; color: #fff; }
         .filter-bar { display: flex; gap: 10px; overflow-x: auto; padding: 12px 16px; scrollbar-width: none; }
-        .chip { display: inline-flex; align-items: center; height: 34px; padding: 0 16px; border-radius: 999px; font-size: 0.85rem; background: rgba(255,255,255,0.05); color: var(--text-sub); flex-shrink: 0; }
+        .chip { display: inline-flex; align-items: center; height: 34px; padding: 0 16px; border-radius: 999px; font-size: 0.85rem; background: rgba(255,255,255,0.05); color: var(--text-sub); flex-shrink: 0; white-space: nowrap; }
         .chip.active { background: var(--primary); color: #fff; }
+
+        /* Sidebar */
         .sidebar-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 90; display: none; }
         .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #0f172a; z-index: 100; transform: translateX(-100%); transition: 0.3s; padding-top: env(safe-area-inset-top); }
         .sidebar-open .sidebar-mask { display: block; } .sidebar-open .sidebar { transform: translateX(0); }
+        .sidebar-item { padding: 15px 20px; color: white; display: flex; gap: 10px; align-items: center; }
+
+        /* Cards */
         .task-card { background: #1E293B; border-radius: 16px; padding: 16px; margin: 0 1rem 1rem; border: 1px solid rgba(255,255,255,0.05); position: relative; border-left: 4px solid var(--primary); }
         .badges { position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; }
         .badge-timer { background: #EC4899; color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; }
@@ -48,13 +62,12 @@
         .card-title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .card-desc { font-size: 0.85rem; color: #94A3B8; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
         .card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); }
-        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 6px 16px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; transition: 0.2s; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 6px 16px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; transition: 0.2s; cursor: pointer; }
         .btn-primary { background: linear-gradient(135deg, var(--primary), #2563EB); color: #fff; }
         .btn-share { background: rgba(59, 130, 246, 0.15); color: #60A5FA; }
         .nav-bar { position: fixed; bottom: 0; width: 100%; height: 65px; background: rgba(11,17,32,0.95); backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-around; align-items: center; z-index: 50; padding-bottom: env(safe-area-inset-bottom); }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; color: #64748B; font-size: 0.7rem; }
         .nav-item.active { color: var(--primary); }
-        .sidebar-item { padding: 15px 20px; color: white; display: flex; gap: 10px; align-items: center; }
     </style>
 </head>
 <body>
@@ -94,16 +107,19 @@
         <a href="./shopping.html" class="nav-item"><i class="fas fa-tags"></i>省钱秘籍</a>
     </nav>
     
-    <!-- 独立的 Toast 结构 -->
-    <div id="toast-box">
-        <div style="font-size: 2rem; margin-bottom: 10px; color: #4ade80;"><i class="fas fa-check-circle"></i></div>
-        <div id="toast-text" style="font-size: 1rem; line-height: 1.5;">操作成功</div>
+    <!-- 独立的 Toast 结构 (重写，确保不依赖 Tailwind 动画) -->
+    <div id="toast-overlay">
+        <div id="toast-box">
+            <i class="fas fa-check-circle text-green-400 toast-icon"></i>
+            <div id="toast-text" class="toast-text">链接已复制<br>请去微信粘贴</div>
+        </div>
     </div>
 
     <script>
         let ALL=[], selBank='All', selStatus='ongoing';
         const CAT_MAP={'DailyTask':{icon:'fa-calendar-day',color:'#10B981'},'MissionReward':{icon:'fa-tasks',color:'#EC4899'},'Deposit':{icon:'fa-sack-dollar',color:'#FBBF24'}};
-        
+        let toastTimer = null;
+
         // 滚动逻辑
         let lastY=0; const h=document.getElementById('smart-header');
         window.addEventListener('scroll', ()=>{const y=window.scrollY; if(Math.abs(y-lastY)<10)return; if(h.style.transition!=='none')h.classList.toggle('nav-hidden', y>lastY&&y>60); lastY=y; sessionStorage.setItem('pos_bank', y); sessionStorage.setItem('nav_bank', h.classList.contains('nav-hidden'));}, {passive:true});
@@ -118,126 +134,150 @@
         });
 
         // ==========================================
-        // 核心修复：黑名单强制拦截模式
+        // 核心修复：更安全的数据绑定跳转
         // ==========================================
-        function handleSmartJump(link, name) {
+        
+        // 注意：HTML中不再直接传递 link 字符串，而是传递 this (DOM元素)
+        // 这样可以避免 URL 中的 % 或 ' 符号破坏 HTML 结构
+        function handleBtnClick(el) {
+            const link = el.getAttribute('data-link');
+            const name = el.getAttribute('data-name');
+            
             if (!link || link === '#') return;
 
-            // 去除空格，转小写
             const lower = link.toLowerCase().trim();
 
-            // 【黑名单列表】只要链接包含这些字符，必须拦截！
-            // 这里专门针对你提供的 农行(wx.abchina)、工行(wbs.icbc)、小程序(#) 做了强化
+            // 强制拦截黑名单
             const blockList = [
-                '#',                // 所有 # 开头的（小程序）
-                '小程序',            // 中文关键字
-                'miniprogram',      // 英文关键字
-                'micromessenger',   // 微信
-                'weixin://',        // 微信协议
-                'wx.abchina.com',   // 🔴 农行微信端
-                'abchina',          // 农行通用
-                'wbs.icbc',         // 🔴 工行 WBS 端
-                'icbc.com',         // 工行通用
-                '95516',            // 云闪付
-                'benefits',         // 云闪付活动
-                'cmbchina',         // 招行
-                'ccb.com',          // 建行
-                'boc.cn',           // 中行
-                'mbank'             // 许多银行手机端通用前缀
+                '#', '小程序', 'miniprogram', 'micromessenger', 'weixin://',
+                'abchina', 'wx.abchina', // 农行
+                'icbc', 'wbs.icbc',      // 工行
+                '95516', 'benefits',     // 云闪付
+                'cmbchina',              // 招行
+                'ccb.com',               // 建行
+                'boc.cn',                // 中行
+                'mbank'
             ];
 
-            // 检测是否命中黑名单
-            // some() 方法：只要满足其中一个条件，就返回 true
-            const isBlocked = blockList.some(keyword => lower.includes(keyword));
+            const isBlocked = blockList.some(k => lower.includes(k));
 
             if (isBlocked) {
-                // 命中黑名单 -> 强制复制
+                // 拦截 -> 复制
                 doCopy(link, lower);
             } else {
-                // 未命中 -> 尝试直接跳转 (普通网页)
+                // 放行 -> 跳转
                 window.open(link, '_blank');
             }
             
-            if (window.umami) umami.track('click_action', { name: name, type: isBlocked ? 'copy' : 'jump' });
+            if (window.umami) umami.track('click_action', { name: name || 'unknown', type: isBlocked ? 'copy' : 'jump' });
         }
 
         function doCopy(text, lowerLink) {
-            // 1. 智能识别 App 名称，用于提示语
-            let appName = '微信'; // 默认提示微信
+            let appName = '微信';
             if (lowerLink.includes('icbc')) appName = '工行App';
             else if (lowerLink.includes('abchina')) appName = '农行App';
             else if (lowerLink.includes('cmbchina')) appName = '招行App';
             else if (lowerLink.includes('ccb')) appName = '建行App';
-            else if (lowerLink.includes('boc')) appName = '中行App';
             else if (lowerLink.includes('95516') || lowerLink.includes('benefits')) appName = '云闪付App';
 
-            // 2. 执行复制逻辑 (兼容旧浏览器)
             const textArea = document.createElement("textarea");
             textArea.value = text;
-            
-            // 确保 textarea 不可见但存在于 DOM 中
-            textArea.style.position = "fixed";
-            textArea.style.left = "-9999px";
-            textArea.style.top = "0";
+            textArea.style.position = "fixed"; textArea.style.left = "-9999px";
             document.body.appendChild(textArea);
-            
-            textArea.focus();
-            textArea.select();
+            textArea.focus(); textArea.select();
             
             try {
                 const successful = document.execCommand('copy');
-                if (successful) {
+                if(successful) {
                     showMyToast(`链接已复制！\n请打开【${appName}】粘贴访问`);
                 } else {
-                    // 极少数情况复制失败，弹窗让用户长按
-                    prompt(`自动复制失败，请全选复制下方链接：`, text);
+                    prompt(`请全选复制下方链接：`, text);
                 }
             } catch (err) {
-                prompt(`自动复制失败，请全选复制下方链接：`, text);
+                prompt(`请全选复制下方链接：`, text);
             }
-            
-            // 清理 DOM
             document.body.removeChild(textArea);
         }
 
-        function handleShare(id, name) {
+        function handleShareBtn(el) {
+            const id = el.getAttribute('data-id');
             const act = ALL.find(a => a.id === id);
             if (!act) return;
             
-            const platform = act.sourceApp || '精选活动';
-            const shareText = `【${platform}】${act.name}\n${act.description||'点击查看详情'}\n传送门：${act.link}`;
+            const shareText = `【${act.sourceApp||'活动'}】${act.name}\n${act.description||'点击查看'}\n传送门：${act.link}`;
             
-            // 分享前先自动复制一遍，防止微信不显示描述
-            doCopy(shareText, '');
+            // 预先复制
+            doCopy(shareText, 'share'); 
 
             if (navigator.share) {
-                navigator.share({ title: '慧伴管家', text: shareText, url: act.link })
-                    .then(()=> showMyToast('文案已复制\n请选择好友发送'))
-                    .catch(()=> showMyToast('文案已复制\n请去微信粘贴给好友'));
+                navigator.share({ title: 'Nex AI', text: shareText, url: act.link })
+                    .then(() => showMyToast('文案已复制\n请发给好友'))
+                    .catch(() => showMyToast('文案已复制\n请去微信粘贴'));
             } else {
-                showMyToast('文案已复制\n请去微信粘贴给好友');
+                showMyToast('文案已复制\n请去微信粘贴');
             }
-            
-            if (window.umami) umami.track('click_share', { name: name });
         }
 
-        // 自定义 Toast (确保样式正确)
         function showMyToast(msg) {
             const box = document.getElementById('toast-box');
             const txt = document.getElementById('toast-text');
-            if(!box || !txt) return; // 防止报错
-
             txt.innerText = msg;
             
-            box.classList.add('show');
+            box.classList.add('active');
             
-            // 3秒后隐藏
-            setTimeout(() => {
-                box.classList.remove('show');
+            if(toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                box.classList.remove('active');
             }, 3000);
         }
 
-        // UI 渲染
+        // ==========================================
+        // 渲染逻辑 (使用 data- 属性绑定)
+        // ==========================================
+        
+        function card(a, cat) {
+            const s = CAT_MAP[cat];
+            
+            // [关键修复] 将数据放在 data- 属性中，避免 HTML 语法错误
+            // 不再使用 onclick="func('url')" 这种危险写法
+            let btnHtml = '';
+            
+            if (a.link && a.link !== '#') {
+                btnHtml = `<button 
+                    class="btn btn-primary" 
+                    data-link="${a.link.replace(/"/g, '&quot;')}" 
+                    data-name="${a.name.replace(/"/g, '&quot;')}"
+                    onclick="handleBtnClick(this)">
+                    去领取 <i class="fas fa-chevron-right ml-1"></i>
+                </button>`;
+            } else if (a.StepsText) {
+                btnHtml = `<button class="btn btn-voice" onclick="spk('${a.StepsText.replace(/"/g,'&quot;').replace(/'/g, "\\'")}', this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>`;
+            } else {
+                btnHtml = `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`;
+            }
+
+            return `<div class="task-card" style="border-left-color:${s.color}">
+                <div class="badges">
+                    ${a.specialNote?`<span class="badge badge-note">${a.specialNote}</span>`:''}
+                    <span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span>
+                </div>
+                <div class="card-main">
+                    <div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div>
+                    <div class="card-text">
+                        <div class="card-title">${a.name}</div>
+                        <div class="card-desc">${a.description||'暂无描述'}</div>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-share" data-id="${a.id}" onclick="handleShareBtn(this)">
+                        <i class="fas fa-share-alt mr-1"></i> 分享
+                    </button>
+                    ${btnHtml}
+                </div>
+            </div>`;
+        }
+
+        // 其他辅助函数
         function initUI() {
             const bar=document.getElementById('filter-bar');
             bar.innerHTML = `<button class="chip chip-trigger ${selBank==='All'?'active':''}" onclick="toggleSidebar()"><i class="fas fa-layer-group mr-2"></i> ${selBank==='All'?'全部平台':selBank}</button>`;
@@ -265,36 +305,6 @@
             });
             if(!hasItem) document.getElementById('routine-tasks-list').innerHTML = `<p class="text-center text-gray-500 py-6 w-full">暂无活动</p>`;
             updTm();
-        }
-
-        function card(a, cat) {
-            const s = CAT_MAP[cat];
-            // 安全处理单引号
-            const safeLink = a.link ? a.link.replace(/'/g, "\\'") : '';
-            const safeName = a.name ? a.name.replace(/'/g, "\\'") : '';
-            const safeSteps = a.StepsText ? a.StepsText.replace(/"/g,'&quot;').replace(/'/g, "\\'") : '';
-
-            let btn = a.link && a.link !== '#' 
-                ? `<button onclick="handleSmartJump('${safeLink}', '${safeName}')" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></button>` 
-                : (a.StepsText ? `<button class="btn btn-voice" onclick="spk('${safeSteps}', this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`);
-
-            return `<div class="task-card" style="border-left-color:${s.color}">
-                <div class="badges">
-                    ${a.specialNote?`<span class="badge badge-note">${a.specialNote}</span>`:''}
-                    <span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span>
-                </div>
-                <div class="card-main">
-                    <div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div>
-                    <div class="card-text">
-                        <div class="card-title">${a.name}</div>
-                        <div class="card-desc">${a.description||'暂无描述'}</div>
-                    </div>
-                </div>
-                <div class="card-actions">
-                    <button class="btn btn-share" onclick="handleShare('${a.id}', '${safeName}')"><i class="fas fa-share-alt mr-1"></i> 分享</button>
-                    ${btn}
-                </div>
-            </div>`;
         }
         
         const synth=window.speechSynthesis;
