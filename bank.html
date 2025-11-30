@@ -121,11 +121,11 @@
         <a href="./shopping.html" class="nav-item"><i class="fas fa-tags"></i>省钱秘籍</a>
     </nav>
     
-    <!-- 添加一个用于显示 Toast 的容器 -->
-    <div id="toast-container" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-none transition-opacity duration-300 opacity-0">
-        <div class="bg-black/80 text-white px-6 py-3 rounded-xl backdrop-blur-md shadow-2xl flex items-center gap-3 border border-white/10">
-            <i class="fas fa-check-circle text-green-400 text-xl"></i>
-            <span id="toast-message" class="font-medium text-sm">操作成功</span>
+    <!-- 添加一个用于显示 Toast 的容器 (确保这段HTML在body内) -->
+    <div id="toast-container" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-none transition-all duration-300 opacity-0 scale-90">
+        <div class="bg-black/90 text-white px-6 py-4 rounded-2xl backdrop-blur-md shadow-2xl flex flex-col items-center gap-2 border border-white/10 min-w-[200px]">
+            <i class="fas fa-check-circle text-green-400 text-3xl mb-1"></i>
+            <span id="toast-message" class="font-medium text-sm text-center">操作成功</span>
         </div>
     </div>
 
@@ -147,23 +147,36 @@
             });
         });
 
-        // --- [核心] 智能跳转系统 ---
+        // --- [核心升级] 智能跳转系统 ---
         function handleSmartJump(link, name) {
             if (!link || link === '#') return;
 
-            // 1. 定义“钉子户”特征 (微信、工行、农行、小程序)
-            const isStubborn = link.includes('micromessenger') || 
-                               link.includes('wx.abchina') || 
-                               link.includes('wbs.icbc') || 
-                               link.includes('weixin://') ||
-                               link.includes('miniprogram');
+            // 1. 增强版“钉子户”特征库 (全部转小写判断)
+            const lowerLink = link.toLowerCase();
+            const isStubborn = 
+                lowerLink.includes('micromessenger') || // 微信协议
+                lowerLink.includes('weixin://') ||      // 微信协议
+                lowerLink.includes('miniprogram') ||    // 小程序
+                lowerLink.includes('icbc') ||           // 工行 (涵盖 wbs.icbc, m.icbc 等)
+                lowerLink.includes('abchina') ||        // 农行
+                lowerLink.includes('cmbchina') ||       // 招行
+                lowerLink.includes('boc.cn') ||         // 中行
+                lowerLink.includes('ccb.com') ||        // 建行
+                lowerLink.includes('open.weixin');      // 微信开放平台
 
             if (isStubborn) {
-                // 方案 B: 复制 + 提示
+                // 方案 B: 复制 + 提示 (拦截跳转)
                 copyToClipboard(link);
-                showToast(`链接已复制！请打开${link.includes('abchina')?'农行':(link.includes('icbc')?'工行':'微信')}粘贴`);
+                // 提取银行名称用于提示
+                let bankName = '微信';
+                if (lowerLink.includes('icbc')) bankName = '工行App';
+                else if (lowerLink.includes('abchina')) bankName = '农行App';
+                else if (lowerLink.includes('cmbchina')) bankName = '招行App';
+                else if (lowerLink.includes('ccb')) bankName = '建行App';
+                
+                showToast(`链接已复制！\n请打开【${bankName}】粘贴访问`);
             } else {
-                // 方案 A: 直接跳转 (极速)
+                // 方案 A: 普通链接直接跳转
                 window.open(link, '_blank');
             }
             
@@ -171,47 +184,81 @@
             if (window.umami) umami.track('click_action', { name: name, type: isStubborn ? 'copy' : 'jump' });
         }
 
-        // --- [核心] 极速分享 ---
+        // --- [核心升级] 极速分享 ---
         function handleShare(id, name) {
-            // 生成当前详情页链接（如果没有详情页，就生成首页带参数，或者直接复制活动链接）
-            // 这里策略调整：直接复制活动链接给好友，最直接
             const act = ALL.find(a => a.id === id);
-            const shareText = `【NEX福利】${act.name}\n${act.description||''}\n传送门：${act.link}`;
+            if (!act) return;
             
+            const shareText = `【NEX AI 福利】${act.name}\n${act.description||''}\n传送门：${act.link}`;
+            
+            // 优先尝试 Web Share API
             if (navigator.share) {
-                navigator.share({ title: '慧伴管家', text: shareText, url: act.link }).catch(()=>{ copyToClipboard(shareText); showToast('文案已复制'); });
+                navigator.share({ title: 'NEX AI', text: shareText, url: act.link })
+                    .then(() => console.log('Shared successfully'))
+                    .catch((err) => {
+                        // 如果用户取消或 API 失败，回退到复制
+                        console.log('Share failed/cancelled, falling back to copy', err);
+                        copyToClipboard(shareText);
+                        showToast('分享文案已复制');
+                    });
             } else {
+                // 不支持 Share API 的环境直接复制
                 copyToClipboard(shareText);
                 showToast('分享文案已复制');
             }
+            
             if (window.umami) umami.track('click_share', { name: name });
         }
 
-        // 通用复制函数
+        // 通用复制函数 (兼容性增强)
         function copyToClipboard(text) {
             if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text);
+                navigator.clipboard.writeText(text).catch(err => {
+                    console.error('Async: Could not copy text: ', err);
+                    fallbackCopyTextToClipboard(text);
+                });
             } else {
-                const textArea = document.createElement("textarea");
-                textArea.value = text;
-                textArea.style.position = "fixed"; textArea.style.left = "-9999px";
-                document.body.appendChild(textArea);
-                textArea.focus(); textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
+                fallbackCopyTextToClipboard(text);
             }
         }
 
-        // 通用 Toast 提示
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed"; 
+            textArea.style.left = "-9999px";
+            textArea.style.top = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+                alert('复制失败，请长按链接手动复制');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // 通用 Toast 提示 (动画优化)
         function showToast(msg) {
             const box = document.getElementById('toast-container');
             const text = document.getElementById('toast-message');
-            text.innerText = msg;
-            box.classList.remove('opacity-0');
-            setTimeout(() => { box.classList.add('opacity-0'); }, 2500);
+            text.innerText = msg; // 支持 \n 换行吗? CSS需要 white-space: pre-line
+            text.style.whiteSpace = 'pre-line'; 
+            
+            // 显示动画
+            box.classList.remove('opacity-0', 'scale-90');
+            box.classList.add('opacity-100', 'scale-100');
+            
+            // 3秒后自动隐藏
+            setTimeout(() => { 
+                box.classList.remove('opacity-100', 'scale-100');
+                box.classList.add('opacity-0', 'scale-90');
+            }, 3000);
         }
 
-        // --- 渲染逻辑保持不变 (只需修改 onclick) ---
+        // --- 渲染逻辑保持不变 ---
         function initUI() {
             const bar=document.getElementById('filter-bar');
             bar.innerHTML = `<button class="chip chip-trigger ${selBank==='All'?'active':''}" onclick="toggleSidebar()"><i class="fas fa-layer-group mr-2"></i> ${selBank==='All'?'全部平台':selBank}</button>`;
@@ -244,7 +291,7 @@
 
         function card(a, cat) {
             const s = CAT_MAP[cat];
-            // [关键修改] 按钮不再跳转 go.html，而是调用 handleSmartJump
+            // [关键修改] 按钮调用 handleSmartJump
             let btn = a.link&&a.link!=='#' 
                 ? `<button onclick="handleSmartJump('${a.link}', '${a.name}')" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></button>` 
                 : (a.StepsText ? `<button class="btn btn-voice" onclick="spk('${a.StepsText.replace(/"/g,'&quot;')}', this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`);
