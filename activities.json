@@ -557,6 +557,22 @@
     "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧周周领"
   },
   {
+    "id": "recVFqtIzczyQcMBA",
+    "name": "淘宝芭芭农场",
+    "description": "种树得10元无门槛红包",
+    "icon": "❓",
+    "link": "https://e.tb.cn/h.Syx8N9A?tk=SEVbfLTW2mL",
+    "category": [
+      "CheckIn",
+      "DailyCheckin"
+    ],
+    "sourceApp": "淘宝APP",
+    "specialNote": null,
+    "targetApp": "淘宝APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
     "id": "recWRrBDZdt3C2FRk",
     "name": "邮储银行 微信银行查询赢好礼",
     "description": "点击“中国邮政储蓄银行”服务号，成功查询账户余额，有机会领取1.16元-66元微信立减金。",
@@ -987,6 +1003,22 @@
     "StepsText": "进入中国银行APP首页，点击下面生活，点击中银数币生活馆，点击新客数币见面礼，立即领取"
   },
   {
+    "id": "recp5lFgCOZXD4Mly",
+    "name": "支付宝芝麻粒炼金",
+    "description": "15级别提现9.48元",
+    "icon": "❓",
+    "link": "https://render.alipay.com/p/yuyan/180020010001206385/index.html?caprMode=sync&chInfo=zhima_share&activityId=zml_share_assist&token=Qz5fpZv3X7AU4321P&fxzjshareChinfo=ch_share__chsub_CopyLink&apshareid=7AB8FB1B-03F0-404D-914B-EFCB63A4003B&shareBizType=ztokenV0_nBKyZZvu&shareTimestamp=1764429324081",
+    "category": [
+      "CheckIn",
+      "DailyCheckin"
+    ],
+    "sourceApp": "支付宝APP",
+    "specialNote": null,
+    "targetApp": "支付宝APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
     "id": "recp7QrUCSQY7SYU6",
     "name": "中行支付付超给利",
     "description": "中行首页滚动播放支付付超给利，点相应月活动报名。",
@@ -1077,6 +1109,22 @@
     "sourceApp": "中国银行APP",
     "specialNote": null,
     "targetApp": "中国银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recuOVGaplkd1buRE",
+    "name": "淘宝签到领现金",
+    "description": "每天完成任务10元可提现",
+    "icon": "❓",
+    "link": "98₤iBNrfL1I3V5🔐 https://m.tb.cn/h.SyJZlcz  HU293 淘宝签到领现金",
+    "category": [
+      "CheckIn",
+      "DailyCheckin"
+    ],
+    "sourceApp": "淘宝APP",
+    "specialNote": null,
+    "targetApp": "淘宝APP",
     "endDate": null,
     "StepsText": null
   },
