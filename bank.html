@@ -118,61 +118,85 @@
         });
 
         // ==========================================
-        // 核心修复：更激进的拦截逻辑
+        // 核心修复：黑名单强制拦截模式
         // ==========================================
         function handleSmartJump(link, name) {
             if (!link || link === '#') return;
 
+            // 去除空格，转小写
             const lower = link.toLowerCase().trim();
-            
-            // 只要不是 http 开头，或者是特定的银行域名，全部强制拦截复制
-            const isStubborn = 
-                !lower.startsWith('http') ||            // 拦截所有 #小程序, weixin:// 等非网页链接
-                lower.includes('icbc') ||               // 工行
-                lower.includes('abchina') ||            // 农行
-                lower.includes('95516') ||              // 云闪付
-                lower.includes('benefits') ||           // 云闪付相关
-                lower.includes('cmbchina') ||           // 招行
-                lower.includes('ccb.com') ||            // 建行
-                lower.includes('boc.cn');               // 中行
 
-            if (isStubborn) {
-                // 强制进入复制模式
+            // 【黑名单列表】只要链接包含这些字符，必须拦截！
+            // 这里专门针对你提供的 农行(wx.abchina)、工行(wbs.icbc)、小程序(#) 做了强化
+            const blockList = [
+                '#',                // 所有 # 开头的（小程序）
+                '小程序',            // 中文关键字
+                'miniprogram',      // 英文关键字
+                'micromessenger',   // 微信
+                'weixin://',        // 微信协议
+                'wx.abchina.com',   // 🔴 农行微信端
+                'abchina',          // 农行通用
+                'wbs.icbc',         // 🔴 工行 WBS 端
+                'icbc.com',         // 工行通用
+                '95516',            // 云闪付
+                'benefits',         // 云闪付活动
+                'cmbchina',         // 招行
+                'ccb.com',          // 建行
+                'boc.cn',           // 中行
+                'mbank'             // 许多银行手机端通用前缀
+            ];
+
+            // 检测是否命中黑名单
+            // some() 方法：只要满足其中一个条件，就返回 true
+            const isBlocked = blockList.some(keyword => lower.includes(keyword));
+
+            if (isBlocked) {
+                // 命中黑名单 -> 强制复制
                 doCopy(link, lower);
             } else {
-                // 其他普通网页直接跳
+                // 未命中 -> 尝试直接跳转 (普通网页)
                 window.open(link, '_blank');
             }
             
-            if (window.umami) umami.track('click_action', { name: name, type: isStubborn ? 'copy' : 'jump' });
+            if (window.umami) umami.track('click_action', { name: name, type: isBlocked ? 'copy' : 'jump' });
         }
 
         function doCopy(text, lowerLink) {
-            // 生成提示语
-            let appName = '微信';
-            if (lowerLink && lowerLink.includes('icbc')) appName = '工行App';
-            else if (lowerLink && lowerLink.includes('abchina')) appName = '农行App';
-            else if (lowerLink && (lowerLink.includes('95516')||lowerLink.includes('benefits'))) appName = '云闪付App';
-            else if (lowerLink && lowerLink.includes('cmbchina')) appName = '招行App';
-            else if (lowerLink && lowerLink.includes('ccb')) appName = '建行App';
+            // 1. 智能识别 App 名称，用于提示语
+            let appName = '微信'; // 默认提示微信
+            if (lowerLink.includes('icbc')) appName = '工行App';
+            else if (lowerLink.includes('abchina')) appName = '农行App';
+            else if (lowerLink.includes('cmbchina')) appName = '招行App';
+            else if (lowerLink.includes('ccb')) appName = '建行App';
+            else if (lowerLink.includes('boc')) appName = '中行App';
+            else if (lowerLink.includes('95516') || lowerLink.includes('benefits')) appName = '云闪付App';
 
-            // 尝试复制
+            // 2. 执行复制逻辑 (兼容旧浏览器)
             const textArea = document.createElement("textarea");
             textArea.value = text;
-            textArea.style.position = "fixed"; textArea.style.left = "-9999px";
+            
+            // 确保 textarea 不可见但存在于 DOM 中
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            textArea.style.top = "0";
             document.body.appendChild(textArea);
-            textArea.focus(); textArea.select();
+            
+            textArea.focus();
+            textArea.select();
             
             try {
                 const successful = document.execCommand('copy');
-                if(successful) {
+                if (successful) {
                     showMyToast(`链接已复制！\n请打开【${appName}】粘贴访问`);
                 } else {
-                    prompt(`自动复制失败，请长按下方链接复制：`, text);
+                    // 极少数情况复制失败，弹窗让用户长按
+                    prompt(`自动复制失败，请全选复制下方链接：`, text);
                 }
             } catch (err) {
-                prompt(`自动复制失败，请长按下方链接复制：`, text);
+                prompt(`自动复制失败，请全选复制下方链接：`, text);
             }
+            
+            // 清理 DOM
             document.body.removeChild(textArea);
         }
 
@@ -183,7 +207,7 @@
             const platform = act.sourceApp || '精选活动';
             const shareText = `【${platform}】${act.name}\n${act.description||'点击查看详情'}\n传送门：${act.link}`;
             
-            // 先把内容复制到剪贴板（解决微信不显示描述的问题）
+            // 分享前先自动复制一遍，防止微信不显示描述
             doCopy(shareText, '');
 
             if (navigator.share) {
@@ -197,12 +221,13 @@
             if (window.umami) umami.track('click_share', { name: name });
         }
 
-        // 自定义 Toast 显示函数
+        // 自定义 Toast (确保样式正确)
         function showMyToast(msg) {
             const box = document.getElementById('toast-box');
             const txt = document.getElementById('toast-text');
+            if(!box || !txt) return; // 防止报错
+
             txt.innerText = msg;
-            txt.style.whiteSpace = 'pre-line'; // 支持换行
             
             box.classList.add('show');
             
@@ -212,7 +237,7 @@
             }, 3000);
         }
 
-        // UI 渲染 (保持不变)
+        // UI 渲染
         function initUI() {
             const bar=document.getElementById('filter-bar');
             bar.innerHTML = `<button class="chip chip-trigger ${selBank==='All'?'active':''}" onclick="toggleSidebar()"><i class="fas fa-layer-group mr-2"></i> ${selBank==='All'?'全部平台':selBank}</button>`;
@@ -249,7 +274,6 @@
             const safeName = a.name ? a.name.replace(/'/g, "\\'") : '';
             const safeSteps = a.StepsText ? a.StepsText.replace(/"/g,'&quot;').replace(/'/g, "\\'") : '';
 
-            // 按钮逻辑：调用新的 handleSmartJump
             let btn = a.link && a.link !== '#' 
                 ? `<button onclick="handleSmartJump('${safeLink}', '${safeName}')" class="btn btn-primary">去领取 <i class="fas fa-chevron-right ml-1"></i></button>` 
                 : (a.StepsText ? `<button class="btn btn-voice" onclick="spk('${safeSteps}', this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>` : `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`);
