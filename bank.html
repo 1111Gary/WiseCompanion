@@ -14,28 +14,28 @@
             --bg-dark: #0B1120; --card-bg: #1E293B; --text-main: #F8FAFC; --text-sub: #94A3B8;
             --primary: #3B82F6; --accent: #FBBF24;
         }
-        body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-top: 110px; padding-bottom: 90px; margin: 0; }
+        body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-top: 110px; padding-bottom: 90px; }
 
-        /* Toast 样式 */
+        /* Toast 强制样式 - 确保手机端居中且可见 */
         #toast-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            z-index: 2147483647; pointer-events: none;
+            z-index: 99999 !important; pointer-events: none;
             display: flex; align-items: center; justify-content: center;
         }
         #toast-box {
-            background: rgba(0, 0, 0, 0.95); color: #fff;
-            padding: 24px 32px; border-radius: 16px;
-            text-align: center; min-width: 260px; max-width: 80%;
-            border: 1px solid rgba(255,255,255,0.15);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            transform: scale(0.9); opacity: 0; transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: auto;
+            background: rgba(0, 0, 0, 0.9) !important; color: #fff !important;
+            padding: 20px 30px !important; border-radius: 12px !important;
+            text-align: center !important; max-width: 80%;
+            border: 1px solid rgba(255,255,255,0.2) !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+            opacity: 0; transform: scale(0.9); transition: all 0.2s ease-out;
+            pointer-events: auto; display: none;
         }
-        #toast-box.active { transform: scale(1); opacity: 1; }
-        .toast-icon { font-size: 32px; margin-bottom: 12px; display: block; }
-        .toast-text { font-size: 15px; line-height: 1.6; font-weight: 500; }
+        #toast-box.active { opacity: 1; transform: scale(1); display: block; }
+        .toast-icon { font-size: 36px !important; margin-bottom: 10px !important; display: block; }
+        .toast-text { font-size: 16px !important; line-height: 1.5 !important; font-weight: bold !important; }
 
-        /* Header */
+        /* 布局样式 */
         #smart-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(16px); transition: transform 0.3s ease; padding-top: env(safe-area-inset-top); }
         .nav-hidden { transform: translateY(-100%); }
         .header-top { display: flex; align-items: center; justify-content: space-between; height: 50px; padding: 0 16px; }
@@ -44,15 +44,10 @@
         .filter-bar { display: flex; gap: 10px; overflow-x: auto; padding: 12px 16px; scrollbar-width: none; }
         .chip { display: inline-flex; align-items: center; height: 34px; padding: 0 16px; border-radius: 999px; font-size: 0.85rem; background: rgba(255,255,255,0.05); color: var(--text-sub); flex-shrink: 0; white-space: nowrap; }
         .chip.active { background: var(--primary); color: #fff; }
-
-        /* Sidebar */
         .sidebar-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 90; display: none; }
         .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #0f172a; z-index: 100; transform: translateX(-100%); transition: 0.3s; padding-top: env(safe-area-inset-top); }
-        .sidebar-open .sidebar-mask { display: block; }
-        .sidebar-open .sidebar { transform: translateX(0); }
-        .sidebar-item { padding: 15px 20px; color: white; display: flex; gap: 10px; align-items: center; cursor: pointer; }
-
-        /* Cards */
+        .sidebar-open .sidebar-mask { display: block; } .sidebar-open .sidebar { transform: translateX(0); }
+        .sidebar-item { padding: 15px 20px; color: white; display: flex; gap: 10px; align-items: center; }
         .task-card { background: #1E293B; border-radius: 16px; padding: 16px; margin: 0 1rem 1rem; border: 1px solid rgba(255,255,255,0.05); position: relative; border-left: 4px solid var(--primary); }
         .badges { position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; }
         .badge-timer { background: #EC4899; color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; }
@@ -63,11 +58,11 @@
         .card-title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .card-desc { font-size: 0.85rem; color: #94A3B8; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
         .card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); }
-        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 8px 18px; border-radius: 999px; font-size: 0.85rem; font-weight: 700; transition: 0.2s; cursor: pointer; gap: 6px; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 6px 16px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; transition: 0.2s; cursor: pointer; }
         .btn-primary { background: linear-gradient(135deg, var(--primary), #2563EB); color: #fff; }
         .btn-share { background: rgba(59, 130, 246, 0.15); color: #60A5FA; }
         .nav-bar { position: fixed; bottom: 0; width: 100%; height: 65px; background: rgba(11,17,32,0.95); backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-around; align-items: center; z-index: 50; padding-bottom: env(safe-area-inset-bottom); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; color: #64748B; font-size: 0.7rem; text-decoration: none; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; color: #64748B; font-size: 0.7rem; }
         .nav-item.active { color: var(--primary); }
     </style>
 </head>
@@ -98,6 +93,11 @@
             <div class="premium-title" style="font-size:1.2rem;font-weight:800;color:#FACC15"><i class="fas fa-crown"></i> 高级会员专区</div>
             <div class="premium-desc" style="color:#94A3B8;font-size:0.85rem;margin-top:8px">AI 自动提醒 • 收益最大化助手</div>
         </a>
+        
+        <!-- 版本号水印 (用于检测缓存是否更新) -->
+        <div style="text-align:center; color:#475569; font-size:0.7rem; margin-top:20px; opacity:0.5;">
+            Version 3.0 (Fixed)
+        </div>
     </main>
     
     <nav class="nav-bar">
@@ -108,261 +108,205 @@
         <a href="./shopping.html" class="nav-item"><i class="fas fa-tags"></i>省钱秘籍</a>
     </nav>
     
+    <!-- 独立的 Toast 结构 -->
     <div id="toast-overlay">
         <div id="toast-box">
             <i class="fas fa-check-circle text-green-400 toast-icon"></i>
-            <div id="toast-text" class="toast-text">链接已复制<br>请去微信粘贴</div>
+            <div id="toast-text" class="toast-text">操作成功</div>
         </div>
     </div>
 
     <script>
-        let ALL = [], selBank = 'All', selStatus = 'ongoing';
-        const CAT_MAP = {
-            'DailyTask': { icon: 'fa-calendar-day', color: '#10B981' },
-            'MissionReward': { icon: 'fa-tasks', color: '#EC4899' },
-            'Deposit': { icon: 'fa-sack-dollar', color: '#FBBF24' }
-        };
+        let ALL=[], selBank='All', selStatus='ongoing';
+        const CAT_MAP={'DailyTask':{icon:'fa-calendar-day',color:'#10B981'},'MissionReward':{icon:'fa-tasks',color:'#EC4899'},'Deposit':{icon:'fa-sack-dollar',color:'#FBBF24'}};
         let toastTimer = null;
 
-        // 事件委托：彻底解决 onclick 失效问题
-        document.addEventListener('click', function (e) {
-            // 去领取按钮
-            const primaryBtn = e.target.closest('.btn-primary[data-link]');
-            if (primaryBtn) {
-                handleBtnClick(primaryBtn);
-                return;
-            }
-            // 分享按钮
-            const shareBtn = e.target.closest('.btn-share[data-id]');
-            if (shareBtn) {
-                handleShareBtn(shareBtn);
-            }
-        });
-
-        // 滚动隐藏 header
-        let lastY = 0;
-        const header = document.getElementById('smart-header');
-        window.addEventListener('scroll', () => {
-            const y = window.scrollY;
-            if (Math.abs(y - lastY) < 10) return;
-            header.classList.toggle('nav-hidden', y > lastY && y > 60);
-            lastY = y;
-        }, { passive: true });
+        // 滚动逻辑
+        let lastY=0; const h=document.getElementById('smart-header');
+        window.addEventListener('scroll', ()=>{const y=window.scrollY; if(Math.abs(y-lastY)<10)return; if(h.style.transition!=='none')h.classList.toggle('nav-hidden', y>lastY&&y>60); lastY=y; sessionStorage.setItem('pos_bank', y); sessionStorage.setItem('nav_bank', h.classList.contains('nav-hidden'));}, {passive:true});
+        if('scrollRestoration' in history) history.scrollRestoration='manual';
 
         document.addEventListener('DOMContentLoaded', () => {
-            fetch('./activities.json')
-                .then(r => r.json())
-                .then(d => {
-                    ALL = d.filter(a => a.category && (a.category.includes('DailyTask') || a.category.includes('Deposit') || a.category.includes('MissionReward')));
-                    initUI();
-                    render();
-                    setInterval(updTm, 1000);
-
-                    // 恢复上次滚动位置
-                    const saved = sessionStorage.getItem('pos_bank');
-                    if (saved) setTimeout(() => window.scrollTo(0, parseInt(saved)), 100);
-                });
+            fetch('./activities.json').then(r=>r.json()).then(d => {
+                ALL=d.filter(a=>a.category&&(a.category.includes('DailyTask')||a.category.includes('Deposit')||a.category.includes('MissionReward')));
+                initUI(); render(); setInterval(updTm, 1000);
+                const y=sessionStorage.getItem('pos_bank'); if(y) setTimeout(()=>window.scrollTo(0,parseInt(y)),50);
+            });
         });
 
+        // ==========================================
+        // 核心修复逻辑 (精准拦截)
+        // ==========================================
         function handleBtnClick(el) {
             const link = el.getAttribute('data-link');
-            const name = el.getAttribute('data-name') || '未知活动';
+            const name = el.getAttribute('data-name');
+            
             if (!link || link === '#') return;
 
             const lower = link.toLowerCase().trim();
-            const blockList = ['#', '小程序', 'miniprogram', 'micromessenger', 'weixin://', 'abchina', 'wx.abchina', 'icbc', 'wbs.icbc', '95516', 'benefits', 'cmbchina', 'ccb.com', 'boc.cn', 'mbank'];
 
+            // 【白名单策略】: 默认直接跳转，只有在黑名单里的才拦截
+            const blockList = [
+                '#',                // 小程序口令
+                '小程序',            // 关键字
+                'miniprogram',      
+                'micromessenger',   
+                'weixin://',        
+                'wx.abchina',       // 农行微信端 (必须拦截)
+                'wbs.icbc'          // 工行跳转端 (必须拦截)
+            ];
+
+            // 检查是否命中黑名单
             const isBlocked = blockList.some(k => lower.includes(k));
 
             if (isBlocked) {
+                // 1. 命中黑名单 -> 强制复制
                 doCopy(link, lower);
             } else {
+                // 2. 未命中（包括 ccb.com, cmbchina, 普通 https） -> 直接跳转
                 window.open(link, '_blank');
             }
-
-            if (window.umami) umami.track('click_action', { name, type: isBlocked ? 'copy' : 'jump' });
+            
+            if (window.umami) umami.track('click_action', { name: name || 'unknown', type: isBlocked ? 'copy' : 'jump' });
         }
 
-        function doCopy(text, lowerLink = '') {
+        function doCopy(text, lowerLink) {
             let appName = '微信';
             if (lowerLink.includes('icbc')) appName = '工行App';
             else if (lowerLink.includes('abchina')) appName = '农行App';
-            else if (lowerLink.includes('cmbchina')) appName = '招行App';
-            else if (lowerLink.includes('ccb')) appName = '建行App';
-            else if (lowerLink.includes('95516') || lowerLink.includes('benefits')) appName = '云闪付App';
-
-            const ta = document.createElement('textarea');
-            ta.value = text;
-            document.body.appendChild(ta);
-            ta.select();
+            
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed"; textArea.style.left = "-9999px"; textArea.style.top = "0";
+            document.body.appendChild(textArea);
+            textArea.focus(); textArea.select();
+            
             try {
-                document.execCommand('copy');
-                showMyToast(`链接已复制！\n请打开【${appName}】粘贴访问`);
-            } catch (e) {
-                prompt('请手动复制链接：', text);
+                const successful = document.execCommand('copy');
+                if(successful) {
+                    showMyToast(`链接已复制！\n请打开【${appName}】粘贴访问`);
+                } else {
+                    prompt(`自动复制失败，请全选复制：`, text);
+                }
+            } catch (err) {
+                prompt(`自动复制失败，请全选复制：`, text);
             }
-            document.body.removeChild(ta);
+            document.body.removeChild(textArea);
         }
 
         function handleShareBtn(el) {
             const id = el.getAttribute('data-id');
             const act = ALL.find(a => a.id === id);
             if (!act) return;
-
-            const shareText = `【${act.sourceApp || '活动'}】${act.name}\n${act.description || '点击查看详情'}\n传送门：${act.link}`;
-            doCopy(shareText);
+            
+            const shareText = `【${act.sourceApp||'福利'}】${act.name}\n${act.description||'点击查看'}\n传送门：${act.link}`;
+            
+            // 预复制，防止分享失败或无描述
+            doCopy(shareText, '');
 
             if (navigator.share) {
-                navigator.share({ title: '慧伴管家 - 捡钱任务', text: shareText })
-                    .then(() => showMyToast('分享成功'))
-                    .catch(() => showMyToast('文案已复制\n请去微信发送给好友'));
+                navigator.share({ title: '慧伴管家', text: shareText, url: act.link })
+                    .then(() => showMyToast('文案已复制\n请发给好友'))
+                    .catch(() => showMyToast('文案已复制\n请去微信粘贴'));
             } else {
-                showMyToast('文案已复制\n请去微信发送给好友');
+                showMyToast('文案已复制\n请去微信粘贴');
             }
         }
 
         function showMyToast(msg) {
             const box = document.getElementById('toast-box');
             const txt = document.getElementById('toast-text');
-            txt.innerHTML = msg.replace(/\n/g, '<br>');
+            if(!box || !txt) return;
+
+            txt.innerText = msg;
+            txt.style.whiteSpace = 'pre-line'; // 允许换行
+            
             box.classList.add('active');
-            if (toastTimer) clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => box.classList.remove('active'), 3500);
+            
+            if(toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                box.classList.remove('active');
+            }, 2500);
         }
 
+        // ==========================================
+        // 渲染函数
+        // ==========================================
         function card(a, cat) {
             const s = CAT_MAP[cat];
+            
+            // data-link 方案，防止特殊字符报错
             let btnHtml = '';
+            
             if (a.link && a.link !== '#') {
-                btnHtml = `<button class="btn btn-primary" data-link="${a.link.replace(/"/g, '&quot;')}" data-name="${a.name.replace(/"/g, '&quot;')}">
-                    去领取 <i class="fas fa-chevron-right"></i>
+                btnHtml = `<button 
+                    class="btn btn-primary" 
+                    data-link="${a.link.replace(/"/g, '&quot;')}" 
+                    data-name="${a.name.replace(/"/g, '&quot;')}"
+                    onclick="handleBtnClick(this)">
+                    去领取 <i class="fas fa-chevron-right ml-1"></i>
                 </button>`;
             } else if (a.StepsText) {
-                btnHtml = `<button class="btn btn-voice" onclick="spk('${a.StepsText.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', this)">
-                    <i class="fas fa-volume-up"></i> 播放
-                </button>`;
+                btnHtml = `<button class="btn btn-voice" onclick="spk('${a.StepsText.replace(/"/g,'&quot;').replace(/'/g, "\\'")}', this)"><i class="fas fa-volume-up mr-1"></i> 播放</button>`;
             } else {
                 btnHtml = `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`;
             }
 
             return `<div class="task-card" style="border-left-color:${s.color}">
                 <div class="badges">
-                    ${a.specialNote ? `<span class="badge badge-note">${a.specialNote}</span>` : ''}
-                    <span class="badge badge-timer" data-e="${a.endDate || ''}" data-s="${a.startDate || ''}">...</span>
+                    ${a.specialNote?`<span class="badge badge-note">${a.specialNote}</span>`:''}
+                    <span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span>
                 </div>
                 <div class="card-main">
                     <div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div>
                     <div class="card-text">
                         <div class="card-title">${a.name}</div>
-                        <div class="card-desc">${a.description || '暂无描述'}</div>
+                        <div class="card-desc">${a.description||'暂无描述'}</div>
                     </div>
                 </div>
                 <div class="card-actions">
-                    <button class="btn btn-share" data-id="${a.id}">
-                        <i class="fas fa-share-alt"></i> <span>分享</span>
+                    <button class="btn btn-share" data-id="${a.id}" onclick="handleShareBtn(this)">
+                        <i class="fas fa-share-alt mr-1"></i> 分享
                     </button>
                     ${btnHtml}
                 </div>
             </div>`;
         }
 
+        // 其他辅助
         function initUI() {
-            const bar = document.getElementById('filter-bar');
-            bar.innerHTML = `<button class="chip ${selBank === 'All' ? 'active' : ''}" onclick="toggleSidebar()">全部平台</button>`;
-            ['ongoing', 'upcoming', 'finished'].forEach((v, i) => {
-                const labels = ['进行中', '即将开始', '已结束'];
-                bar.innerHTML += `<button class="chip ${selStatus === v ? 'active' : ''}" onclick="setSt('${v}')">${labels[i]}</button>`;
-            });
-
-            const sb = document.getElementById('sidebar-content');
-            const platforms = new Set();
-            ALL.forEach(a => a.sourceApp && platforms.add(a.sourceApp));
-            let html = `<div class="sidebar-item" onclick="setBk('All')">全部平台</div>`;
-            platforms.forEach(p => {
-                html += `<div class="sidebar-item" onclick="setBk('${p.replace(/'/g, "\\'")}')">${p}</div>`;
-            });
+            const bar=document.getElementById('filter-bar');
+            bar.innerHTML = `<button class="chip chip-trigger ${selBank==='All'?'active':''}" onclick="toggleSidebar()"><i class="fas fa-layer-group mr-2"></i> ${selBank==='All'?'全部平台':selBank}</button>`;
+            const sts=[{v:'ongoing',t:'进行中'},{v:'upcoming',t:'即将开始'},{v:'finished',t:'已结束'}];
+            sts.forEach(s=>bar.innerHTML+=`<button class="chip ${selStatus===s.v?'active':''}" onclick="setSt('${s.v}')">${s.t}</button>`);
+            const sb=document.getElementById('sidebar-content'); const ps=new Set(); ALL.forEach(a=>ps.add(a.sourceApp));
+            let html = `<div class="sidebar-item" onclick="setBk('All')"><div class="sidebar-icon-box"><i class="fas fa-border-all"></i></div> 全部平台</div>`;
+            ps.forEach(p=>{if(p)html+=`<div class="sidebar-item" onclick="setBk('${p}')"><div class="sidebar-icon-box"><i class="fas fa-mobile-alt"></i></div> ${p}</div>`});
             sb.innerHTML = html;
         }
-
-        function toggleSidebar() { document.body.classList.toggle('sidebar-open'); }
-        function setSt(s) { selStatus = s; initUI(); render(); }
-        function setBk(b) { selBank = b; toggleSidebar(); initUI(); render(); }
-
+        function toggleSidebar(){document.body.classList.toggle('sidebar-open');}
+        function setSt(s){selStatus=s; initUI(); render();}
+        function setBk(b){selBank=b; toggleSidebar(); initUI(); render();}
         function render() {
-            const containers = {
-                DailyTask: document.getElementById('routine-tasks-list'),
-                MissionReward: document.getElementById('mission-rewards-list'),
-                Deposit: document.getElementById('savings-tasks-list')
-            };
-            Object.values(containers).forEach(c => c.innerHTML = '');
-
-            const now = Date.now();
-            const filtered = ALL.filter(act => {
-                const s = act.startDate ? new Date(act.startDate).getTime() : 0;
-                const e = act.endDate ? new Date(act.endDate).getTime() : 0;
-                if (selStatus === 'finished') return e && e < now;
-                if (selStatus === 'upcoming') return s && s > now;
-                return (!s || s <= now) && (!e || e >= now);
-            }).filter(a => selBank === 'All' || a.sourceApp === selBank);
-
-            let has = false;
-            filtered.forEach(a => {
-                const cat = a.category.find(c => CAT_MAP[c]);
-                if (cat && containers[cat]) {
-                    has = true;
-                    containers[cat].innerHTML += card(a, cat);
-                }
+            const ls={'DailyTask':document.getElementById('routine-tasks-list'),'MissionReward':document.getElementById('mission-rewards-list'),'Deposit':document.getElementById('savings-tasks-list')};
+            Object.values(ls).forEach(e=>e.innerHTML='');
+            let hasItem=false;
+            ALL.filter(act => {
+                const now=Date.now(); const e=act.endDate?new Date(act.endDate).getTime():null, s=act.startDate?new Date(act.startDate).getTime():null;
+                if(selStatus==='finished') return e && e<now;
+                if(selStatus==='upcoming') return s && s>now;
+                return (!s || s<=now) && (!e || e>=now);
+            }).filter(a=>selBank==='All'||a.sourceApp===selBank).forEach(a=>{
+                const cat=a.category.find(c=>CAT_MAP[c]); if(cat&&ls[cat]) { hasItem=true; ls[cat].innerHTML+=card(a,cat); }
             });
-
-            if (!has) {
-                document.getElementById('routine-tasks-list').innerHTML = `<p class="text-center text-gray-500 py-8">暂无符合条件的活动</p>`;
-            }
+            if(!hasItem) document.getElementById('routine-tasks-list').innerHTML = `<p class="text-center text-gray-500 py-6 w-full">暂无活动</p>`;
             updTm();
-            sessionStorage.setItem('pos_bank', window.scrollY);
         }
-
-        function updTm() {
-            const now = Date.now();
-            document.querySelectorAll('.badge-timer').forEach(el => {
-                const s = el.dataset.s ? new Date(el.dataset.s).getTime() : 0;
-                const e = el.dataset.e ? new Date(el.dataset.e).getTime() : 0;
-                if (s > now) el.innerText = `即将开始 ${fmt(s - now)}`;
-                else if (e && e < now) el.innerText = '已结束';
-                else if (e) el.innerText = `剩余 ${fmt(e - now)}`;
-                else el.innerText = '长期有效';
-            });
-        }
-
-        function fmt(ms) {
-            const d = Math.floor(ms / 86400000);
-            const h = Math.floor((ms % 86400000) / 3600000);
-            const m = Math.floor((ms % 3600000) / 60000);
-            return d > 0 ? `${d}天${h}小时` : `${h}小时${m}分`;
-        }
-
-        const synth = window.speechSynthesis;
-        function spk(text, btn) {
-            if (!synth) return;
-            if (btn.classList.contains('speaking')) {
-                synth.cancel();
-                btn.classList.remove('speaking');
-                btn.innerHTML = `<i class="fas fa-volume-up"></i> 播放`;
-                return;
-            }
-            synth.cancel();
-            const utter = new SpeechSynthesisUtterance(text);
-            utter.lang = 'zh-CN';
-            utter.rate = 0.75;
-            utter.onstart = () => {
-                btn.classList.add('speaking');
-                btn.innerHTML = `<i class="fas fa-stop"></i> 停止`;
-            };
-            utter.onend = utter.onerror = () => {
-                btn.classList.remove('speaking');
-                btn.innerHTML = `<i class="fas fa-volume-up"></i> 播放`;
-            };
-            synth.speak(utter);
-        }
+        
+        const synth=window.speechSynthesis;
+        function spk(t, b){if(!synth)return; if(b.classList.contains('speaking')){synth.cancel();b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;return;}synth.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=0.75;u.onstart=()=>{b.classList.add('speaking');b.innerHTML=`<i class="fas fa-stop mr-1"></i> 停止`;};u.onend=()=>{b.classList.remove('speaking');b.innerHTML=`<i class="fas fa-volume-up mr-1"></i> 播放`;};synth.speak(u);}
+        function updTm(){const n=Date.now();document.querySelectorAll('.badge-timer').forEach(e=>{const s=e.dataset.s?new Date(e.dataset.s).getTime():0, end=e.dataset.e?new Date(e.dataset.e).getTime():0;if(s>n){e.innerText=`即将开始 ${fmt(s-n)}`;e.classList.remove('expired');}else if(end&&end<n){e.innerText='已结束';e.classList.add('expired');}else if(end){e.innerText=`剩余 ${fmt(end-n)}`;e.classList.remove('expired');}else{e.innerText='长期';e.classList.remove('expired');}});}
+        function fmt(ms){const d=Math.floor(ms/86400000),h=Math.floor((ms%86400000)/3600000),m=Math.floor((ms%3600000)/60000);return d>0?`${d}天${h}时`:`${h}时${m}分`;}
     </script>
 </body>
 </html>
