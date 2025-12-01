@@ -163,7 +163,11 @@
             if (!link || link === '#') return;
             const lower = link.toLowerCase().trim();
             const blockList = ['#', '小程序', 'miniprogram', 'micromessenger', 'weixin://', 'wx.abchina', 'wbs.icbc'];
-            const isBlocked = blockList.some(k => lower.includes(k));
+            let isBlocked = blockList.some(k => lower.includes(k));
+            if (lower.includes('psbc.com') && lower.includes('rousepage')) {
+                isBlocked = false;
+                console.log("【PSBC例外】邮储银行 App 唤起链接已放行。");
+            }
             if (isBlocked) doCopy(link, lower); else window.open(link, '_blank');
             if (window.umami) umami.track('click_action', { name: name || 'unknown', type: isBlocked ? 'copy' : 'jump' });
         }
