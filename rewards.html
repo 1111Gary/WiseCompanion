@@ -210,6 +210,13 @@
                     return isCat && isNotExpired;
                 });
 
+                // [排序] 按开始时间倒序
+                ALL.sort((a, b) => {
+                    const dateA = a.startDate ? new Date(a.startDate).getTime() : 0;
+                    const dateB = b.startDate ? new Date(b.startDate).getTime() : 0;
+                    return dateB - dateA; 
+                });
+
                 initUI(); render(); setInterval(updTm, 1000);
                 const y=sessionStorage.getItem('pos_rewards'); if(y) setTimeout(()=>window.scrollTo(0,parseInt(y)),50);
             });
@@ -359,6 +366,12 @@
                 btnHtml = `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`;
             }
 
+            // [新增] NEW 标记
+            const now = Date.now();
+            const start = a.startDate ? new Date(a.startDate).getTime() : 0;
+            const isNew = (now - start) < (3 * 24 * 60 * 60 * 1000);
+            const newBadge = isNew ? '<span class="ml-2 text-xs bg-red-500 text-white px-1.5 py-0.5 rounded animate-pulse shadow-red-500/50 shadow-sm">NEW</span>' : '';
+
             // [修复] task-card 使用 style="color:s.color" 来动态设置边框色
             // CSS 中 .task-card::before 用了 currentColor，所以这里给父级设置 color 即可
             return `<div class="task-card" style="color:${s.color}; border-left-color:${s.color}">
@@ -369,7 +382,7 @@
                 <div class="card-main">
                     <div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div>
                     <div class="card-text">
-                        <div class="card-title" style="color:#fff">${a.name}</div>
+                        <div class="card-title" style="color:#fff">${a.name}${newBadge}</div>
                         <div class="card-desc">${a.description||'暂无描述'}</div>
                     </div>
                 </div>

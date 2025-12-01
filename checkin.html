@@ -149,6 +149,14 @@
                     const e = a.endDate ? new Date(a.endDate).getTime() : null;
                     return isCat && (!e || e >= now);
                 });
+
+                // [排序] 按开始时间倒序
+                ALL.sort((a, b) => {
+                    const dateA = a.startDate ? new Date(a.startDate).getTime() : 0;
+                    const dateB = b.startDate ? new Date(b.startDate).getTime() : 0;
+                    return dateB - dateA; 
+                });
+
                 initUI(); render(); setInterval(updTm, 1000);
                 const y=sessionStorage.getItem('pos_checkin'); if(y) setTimeout(()=>window.scrollTo(0,parseInt(y)),50);
             });
@@ -244,9 +252,16 @@
             } else {
                 btnHtml = `<button class="btn" style="background:#333;color:#666;cursor:not-allowed">暂无</button>`;
             }
+
+            // [新增] NEW 标记
+            const now = Date.now();
+            const start = a.startDate ? new Date(a.startDate).getTime() : 0;
+            const isNew = (now - start) < (3 * 24 * 60 * 60 * 1000);
+            const newBadge = isNew ? '<span class="ml-2 text-xs bg-red-500 text-white px-1.5 py-0.5 rounded animate-pulse shadow-red-500/50 shadow-sm">NEW</span>' : '';
+
             return `<div class="task-card" style="color:${s.color}; border-left-color:${s.color}">
                 <div class="badges">${a.specialNote?`<span class="badge badge-note">${a.specialNote}</span>`:''}<span class="badge badge-timer" data-e="${a.endDate}" data-s="${a.startDate}">...</span></div>
-                <div class="card-main"><div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div><div class="card-text"><div class="card-title" style="color:#fff">${a.name}</div><div class="card-desc">${a.description||'暂无描述'}</div></div></div>
+                <div class="card-main"><div class="card-icon" style="color:${s.color}"><i class="fas ${s.icon}"></i></div><div class="card-text"><div class="card-title" style="color:#fff">${a.name}${newBadge}</div><div class="card-desc">${a.description||'暂无描述'}</div></div></div>
                 <div class="card-actions"><button class="btn btn-share" data-id="${a.id}" onclick="handleShareBtn(this)"><i class="fas fa-share-alt mr-1"></i> 分享</button>${btnHtml}</div>
             </div>`;
         }
