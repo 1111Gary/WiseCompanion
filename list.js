@@ -100,6 +100,38 @@ async function loadActivities() {
 }
 
 // --------------------------------------------------------------------------------
+// 核心逻辑：App 唤起处理 (NEW!)
+// --------------------------------------------------------------------------------
+
+/**
+ * 处理活动跳转，使用 JS 强制新窗口打开以提高 App 唤起成功率。
+ * 尤其是在原生浏览器中，使用 window.open 比 a href 更能有效触发 App Scheme。
+ * @param {string} url - 活动的跳转链接 (deepLinkUrl)
+ */
+function handleActivityClick(url) {
+    if (!url || url === '#') {
+        alert("活动链接无效或缺失！");
+        return;
+    }
+    
+    // 强制使用 window.open 在新的标签页中打开。
+    // 这在原生浏览器中通常能更好地触发 App 唤起逻辑。
+    const newWindow = window.open(url, '_blank');
+
+    if (newWindow) {
+        // 尝试打开新窗口成功，通常 App 唤起逻辑会在这里执行
+        console.log(`[Jump] 尝试在新窗口打开: ${url}`);
+    } else {
+        // 如果 window.open 被拦截（例如在某些 App 的 WebView 中）
+        alert("抱歉，您的浏览器环境限制了自动跳转。请手动将此链接复制到手机自带浏览器中访问！");
+    }
+}
+
+// 将函数暴露给全局 window 对象，以便在 HTML 中的 onclick 事件中调用
+window.handleActivityClick = handleActivityClick;
+
+
+// --------------------------------------------------------------------------------
 // 辅助函数：渲染 (使用您 HTML 中的 CSS 变量和类名)
 // --------------------------------------------------------------------------------
 
@@ -155,11 +187,11 @@ function renderActivityCard(activity) {
                 <div class="text-xs text-gray-500 mt-1">${activity.description}</div>
             </div>
             <div class="task-action">
-                <a href="${deepLinkUrl}" target="_blank" rel="noopener noreferrer" 
-                   class="action-button ${buttonClass} flex items-center justify-center">
+                <div onclick="handleActivityClick('${deepLinkUrl}')"
+                    class="action-button ${buttonClass} flex items-center justify-center cursor-pointer">
                     ${buttonText}
-                </a>
-            </div>
+                </div>
+                </div>
         </div>
     `;
 }
