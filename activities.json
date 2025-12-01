@@ -46,22 +46,6 @@
     "StepsText": null
   },
   {
-    "id": "rec1zKnKIGI3UeR6R",
-    "name": "工行越升越有礼(11月)",
-    "description": "月均资产提升1万元以上，得5000豆",
-    "icon": "❓",
-    "link": "#",
-    "category": [
-      "Bank",
-      "Deposit"
-    ],
-    "sourceApp": "工商银行APP",
-    "specialNote": null,
-    "targetApp": "工商银行APP",
-    "endDate": null,
-    "StepsText": null
-  },
-  {
     "id": "rec2QxxMUXHEWuCcM",
     "name": "农行信用卡活动天天返现",
     "description": "农行首页热门活动天天返现，信用卡每天单笔满18可享随机返限",
@@ -75,22 +59,6 @@
     "specialNote": null,
     "targetApp": "中国农业银行APP",
     "endDate": "2025-11-30T15:30:00.000Z",
-    "StepsText": null
-  },
-  {
-    "id": "rec2ST5QDPRjn5t5y",
-    "name": "中行云网支付",
-    "description": "中行云网支付，满60-10，限1次，可冲京东E卡",
-    "icon": "❓",
-    "link": "#",
-    "category": [
-      "Bank",
-      "DailyTask"
-    ],
-    "sourceApp": "中国银行APP",
-    "specialNote": null,
-    "targetApp": "中国银行APP",
-    "endDate": null,
     "StepsText": null
   },
   {
@@ -297,22 +265,6 @@
     "sourceApp": "京东APP",
     "specialNote": null,
     "targetApp": "京东APP",
-    "endDate": null,
-    "StepsText": null
-  },
-  {
-    "id": "recECUwR6oiJfObXL",
-    "name": "工行消费季",
-    "description": "工行消费季，每周五至周日抽豆",
-    "icon": "❓",
-    "link": "#",
-    "category": [
-      "Bank",
-      "DailyTask"
-    ],
-    "sourceApp": "工商银行APP",
-    "specialNote": null,
-    "targetApp": "工商银行APP",
     "endDate": null,
     "StepsText": null
   },
@@ -605,6 +557,22 @@
     "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧周周领"
   },
   {
+    "id": "recVFqtIzczyQcMBA",
+    "name": "淘宝芭芭农场",
+    "description": "种树得10元无门槛红包",
+    "icon": "❓",
+    "link": "https://e.tb.cn/h.Syx8N9A?tk=SEVbfLTW2mL",
+    "category": [
+      "CheckIn",
+      "DailyCheckin"
+    ],
+    "sourceApp": "淘宝APP",
+    "specialNote": null,
+    "targetApp": "淘宝APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
     "id": "recWRrBDZdt3C2FRk",
     "name": "邮储银行 微信银行查询赢好礼",
     "description": "点击“中国邮政储蓄银行”服务号，成功查询账户余额，有机会领取1.16元-66元微信立减金。",
@@ -681,22 +649,6 @@
     "specialNote": null,
     "targetApp": "工商银行APP",
     "endDate": "2025-11-30T15:30:00.000Z",
-    "StepsText": null
-  },
-  {
-    "id": "recaT8bWOykQQFHZs",
-    "name": "建行充话费1.01-1",
-    "description": "移动APP，首页充话费，金额自定义，输入1.01后选择立即支付，支付方式选择云闪付，再选建行生活支付（会显示减1，没有就是当天名额用完了，每天凌晨12点发放新的)，通过云网支付，选择建行生活支付；每月可减4次",
-    "icon": "❓",
-    "link": "#",
-    "category": [
-      "Bank",
-      "DailyTask"
-    ],
-    "sourceApp": "建行生活APP",
-    "specialNote": null,
-    "targetApp": "建行生活APP",
-    "endDate": null,
     "StepsText": null
   },
   {
@@ -1051,6 +1003,22 @@
     "StepsText": "进入中国银行APP首页，点击下面生活，点击中银数币生活馆，点击新客数币见面礼，立即领取"
   },
   {
+    "id": "recp5lFgCOZXD4Mly",
+    "name": "支付宝芝麻粒炼金",
+    "description": "15级别提现9.48元",
+    "icon": "❓",
+    "link": "https://render.alipay.com/p/yuyan/180020010001206385/index.html?caprMode=sync&chInfo=zhima_share&activityId=zml_share_assist&token=Qz5fpZv3X7AU4321P&fxzjshareChinfo=ch_share__chsub_CopyLink&apshareid=7AB8FB1B-03F0-404D-914B-EFCB63A4003B&shareBizType=ztokenV0_nBKyZZvu&shareTimestamp=1764429324081",
+    "category": [
+      "CheckIn",
+      "DailyCheckin"
+    ],
+    "sourceApp": "支付宝APP",
+    "specialNote": null,
+    "targetApp": "支付宝APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
     "id": "recp7QrUCSQY7SYU6",
     "name": "中行支付付超给利",
     "description": "中行首页滚动播放支付付超给利，点相应月活动报名。",
@@ -1141,6 +1109,22 @@
     "sourceApp": "中国银行APP",
     "specialNote": null,
     "targetApp": "中国银行APP",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recuOVGaplkd1buRE",
+    "name": "淘宝签到领现金",
+    "description": "每天完成任务10元可提现",
+    "icon": "❓",
+    "link": "https://m.tb.cn/h.SyJZlcz  HU293 淘宝签到领现金",
+    "category": [
+      "CheckIn",
+      "DailyCheckin"
+    ],
+    "sourceApp": "淘宝APP",
+    "specialNote": null,
+    "targetApp": "淘宝APP",
     "endDate": null,
     "StepsText": null
   },
