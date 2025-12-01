@@ -329,7 +329,7 @@
     "sourceApp": "微信小程序",
     "specialNote": null,
     "targetApp": "微信小程序",
-    "endDate": null,
+    "endDate": "2025-11-30T15:30:00.000Z",
     "StepsText": null
   },
   {
@@ -614,7 +614,7 @@
     "sourceApp": "建行生活APP",
     "specialNote": null,
     "targetApp": "建行生活APP",
-    "endDate": null,
+    "endDate": "2025-11-30T15:30:00.000Z",
     "StepsText": null
   },
   {
@@ -1170,7 +1170,7 @@
     "sourceApp": "美团APP",
     "specialNote": null,
     "targetApp": "美团APP",
-    "endDate": null,
+    "endDate": "2025-11-30T15:30:00.000Z",
     "StepsText": "进入美团APP，搜索数字人民币，点击进去往下拉，看到建行省钱卡，可1分领15元，可以还美团月付"
   },
   {
