@@ -48,3 +48,6 @@ Windows/macOS 操作系统生成的文件
 Thumbs.db
 npm-debug.log*
 .DS_Store
+
+.env
+.env.*
