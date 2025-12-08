@@ -199,9 +199,9 @@
       "Bank",
       "DailyTask"
     ],
-    "sourceApp": "其他",
+    "sourceApp": "中信银行APP",
     "specialNote": null,
-    "targetApp": "其他",
+    "targetApp": "中信银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
     "StepsText": null
   },
