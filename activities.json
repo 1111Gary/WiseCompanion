@@ -14,7 +14,22 @@
     "endDate": null,
     "StepsText": null
   },
-  
+  {
+    "id": "rec0bpCM3NqXMzmhY",
+    "name": "工商银行APP权益中心",
+    "description": "工银i豆乐园，点击更多，浇水有礼，每日登录浇水获得工银i豆",
+    "icon": "❓",
+    "link": "https://wbs.icbc.com.cn/wbsaccountserviceweb/JumpToApp?appId=QDB&fromApp=WAPBNew&app=EBank&startType=PORTALINJECT&buttonno=DZYH&buttonname=WAPBNew&menuId=ThemePage&injectParams=dGFyZ2V0UGFyYW1zPWNEMDRaamd3T1dRMllUaGpabVZoTmpGaFpUYzVaR1UwT0dZek5HRXhaV1UyT0dWbFpEazFaRGRsTWpBd1lUVm1NV0UyTXpjeU5qWTJZV1ZpWXpSalpqSms=",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "工商银行APP",
+    "specialNote": null,
+    "targetApp": "工商银行APP",
+    "endDate": "2025-11-29T16:00:00.000Z",
+    "StepsText": null
+  },
   {
     "id": "rec0lBvhMhNci6CfZ",
     "name": "邮储北京分行达标领红包",
@@ -239,7 +254,7 @@
     "StepsText": null
   },
   {
-"id": "rec8Awk4zucHd3FK2",
+    "id": "rec8Awk4zucHd3FK2",
     "name": "工行财富浏览礼",
     "description": "微信打开",
     "icon": "❓",
@@ -415,7 +430,6 @@
     "StepsText": null
   },
   {
-<<<<<<< HEAD
     "id": "recEihTJhgAYkiCIh",
     "name": "交行幸运夹娃娃",
     "description": "“交通银行”微信小程序，活动抽奖奖励为2-18元不等微信立减金",
@@ -448,8 +462,6 @@
     "StepsText": null
   },
   {
-=======
->>>>>>> 800de8e51be64c7cc116374b7f3d988ed73e8e52
     "id": "recFyVvQbdF96KzSq",
     "name": "农业银行APP",
     "description": "我的小豆，每日签到抽小豆，去抽奖",
@@ -1071,7 +1083,6 @@
     "StepsText": null
   },
   {
-<<<<<<< HEAD
     "id": "reci3N9Af8gH0daar",
     "name": "工行财富相伴随心配",
     "description": "微信打开赢工银I豆",
@@ -1088,8 +1099,6 @@
     "StepsText": null
   },
   {
-=======
->>>>>>> 800de8e51be64c7cc116374b7f3d988ed73e8e52
     "id": "recj2xKtNp5RM0yaM",
     "name": "交行生活缴费礼遇季",
     "description": "1-18元生活缴费券 每月一次",
