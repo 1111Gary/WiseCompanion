@@ -1,41 +1,11 @@
+// --- START OF FILE fetch-data.js ---
+require('dotenv').config(); // 【新增】加载 .env 文件中的变量
+
 const fs = require('fs'); 
 const path = require('path');
-// 假设使用的是 v2 CJS 版本的 node-fetch
 const fetch = require('node-fetch'); 
 
-// --------------------------------------------------------------------------------
-// ➡️ 步骤 1：从 config.json 或环境变量加载配置
-// --------------------------------------------------------------------------------
-const CONFIG_PATH = path.join(__dirname, 'config.json');
-
-let AIRTABLE_PAT = process.env.AIRTABLE_PAT;
-let BASE_ID = "appnYFL6PrGonurjT"; 
-
-// 尝试从 config.json 读取配置
-try {
-    const configData = fs.readFileSync(CONFIG_PATH, 'utf8');
-    const config = JSON.parse(configData);
-    
-    AIRTABLE_PAT = config.AIRTABLE_PAT || AIRTABLE_PAT;
-    BASE_ID = config.AIRTABLE_BASE_ID || BASE_ID;
-    
-    console.log(`[INFO] 配置已从 config.json 加载。`);
-} catch (e) {
-    if (e.code === 'ENOENT') {
-        console.warn(`[WARN] config.json 文件未找到，尝试使用环境变量。`);
-    } else if (e instanceof SyntaxError) {
-        console.error(`❌ 错误：config.json 格式错误，请检查 JSON 语法！`);
-        process.exit(1);
-    } else {
-        console.error(`❌ 错误：无法读取 config.json: ${e.message}`);
-        process.exit(1);
-    }
-}
-// --------------------------------------------------------------------------------
-
-const TABLE_NAME = 'tblPWwLrdoMuO1b7k'; 
-
-// 分类映射表
+// ... (CATEGORY_MAP 保持不变) ...
 const CATEGORY_MAP = {
     // 根分类
     '签到': 'CheckIn',
@@ -52,56 +22,48 @@ const CATEGORY_MAP = {
     '支付有优惠': 'PaymentDiscount',
     '缴费活动': 'Payment',
     '抢红包 / 立减金': 'Voucher',
+    '出行优惠': 'TravelDiscount' // 补上可能缺失的
 };
 
-const BASE_AIRTABLE_URL = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
+// 从环境变量获取
+const AIRTABLE_PAT = process.env.AIRTABLE_PAT;
+const BASE_ID = process.env.AIRTABLE_BASE_ID; 
+// const TABLE_NAME = 'tblPWwLrdoMuO1b7k'; // 你的 Table ID
+// 建议：如果 Table ID 报错，尝试改成 Table Name (比如 "活动列表")，但在代码里需要 encode
+const TABLE_NAME = 'tblPWwLrdoMuO1b7k'; 
+
+const AIRTABLE_URL = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
 const OUTPUT_FILE = path.join(__dirname, 'activities.json'); 
 
 // --------------------------------------------------------------------------------
 // 主函数：抓取并写入数据
 // --------------------------------------------------------------------------------
 async function fetchData() {
-    console.log(`尝试从 Airtable 加载数据到 ${OUTPUT_FILE}...`);
-    
-    // 检查配置是否就绪
+    console.log(`正在读取环境变量...`);
     if (!AIRTABLE_PAT || !BASE_ID) {
-        console.error('致命错误：缺少 AIRTABLE_PAT 或 BASE_ID 配置！请检查 config.json。');
+        console.error("❌ 错误：未找到 AIRTABLE_PAT 或 AIRTABLE_BASE_ID。请检查 .env 文件。");
         process.exit(1);
     }
-    
-    // PAT 格式基础校验
-    if (!AIRTABLE_PAT.startsWith('pat') || AIRTABLE_PAT.length < 50) {
-        console.error(`❌ 致命错误：PAT 格式异常！请检查密匙是否完整。`);
-        process.exit(1);
-    }
-    
-    // --- 过滤公式：仅获取状态为“活动中”的记录 ---
-    const FILTER_FORMULA = `{Status}="活动中"`;
-    const ENCODED_FORMULA = encodeURIComponent(FILTER_FORMULA);
-    
-    const FINAL_AIRTABLE_URL = `${BASE_AIRTABLE_URL}?filterByFormula=${ENCODED_FORMULA}`;
-    // ---------------------------------------
+
+    console.log(`尝试从 Airtable 加载数据...`);
+    // 调试：打印 URL (不包含密钥) 检查 ID 是否正确
+    console.log(`请求 URL: https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`);
 
     try {
-        const response = await fetch(FINAL_AIRTABLE_URL, {
+        const response = await fetch(AIRTABLE_URL, {
             headers: {
-                // 标准模板字符串构建头部，干净简洁
-                'Authorization': `Bearer ${AIRTABLE_PAT}`, 
-                'Content-Type': 'application/json',
-                // 保留 Accept-Encoding 头部，增强网络稳定性
-                'Accept-Encoding': 'gzip, deflate, br' 
+                'Authorization': `Bearer ${AIRTABLE_PAT}`,
+                'Content-Type': 'application/json'
             }
         });
 
         if (!response.ok) {
-            throw new Error(`Airtable API 错误 (Status: ${response.status})`);
+            throw new Error(`Airtable API 错误 (Status: ${response.status} - ${response.statusText})`);
         }
 
         const data = await response.json();
         
-        const activities = data.records
-            .filter(record => record.fields && record.fields.Name) 
-            .map(record => {
+        const activities = data.records.map(record => {
             let category = [];
             const rawCategories = record.fields.Category;
 
@@ -134,10 +96,10 @@ async function fetchData() {
         });
         
         fs.writeFileSync(OUTPUT_FILE, JSON.stringify(activities, null, 2));
-        console.log(`数据获取并保存成功：${activities.length} 条记录。`);
+        console.log(`✅ 数据获取并保存成功：${activities.length} 条记录。已写入 activities.json`);
 
     } catch (error) {
-        console.error('获取活动数据失败:', error.message);
+        console.error('❌ 获取活动数据失败:', error.message);
         process.exit(1); 
     }
 }

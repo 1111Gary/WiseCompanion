@@ -1,64 +1,208 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-    
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>奈斯</title>
-    <script async defer src="https://umami.example.com/script.js" data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed" data-do-not-track="true" data-domains="1111gary.github.io"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
-    <link rel="manifest" href="/manifest.json?v=5"> 
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icon_apple.png?v=5">
-    <style>
-        body { background-color: #0B1120; color: #F1F5F9; font-family: 'Inter', sans-serif; padding: 20px; padding-top: max(20px, env(safe-area-inset-top)); padding-bottom: 40px; }
-        
-        .hero-card {
-            background: linear-gradient(135deg, #8B5CF6, #F43F5E); /* NEX 专属渐变 */
-            border-radius: 24px; padding: 40px 20px; text-align: center; margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3); position: relative; overflow: hidden;
-        }
-        .hero-card::after { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%); animation: pulse 4s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
-        .nav-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+<head>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <title>奈斯</title>
+
+    <!-- Umami 统计 -->
+    <script async defer src="https://umami.example.com/script.js" data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed"
+        data-do-not-track="true" data-domains="1111gary.github.io">
+        </script>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Manifest + Icons -->
+    <link rel="manifest" href="/manifest.json?v=5">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icon_apple.png?v=5">
+
+    <style>
+        body {
+            background-color: #0B1120;
+            color: #F1F5F9;
+            font-family: 'Inter', sans-serif;
+            padding: 20px;
+            padding-top: max(20px, env(safe-area-inset-top));
+            padding-bottom: 40px;
+        }
+
+        .hero-card {
+            background: linear-gradient(135deg, #8B5CF6, #F43F5E);
+            border-radius: 24px;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            animation: pulse 4s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
         .nav-card {
-            background: #1E293B; border-radius: 20px; padding: 20px; text-align: center; text-decoration: none; color: white;
-            border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; aspect-ratio: 1/1; justify-content: center;
+            background: #1E293B;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            aspect-ratio: 1/1;
+            justify-content: center;
             transition: transform 0.2s;
         }
-        .nav-card:active { transform: scale(0.98); background: #27354F; }
-        
-        .icon-box { width: 54px; height: 54px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        
-        /* 子页面配色 */
-        .icon-checkin { background: linear-gradient(135deg, #10B981, #34D399); } /* 绿 */
-        .icon-video { background: linear-gradient(135deg, #F43F5E, #FB7185); }   /* 红 */
-        .icon-rewards { background: linear-gradient(135deg, #3B82F6, #60A5FA); }    /* 蓝 */
-        .icon-shopping { background: linear-gradient(135deg, #8B5CF6, #C084FC); } /* 紫 */
+
+        .nav-card:active {
+            transform: scale(0.98);
+            background: #27354F;
+        }
+
+        .icon-box {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .icon-checkin {
+            background: linear-gradient(135deg, #10B981, #34D399);
+        }
+
+        .icon-video {
+            background: linear-gradient(135deg, #F43F5E, #FB7185);
+        }
+
+        .icon-rewards {
+            background: linear-gradient(135deg, #3B82F6, #60A5FA);
+        }
+
+        .icon-shopping {
+            background: linear-gradient(135deg, #8B5CF6, #C084FC);
+        }
 
         .premium-card {
-            display: block; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; padding: 25px 20px; text-align: center;
-            border: 2px solid transparent; border-image: linear-gradient(135deg, #FACC15, #F43F5E); border-image-slice: 1;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin-top: 30px; text-decoration: none;
+            display: block;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            border: 2px solid transparent;
+            border-image: linear-gradient(135deg, #FACC15, #F43F5E);
+            border-image-slice: 1;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            margin-top: 30px;
+            text-decoration: none;
         }
-        .premium-card h2 { font-size: 1.2rem; font-weight: 800; background: linear-gradient(to right, #FACC15, #F43F5E); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-        
-        /* NEX Logo SVG */
-        .brand-logo svg { width: 64px; height: 64px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); }
+
+        .premium-card h2 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #FACC15, #F43F5E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+
+        .brand-logo svg {
+            width: 64px;
+            height: 64px;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+        }
     </style>
 </head>
+
 <body>
+
+    <!-- Debug 按钮 -->
+    <div id="dev-panel" style="position: fixed; bottom: 100px; left: 20px; z-index: 9999;">
+        <button onclick="document.getElementById('debug-modal').style.display='block'"
+            class="bg-red-600 text-white px-3 py-2 rounded-full shadow-lg text-xs font-bold opacity-50 hover:opacity-100 transition">
+            🛠️ Debug
+        </button>
+    </div>
+
+    <!-- Debug 模态框 -->
+    <div id="debug-modal"
+        style="display:none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 10000; padding: 20px;">
+        <div class="bg-gray-900 p-6 rounded-xl w-full max-w-md border border-gray-700 mx-auto mt-20">
+            <h3 class="text-xl font-bold text-white mb-4">后端调试控制台</h3>
+
+            <div class="space-y-3">
+                <input id="debug-email" type="email" placeholder="测试邮箱"
+                    class="w-full bg-gray-800 text-white p-2 rounded border border-gray-600">
+                <input id="debug-pwd" type="password" placeholder="测试密码 (至少6位)"
+                    class="w-full bg-gray-800 text-white p-2 rounded border border-gray-600">
+
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="testSignUp()" class="bg-green-600 text-white p-2 rounded">注册测试</button>
+                    <button onclick="testSignIn()" class="bg-blue-600 text-white p-2 rounded">登录测试</button>
+                </div>
+                <button onclick="testGetData()" class="w-full bg-yellow-600 text-white p-2 rounded">读取数据库数据</button>
+                <button onclick="document.getElementById('debug-modal').style.display='none'"
+                    class="w-full bg-gray-700 text-white p-2 rounded">关闭</button>
+            </div>
+
+            <div id="debug-log"
+                class="mt-4 p-2 bg-black text-green-400 text-xs font-mono h-32 overflow-y-auto rounded border border-gray-800">
+                等待操作...
+            </div>
+        </div>
+    </div>
+
+    <!-- 首页内容 -->
     <div class="hero-card">
         <div class="brand-logo mx-auto mb-4">
-            <svg viewBox="0 0 24 24" fill="white"><path d="M6 4v16a2 2 0 0 0 2 2h.5a2 2 0 0 0 1.6-.8l6.8-10.4V18a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-.5a2 2 0 0 0-1.6.8L10.1 13.2V4a2 2 0 0 0-2-2H7a2 2 0 0 0-1 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="white">
+                <path
+                    d="M6 4v16a2 2 0 0 0 2 2h.5a2 2 0 0 0 1.6-.8l6.8-10.4V18a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-.5a2 2 0 0 0-1.6.8L10.1 13.2V4a2 2 0 0 0-2-2H7a2 2 0 0 0-1 2z" />
+            </svg>
         </div>
-        <h1 class="text-3xl font-black tracking-tight relative z-10">NEX AI</h1>
-        <p class="opacity-90 mt-2 text-sm font-medium relative z-10 tracking-wide">核心纽带 · 链接未来</p>
+        <h1 class="text-3xl font-black tracking-tight">NEX AI</h1>
+        <p class="opacity-90 mt-2 text-sm font-medium tracking-wide">核心纽带 · 链接未来</p>
     </div>
 
     <div class="nav-grid">
@@ -67,34 +211,91 @@
             <h3 class="font-bold text-lg">天天有奖</h3>
             <p class="text-xs text-gray-400 mt-1">每日签到“捡”</p>
         </a>
+
         <a href="./video.html" class="nav-card">
             <div class="icon-box icon-video"><i class="fas fa-play-circle"></i></div>
             <h3 class="font-bold text-lg">看视频赚</h3>
             <p class="text-xs text-gray-400 mt-1">观看视频“捡”</p>
         </a>
+
         <a href="./rewards.html" class="nav-card">
             <div class="icon-box icon-rewards"><i class="fas fa-hand-holding-usd"></i></div>
             <h3 class="font-bold text-lg">捡钱任务</h3>
             <p class="text-xs text-gray-400 mt-1">平台活动“捡”</p>
         </a>
+
         <a href="./shopping.html" class="nav-card">
             <div class="icon-box icon-shopping"><i class="fas fa-tags"></i></div>
             <h3 class="font-bold text-lg">省钱秘籍</h3>
             <p class="text-xs text-gray-400 mt-1">省钱即是“捡”</p>
         </a>
     </div>
-    
+
     <a href="./premium.html" class="premium-card">
         <h2><i class="fas fa-crown mr-2"></i> 高级会员专区</h2>
         <p class="text-gray-400 text-xs mt-2">解锁 AI 自动代理 · 释放双手</p>
     </a>
-    
+
     <div class="text-center mt-10 text-gray-600 text-xs">
         &copy; 2025 NEX AI Inc.
     </div>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./js/supabase_client.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.NexBackend) {
+                NexBackend.activities.getAll().then(d => {
+                   
+                });
+            }
+        });
+        /* Debug 日志 */
+        function log(msg) {
+            const el = document.getElementById('debug-log');
+            const time = new Date().toLocaleTimeString();
+            el.innerHTML += `<div>[${time}] ${msg}</div>`;
+            el.scrollTop = el.scrollHeight;
+        }
+
+        async function testSignUp() {
+            const email = document.getElementById('debug-email').value;
+            const pwd = document.getElementById('debug-pwd').value;
+
+            if (!email || !pwd) return log("❌ 请输入邮箱和密码");
+
+            log("正在注册...");
+            const { data, error } = await NexAuth.signUp(email, pwd);
+
+            if (error) log(`❌ 注册失败: ${error.message}`);
+            else log(`✅ 注册成功! 用户ID: ${data.user.id}`);
+        }
+
+        async function testSignIn() {
+            const email = document.getElementById('debug-email').value;
+            const pwd = document.getElementById('debug-pwd').value;
+
+            log("正在登录...");
+            const { data, error } = await NexAuth.signIn(email, pwd);
+
+            if (error) log(`❌ 登录失败: ${error.message}`);
+            else log(`✅ 登录成功!`);
+        }
+
+        async function testGetData() {
+            log("📡 正在从 Supabase 读取 activities 表...");
+            const list = await NexData.getActivities();
+
+            if (list.length > 0) {
+                log(`✅ 读取成功，共 ${list.length} 条活动`);
+            } else {
+                log("⚠️ 表为空（或回退到本地 json）");
+            }
+        }
+    </script>
+
 </body>
+
 </html>
-
-
-
-

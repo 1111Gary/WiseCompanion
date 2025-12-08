@@ -4,9 +4,11 @@
   "description": "Static site fed by Airtable data.",
   "main": "index.js",
   "scripts": {
+    "update-data": "node fetch-data.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "dotenv": "^17.2.3",
     "node-fetch": "^2.7.0"
   }
 }
