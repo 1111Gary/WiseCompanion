@@ -155,43 +155,7 @@
     </style>
 </head>
 
-<body>
-
-    <!-- Debug 按钮 -->
-    <div id="dev-panel" style="position: fixed; bottom: 100px; left: 20px; z-index: 9999;">
-        <button onclick="document.getElementById('debug-modal').style.display='block'"
-            class="bg-red-600 text-white px-3 py-2 rounded-full shadow-lg text-xs font-bold opacity-50 hover:opacity-100 transition">
-            🛠️ Debug
-        </button>
-    </div>
-
-    <!-- Debug 模态框 -->
-    <div id="debug-modal"
-        style="display:none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 10000; padding: 20px;">
-        <div class="bg-gray-900 p-6 rounded-xl w-full max-w-md border border-gray-700 mx-auto mt-20">
-            <h3 class="text-xl font-bold text-white mb-4">后端调试控制台</h3>
-
-            <div class="space-y-3">
-                <input id="debug-email" type="email" placeholder="测试邮箱"
-                    class="w-full bg-gray-800 text-white p-2 rounded border border-gray-600">
-                <input id="debug-pwd" type="password" placeholder="测试密码 (至少6位)"
-                    class="w-full bg-gray-800 text-white p-2 rounded border border-gray-600">
-
-                <div class="grid grid-cols-2 gap-2">
-                    <button onclick="testSignUp()" class="bg-green-600 text-white p-2 rounded">注册测试</button>
-                    <button onclick="testSignIn()" class="bg-blue-600 text-white p-2 rounded">登录测试</button>
-                </div>
-                <button onclick="testGetData()" class="w-full bg-yellow-600 text-white p-2 rounded">读取数据库数据</button>
-                <button onclick="document.getElementById('debug-modal').style.display='none'"
-                    class="w-full bg-gray-700 text-white p-2 rounded">关闭</button>
-            </div>
-
-            <div id="debug-log"
-                class="mt-4 p-2 bg-black text-green-400 text-xs font-mono h-32 overflow-y-auto rounded border border-gray-800">
-                等待操作...
-            </div>
-        </div>
-    </div>
+<body>  
 
     <!-- 首页内容 -->
     <div class="hero-card">
@@ -248,52 +212,12 @@
         document.addEventListener('DOMContentLoaded', () => {
             if (window.NexBackend) {
                 NexBackend.activities.getAll().then(d => {
-                   
+                    // 你的首页渲染逻辑...
+                    // 记得把首页的 bank.html 链接改成 rewards.html
                 });
             }
         });
-        /* Debug 日志 */
-        function log(msg) {
-            const el = document.getElementById('debug-log');
-            const time = new Date().toLocaleTimeString();
-            el.innerHTML += `<div>[${time}] ${msg}</div>`;
-            el.scrollTop = el.scrollHeight;
-        }
-
-        async function testSignUp() {
-            const email = document.getElementById('debug-email').value;
-            const pwd = document.getElementById('debug-pwd').value;
-
-            if (!email || !pwd) return log("❌ 请输入邮箱和密码");
-
-            log("正在注册...");
-            const { data, error } = await NexAuth.signUp(email, pwd);
-
-            if (error) log(`❌ 注册失败: ${error.message}`);
-            else log(`✅ 注册成功! 用户ID: ${data.user.id}`);
-        }
-
-        async function testSignIn() {
-            const email = document.getElementById('debug-email').value;
-            const pwd = document.getElementById('debug-pwd').value;
-
-            log("正在登录...");
-            const { data, error } = await NexAuth.signIn(email, pwd);
-
-            if (error) log(`❌ 登录失败: ${error.message}`);
-            else log(`✅ 登录成功!`);
-        }
-
-        async function testGetData() {
-            log("📡 正在从 Supabase 读取 activities 表...");
-            const list = await NexData.getActivities();
-
-            if (list.length > 0) {
-                log(`✅ 读取成功，共 ${list.length} 条活动`);
-            } else {
-                log("⚠️ 表为空（或回退到本地 json）");
-            }
-        }
+        
     </script>
 
 </body>
