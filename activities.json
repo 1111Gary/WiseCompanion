@@ -27,7 +27,7 @@
     "sourceApp": "工商银行APP",
     "specialNote": null,
     "targetApp": "工商银行APP",
-    "endDate": "2025-11-29T16:00:00.000Z",
+    "endDate": "2025-12-30T16:00:00.000Z",
     "StepsText": null
   },
   {
@@ -130,7 +130,7 @@
     "name": "网上国网APP签到",
     "description": "每日签到领金币换电费优惠券",
     "icon": "❓",
-    "link": "#",
+    "link": "https://95598.cn/a/",
     "category": [
       "CheckIn",
       "DailyCheckin"
@@ -139,7 +139,7 @@
     "specialNote": null,
     "targetApp": "网上国网APP",
     "endDate": null,
-    "StepsText": "打开国上国网APP，在下面点击我得按钮，点击右上角签到，页面下面可以金币换电费优惠券"
+    "StepsText": null
   },
   {
     "id": "rec38bDAc3EbhDaFv",
@@ -637,6 +637,22 @@
     "StepsText": null
   },
   {
+    "id": "recRRoGSs9LKjAqBR",
+    "name": "建行12月升金礼(第1期)",
+    "description": "连续转入资金提升达标领立减金",
+    "icon": "❓",
+    "link": "https://syx6.dmsp.ccb.com/ccbact/m393/AP010202512011533924-act.html#/home",
+    "category": [
+      "Bank",
+      "Deposit"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP",
+    "endDate": "2025-12-15T15:30:00.000Z",
+    "StepsText": null
+  },
+  {
     "id": "recRThL4oThWd0UMi",
     "name": "农行数币缤纷购物节",
     "description": "农行数字人民币热门活动缤纷购物节，领10元",
@@ -791,7 +807,7 @@
       "Voucher"
     ],
     "sourceApp": "中国银行APP",
-    "specialNote": "12月5日10:00",
+    "specialNote": null,
     "targetApp": "中国银行APP",
     "endDate": "2025-12-31T10:00:00.000Z",
     "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧周周领"
@@ -826,6 +842,22 @@
     "specialNote": null,
     "targetApp": "邮储银行APP",
     "endDate": null,
+    "StepsText": null
+  },
+  {
+    "id": "recXwZGvLOJkUHNRc",
+    "name": "建行湾宝消消乐",
+    "description": "最高抽1.88立减金",
+    "icon": "❓",
+    "link": "https://syx6.dmsp.ccb.com/ccbact/m3884/DP211525120110239R08-act.html#/lottery",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国建设银行APP",
+    "specialNote": null,
+    "targetApp": "中国建设银行APP",
+    "endDate": "2025-12-16T15:30:00.000Z",
     "StepsText": null
   },
   {
@@ -941,15 +973,18 @@
   },
   {
     "id": "recd8a5RwjzdFCDe5",
-    "name": "无标题活动",
-    "description": "暂无描述",
+    "name": "交行幸运刮刮乐",
+    "description": "赢2-28元消费红包",
     "icon": "❓",
-    "link": "#",
-    "category": [],
-    "sourceApp": "其他",
+    "link": "https://mbank.95559.com.cn/mobs6/tangram/TG0/NTG0001.html?promoteCode=20241024AJXGK016&realPage=NTG0001&channelShare=wxhy-20241024AJXGK016",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "交通银行APP",
     "specialNote": null,
-    "targetApp": "其他",
-    "endDate": null,
+    "targetApp": "交通银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
     "StepsText": null
   },
   {
@@ -1557,37 +1592,5 @@
     "targetApp": "中国建设银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
     "StepsText": null
-  },
-  {
-    "id": "recyhfWUaylbF4DQ3",
-    "name": "邮储发薪红包雨",
-    "description": "代发工资1000以上可以参加领支付宝红包",
-    "icon": "❓",
-    "link": "https://wap.psbc.com/wxbank/h5/rousePage/#/?pageId=2140",
-    "category": [
-      "Bank",
-      "DailyTask"
-    ],
-    "sourceApp": "邮储银行APP",
-    "specialNote": null,
-    "targetApp": "邮储银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
-  },
-  {
-    "id": "reczi5mZHWSaROE7l",
-    "name": "中行数币悦享出行",
-    "description": "充值满20元立减10元",
-    "icon": "❓",
-    "link": "#",
-    "category": [
-      "Shopping",
-      "TravelDiscount"
-    ],
-    "sourceApp": "中国银行APP",
-    "specialNote": null,
-    "targetApp": "中国银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": "进入中国银行APP首页，点击下面生活，点击中银数币生活馆，点击中行数币悦享出行，立即领取"
   }
 ]
