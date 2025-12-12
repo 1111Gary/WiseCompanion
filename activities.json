@@ -318,6 +318,19 @@
     "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧回归礼"
   },
   {
+    "id": "recCDkGmnCZNSJj0N",
+    "name": "无标题活动",
+    "description": "暂无描述",
+    "icon": "❓",
+    "link": "#",
+    "category": [],
+    "sourceApp": "其他",
+    "specialNote": null,
+    "targetApp": "其他",
+    "endDate": null,
+    "StepsText": null
+  },
+  {
     "id": "recDLDyeqR5OATbAg",
     "name": "工行天天盈便利还",
     "description": "微信打开赢工银I豆",
@@ -1574,22 +1587,6 @@
     "sourceApp": "邮储银行APP",
     "specialNote": null,
     "targetApp": "邮储银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
-  },
-  {
-    "id": "recy2NQVCdAX8qu6M",
-    "name": "建行缴费小美好",
-    "description": "燃气费,水费，电费，手机话费超过30元返2-5元",
-    "icon": "❓",
-    "link": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=422bedb407714b079403e8ba6cb771ea&crypt_type=1&cryptParam=817oUbFF4rUQ17MOtV3nE3sO4bDkCkkPPbs3nPwKopEL9ruQYH3wxtCeds3GNW2yQmPKNvjEKPSUZrvMyDPRuv8LP2eqBaTPmtRNq5jAN3d2WIiaE0r2/dwB7xyYrsFmraZhrUtlCbGKbodIKTNWe+N+ErE8JexYbLXlyTc2EvUaztJ7F+EsM66tnMOA15uVd5wP4U2ks60ktpUFz04tBOxDtqH0Xye8Zdvj2E257pKG4Cgp+L/HqGhZmpcXfBt4ilsOUcoCoR0JA6lCrioeaho7lna/7e5S+oz9A4buzlN4lF424HY9BZ+CON/14T4oRL0Z4Bijo5qpEyOl41ONnmba+u4dQ86mm2KFh6Ame2i0IgCoy3CZsLqlWs4uCYZlBIfnCPl3KaHvCiZTnjtXONn2wfdYhdNkj1FeMj9iEuBQ5gaSEFKctKBVdFrXngmWVbllfYgbnbdRZandlWpWdJfWwvXBpMNP/5zXQvOIHCqC/s8wDxBzRCK91r+GhZudg7X7rhJX4pJCGR4QmwiU2RM5yj8ezIwAqJ4njCEwSBwmhZ74PrJzcUzpN1xakYJoZIp45zn0Q6zGjUiVfnZhPPQ4nHYQBSglFQVnm+OvMAFwcjMtDHIHXtdcRzNI9FfGr3qLM8eIW+iA6IfKPpiOebXfroLnEoI288f5ZYcQtvg7LZ8VAaTto/tjTDrrrf37MzIGkgt/XsUihbQijNo8fUFMim/1NFDCbpPSsRI5vcwKhk/f0Nm5m7WJ3ydFbfli+bFmX2dVGAWXugCnIuAwURMECzhr1Z/JfFvXDR6/pYCL9vH0K/39+//yT0418eSDARDNLVicf1gL7rROx1rsmg==",
-    "category": [
-      "Shopping",
-      "PaymentBill"
-    ],
-    "sourceApp": "中国建设银行APP",
-    "specialNote": null,
-    "targetApp": "中国建设银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
     "StepsText": null
   }
