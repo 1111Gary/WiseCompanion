@@ -239,8 +239,8 @@
   },
   {
     "id": "rec7zW6WHrTC8HY0z",
-    "name": "中信银行抽两周年红包",
-    "description": "会员两周年X富贵理财节1次/人",
+    "name": "中信银行｜中信红会员抽最高200元立减金或代金券",
+    "description": "中信红会员可每日签到、免费抽最高200元微信立减金，周三资产达标1000元可再抽20元代金券。",
     "icon": "❓",
     "link": "https://wap.bank.ecitic.com/NMBFOServer/MobileBankWeb/?index=Share.BankShare.Index&key=VlWnQNU+zRflGMBNbEdsZCjtZU91gn8MLRrYh5W1uYmZUgWfJaaKZ5h0bKOl83pidddZuka8Y0Kuwv7uEebB6eclsOB/7eLWWSxWZloOOEywW01Vx2D/k5fOO6PijQfi4xRg7QF7SeK+yfxBU6QD1AJIHHQJr7JyTWNdlptGIor5b5WOPismwB41Wl9WnhAuqOIx4hzhOLrrhYWOtOSVD9RmlWB4Q5zkGzmkGwagToq0WQBD2O7k7V52Yd/ihLlR1WDSUj+C6ZWYRSrLoPqyZwhnGsEicbhS0NNjWhr3YNbjHCocyeN/JlK6eW/pI+O8vx2+/aZRkK2ZHUA7Ol/PpeMUbp7+EYUb5XTYdPh6H6f8OaFyZxYNcBj2K5kEQGfQh18p1ha6kni20u/fODxb0NPwM625vnTdO/OUi8kJQ1b8ngY/jHbsn1ZWkv3kHwEmmh/LuWVXrUO6NnYNDGGjv01d5c+Jkl3IEYtScjj1QABwuanwxh/qUdcZxFEVpB26/xfX11l2WpTA/LPxJ+8xJok/K8fGd0ZT57YIeJDDPTiJg04uRC1UTVw9wxKOiVyCjZ8HaubIPDd6W/yY/WauUopbgk9VBWCcesf9XxHtkSSFfKwu3emNKlkFeBjgyXHcFIo3xYTRM5Eos4+70vbsUR0wgie4UZVpQfYqim2JkKTr7uenib8+L0hO7ly0CORs29CtkS0WibxokxjCO6bioHbSa1HRJvcawFMtVay+RT0SQpBJfay9b5z4+8s3XhfBVBCnE+REcnCGlLWqAXGHoBwxsSaShE58zzIWlBmaY5IlcqPoupVJ+3YeiHd7NBO0BzVMoD/y0KbMRiHCgYvkXdNJ423iZAZd4rku52L5oFPkvbi19jVDR5C6mmuFTD7U3TXAtEgSRzWdhTLMTeSwTlCYoM5t5SbHNgI+OF942E8=CITICBANKLOGO",
     "category": [
@@ -251,7 +251,7 @@
     "specialNote": null,
     "targetApp": "中信银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 登录中信银行手机银行 APP，进入“会员”频道或活动页。\n2. 日常抽奖（全体会员）：活动期间可随机抽奖1次，有机会获得1元至200元微信立减金。\n3. 周三会员日（资产达标）：在12月3日/10日/17日/24日/31日 9:00-24:00，资产达1000元的中信红会员可再抽奖1次。\n4. 周三抽奖奖品为20元霸王茶姬代金券或信享会员优惠券。\n5. 在活动页面【我的奖品】中查看和领取福利，需在有效期内使用。"
   },
   {
     "id": "rec8Awk4zucHd3FK2",
@@ -319,16 +319,19 @@
   },
   {
     "id": "recCDkGmnCZNSJj0N",
-    "name": "无标题活动",
-    "description": "暂无描述",
+    "name": "兴业银行｜云闪付满5.01减5",
+    "description": "使用兴业手机银行云网支付，满5.01元立减5元，活动期内限1次。",
     "icon": "❓",
-    "link": "#",
-    "category": [],
-    "sourceApp": "其他",
+    "link": "https://content.cup.com.cn/UCIWeb/outputWeb/coupon/coupon.html#/couponDetail?couponId=2102025092195975",
+    "category": [
+      "Shopping",
+      "PaymentDiscount"
+    ],
+    "sourceApp": "兴业银行APP",
     "specialNote": null,
-    "targetApp": "其他",
-    "endDate": null,
-    "StepsText": null
+    "targetApp": "兴业银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. 打开兴业手机银行 APP\n2. 使用云闪付或付款码进行支付\n3. 单笔消费满 5.01 元\n4. 自动立减 5 元"
   },
   {
     "id": "recDLDyeqR5OATbAg",
@@ -651,19 +654,19 @@
   },
   {
     "id": "recRRoGSs9LKjAqBR",
-    "name": "建行12月升金礼(第1期)",
-    "description": "连续转入资金提升达标领立减金",
+    "name": "建设银行｜连续转资达标领最高250元立减金",
+    "description": "受邀客户在12月5日至12月15日期间，金融资产较11月底日终余额提升1万元（含）以上，最高可领250元微信立减金。",
     "icon": "❓",
     "link": "https://syx6.dmsp.ccb.com/ccbact/m393/AP010202512011533924-act.html#/home",
     "category": [
       "Bank",
       "Deposit"
     ],
-    "sourceApp": "中国建设银行APP",
+    "sourceApp": "建行生活APP",
     "specialNote": null,
-    "targetApp": "中国建设银行APP",
+    "targetApp": "建行生活APP",
     "endDate": "2025-12-15T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 登录建行生活 APP，进入活动页面点击“立即报名”。\n2. 活动期间连续转入资金，确保12月15日日终金融资产余额较11月30日余额有提升。\n3. 根据提升档位（1万/5万/10万/20万/50万）核算奖励，最高提升50万及以上可得250元。\n4. 在2026年1月8日11点至1月31日，回到活动页面领取微信立减金。"
   },
   {
     "id": "recRThL4oThWd0UMi",
@@ -731,8 +734,8 @@
   },
   {
     "id": "recTGeYFpu0R0BAqg",
-    "name": "邮储北京分行手机银行新客1分购",
-    "description": "受邀网点客户参与",
+    "name": "邮储银行｜受邀客户每月达标领5元红包",
+    "description": "邮储银行北京分行手机银行受邀达标客户，每月可进入活动领取5元支付宝或微信立减金，需使用邮储卡支付。",
     "icon": "❓",
     "link": "https://u.psbc.com/3t1cw",
     "category": [
@@ -743,7 +746,7 @@
     "specialNote": null,
     "targetApp": "邮储银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 登录邮储银行手机银行 APP（限北京分行客户）。\n2. 确保自己为受邀达标客户。\n3. 进入活动路径：手机银行首页-活动专区-达标领红包。\n4. 领取5元支付宝立减金或5元微信立减金。\n5. 在支付宝或微信支付时，绑定邮储借记卡/信用卡，且实际支付金额大于5元时使用立减金抵扣。"
   },
   {
     "id": "recTv1KGxQUaD4M7U",
@@ -859,19 +862,19 @@
   },
   {
     "id": "recXwZGvLOJkUHNRc",
-    "name": "建行湾宝消消乐",
-    "description": "最高抽1.88立减金",
+    "name": "建设银行｜玩消消乐最高抽1.88",
+    "description": "建行生活App玩湾宝消消乐游戏并成功通关，可抽奖获得最高1.88元微信立减金。期间每人限领1份。",
     "icon": "❓",
     "link": "https://syx6.dmsp.ccb.com/ccbact/m3884/DP211525120110239R08-act.html#/lottery",
     "category": [
       "Bank",
       "DailyTask"
     ],
-    "sourceApp": "中国建设银行APP",
+    "sourceApp": "建行生活APP",
     "specialNote": null,
-    "targetApp": "中国建设银行APP",
+    "targetApp": "建行生活APP",
     "endDate": "2025-12-16T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 打开建设生活APP，点击首页会员有礼-热门活动\n2. 挑战三关湾宝消消乐\n3. 通过三关获得一次抽奖机会\n4. 抽奖可得1元或1.88元"
   },
   {
     "id": "recYrBMNhGZ4xVYRm",
@@ -986,19 +989,19 @@
   },
   {
     "id": "recd8a5RwjzdFCDe5",
-    "name": "交行幸运刮刮乐",
-    "description": "赢2-28元消费红包",
+    "name": "交通银行｜微信小程序报名抽最高28元支付红包",
+    "description": "交通银行微信小程序客户报名可获得1次抽奖机会，必中2-28元不等的支付贴金券，单次即可完成。",
     "icon": "❓",
     "link": "https://mbank.95559.com.cn/mobs6/tangram/TG0/NTG0001.html?promoteCode=20241024AJXGK016&realPage=NTG0001&channelShare=wxhy-20241024AJXGK016",
     "category": [
-      "Bank",
-      "DailyTask"
+      "DailyTask",
+      "Bank"
     ],
-    "sourceApp": "交通银行APP",
+    "sourceApp": "微信小程序",
     "specialNote": null,
-    "targetApp": "交通银行APP",
+    "targetApp": "微信小程序",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 登录“交通银行”微信小程序，进入活动页面点击报名。\n2. 报名成功后获得1次《幸运刮刮乐》抽奖机会。\n3. 在活动期内使用抽奖机会，必中2-28元不等的支付贴金券。\n4. 若非App实名客户，需注册交通银行App并绑定借记卡，在小程序“奖励查询”页面手动兑换贴金券。\n5. 在交通银行App扫码支付或通过指定商户App（如美团、京东到家）选择银联支付时使用贴金券。"
   },
   {
     "id": "recd9IjJxJopmEhpN",
@@ -1115,8 +1118,8 @@
   },
   {
     "id": "rechgGetPNcrs6D4j",
-    "name": "农行省钱月卡10元立减金",
-    "description": "抖音支付，3张1元，1张7元",
+    "name": "农业银行｜特邀客户盲盒优惠购10元券包",
+    "description": "农业银行特邀用户可以优惠价购买价值10元的抖音支付立减金券包（含7元和3张1元立减金），共计10元优惠。",
     "icon": "❓",
     "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=w%2FO2bm0hmec%3D&dynamicData=dd8b2f46ad4c72c3ba51fb05e6847dbe3849eb980c9a3ba85ec1da15f9b384c0&type=new",
     "category": [
@@ -1127,7 +1130,7 @@
     "specialNote": null,
     "targetApp": "中国农业银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 登录中国农业银行掌上银行 APP。\n2. 进入“省钱月卡”活动页面。\n3. 以开盲盒确定的优惠价格购买价值10元的优惠券包。\n4. 券包内包含1张7元和3张1元的抖音支付立减金。\n5. 在掌银“我的-礼券”中领取券包，将跳转至抖音 APP 并自动发放至抖音支付账号。\n6. 使用农行借记卡通过抖音支付时，立减金自动抵扣。"
   },
   {
     "id": "reci3N9Af8gH0daar",
