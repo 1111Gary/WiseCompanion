@@ -27,29 +27,8 @@
     "sourceApp": "工商银行APP",
     "specialNote": null,
     "targetApp": "工商银行APP",
-<<<<<<< HEAD
-    "endDate": "2025-12-30T16:00:00.000Z",
-    "StepsText": null
-  },
-  {
-    "id": "rec0lBvhMhNci6CfZ",
-    "name": "邮储北京分行达标领红包",
-    "description": "5元立减金",
-    "icon": "❓",
-    "link": "https://u.psbc.com/4bddkM",
-    "category": [
-      "Bank",
-      "DailyTask"
-    ],
-    "sourceApp": "邮储银行APP",
-    "specialNote": null,
-    "targetApp": "邮储银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
-=======
     "endDate": "2025-12-29T15:30:00.000Z",
     "StepsText": "1. **活动入口：** 登录工商银行App，通过搜索“乐园”或“我的-权益中心-工银i豆乐园”进入。\\n2. **活动一：庆生会（限12月生日客户）**\\n    * 截至11月24日实名注册且12月生日的客户，登录乐园可领取一次生日惊喜（888/2888/5888/8888工银i豆）。\\n3. **活动二：冰雪滑滑梯（App任务）**\\n    * 完成4项指定体验任务，每完成1项任务获得1次抽奖机会（最多4次），有机会抽取200或5000工银i豆（非100%中奖）。\\n4. **活动三：雪球大作战（App/支付/柜面任务）**\\n    * 完成6项指定功能体验任务（包括查询收支、e支付、柜面评价等）。\\n    * 累计完成任务数可获得抽奖机会（最多6次），有机会抽取200或6.6万工银i豆（非100%中奖）。\\n5. **活动四：新年许心愿（邀请助力）**\\n    * **发起客户：** 许愿并分享，首次好友助力可抽1000/5000工银i豆，累计3个好友助力可再抽1500/6.6万工银i豆（最多2次抽奖）。\\n    * **被邀客户：** 每次助力有机会获得100工银i豆，最多可为5人助力（累计最多500工银i豆，非100%中奖）。\\n6. **活动五：浇水有礼（签到/连续签到）**\\n    * **每日浇水：** 每日可浇水1次，有机会获得50工银i豆（非100%）。\\n    * **连续浇水：** 连续浇水第7/14/21/28天，有机会额外获得100/200/500/1000工银i豆（非100%）。连续浇水中断清零。"
->>>>>>> c8923cd75f3aa70b2e69c369192ddb7dca068ead
   },
   {
     "id": "rec1cWPWIGUoi9yYM",
@@ -144,13 +123,8 @@
     "sourceApp": "网上国网APP",
     "specialNote": null,
     "targetApp": "网上国网APP",
-<<<<<<< HEAD
-    "endDate": null,
-    "StepsText": null
-=======
     "endDate": "2025-12-31T15:30:00.000Z",
     "StepsText": "1. 确保是活动地区（如北京、重庆、吉林等）绑定低压居民户号的网上国网App用户。\\n2. 每日登录App进入签到页面，系统自动完成签到并领取“签到金”。\\n3. **积累奖励：** 每周签到金数量不同（周一、周二、周四、周五 15签到金；周三、周六、周日 5签到金）。\\n4. **累计抽奖：** 累签达到8/15/21/28天时，可额外抽取签到金礼包（最高85签到金）。\\n5. **兑换奖励：** 积攒足够签到金后，在兑换专区兑换电费优惠券（最低0.2元满2元可用，最高20元满30元可用）。\\n6. 签到金有效期为1年，兑换的优惠券有效期为7天，仅可用于兑换时选择的交费地区的居民户号交费。"
->>>>>>> c8923cd75f3aa70b2e69c369192ddb7dca068ead
   },
   {
     "id": "rec38bDAc3EbhDaFv",
@@ -296,8 +270,6 @@
     "StepsText": null
   },
   {
-<<<<<<< HEAD
-=======
     "id": "rec94EtpEfWoHhY71",
     "name": "交通银行｜拼多多30减5元（云闪付）",
     "description": "订单满30元立减5元,限2次",
@@ -314,7 +286,6 @@
     "StepsText": "1. **活动时间：** 2025年10月1日至2025年12月31日。\\n2. **适用对象：** **62开头交通银行银联借记卡**。\\n3. **参与渠道：** 拼多多App线上消费。\\n4. **使用方式：** 在拼多多App收银台选择 **云闪付App** 作为支付方式，并选择已绑定的62开头交通银行银联借记卡进行支付。\\n5. **优惠内容：** 满30元立减5元。\\n6. **名额限制：**\\n    * **每日名额有限**（先到先得）。\\n    * **活动总名额：** 600,000个。\\n    * **同一用户限制：** 每日限享 **1次**，活动期间 **限享2次**。\\n7. **重要提示：** 用户如通过输入银行卡号等信息完成支付（非云闪付App），无法参与优惠活动。优惠使用优先级遵循用户在云闪付App中的设置。"
   },
   {
->>>>>>> c8923cd75f3aa70b2e69c369192ddb7dca068ead
     "id": "rec9DuXPXE4gQmg1v",
     "name": "建设银行｜数币满30减10",
     "description": "领1张满30元减10元数币优惠券，总限量1.5万张，每人限领1张。",
@@ -852,11 +823,7 @@
       "Voucher"
     ],
     "sourceApp": "中国银行APP",
-<<<<<<< HEAD
-    "specialNote": null,
-=======
     "specialNote": "周五10点",
->>>>>>> c8923cd75f3aa70b2e69c369192ddb7dca068ead
     "targetApp": "中国银行APP",
     "endDate": "2025-12-31T10:00:00.000Z",
     "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧周周领"
@@ -1038,21 +1005,6 @@
   },
   {
     "id": "recd8a5RwjzdFCDe5",
-<<<<<<< HEAD
-    "name": "交行幸运刮刮乐",
-    "description": "赢2-28元消费红包",
-    "icon": "❓",
-    "link": "https://mbank.95559.com.cn/mobs6/tangram/TG0/NTG0001.html?promoteCode=20241024AJXGK016&realPage=NTG0001&channelShare=wxhy-20241024AJXGK016",
-    "category": [
-      "Bank",
-      "DailyTask"
-    ],
-    "sourceApp": "交通银行APP",
-    "specialNote": null,
-    "targetApp": "交通银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
-=======
     "name": "交通银行｜小程序抽最高28元",
     "description": "1次抽奖机会，必中2-28元不等的支付贴金券",
     "icon": "❓",
@@ -1066,7 +1018,6 @@
     "targetApp": "微信小程序",
     "endDate": "2025-12-31T15:30:00.000Z",
     "StepsText": "1. 登录“交通银行”微信小程序，进入活动页面点击报名。\n2. 报名成功后获得1次《幸运刮刮乐》抽奖机会。\n3. 在活动期内使用抽奖机会，必中2-28元不等的支付贴金券。\n4. 若非App实名客户，需注册交通银行App并绑定借记卡，在小程序“奖励查询”页面手动兑换贴金券。\n5. 在交通银行App扫码支付或通过指定商户App（如美团、京东到家）选择银联支付时使用贴金券。"
->>>>>>> c8923cd75f3aa70b2e69c369192ddb7dca068ead
   },
   {
     "id": "recd9IjJxJopmEhpN",
@@ -1669,71 +1620,6 @@
     "specialNote": null,
     "targetApp": "交通银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
-  },
-  {
-    "id": "recvfq1AZknIf3vef",
-    "name": "建行美团领0.01买数币15元",
-    "description": "美团搜数字人民币，进去往下拉，有建行省钱卡，可1分领15，可还月付",
-    "icon": "❓",
-    "link": "#",
-    "category": [
-      "Bank",
-      "DailyTask"
-    ],
-    "sourceApp": "美团APP",
-    "specialNote": null,
-    "targetApp": "美团APP",
-    "endDate": "2025-11-30T15:30:00.000Z",
-    "StepsText": "进入美团APP，搜索数字人民币，点击进去往下拉，看到建行省钱卡，可1分领15元，可以还美团月付"
-  },
-  {
-    "id": "recx8XT7d2hsm1JKH",
-    "name": "中行数币新体验",
-    "description": "北京地区未开通数字用户，开通数币随机领取8-15元数字人民币红包",
-    "icon": "❓",
-    "link": "#",
-    "category": [
-      "Bank",
-      "DailyTask"
-    ],
-    "sourceApp": "中国银行APP",
-    "specialNote": null,
-    "targetApp": "中国银行APP",
-    "endDate": "2025-12-31T10:00:00.000Z",
-    "StepsText": "进入中国银行APP首页，点击下面生活，点击中银数币生活馆，点击数币新体验，立即抽取"
-  },
-  {
-    "id": "recxN4HnN4L17AkKx",
-    "name": "邮储攒钱小目标",
-    "description": "攒钱到达升金挡位后领取时点礼、满月礼立减金",
-    "icon": "❓",
-    "link": "https://u.psbc.com/RZLal",
-    "category": [
-      "Bank",
-      "Deposit"
-    ],
-    "sourceApp": "邮储银行APP",
-    "specialNote": null,
-    "targetApp": "邮储银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
-  },
-  {
-    "id": "recy2NQVCdAX8qu6M",
-    "name": "建行缴费小美好",
-    "description": "燃气费,水费，电费，手机话费超过30元返2-5元",
-    "icon": "❓",
-    "link": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=422bedb407714b079403e8ba6cb771ea&crypt_type=1&cryptParam=817oUbFF4rUQ17MOtV3nE3sO4bDkCkkPPbs3nPwKopEL9ruQYH3wxtCeds3GNW2yQmPKNvjEKPSUZrvMyDPRuv8LP2eqBaTPmtRNq5jAN3d2WIiaE0r2/dwB7xyYrsFmraZhrUtlCbGKbodIKTNWe+N+ErE8JexYbLXlyTc2EvUaztJ7F+EsM66tnMOA15uVd5wP4U2ks60ktpUFz04tBOxDtqH0Xye8Zdvj2E257pKG4Cgp+L/HqGhZmpcXfBt4ilsOUcoCoR0JA6lCrioeaho7lna/7e5S+oz9A4buzlN4lF424HY9BZ+CON/14T4oRL0Z4Bijo5qpEyOl41ONnmba+u4dQ86mm2KFh6Ame2i0IgCoy3CZsLqlWs4uCYZlBIfnCPl3KaHvCiZTnjtXONn2wfdYhdNkj1FeMj9iEuBQ5gaSEFKctKBVdFrXngmWVbllfYgbnbdRZandlWpWdJfWwvXBpMNP/5zXQvOIHCqC/s8wDxBzRCK91r+GhZudg7X7rhJX4pJCGR4QmwiU2RM5yj8ezIwAqJ4njCEwSBwmhZ74PrJzcUzpN1xakYJoZIp45zn0Q6zGjUiVfnZhPPQ4nHYQBSglFQVnm+OvMAFwcjMtDHIHXtdcRzNI9FfGr3qLM8eIW+iA6IfKPpiOebXfroLnEoI288f5ZYcQtvg7LZ8VAaTto/tjTDrrrf37MzIGkgt/XsUihbQijNo8fUFMim/1NFDCbpPSsRI5vcwKhk/f0Nm5m7WJ3ydFbfli+bFmX2dVGAWXugCnIuAwURMECzhr1Z/JfFvXDR6/pYCL9vH0K/39+//yT0418eSDARDNLVicf1gL7rROx1rsmg==",
-    "category": [
-      "Shopping",
-      "PaymentBill"
-    ],
-    "sourceApp": "中国建设银行APP",
-    "specialNote": null,
-    "targetApp": "中国建设银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
     "StepsText": "1. **参与：** 登录交通银行手机银行，进入活动页面即视为自动报名成功。\\n2. **确定基准资产：** 报名次日，系统将确定报名前一天的“近30天日均资产”作为“基准资产”。\\n3. **提升资产：** 在活动期间，通过存入或购买储蓄存款、理财、基金、保险、贵金属等金融资产，提升近30天日均资产。\\n4. **达标任务及奖励：** 根据提升的金额，客户可领取对应档次的支付贴金券，每个任务仅可领取一次（总价值最高600元）。\\n    * 提升 ≥ 5万元：40元券（满40.01元可用），限22万份。\\n    * 提升 ≥ 10万元：50元券（满50.01元可用），限12万份。\\n    * 提升 ≥ 20万元：70元券（满70.01元可用），限6万份。\\n    * 提升 ≥ 50万元：160元券（满160.01元可用），限2万份。\\n    * 提升 ≥ 100万元：280元券（满280.01元可用），限5千份。\\n5. **领取奖励：** 任务达标后，需在 **2026年1月31日24时前** 登录活动页面点击“立即领取”。奖励将在5个工作日内到账。\\n6. **贴金券使用：**\\n    * **有效期：** 自发放成功之日（含）起 **30天有效**，过期作废，不予补发。\\n    * **使用场景：** 仅限交通银行手机银行扫码付在线下商户消费，或在话费充值、生活缴费、娱乐充值等场景使用。\\n    * **限制：** 每次支付仅能使用一张，不可叠加。发生部分退款，贴金券不退回"
   }
 ]
