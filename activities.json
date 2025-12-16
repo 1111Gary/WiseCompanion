@@ -1,8 +1,8 @@
 [
   {
     "id": "rec0O6puIhGuig6H5",
-    "name": "支付宝视频",
-    "description": "看视频，领支付红包，每次今天视频金额随机",
+    "name": "支付宝｜看视频领红包",
+    "description": "赢取'视频红包'，红包有效期72小时，每日有奖励上限。",
     "icon": "❓",
     "link": "https://ur.alipay.com/_6YxPo7Itct8dgPrhxXFrj1",
     "category": [
@@ -11,13 +11,13 @@
     "sourceApp": "支付宝APP",
     "specialNote": null,
     "targetApp": "支付宝APP",
-    "endDate": null,
-    "StepsText": null
+    "endDate": "2026-12-31T15:30:00.000Z",
+    "StepsText": "1. 确保支付宝APP版本在10.5.98及以上，并完成实名认证。\\n2. 通过支付宝首页底部“视频”进入页面，根据指引进入任务悬浮球参与活动。\\n3. **核心玩法（特邀）：**\\n   * **解锁大额红包：** 浏览视频解锁任务进度，解锁成功后手动领取大额'视频红包'（每日有观看时长上限）。\\n   * **连续签到：** 每天进入页面签到，连续7天最高得30元（任务中断需重置）。\\n   * **天天预约：** 当日完成预约，次日登录领取红包。\\n   * **邀请好友/新用户：** 邀请好友或'从未浏览/30天内未浏览'短视频的新用户助力，成功后领取红包。\\n4. **通用奖励：** 下滑浏览视频，有机会获得随机金额的'惊喜红包'。\\n5. 注意：所有'视频红包'需在领取后72小时内使用，且每日视频观看有奖励时长上限（'今日红包已领完'）。"
   },
   {
     "id": "rec0bpCM3NqXMzmhY",
-    "name": "工商银行APP权益中心",
-    "description": "工银i豆乐园，点击更多，浇水有礼，每日登录浇水获得工银i豆",
+    "name": "工商银行｜工银i豆乐园",
+    "description": "工银i豆乐园”内的五项任务，最高6.6万工银i豆奖励。\",",
     "icon": "❓",
     "link": "https://wbs.icbc.com.cn/wbsaccountserviceweb/JumpToApp?appId=QDB&fromApp=WAPBNew&app=EBank&startType=PORTALINJECT&buttonno=DZYH&buttonname=WAPBNew&menuId=ThemePage&injectParams=dGFyZ2V0UGFyYW1zPWNEMDRaamd3T1dRMllUaGpabVZoTmpGaFpUYzVaR1UwT0dZek5HRXhaV1UyT0dWbFpEazFaRGRsTWpBd1lUVm1NV0UyTXpjeU5qWTJZV1ZpWXpSalpqSms=",
     "category": [
@@ -27,6 +27,7 @@
     "sourceApp": "工商银行APP",
     "specialNote": null,
     "targetApp": "工商银行APP",
+<<<<<<< HEAD
     "endDate": "2025-12-30T16:00:00.000Z",
     "StepsText": null
   },
@@ -45,11 +46,15 @@
     "targetApp": "邮储银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
     "StepsText": null
+=======
+    "endDate": "2025-12-29T15:30:00.000Z",
+    "StepsText": "1. **活动入口：** 登录工商银行App，通过搜索“乐园”或“我的-权益中心-工银i豆乐园”进入。\\n2. **活动一：庆生会（限12月生日客户）**\\n    * 截至11月24日实名注册且12月生日的客户，登录乐园可领取一次生日惊喜（888/2888/5888/8888工银i豆）。\\n3. **活动二：冰雪滑滑梯（App任务）**\\n    * 完成4项指定体验任务，每完成1项任务获得1次抽奖机会（最多4次），有机会抽取200或5000工银i豆（非100%中奖）。\\n4. **活动三：雪球大作战（App/支付/柜面任务）**\\n    * 完成6项指定功能体验任务（包括查询收支、e支付、柜面评价等）。\\n    * 累计完成任务数可获得抽奖机会（最多6次），有机会抽取200或6.6万工银i豆（非100%中奖）。\\n5. **活动四：新年许心愿（邀请助力）**\\n    * **发起客户：** 许愿并分享，首次好友助力可抽1000/5000工银i豆，累计3个好友助力可再抽1500/6.6万工银i豆（最多2次抽奖）。\\n    * **被邀客户：** 每次助力有机会获得100工银i豆，最多可为5人助力（累计最多500工银i豆，非100%中奖）。\\n6. **活动五：浇水有礼（签到/连续签到）**\\n    * **每日浇水：** 每日可浇水1次，有机会获得50工银i豆（非100%）。\\n    * **连续浇水：** 连续浇水第7/14/21/28天，有机会额外获得100/200/500/1000工银i豆（非100%）。连续浇水中断清零。"
+>>>>>>> c8923cd75f3aa70b2e69c369192ddb7dca068ead
   },
   {
     "id": "rec1cWPWIGUoi9yYM",
-    "name": "邮储做任务赚金币抽奖",
-    "description": "做任务抽奖",
+    "name": "邮储银行｜金币抽奖",
+    "description": "金币抽奖获得视频会员月卡、88元大额支付宝立减金及其他小额立减金。",
     "icon": "❓",
     "link": "https://wap.psbc.com/wxbank/h5/rousePage/#/?pageId=2063&type=wheel",
     "category": [
@@ -60,22 +65,23 @@
     "specialNote": null,
     "targetApp": "邮储银行APP",
     "endDate": "2026-10-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 确保是邮储银行手机银行一星至七星级客户（富嘉、鼎福客户除外）。\\n2. 登录手机银行，进入“权益专区”完成指定任务，积累“金币”。\\n3. **抽奖：** 首次抽奖消耗10金币，后续每次抽奖消耗100金币，有机会随机抽取以下奖品：\\n    * 视频会员月卡（爱奇艺/腾讯/优酷三选一，面值30元，总库存12张）\\n    * 支付宝立减金（最高88元满100元可用，总库存12张）\\n    * 支付宝立减金（2元、1元、0.5元等）\\n4. **兑换/使用：** 奖品领取后，兑换有效期为**30天**。\\n    * **视频会员：** 在30天内完成兑换，会员有效期30天。\\n    * **支付宝立减金：** 在30天内兑换绑定至支付宝账户，绑定后使用有效期**15天**（需使用邮储银行卡支付，并满足门槛）。\\n5. **注意：** 奖品随机发放，金币消耗后不退。金币有效期至活动结束时失效"
   },
   {
     "id": "rec1w5ghYBkkVV8ru",
-    "name": "交行碳星荣耀",
+    "name": "交通银行｜“碳星荣耀”活动",
     "description": "每日签到绿色能量，每月领生活缴费和支付券",
     "icon": "❓",
     "link": "https://mbank.95559.com.cn/mobs6/tangram8/TG0/NTG0001.html?promoteCode=20250526AJMYM005&channelShare=wxhy-20250513AHXJF108",
     "category": [
-      "CheckIn"
+      "CheckIn",
+      "DailyCheckin"
     ],
     "sourceApp": "交通银行APP",
     "specialNote": null,
     "targetApp": "交通银行APP",
-    "endDate": null,
-    "StepsText": null
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. **活动时间：** 2024年8月8日 - 2025年12月31日。\\n2. **获取绿色能量（碳星任务）：** 通过完成指定任务获取绿色能量，能量值累加在当月。\\n    * **累计签到任务（12月）：** 签到满7天（5能量）、14天（10能量）、21天（15能量）。\\n    * **在线互动类任务：** 每五天更新一轮（如浏览专区、体验乘车码、查看月报等），需点击“去完成”领取任务，完成后实时或延迟发放能量。\\n    * **理财投资/基金/活期富/贵金属投资任务：** 完成购买/转入后，在确认份额后的2天内或实时发放能量。\\n    * **资产提升任务（受邀客户）：** 近30天日均资产达1000元以上，报名后2天内获得能量。\\n3. **生成碳星徽章：** \\n    * 每月1日凌晨0点-1点，系统将根据 **上月累计的绿色能量值** 自动激活当月的“碳星徽章”。\\n    * **等级对应：** 徽章等级与上月能量值挂钩，例如：六星徽章要求上月绿色能量 **≥400**。\\n4. **领取碳星礼：** 凭获得的徽章等级，进入活动首页领取奖励。\\n    * **库存更新：** 碳星礼库存 **每周五上午10点** 更新，年终福利库存 **每天上午10点** 更新，领完即止。\\n    * **奖励类型：**\\n        * **① 交行福利 N 选 2（绿色礼券）：** 每月可领取 **2个** 绿色礼券类奖励（如生活缴费3元、出行消费5元等），每个限领1次。\\n        * **② 年终福利（红色礼券）：** 活动期间每人限领取一次（如12月1日-12月7日，1-6星客户可领 **3元顺丰速运贴金券**；12月1日-12月13日，1-6星客户可抽取 **1-88元文旅消费贴金券**）。\\n        * **③ 蓝色礼券：** 规则未详细说明，按页面展示为准。"
   },
   {
     "id": "rec2OMsy3Hy9Y7w33",
@@ -111,8 +117,8 @@
   },
   {
     "id": "rec2XC9PHVfrc08dd",
-    "name": "交行月月有礼",
-    "description": "交行搜“月月有礼”，每完成一次任务皆可抽支付劵",
+    "name": "交通银行｜交行福利季-月月有礼",
+    "description": "100%中奖,最高88元支付券",
     "icon": "❓",
     "link": "https://mbank.95559.com.cn/mobs6/tangram/TG0/NTG0001.html?promoteCode=20240906AGKQX105&channelShare=wxhy-20240905AKQTU014",
     "category": [
@@ -123,12 +129,12 @@
     "specialNote": null,
     "targetApp": "交通银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. **参与条件：** 必须是持有交通银行借记卡/信用卡并开通手机银行的实名认证客户。\\n2. **参与方式：** 前往“交行福利季-月月有礼”活动首页。\\n3. **完成任务：** 按照任务提示完成每月任务（任务不定期调整）。\\n4. **领取机会/奖励：** 任务达标后，通过活动页面领取抽奖机会或直接奖励。\\n    * **注意：** 抽奖机会或奖励 **限完成任务当月领取**，过期失效。\\n5. **抽奖：** 获得的抽奖机会限活动有效期内（2025年10月1日至12月31日）使用。\\n    * **中奖率：** 100%有奖，奖品面值1-88元不等。\\n6. **还款红包激活：** 部分还款红包需在交通银行App内绑定借记卡和信用卡后，点击“去激活”使用。\\n7. **券使用及有效期：** 支付券、话费券、QQ音乐券、哔哩哔哩券、贵金属券有效期均为 **领取成功之日（含）起10天** 有效，过期作废。使用时需满足对应满减条件，并使用交通银行借记卡支付。"
   },
   {
     "id": "rec2hPYI5LxSXyTUk",
-    "name": "网上国网APP签到",
-    "description": "每日签到领金币换电费优惠券",
+    "name": "网上国网｜签到领电费券",
+    "description": "每日签到领取“签到金”，可兑换最高20元（满30元可用）的电费优惠券。",
     "icon": "❓",
     "link": "https://95598.cn/a/",
     "category": [
@@ -138,13 +144,18 @@
     "sourceApp": "网上国网APP",
     "specialNote": null,
     "targetApp": "网上国网APP",
+<<<<<<< HEAD
     "endDate": null,
     "StepsText": null
+=======
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. 确保是活动地区（如北京、重庆、吉林等）绑定低压居民户号的网上国网App用户。\\n2. 每日登录App进入签到页面，系统自动完成签到并领取“签到金”。\\n3. **积累奖励：** 每周签到金数量不同（周一、周二、周四、周五 15签到金；周三、周六、周日 5签到金）。\\n4. **累计抽奖：** 累签达到8/15/21/28天时，可额外抽取签到金礼包（最高85签到金）。\\n5. **兑换奖励：** 积攒足够签到金后，在兑换专区兑换电费优惠券（最低0.2元满2元可用，最高20元满30元可用）。\\n6. 签到金有效期为1年，兑换的优惠券有效期为7天，仅可用于兑换时选择的交费地区的居民户号交费。"
+>>>>>>> c8923cd75f3aa70b2e69c369192ddb7dca068ead
   },
   {
     "id": "rec38bDAc3EbhDaFv",
-    "name": "建行惠消费开好礼",
-    "description": "搜建融家园，点惠消费开好礼，抽奖随机得1-168立减金 。每月1次",
+    "name": "建设银行｜建融家园-惠消费",
+    "description": "100%中奖，随机抽取1元至168元。每月1次\n",
     "icon": "❓",
     "link": "https://image.jiayuan.ccbhome.cn/scss/activity/giveBackConsumer/#/?activityId=4815650087&channelType=SJYH&ADTAG=ch.sjyx.app&poid=SJYH_07&UTM_SOURCE=shenbixiu&UTM_CAMPAIGN=16538_82rgcu_",
     "category": [
@@ -155,12 +166,12 @@
     "specialNote": null,
     "targetApp": "中国建设银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 确保已是CCB建融家园实名认证用户。\\n2. **每月首次登录成功**后，获得一次抽奖机会（100%中奖）。\\n3. 在当月（自然月最后一天23:59:59前）进入活动页面进行抽奖。\\n4. 随机抽取1元至168元金额不等的微信立减金（共9个档位，例如：最高档168元由6张28元券组成，满50元减28元）。\\n5. **领取并使用：** 获得奖励后需**当月完成微信立减金领取**。\\n6. 领取后，立减金有效期为**10天**（含到账当日）。\\n7. 使用时，需选择**中国建设银行借记卡或信用卡**（根据领取时选择的卡种）支付，且支付金额需满足券的满减条件。\\n8. **注意：** 每日8:00~24:00限时开启盲盒抽奖，每日和每月奖励份额有限，领完即止。"
   },
   {
     "id": "rec3L0b8xHeLc7m7d",
-    "name": "建行生活12月趣购抽礼金",
-    "description": "12月活动一分抽(2/3/5/8元)",
+    "name": "建设银行｜趣购1分钱抽金礼",
+    "description": "一分钱抽取到2元至8元，总名额不少于18500份。",
     "icon": "❓",
     "link": "https://syx6.dmsp.ccb.com/ccbact/m3682/AP010202401221023211-act.html",
     "category": [
@@ -171,12 +182,12 @@
     "specialNote": null,
     "targetApp": "建行生活APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 确保是中国建设银行APP签约机构为**北京市分行**的持卡用户。\\n2. 进入“趣购抽金礼”活动页面，同意协议并登录（可能需要开通龙支付）。\\n3. 点击「去支付」按钮，使用建行信用卡或储蓄卡**成功支付1分钱**（活动期内仅限1次参与机会）。\\n4. 返回活动页面，点击转盘「抽」进行抽奖。\\n5. 抽奖后点击「立即领取」，选择所需的微信立减金种类（借记卡或信用卡专享，一经选择无法更改）。\\n6. 微信立减金有效期7天，使用时需选择对应的建行卡，且支付金额需大于立减金面额0.01元（例如，8元券需支付≥8.01元）。\\n7. 奖励将在1-3个工作日到账，总名额不少于18500份，抽完即止。"
   },
   {
     "id": "rec3vdWRwNwRuJCi6",
-    "name": "邮储签约筑未来测评赢好礼",
-    "description": "完成任务抽立减金",
+    "name": "邮储银行｜完成任务抽8.88",
+    "description": "可获得4次抽奖机会，最高8.88元支付宝立减金。",
     "icon": "❓",
     "link": "https://wap.psbc.com/mobilebank/skipCellPhoneAPPToActivityPage.do?pageId=1145&isLinkShared=1&source=0&activityId=187021927636992",
     "category": [
@@ -187,12 +198,12 @@
     "specialNote": null,
     "targetApp": "邮储银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 登录邮储银行手机银行 APP（需8.0及以上版本），进入首页/财富/我的-活动专区页面。\n2. 完成三项任务：理财签约、风险测评、浏览天天盈产品5秒（每项任务1次抽奖）。\n3. 完成全部三项任务可额外获得1次抽奖机会，最多共4次抽奖。\n4. 每次抽奖均有机会赢取1.88元/6.88元/8.88元支付宝立减金。\n5. 抽中后在活动页“我的奖品”或“卡券中心”兑换，30天内有效。使用时需选择邮储银行储蓄卡支付。"
   },
   {
     "id": "rec58nWsQyLpcfhmq",
-    "name": "交行领劵中心",
-    "description": "各种优惠劵。10点抢1分秒杀2.8元优惠券",
+    "name": "交通银行｜领券中心",
+    "description": "每周或每日限时领取不同商户的优惠券，涵盖美食、商超、出行等多个场景。",
     "icon": "❓",
     "link": "https://mbank.95559.com.cn/mobs6/tangram8/TG0/NTG0001.html?promoteCode=20250526AJMYM005&channelShare=wxhy-20250513AHXJF108",
     "category": [
@@ -200,10 +211,10 @@
       "CheckIn"
     ],
     "sourceApp": "交通银行APP",
-    "specialNote": "每日10:00抢",
+    "specialNote": "每日10点",
     "targetApp": "交通银行APP",
-    "endDate": null,
-    "StepsText": null
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. 确保交通银行App版本在8.4.5及以上，并绑定交行62开头银联借记卡或信用卡。\n2. 登录交通银行App，搜索“领券中心升级版”进入页面。\n3. 限时抢： 周五12:00开始抢券（每周1次，如遇节假日顺延），每次不低于20万张。\n4. 日常抢券： 在精选推荐、优选美食、品质商超等栏位，每日10:00:00起发放优惠券。\n5. 领取限制： 每张券每位客户每周（周一至周日）限领取1次。\n6. 优惠券领取后当日发放，有效期为7日（含领取当日）。"
   },
   {
     "id": "rec5L1lYQL7GSb4Tj",
@@ -223,24 +234,24 @@
   },
   {
     "id": "rec6nEUJ2avZhetI5",
-    "name": "建行数币消费达标礼",
-    "description": "搜索数币消费达标礼：活动期间，用户点击“报名”按钮报名参加活动。报名后在【建行生活APP】使用本人建行数字人民币钱包（仅限一类、二类钱包）成功支付订单（限美食、商超、外卖或电影场景订单，购买有价券需在活动期间完成核销）使用建行数字人民币钱包支付。订单满2笔且金额满100元;订单满2笔且金额满300元",
+    "name": "建设银行｜数币消费达标礼",
+    "description": "实付满2笔100元，15元京东券，实付满2笔300元，30元京东券（限10万份）",
     "icon": "❓",
     "link": "https://event.ccbft.com/ccbact/m385/AP202508126470000001-act.html?__dmsp_token=TFU6Y2NiX2dqYjp3eDoyOEJFRkQ3NEM2NjJEOUI3Qjk2NzYyQUFGQjk2N0U1QjpmMmM5ZDg2M2VhYmI0NWYxOTMwODFjYzBjNzFkOTEyZA==&__dmsp_ticket=TFU6Y2NiX2dqYjp3eDoyOEJFRkQ3NEM2NjJEOUI3Qjk2NzYyQUFGQjk2N0U1QjpiYTgxYzgxZGYxMDY0MzQ1YjRjNzg2ZWRiYzcyMjJlMw==&__dmsp_st=U1Q6Y2NiX2dqYjp3eDoyOEJFRkQ3NEM2NjJEOUI3Qjk2NzYyQUFGQjk2N0U1Qjo0YzRiZmJiNWJhOTM0OWVhYmZiZWQ3NGY4MDVhOTRjNw==",
     "category": [
       "Shopping",
       "PaymentDiscount"
     ],
-    "sourceApp": "中国建设银行APP",
+    "sourceApp": "建行生活APP",
     "specialNote": null,
-    "targetApp": "中国建设银行APP",
+    "targetApp": "建行生活APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "确认为建行数币试点地区用户（需开通建行一/二类数币钱包）。\\n2. 登录建行生活APP，进入活动页面点击“报名”按钮。\\n3. **任务一（累计消费100元）：** 报名后，在建行生活APP指定场景（美食/商超/外卖/电影）使用本人数币钱包支付，实付订单满2笔且累计满100元，有机会获15元京东券（限量10万份）。\\n4. **任务二（累计消费300元）：** 报名后，在建行生活APP指定场景使用本人数币钱包支付，实付订单满2笔且累计满300元，有机会获30元京东券（限量10万份）。\\n5. 达标奖励将在次月20号前派发至建行生活账号。"
   },
   {
     "id": "rec7zW6WHrTC8HY0z",
-    "name": "中信银行抽两周年红包",
-    "description": "会员两周年X富贵理财节1次/人",
+    "name": "中信银行｜会员抽最高200元",
+    "description": "中信红会员可抽奖最高200元立减金；周三资产达1000元可额外抽20元代金券。",
     "icon": "❓",
     "link": "https://wap.bank.ecitic.com/NMBFOServer/MobileBankWeb/?index=Share.BankShare.Index&key=VlWnQNU+zRflGMBNbEdsZCjtZU91gn8MLRrYh5W1uYmZUgWfJaaKZ5h0bKOl83pidddZuka8Y0Kuwv7uEebB6eclsOB/7eLWWSxWZloOOEywW01Vx2D/k5fOO6PijQfi4xRg7QF7SeK+yfxBU6QD1AJIHHQJr7JyTWNdlptGIor5b5WOPismwB41Wl9WnhAuqOIx4hzhOLrrhYWOtOSVD9RmlWB4Q5zkGzmkGwagToq0WQBD2O7k7V52Yd/ihLlR1WDSUj+C6ZWYRSrLoPqyZwhnGsEicbhS0NNjWhr3YNbjHCocyeN/JlK6eW/pI+O8vx2+/aZRkK2ZHUA7Ol/PpeMUbp7+EYUb5XTYdPh6H6f8OaFyZxYNcBj2K5kEQGfQh18p1ha6kni20u/fODxb0NPwM625vnTdO/OUi8kJQ1b8ngY/jHbsn1ZWkv3kHwEmmh/LuWVXrUO6NnYNDGGjv01d5c+Jkl3IEYtScjj1QABwuanwxh/qUdcZxFEVpB26/xfX11l2WpTA/LPxJ+8xJok/K8fGd0ZT57YIeJDDPTiJg04uRC1UTVw9wxKOiVyCjZ8HaubIPDd6W/yY/WauUopbgk9VBWCcesf9XxHtkSSFfKwu3emNKlkFeBjgyXHcFIo3xYTRM5Eos4+70vbsUR0wgie4UZVpQfYqim2JkKTr7uenib8+L0hO7ly0CORs29CtkS0WibxokxjCO6bioHbSa1HRJvcawFMtVay+RT0SQpBJfay9b5z4+8s3XhfBVBCnE+REcnCGlLWqAXGHoBwxsSaShE58zzIWlBmaY5IlcqPoupVJ+3YeiHd7NBO0BzVMoD/y0KbMRiHCgYvkXdNJ423iZAZd4rku52L5oFPkvbi19jVDR5C6mmuFTD7U3TXAtEgSRzWdhTLMTeSwTlCYoM5t5SbHNgI+OF942E8=CITICBANKLOGO",
     "category": [
@@ -251,7 +262,22 @@
     "specialNote": null,
     "targetApp": "中信银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 登录中信银行手机银行 APP，进入“会员”频道或活动页。\n2. 日常抽奖（全体会员）：活动期间可随机抽奖1次，有机会获得1元至200元微信立减金。\n3. 周三会员日（资产达标）：在12月3日/10日/17日/24日/31日 9:00-24:00，资产达1000元的中信红会员可再抽奖1次。\n4. 周三抽奖奖品为20元霸王茶姬代金券或信享会员优惠券。\n5. 在活动页面【我的奖品】中查看和领取福利，需在有效期内使用。"
+  },
+  {
+    "id": "rec8774zv2rCcZVaA",
+    "name": "京东｜东东农场",
+    "description": "商品种植，可兑换实物商品或获得等值红包",
+    "icon": "❓",
+    "link": "https://pro.m.jd.com/mall/active/42HV4J3Q87B2xFQMJk81PCc1mEs3/index.html?qq_aio_chat_type=2&utm_source=iosapp&babelChannel=ttt2&activityChannel=null&utm_campaign=t_335139774&utm_medium=appshare&_ts=1765786258971&utm_term=QQfriends_shareidb0b267894e0a31ab832f3ad24cbfe8631504fdfe17657862628941_none_none&ad_od=share&gxd=RnAokWcLajLew5ER-oQmXvY9VCSJ_4S5-kgyzdgrwQYDKbKc6R0KKIgdhMgudyg&gx=RnAomTM2OWaFgtFR-8gmGSY",
+    "category": [
+      "CheckIn"
+    ],
+    "sourceApp": "京东APP",
+    "specialNote": null,
+    "targetApp": "京东APP",
+    "endDate": null,
+    "StepsText": "1. **参与：** 确保收到邀请（目前为邀请制），进入东东农场活动页面。\\n2. **种植：** 选择种植档位和想要兑换的商品（选择后不能更改）。新用户默认为“新手福利档位”（仅可种植一次）。\\n3. **获取水滴（浇水资源）：** 通过以下方式获取水滴：\\n    * **签到。**\\n    * **邀请好友助力**（需好友进入页面完成指定任务）。\\n    * **做任务**（包括浏览指定时长、下单任务，下单任务需在指定渠道/会场内60分钟内完成，退单会扣减水滴）。\\n    * **其他抽奖活动随机获得。**\\n4. **浇水与维护：**\\n    * 连续 **7天未浇水**，所有水滴将在第8天过期。\\n    * 连续 **15天未浇水**，大树将在第16天枯萎，需重新开始种植。\\n5. **兑换：** 种植成熟后，兑换相应的商品（需支付一定金额，具体金额以页面为准）。\\n    * **兑换地点：** 京东购物小程序和京东金融App农场获得的成熟奖励需回 **京东商城App农场兑换**。\\n6. **特殊情况：** 如原选商品或所有备选商品都无法兑换，将获得等值京东红包补偿。\\n7. **奖励形式：** 奖励以优惠券形式发放（24小时内），无法兑换时发放等额京东红包补偿。"
   },
   {
     "id": "rec8Awk4zucHd3FK2",
@@ -270,9 +296,28 @@
     "StepsText": null
   },
   {
+<<<<<<< HEAD
+=======
+    "id": "rec94EtpEfWoHhY71",
+    "name": "交通银行｜拼多多30减5元（云闪付）",
+    "description": "订单满30元立减5元,限2次",
+    "icon": "❓",
+    "link": "https://content.cup.com.cn/UCIWeb/outputWeb/coupon/coupon.html#/couponDetail?couponId=2102025092599004",
+    "category": [
+      "Shopping",
+      "PaymentDiscount"
+    ],
+    "sourceApp": "拼多多APP",
+    "specialNote": null,
+    "targetApp": "拼多多APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. **活动时间：** 2025年10月1日至2025年12月31日。\\n2. **适用对象：** **62开头交通银行银联借记卡**。\\n3. **参与渠道：** 拼多多App线上消费。\\n4. **使用方式：** 在拼多多App收银台选择 **云闪付App** 作为支付方式，并选择已绑定的62开头交通银行银联借记卡进行支付。\\n5. **优惠内容：** 满30元立减5元。\\n6. **名额限制：**\\n    * **每日名额有限**（先到先得）。\\n    * **活动总名额：** 600,000个。\\n    * **同一用户限制：** 每日限享 **1次**，活动期间 **限享2次**。\\n7. **重要提示：** 用户如通过输入银行卡号等信息完成支付（非云闪付App），无法参与优惠活动。优惠使用优先级遵循用户在云闪付App中的设置。"
+  },
+  {
+>>>>>>> c8923cd75f3aa70b2e69c369192ddb7dca068ead
     "id": "rec9DuXPXE4gQmg1v",
-    "name": "建行数币惠生活",
-    "description": "数字人民币满30-10数币优惠券",
+    "name": "建设银行｜数币满30减10",
+    "description": "领1张满30元减10元数币优惠券，总限量1.5万张，每人限领1张。",
     "icon": "❓",
     "link": "https://res.yunbusiness.ccb.com/gbchannel/e_report/CloudLink/index.html?target=url&ccbParam=https%3A%2F%2Fres.yunbusiness.ccb.com%2Fgbchannel%2Fe_report%2FCCBLIFE%2F%23%2FinterLayer%2FYS44000010000078%3FLOGIN_REQUIRED%3D0%26path%3D%252Fccbact%252Fm321%252FDPBJJHSH202501160001-act-ccbLEshareFrom_jhsh.html",
     "category": [
@@ -283,23 +328,7 @@
     "specialNote": null,
     "targetApp": "建行生活APP",
     "endDate": "2025-12-28T15:30:00.000Z",
-    "StepsText": null
-  },
-  {
-    "id": "rec9IUk6KnF9BkmGe",
-    "name": "京东农行日 首绑专享优惠",
-    "description": "登录京东，在“京东支付”首次绑定农行信用卡立减5元，满5.01可用。或一分购包邮好物。两项活动不可同享",
-    "icon": "❓",
-    "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=M9L77AgUYJo%3D&dynamicData=UkdtOrPiSdavA3m6UGLdDvRUyyEBojKcC4krMtY%2FSxs%3D&displayParam=UkdtOrPiSdavA3m6UGLdDvRUyyEBojKcC4krMtY%2FSxs%3D",
-    "category": [
-      "MissionReward",
-      "Bank"
-    ],
-    "sourceApp": "中国农业银行APP",
-    "specialNote": null,
-    "targetApp": "中国农业银行APP",
-    "endDate": "2025-12-31T15:59:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 确认为北京地区已注册建行生活APP，且已开立建行数字人民币一/二类钱包的用户。\\n2. 确保注册建行生活APP、龙支付、数币钱包的三个手机号一致。\\n3. 在活动期间，登录建行生活APP领取“满30元减10元数币优惠券”（限量15000张，每人限领1张）。\\n4. 优惠券领取后3天内有效，需在活动指定商户到店消费时，使用数字人民币支付抵扣。\\n5. 支付方式：商户买单时，选择“数字人民币”并选择对应优惠券进行支付，或展示付款码选择“数字人民币”由商户扫码支付。"
   },
   {
     "id": "recBlsqc2bYssM0pJ",
@@ -316,6 +345,22 @@
     "targetApp": "中国银行APP",
     "endDate": "2025-12-31T10:00:00.000Z",
     "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧回归礼"
+  },
+  {
+    "id": "recCDkGmnCZNSJj0N",
+    "name": "兴业银行｜云闪付满5.01减5",
+    "description": "使用兴业手机银行云网支付，满5.01元立减5元，活动期内限1次。",
+    "icon": "❓",
+    "link": "https://content.cup.com.cn/UCIWeb/outputWeb/coupon/coupon.html#/couponDetail?couponId=2102025092195975",
+    "category": [
+      "Shopping",
+      "PaymentDiscount"
+    ],
+    "sourceApp": "兴业银行APP",
+    "specialNote": null,
+    "targetApp": "兴业银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. 打开兴业手机银行 APP\n2. 使用云闪付或付款码进行支付\n3. 单笔消费满 5.01 元\n4. 自动立减 5 元"
   },
   {
     "id": "recDLDyeqR5OATbAg",
@@ -335,24 +380,24 @@
   },
   {
     "id": "recDRGvwqpkgrNsXp",
-    "name": "支付宝数字人民币月享节",
-    "description": "16日准时抢16元满减券包，消费16元天天减，16日开始每天12点抽支付红包",
+    "name": "支付宝｜交行数字人民币专享优惠",
+    "description": "16日12点16元券包，消费16元天天减。\n",
     "icon": "❓",
-    "link": "https://ur.alipay.com/_2k6EtGOShdjOn35TzZYzy",
+    "link": "https://ur.alipay.com/_62tVS6UuBIwmAQfA6TjfD8",
     "category": [
       "Voucher",
       "CheckIn"
     ],
     "sourceApp": "支付宝APP",
-    "specialNote": "16日后12:00抢",
+    "specialNote": "16日12点",
     "targetApp": "支付宝APP",
-    "endDate": "2025-11-30T15:30:00.000Z",
-    "StepsText": null
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. **参与条件：** \\n    * 支付宝实名认证用户（16周岁以上，绑定中国大陆手机号）。\\n    * 需位于 **全国数字人民币试点地区**（领取满减券时需定位）。\\n    * **活动为邀请制**，仅受邀用户可参与。\\n    * 需拥有交通银行数字人民币钱包或网商银行(支付宝)数字人民币钱包。\\n2. **抢满减券（优惠券包）：** \\n    * **内容：** 每家银行30,000份，每份合计16元（满4.01-4券*1，满10-4券*1，满80-8券*1）。\\n    * **限制：** 同一用户每期活动最多可抢 **一家银行** 的券包。\\n    * **有效期：** 截止 **2025年12月31日23:59:59**（以卡包显示为准）。\\n    * **使用要求：** 支付时选择的数字人民币钱包 **必须与申领满减券时选取的银行一致**。\\n3. **随机立减（无需领券）：** \\n    * **内容：** 在支付宝收银台选择交通银行或网商银行数币钱包支付时，单笔订单金额 **满16.00元** 即可享随机立减，**单笔最高减88元**。\\n    * **限制：** 同一用户活动期内 **每家银行** 可享 **50次** 立减机会。\\n    * **注意：** 立减优惠与其他支付宝立减活动不可叠加。\\n4. **适用场景：** 淘宝（实物商品）、天猫超市、淘票票、大麦、饿了么到家、飞猪（酒店在线付）、支付宝内出行场景（12306、公交、地铁、高德/滴滴打车）。\\n5. **重要声明：** 优惠数量有限，先到先得，发完即止。退款时立减金额不退回，且立减次数不补。"
   },
   {
     "id": "recDS8C3fC34GdeJQ",
-    "name": "中国建设银行APP签到",
-    "description": "每日签到领金币开宝箱抽微信立减金",
+    "name": "建设银行｜任务分兑换宝箱",
+    "description": "任务分可兑换开宝箱机会，奖品包括话费、京东E卡，立减金等。",
     "icon": "❓",
     "link": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=b7fbcbdcf9814297bdb479ebcd224419",
     "category": [
@@ -363,12 +408,12 @@
     "specialNote": null,
     "targetApp": "中国建设银行APP",
     "endDate": null,
-    "StepsText": null
+    "StepsText": "1. 登录中国建设银行App，进入“任务中心”页面。\\n2. **赚取任务分 (STEP 1)：** 完成每日签到、精选任务或参与不定期活动来积累“任务分”（积分）。\\n3. **兑换好礼 (STEP 2)：** 消耗积累的“任务分”兑换“开宝箱”机会。\\n4. **领取奖品：** 宝箱奖品包括话费、京东E卡、天猫超市卡、任务分奖励等。\\n5. **注意：** 任务分有效期自获取之日起至**次月月底22点**，到期未使用的任务分将自动清零。"
   },
   {
     "id": "recDdnRzFC1muym36",
-    "name": "交行扫码付周周惠商超",
-    "description": "领1-8.8商超券随机领",
+    "name": "交通银行｜扫码付周周惠商超",
+    "description": "每周可商超券1张，随机1-8.8元",
     "icon": "❓",
     "link": "https://mbank.95559.com.cn/mobs6/tangram/TG0/NTG0001.html?promoteCode=20250109ARMWF101&realPage=NTG0001&channelShare=wxhy-20250109ARMWF101",
     "category": [
@@ -379,12 +424,12 @@
     "specialNote": null,
     "targetApp": "交通银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 登录交通银行 APP（8.4.5及以上版本）或在指定商户线下扫描二维码。\\n2. 进入“扫码付周周惠”活动页面领取贴金券。\\n3. 每周一零点释放名额，每人每周可领取美食生鲜券和商超券各1张（随机1-8.8元）。\\n4. 领券后，在指定商户线下支付时，打开交通银行APP出示付款码，使用交行借记卡支付。\\n5. 满足用券条件（如满2减1，满18减8.8等）即可享受优惠。"
   },
   {
     "id": "recE0Zq4419HGoWSI",
-    "name": "京东视频",
-    "description": "看视频领金币，可提现到京东钱包",
+    "name": "京东｜看视频赚金币",
+    "description": "看视频领金币，提现至京东钱包用于消费或转账至银行卡",
     "icon": "❓",
     "link": "https://3.cn/-2vWKdkT",
     "category": [
@@ -394,12 +439,12 @@
     "specialNote": null,
     "targetApp": "京东APP",
     "endDate": null,
-    "StepsText": null
+    "StepsText": "1. **参与条件：** 京东实名认证并开通钱包的个人用户；需使用 **京东APP 12.2.0及以上版本**。\\n2. **赚取金币（“赚现金活动”）：**\\n    * **看视频得金币：** 浏览或下翻视频即可获得金币（每个视频可获金币时长不同），每日有金币奖励上限。\\n    * **浏览任务得金币：** 在活动界面中，点击指引浏览相应页面和视频内容，可获得额外金币。\\n3. **超赚任务（“天天来赚钱”）：** 每日完成签到、预约任务和看视频任务（每天观看30个不同视频，每个至少30秒），可将金币/现金奖励 **膨胀兑换为平台无门槛购物红包**。\\n4. **新客连签任务：** 受邀新用户连续3天进入逛频道完成签到任务，可获得 **红包** 奖励（中途断签任务失败，需主动领取）。\\n5. **金币兑换余额/提现：**\\n    * 金币需在活动界面点击“兑换”按钮兑换为 **活动余额**。\\n    * 活动余额达到页面规则后，选择满足条件的提现额，点击提现按钮即可提现至 **京东钱包**。\\n    * **提现限制：** 每个30天周期内，用户可提现次数与可提现档位次数一致。\\n6. **活动奖励用途：**\\n    * **消费抵扣：** 用于京东App内购买实物商品时抵扣订单金额。\\n    * **银行卡提现：** 可转账至银行卡（需部分用户完善身份信息）。\\n7. **重要时效性：**\\n    * **活动余额有效期：** 用户如在 **20天内均未到访活动**，则活动中的余额将 **自动清零**。\\n    * **活动金币/余额清零：** 活动结束后，金币/余额的发放、兑换、提现将全部停止，用户账户的金额 **随即清零*"
   },
   {
     "id": "recENJBGZzIsGqYuh",
-    "name": "银联云闪付玩赚中心",
-    "description": "签到，达标有礼，抽奖立减券",
+    "name": "银联云闪付｜玩赚中心12月活动",
+    "description": "每日签到及活动，最高抽取620元立减券。\",",
     "icon": "❓",
     "link": "https://base.cup.com.cn/s/wl/WebAPP/helpAgree/page/appletShare/9kSijj?params=ewogICJ0b0xpbmsiIDogImh0dHBzJTNBJTJGJTJGZ29wbGF5LmN1cC5jb20uY24lMkZwbGF5X21vYmlsZSUyRiIsCiAgImVuY3J5cHRBcHBJZCIgOiAiZTljMDUzNzVmYjIzZDUwOSIsCiAgInBhcnRuZXJJZCIgOiAiYzFmMmNlYWE2MDBjNDFlYTgxMzg3NjIwN2E1MTFmOWIiCn0=",
     "category": [
@@ -410,7 +455,7 @@
     "specialNote": null,
     "targetApp": "云闪付APP",
     "endDate": null,
-    "StepsText": null
+    "StepsText": "\"1. **报名：** 首次进入云闪付App“玩赚中心”活动页面即视为自动报名成功。\\n2. **签到奖励：** 每日签到获得 **6积点**。连签7天周期内，第2、6天获得1次免费抽奖机会，第3、7天获得 **12积点**。\\n    * **抽奖奖励：** 签到抽奖奖品为随机立减券（最高620元）或18积点（非100%中奖）。\\n    * **注意：** 抽奖机会需当天23:59:59前使用，逾期失效。积点有效期为3个月。\\n3. **达标抽奖（每日任务）：** 完成以下任一任务，每天可获得1次抽奖机会（当天23:59:59前需使用）：\\n    * 每日1笔实付满 **0.62元** 的指定消费（每月限30次）。\\n    * 每日1笔实付满 **10元** 的信用卡还款（每月限5次）。\\n    * 每日1笔刷码乘车交易（每月限20次）。\\n    * 每月1次浏览“一键查卡”页面（每月限1次）。\\n    * **抽奖奖励：** 达标抽奖奖品同签到抽奖（最高620元立减券或18积点），非100%中奖。\\n4. **达标领券（连续任务）：** 累计3/7/15天消费满0.62元达标，可分别领取 **0.5元/1元/1元立减券**。\\n5. **62VIP专属福利：** 62VIP用户累计3/7/15天消费满0.62元达标，可分别领取 **0.5元/0.5元/1元立减券**。\\n6. **注意：** 达标交易发生退货/撤销，未使用的抽奖机会或任务进度将自动扣减。所有奖励数量有限，先到先得。\","
   },
   {
     "id": "recEXuyKINDBR3e1Q",
@@ -462,8 +507,8 @@
   },
   {
     "id": "recFyVvQbdF96KzSq",
-    "name": "农业银行APP",
-    "description": "我的小豆，每日签到抽小豆，去抽奖",
+    "name": "农业银行｜每日签到抽小豆",
+    "description": "每日签到 ，最高可抽取3000小豆。\",",
     "icon": "❓",
     "link": "#",
     "category": [
@@ -478,8 +523,8 @@
   },
   {
     "id": "recHsykt7FWAjum3F",
-    "name": "支付宝碰一下签到",
-    "description": "碰出好玩 玩游戏赚身价兑好礼，\n连续签到14天得3元碰一下红包",
+    "name": "支付宝｜碰碰街区",
+    "description": "连续签到14天，可领3元碰一下红包",
     "icon": "❓",
     "link": "https://ur.alipay.com/_9XQxUCOuk8yn7gaw2OqlR",
     "category": [
@@ -489,13 +534,13 @@
     "sourceApp": "支付宝APP",
     "specialNote": null,
     "targetApp": "支付宝APP",
-    "endDate": null,
-    "StepsText": null
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. **参与条件：** 确保已收到活动邀请，已实名认证并绑定手机号，且支付宝App版本在10.5.60及以上。\\n2. **获取体力值：** 每日基础体力值为3点（每日刷新，不可叠加），可通过完成每日任务补充。\\n3. **积累身价值：**\\n    * 消耗1体力值参与互动游戏，得分越高，获得“身价值”奖励越高。\\n    * 通过每日签到（30天周期内累计签到14日）、每日任务、邀请/收藏任务等行为获得身价值。\\n4. **兑换奖励：** 累计身价值后，在兑换区兑换奖品（包括红包、实物、优惠券等）。\\n5. **兑换限制：** 兑奖区奖池内，同一用户**每月最多可兑换5个奖品**，奖品数量有限，先到先得。\\n6. **有效期：** “身价值”有效期为**一年（365天）**，红包/奖品券有效期以卡包/页面展示为准，过期作废。"
   },
   {
     "id": "recIVgtHMD0KIJwfz",
-    "name": "建行支付达标赢好礼",
-    "description": "月消费15笔5000，10000，30000，可抽三次奖品",
+    "name": "建设银行｜支付达标赢好礼",
+    "description": "累计金额达5000/10000/30000元，可抽奖，最高666元的微信立减金。",
     "icon": "❓",
     "link": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=422bedb407714b079403e8ba6cb771ea&crypt_type=1&cryptParam=817oUbFF4rUQ17MOtV3nE3sO4bDkCkkPPbs3nPwKopEL9ruQYH3wxtCeds3GNW2yQmPKNvjEKPSUZrvMyDPRuv8LP2eqBaTPmtRNq5jAN3d2WIiaE0r2/dwB7xyYrsFmraZhrUtlCbG568NZ9zMfwd3u7nB0MqbY/wZMimDnwUWKW1irarOeYwCsTi0STAMsVGmUcvWtjniyeGInT5ky9mN1LMXCL073VNYTjJTCpU2Y15sNBXocM3bP/1taP7DUJKECFvhDR7Da0HeBRwb7KNcq+pZ1MimIyvtg/sWAdmn+rOKEaRLmyjLBS+YWU3YgpTQzAgqgx+8pEHZnsU0H1H7PPztBAlZr3yl6YCXDmYuqBIOx19Sw9yleip74wuFfQ/BPjALsKjqcfTwwSrf9dl2TpnSoPGZCBibteZ8gGLajBvVSGfzrV2Uj4PAKPMi1tMQzzgwI5vjBOg0/GDWuqpKy5HXaK6c6Kx3wZdHRX9RJpE8s4jyAQVjxNtOQ44zXxEv+UinWrXK2UpOrzl0gJmrNmmI+ExYsL7GmA/5VYe9hggIzSTRRMcr6fpZYI9m/udMBDEpPy3s=",
     "category": [
@@ -506,7 +551,7 @@
     "specialNote": null,
     "targetApp": "中国建设银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 确保是中国建设银行受邀持卡客户，并登录手机银行报名（仅需报名一次）。\\n2. 将建行卡（储蓄卡或信用卡）绑定到微信支付，并设置建行卡为优先付款方式。\\n3. **积累交易：** 在单个自然月内，使用微信快捷支付累计消费金额：\\n    * 达5000元，获1次抽奖机会。\\n    * 达10000元，再获1次抽奖机会。\\n    * 达30000元，再获1次抽奖机会。\\n4. **加码福利（额外抽奖）：** 当月消费达任一金额档位，且累计支付笔数达15笔，可再获1次额外抽奖机会。\\n5. **抽奖领取：** 次月9日9点后，进入活动页面参与抽奖（每月最多4次机会），抽奖机会保留两个自然月。\\n6. 奖品为随机面额微信立减金（最高666元，有使用门槛），有效期7天，需选择对应卡种（储蓄卡/信用卡）使用。"
   },
   {
     "id": "recJBCuTa3B2fygy2",
@@ -526,8 +571,8 @@
   },
   {
     "id": "recKAEUBV2ErRVVFe",
-    "name": "中行数币福利购会员月卡",
-    "description": "0.99购买四选一",
+    "name": "中国银行｜数币购会员月卡",
+    "description": "支付0.99元，购买芒果TV/爱奇艺或青桔/哈啰单车30天畅骑卡四选一。",
     "icon": "❓",
     "link": "#",
     "category": [
@@ -542,8 +587,8 @@
   },
   {
     "id": "recKDuXxLsZNFdiIY",
-    "name": "农行周四秒杀",
-    "description": "每周四10；00秒杀",
+    "name": "农业银行｜周四秒杀",
+    "description": "秒杀商品分为“6分购”、“爆款”和“好物”专区，以超低价格购买实物商品。\",",
     "icon": "❓",
     "link": "https://wx.abchina.com/webank/main-view/openTagForBJSes?id=np3hzfXK7yA%3D&source_type=SHARE",
     "category": [
@@ -551,31 +596,15 @@
       "CheckIn"
     ],
     "sourceApp": "中国农业银行APP",
-    "specialNote": "每周四10:00抢",
+    "specialNote": "周四10点",
     "targetApp": "中国农业银行APP",
-    "endDate": null,
-    "StepsText": null
-  },
-  {
-    "id": "recKYMUu0EKoVomVB",
-    "name": "交行“京”喜财富季",
-    "description": "北京持卡用户提升资产领5-100支付贴近券，至高200元",
-    "icon": "❓",
-    "link": "https://mbank.95559.com.cn/mobs6/login/LG1/NLG0001.html?logintype=1&originUrl=tangram8%2FTG0%2FNTG0001.html%3FpromoteCode%3D20250415AGWUQ006%26realPage%3DNTG0001%26channelShare%3Dwxhy-20250415AGWUQ006&_bids=login+static&_PARAMSKEY=911844AF",
-    "category": [
-      "Bank",
-      "Deposit"
-    ],
-    "sourceApp": "交通银行APP",
-    "specialNote": null,
-    "targetApp": "交通银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "endDate": "2025-12-14T07:15:00.000Z",
+    "StepsText": "1. 确保是中国农业银行北京地区掌银注册用户。\\n2. 在活动期间（12月11日10:00:00-12月14日23:59:59）进入农行手机银行“城市专区”或扫码进入。\\n3. 选择心仪商品点击“去支付”，使用借记卡或信用卡支付。\\n4. 订单需在 **15分钟内支付** 对应金额即可获得相应商品。\\n5. **购买限制：**\\n    * **“秒杀6分购专区”：** 同一客户每周限购1单。\\n    * **“爆款专区”：** 同一客户每周限购2单。\\n    * **“好物专区”：** 不限购。\\n6. 商品数量有限，先到先得。订单支付成功后不支持无理由取消。"
   },
   {
     "id": "recNuTbQsXyRkkihy",
-    "name": "光大阳光值 天天兑",
-    "description": "每日签到，10点抢1元、2元、5元、10元微信立减金",
+    "name": "光大银行｜支付享优惠",
+    "description": "兑换1元、2元、5元、10元立减金（每周各1次）和88元立减金（每月1次）",
     "icon": "❓",
     "link": "https://wap.cebbank.com/wx_skip.html?id=newyangguanghuayuan",
     "category": [
@@ -583,14 +612,14 @@
       "CheckIn"
     ],
     "sourceApp": "光大银行APP",
-    "specialNote": "每日10:00抢",
+    "specialNote": "每日10点",
     "targetApp": "光大银行APP",
-    "endDate": null,
-    "StepsText": null
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. 登录光大银行手机银行或微信小程序，进入“支付享优惠”专区。\n2. 积累阳光值（积分）：按金额： 借记卡快捷支付每满2元得1个阳光值（每日上限2万，每月上限10万），次日领取。按笔数：每周交易达1/3/5/10/20笔，分别可获100至2000阳光值（单笔需≥1元），实时领取。签到：每日签到得20阳光值，连续3/7天有额外奖励。\n3. 兑换/抽奖：天天兑：使用阳光值兑换1元、2元、5元、10元立减金（每周各1次）和88元立减金（每月1次），每日10:00-24:00开放兑换。天天抽：消耗12阳光值参与抽奖大转盘（每天限1次），有机会获得最高88元立减金或阳光值。\n4. 注意： 阳光值有效期为领取之日起6个月（2024年7月1日起）。奖品数量有限，兑完即止。"
   },
   {
     "id": "recPz45BomzPEBKC0",
-    "name": "交行福利季财运多多",
+    "name": "交通银行｜财运多多5-180元",
     "description": "达标5-180元支付贴金券",
     "icon": "❓",
     "link": "#",
@@ -622,8 +651,8 @@
   },
   {
     "id": "recR7rWTyjCBcsira",
-    "name": "邮储星级专享月月领",
-    "description": "二星至七星级客户，每月9号、19号、29号，10点开抢微信/支付宝立减金，每月一次。",
+    "name": "邮储银行｜星级领1-6元",
+    "description": "领取1元至6元不等的微信或支付宝立减金（满10元可用），每月限领一次。",
     "icon": "❓",
     "link": "https://wap.psbc.com/wxbank/h5/rousePage/#/?pageId=2063&type=month",
     "category": [
@@ -634,7 +663,23 @@
     "specialNote": null,
     "targetApp": "邮储银行APP",
     "endDate": "2026-05-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 确保客户星级在二星至七星级（富嘉、鼎福客户除外）。\n2. 每月9号、19号、29号（如有）上午10点进入手机银行“权益专区”参与抢券。\n3. 选择领取 微信立减金（限借记卡）或 支付宝立减金（信用卡/储蓄卡均可），二选一。\n4. 根据客户星级领取对应面额（二星/三星1元，七星6元），满10元可用。\n5. 微信立减金：领取后30天内兑换，绑定微信账户后15天内有效。\n6. 支付宝立减金：领取后30天内兑换，绑定支付宝账户后15天内有效。\n7. 权益数量有限，先到先得，当月领完即止。"
+  },
+  {
+    "id": "recRRoGSs9LKjAqBR",
+    "name": "建设银行｜转资达标领250",
+    "description": "12月5-15日报名并提升金融资产1万元以上，最高可领250元微信立减金。",
+    "icon": "❓",
+    "link": "https://syx6.dmsp.ccb.com/ccbact/m393/AP010202512011533924-act.html#/home",
+    "category": [
+      "Bank",
+      "Deposit"
+    ],
+    "sourceApp": "建行生活APP",
+    "specialNote": null,
+    "targetApp": "建行生活APP",
+    "endDate": "2025-12-15T15:30:00.000Z",
+    "StepsText": "1. 登录建行生活 APP，进入活动页面点击“立即报名”。\n2. 活动期间连续转入资金，确保12月15日日终金融资产余额较11月30日余额有提升。\n3. 根据提升档位（1万/5万/10万/20万/50万）核算奖励，最高提升50万及以上可得250元。\n4. 在2026年1月8日11点至1月31日，回到活动页面领取微信立减金。"
   },
   {
     "id": "recRRoGSs9LKjAqBR",
@@ -654,8 +699,8 @@
   },
   {
     "id": "recRThL4oThWd0UMi",
-    "name": "农行数币缤纷购物节",
-    "description": "农行数字人民币热门活动缤纷购物节，领10元",
+    "name": "农业银行｜缤纷购物节10元数币红包",
+    "description": "领10元数币红包",
     "icon": "❓",
     "link": "#",
     "category": [
@@ -665,7 +710,7 @@
     "sourceApp": "中国农业银行APP",
     "specialNote": null,
     "targetApp": "中国农业银行APP",
-    "endDate": null,
+    "endDate": "2025-12-31T15:30:00.000Z",
     "StepsText": "进入中国农业银行APP首页，页面中间点击全部，点击转账支付，点击数字人民币，点击热门活动，点击数字人民币缤纷购物节，领券10元数字人民币。"
   },
   {
@@ -686,8 +731,8 @@
   },
   {
     "id": "recRx59rrOPVlv43z",
-    "name": "银联“活期+“随心取福利+年终奖",
-    "description": "多挡位，可自行选择",
+    "name": "银联“活期+“｜随心取福利年终奖",
+    "description": "指定金额和天数的资金,最高600元的云闪付专用立减券。\",",
     "icon": "❓",
     "link": "https://article.95516.com/eq/ls/FhQGtKSu.html?channel=7",
     "category": [
@@ -698,12 +743,12 @@
     "specialNote": null,
     "targetApp": "云闪付APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. **活动对象：** 仅限 **广发银行“活期+”用户**（活动为广发银行专属）。\\n2. **确定基准：** 活动基于用户 **11月30日的“活期+”持仓金额**。\\n3. **达成任务：** 在活动期间（2025.12.1-2025.12.31），累计转入并保留指定天数的资金（留存天数无需连续），同时 **使用“活期+”完成一笔转账**。\\n4. **选择档位（六选一）：** 奖励分六档，**不可兼得**。用户达到首个符合条件的档位后，系统将自动发放该档奖励，后续不再发放其他档奖励。\\n    * **档位示例：**\\n        * 新增财富值 **5,000元**，留存 **10天**，奖励 **5元**。\\n        * 新增财富值 **100万元**，留存 **10天**，奖励 **600元**（名额80个）。\\n5. **奖励发放：** 系统将在活动结束后的 **7个工作日内** 自动将立减券发放至用户云闪付账户中（有APP站内推送）。\\n6. **立减券使用：**\\n    * **有效期：** 自发放之日起 **30天内有效**，过期作废。\\n    * **使用场景：** 可在云闪付App内进行 **手机充值、水电煤缴费**（不支持转账、信用卡还款），云闪付线下受理商户二维码支付（不支持个人收款码），以及线上商户（如京东、美团、滴滴、拼多多等，不支持淘宝、微信、国网）。\\n    * **要求：** 消费金额高于抵扣金额即可使用"
   },
   {
     "id": "recS8JVwT7d6BbEKo",
-    "name": "交行企业微信见面礼",
-    "description": "获取2元支付券",
+    "name": "交通银行｜企业微信见面礼",
+    "description": "领取2元支付券",
     "icon": "❓",
     "link": "#",
     "category": [
@@ -717,11 +762,27 @@
     "StepsText": "进入交通银行APP首页，页面中间点击全部，点击活动权益，点击活动中心，点击全部活动，找到企业微信见面礼，完成三步，领取2元支付立券。"
   },
   {
-    "id": "recTGeYFpu0R0BAqg",
-    "name": "邮储北京分行手机银行新客1分购",
-    "description": "受邀网点客户参与",
+    "id": "recTFxH18FKjyiPjj",
+    "name": "农业银行｜暖冬消费礼",
+    "description": "抽1元、3元或66元，每日可抽一1次，仅有1次中奖,",
     "icon": "❓",
-    "link": "https://u.psbc.com/3t1cw",
+    "link": "#",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "中国农业银行APP",
+    "specialNote": null,
+    "targetApp": "中国农业银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "进入中国农业银行APP首页，页面中间点击全部，点击生活，点击热门活动，点击体验赢好礼更多，点击暖冬消费礼，点击登录"
+  },
+  {
+    "id": "recTGeYFpu0R0BAqg",
+    "name": "邮储银行｜达标每月领5元",
+    "description": "每月可领5元支付宝或微信立减金，需使用邮储卡支付",
+    "icon": "❓",
+    "link": "https://u.psbc.com/4bddkM",
     "category": [
       "Bank",
       "DailyTask"
@@ -730,12 +791,12 @@
     "specialNote": null,
     "targetApp": "邮储银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 登录邮储银行手机银行 APP（限北京分行客户）。\n2. 确保自己为受邀达标客户。\n3. 进入活动路径：手机银行首页-活动专区-达标领红包。\n4. 领取5元支付宝立减金或5元微信立减金。\n5. 在支付宝或微信支付时，绑定邮储借记卡/信用卡，且实际支付金额大于5元时使用立减金抵扣。"
   },
   {
     "id": "recTv1KGxQUaD4M7U",
-    "name": "建行低碳生活",
-    "description": "搜低碳生活，一键领取使用绿色能量兑换1-20立减金。每天10点投放立减兑换名额，部分受邀\n用户可500能量兑换8-5立减金；完成页面下指定任务得能量折扣劵。每月1次",
+    "name": "建设银行｜低碳生活打卡",
+    "description": "能量换立减金1.06/2.06/3.66/6.66/8.66元",
     "icon": "❓",
     "link": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=d466d3c774db476eac7c5c8673c95974",
     "category": [
@@ -745,13 +806,13 @@
     "sourceApp": "中国建设银行APP",
     "specialNote": null,
     "targetApp": "中国建设银行APP",
-    "endDate": null,
-    "StepsText": null
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. 确保已开通建行“低碳生活服务”。\n2. 进入“低碳生活场景”，在“低碳挑战”页面点击“领取任务”。\n3. 完成任务内容后，必须手动点击“领取奖励按钮，奖励才会发放至用户账户。\n4. 奖励为能量折扣券，用户需在有效期内使用，超时未使用自动失效，不可叠加使用。\n5. 任务奖励数量有限，先完成任务并及时领取奖励。"
   },
   {
     "id": "recTzwjsPjizxhwl4",
-    "name": "中行岁末有京禧",
-    "description": "支付1.08随机得10-200不等微信立减金",
+    "name": "中国银行｜岁末有京禧",
+    "description": "支付1.08元，可随机获得10元至200元，仅限参与一次。",
     "icon": "❓",
     "link": "#",
     "category": [
@@ -781,25 +842,9 @@
     "StepsText": null
   },
   {
-    "id": "recUY8RVm3AdI3QF8",
-    "name": "农行信用卡线下超市30减10",
-    "description": "满30-10，幸福荣耀超市可用",
-    "icon": "❓",
-    "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=Oid7Eqt%2BWc0%3D&dynamicData=ebwa8uMKEXJHDxzu9wFyy5I3l%2FXNlfDWRjOLKGlk7OlYbX%2FH1K8EE%2F%2BGU4AhfZLB%2BUs2fXwRmSrwdJR3vp5BCM8u0XlpsMVBT7eGvXvYlPM%3D",
-    "category": [
-      "Shopping",
-      "PaymentDiscount"
-    ],
-    "sourceApp": "中国农业银行APP",
-    "specialNote": null,
-    "targetApp": "中国农业银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
-  },
-  {
     "id": "recUe0HA74x0kXfTk",
-    "name": "中行京禧周周领",
-    "description": "受邀专享：北京理财级及以上用户参加活动，每周五10：00起，5折买立减金，每月一次",
+    "name": "中国银行｜京禧周周领",
+    "description": "每周五上午10点起，5折优惠价抢购微信立减金。\",",
     "icon": "❓",
     "link": "#",
     "category": [
@@ -807,15 +852,19 @@
       "Voucher"
     ],
     "sourceApp": "中国银行APP",
+<<<<<<< HEAD
     "specialNote": null,
+=======
+    "specialNote": "周五10点",
+>>>>>>> c8923cd75f3aa70b2e69c369192ddb7dca068ead
     "targetApp": "中国银行APP",
     "endDate": "2025-12-31T10:00:00.000Z",
     "StepsText": "进入中国银行APP首页，点击下面生活，点击京禧制造局，点击京禧周周领"
   },
   {
     "id": "recVFqtIzczyQcMBA",
-    "name": "淘宝芭芭农场",
-    "description": "种树得10元无门槛红包",
+    "name": "淘宝/支付宝｜芭芭农场种果树",
+    "description": "种树得实物水果或10元无门槛红包",
     "icon": "❓",
     "link": "https://e.tb.cn/h.SAVtDXQ?tk=TltSfKhZylW",
     "category": [
@@ -826,12 +875,12 @@
     "specialNote": null,
     "targetApp": "淘宝APP",
     "endDate": null,
-    "StepsText": null
+    "StepsText": "1. **参与：** 登录淘宝App（最新版本），进入芭芭农场页面，用户需实名认证，支付宝需开通余额支付功能。\\n2. **选择水果/红包：** 选择一种水果种子种下果树（系统将根据收货地址推荐可配送的水果），或选择种植农场红包。\\n3. **集肥料：** 通过“集肥料”按钮完成每日消费、微信小程序活跃、邀请好友助力等任务获取肥料（退款将按比例扣除已发放肥料）。\\n4. **浇灌施肥：** 主动点击“浇灌肥料”使果树成长。果树共十四个阶段，每次浇灌消耗肥料，增长进度随机。部分受邀用户可更换商品类型或获得限时成长进度。\\n5. **种植模式（可选）：**\\n    * **单种：** 自己种植。\\n    * **合种（友情/亲情/爱情树）：** 队伍成员（2-5人）共同努力，**每位成员** 均可获得一份奖励。队员可随时退队，队长可踢出3天未施肥的队员（贡献肥料按比例次日返还）。\\n    * **帮种：** 队伍成员共同浇灌，**仅队长** 可获得奖励。帮种者可分享喜悦。\\n6. **收获权益：**\\n    * **实物水果：** 种成后，获得以 **0.01元购买** 一份实物水果的资格。\\n    * **农场红包：** 种成后，获得农场红包。\\n7. **兑换期限：** 单种或帮种的队长用户需在 **6个月内** 主动点击“兑换”，逾期视为放弃。兑换成功后需24小时内以0.01元拍下并付款。"
   },
   {
     "id": "recWRrBDZdt3C2FRk",
-    "name": "邮储微信银行查询赢好礼",
-    "description": "点击“中国邮政储蓄银行”服务号，成功查询账户余额，有机会领取1.16元-66元微信立减金。",
+    "name": "邮储银行｜微信银行查询赢好礼",
+    "description": "中国邮政储蓄银行服务号，查账户余额，领1.16元-66元。",
     "icon": "❓",
     "link": "https://wap.psbc.com/mobilebank/skipCellPhoneAPPToActivityPage.do?pageId=1145&isLinkShared=1&source=0&activityId=168005490933760",
     "category": [
@@ -841,8 +890,24 @@
     "sourceApp": "邮储银行APP",
     "specialNote": null,
     "targetApp": "邮储银行APP",
-    "endDate": null,
-    "StepsText": null
+    "endDate": "2026-03-31T15:30:00.000Z",
+    "StepsText": "1. **关注并绑定：** 关注“中国邮政储蓄银行”微信服务号并绑定账户。\\n2. **查询余额：** 在当月，点击服务号菜单栏的“金融”-“我的账户”或“业务大厅”-“账户查询”，成功查询账户余额。\\n3. **领取奖励：** 成功查询后，有机会获得微信立减金奖励（需满足当月名额限制，先到先得）。\\n4. **立减金使用条件：**\\n    * 1.16元立减金：订单金额 **满10元** 可用。\\n    * 11.6元立减金：订单金额 **满50元** 可用。\\n    * 66元立减金：订单金额 **满200元** 可用"
+  },
+  {
+    "id": "recXwZGvLOJkUHNRc",
+    "name": "建设银行｜玩消消乐抽1.88",
+    "description": "每日有3次，可抽奖获得最高1.88元微信立减金，每人限领1张。",
+    "icon": "❓",
+    "link": "https://syx6.dmsp.ccb.com/ccbact/m3884/DP211525120110239R08-act.html#/lottery",
+    "category": [
+      "Bank",
+      "DailyTask"
+    ],
+    "sourceApp": "建行生活APP",
+    "specialNote": null,
+    "targetApp": "建行生活APP",
+    "endDate": "2025-12-16T15:30:00.000Z",
+    "StepsText": "1. 打开建设生活APP，点击首页会员有礼-热门活动\n2. 挑战三关湾宝消消乐\n3. 通过三关获得一次抽奖机会\n4. 抽奖可得1元或1.88元"
   },
   {
     "id": "recXwZGvLOJkUHNRc",
@@ -862,8 +927,8 @@
   },
   {
     "id": "recYrBMNhGZ4xVYRm",
-    "name": "建设银行暖冬财富季",
-    "description": "掷色子抽立减金，基金公司也有立减金",
+    "name": "建设银行｜暖冬财富季",
+    "description": "每日签到、浏览页面，参与抽奖，最高188元",
     "icon": "❓",
     "link": "https://syx6.dmsp.ccb.com/ccbact/m3878/DP00662509192213KXA4-act-25.html#/",
     "category": [
@@ -874,14 +939,14 @@
     "specialNote": null,
     "targetApp": "中国建设银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. **报名/参与：** 客户进入活动页面，确认信息后成功参与。\\n2. **玩法一：签到有礼**\\n    * 每日进入活动页面签到。\\n    * 连续签到第3天和第7天，完成浏览任务后，分别获得 **3个CC豆** 和 **7个CC豆** 奖励（断签清零）。\\n3. **玩法二：财富向前进（掷骰子抽奖）**\\n    * **获取机会：** 完成任务列表中的指定任务（如跳转页面、完成指引等），即可获得掷骰子机会（每日上限5次）。\\n    * **抽奖：** 点击“掷骰子”，根据点数移动，触发一次随机抽奖。\\n    * **奖品：** 188元、18元、8元、3元、1元微信立减金，以及不同面额的CC豆（非100%中奖，每日库存有限，抽完为止）。\\n4. **微信立减金使用：**\\n    * **有效期：** 领取后 **15天内有效**，需一次性使用，不找零。\\n    * **使用要求：** 需选择关联建行储蓄卡或信用卡，消费金额需超过立减金面额0.01元。\\n    * **限制：** 同一面额微信立减金累计领取上限60次。领取立减金的微信手机号需与建行预留手机号一致。\\n5. **CC豆使用：**\\n    * CC豆到账预计3-5个工作日。 CC豆可用于“兑换中心”兑换奖品。\\n    * **有效期：** 当月获得的CC豆将于 **次月月末21:59:59失效**（例如9月得的12月31日失效）。"
   },
   {
     "id": "recZ2sCoxxFwhJaMN",
-    "name": "建行生活湾宝连连看",
+    "name": "建设银行｜港湾与你在一起",
     "description": "参与连连看游戏，抽1.88微信立减金",
     "icon": "❓",
-    "link": "https://syx6.dmsp.ccb.com/ccbact/m3891/DP00672511041904B60C-act.html#/",
+    "link": "https://syx6.dmsp.ccb.com/ccbact/m3882/DP211325112510557KF9-act.html#/",
     "category": [
       "Bank",
       "DailyTask"
@@ -889,8 +954,8 @@
     "sourceApp": "建行生活APP",
     "specialNote": null,
     "targetApp": "建行生活APP",
-    "endDate": "2025-12-09T15:30:00.000Z",
-    "StepsText": null
+    "endDate": "2025-12-16T15:30:00.000Z",
+    "StepsText": "\"1. **活动时间：** 2025年12月3日 - 2025年12月16日。\\n    * **注意：** 面向全国用户开放的时间是 **12月5日** 起。\\n2. **参与流程：** \\n    * **报名：** 通过微信端需填写手机号验证码报名；通过建行生活App登录后可直接参与。\\n    * **任务：** 活动共有 **7个点亮阶梯阅读任务**。用户每天默认有 **2次** 点亮阶梯的机会，完成指定文章浏览（滑至底部）即可获得 **1次抽奖机会**。\\n    * **额外机会：** 点击首页下方“更多活动”，可获得 **额外1次抽奖机会**。\\n3. **奖励设置（微信立减金总计183,000份，每人限领1张）：**\\n    * **最高奖：** 满8.89元减 **8.88元** 微信立减金（1000份）。\\n    * **二等奖：** 满1.89元减 **1.88元** 微信立减金（50000份）。\\n    * **三等奖：** 满1.01元减 **1元** 微信立减金（132000份）。\\n    * **其他奖品：** 湾宝壁纸（不限领取次数）。\\n4. **领奖和使用：**\\n    * **领取：** 抽中后需前往【我的奖品-卡券-立即领取】进行兑换，兑换成功后1-3个工作日到账。\\n    * **有效期：** 微信立减金自领取成功当日（或到账）起 **3个自然日内有效**，过期自动失效，不予补发。\\n5. **重要限制：** \\n    * 抽奖机会可累计，但 **活动结束后自动失效**（12月16日后）。\\n    * **同一用户限领1张微信立减金**。"
   },
   {
     "id": "recZDTiNmBiXp0yH5",
@@ -941,7 +1006,7 @@
   },
   {
     "id": "recbXaBUuBzcapCbB",
-    "name": "交行福利季薪喜多多",
+    "name": "交通银行｜“薪喜多多”年末加码",
     "description": "赢1-466元支付券（年末加码升级）",
     "icon": "❓",
     "link": "#",
@@ -957,7 +1022,7 @@
   },
   {
     "id": "reccRyYKbO7XKP7fN",
-    "name": "农行云游神州",
+    "name": "农业银行｜云游神州",
     "description": "每日点击获取里程，完成5个打开点，分别获得2元，3元和10元立减金",
     "icon": "❓",
     "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=b6%2Bl20Ji0tI%3D&dynamicData=az29P1VLOKOTSAops4p8AuGN%2B8aq0ihv%2BbK%2B06TREM2FlSwJSkIHo3oKfuLWfF4OvM%2BKqbhrOlEeWcfrMRq9vIK4UXi%2BgQpBK%2FiAY3qBakwdyi8ir%2Bw1e7AUxyra1jl29dEfnkPoyLo9XSq7UM39w%2Fu2Ak8LEFX6YJc%2Fr1zRDb7YCdRP1ilV9P3vnEqo8DxGrdMfPuz7MuQ%3D",
@@ -973,6 +1038,7 @@
   },
   {
     "id": "recd8a5RwjzdFCDe5",
+<<<<<<< HEAD
     "name": "交行幸运刮刮乐",
     "description": "赢2-28元消费红包",
     "icon": "❓",
@@ -986,11 +1052,26 @@
     "targetApp": "交通银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
     "StepsText": null
+=======
+    "name": "交通银行｜小程序抽最高28元",
+    "description": "1次抽奖机会，必中2-28元不等的支付贴金券",
+    "icon": "❓",
+    "link": "https://mbank.95559.com.cn/mobs6/tangram/TG0/NTG0001.html?promoteCode=20241024AJXGK016&realPage=NTG0001&channelShare=wxhy-20241024AJXGK016",
+    "category": [
+      "DailyTask",
+      "Bank"
+    ],
+    "sourceApp": "微信小程序",
+    "specialNote": null,
+    "targetApp": "微信小程序",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. 登录“交通银行”微信小程序，进入活动页面点击报名。\n2. 报名成功后获得1次《幸运刮刮乐》抽奖机会。\n3. 在活动期内使用抽奖机会，必中2-28元不等的支付贴金券。\n4. 若非App实名客户，需注册交通银行App并绑定借记卡，在小程序“奖励查询”页面手动兑换贴金券。\n5. 在交通银行App扫码支付或通过指定商户App（如美团、京东到家）选择银联支付时使用贴金券。"
+>>>>>>> c8923cd75f3aa70b2e69c369192ddb7dca068ead
   },
   {
     "id": "recd9IjJxJopmEhpN",
-    "name": "交行基会多多",
-    "description": "完成任务3-85支付红包",
+    "name": "交通银行｜“基”会多多（基金）",
+    "description": "购买基金0-88支付红包",
     "icon": "❓",
     "link": "https://mbank.95559.com.cn/mobs6/tangram8/TG0/NTG0001.html?promoteCode=20250401AEBAM102&channelShare=wxhy-20250331AEFPK011",
     "category": [
@@ -1001,7 +1082,7 @@
     "specialNote": null,
     "targetApp": "交通银行APP",
     "endDate": "2025-12-24T07:00:00.000Z",
-    "StepsText": null
+    "StepsText": "1. **参与对象：** 交通银行手机银行实名认证的 **特邀客户**（持有交行借记卡，具体以页面显示为准）。\\n2. **活动名额：** 最多可参与人数 **20万人**，名额满后无法参与。\\n3. **主要任务类型及奖励：**\\n    * **新人礼：** 针对2024年无基金持仓、或2025年新开/重新开立借记卡、或无有效风险测评的客户。\\n        * **任务示例：** 完成风险测评 -> 获 **0-88元抽奖机会**。\\n        * **任务示例：** 指定基金持仓提升不低于2元并点评 -> 领 **2元微信立减金**。\\n        * **任务示例：** 定投签约并点评 -> 获 **0-88元抽奖机会**。\\n    * **入门礼：** \\n        * **任务示例：** 指定基金持仓提升不低于1000元并点评 -> 领 **3元微信立减金/5元支付贴金券**。\\n        * **资产限制：** 部分任务（5元奖励）要求上一个自然月末近90天日均金融资产 **小于5万元**。\\n    * **进阶礼：** \\n        * **任务示例：** 指定基金持仓提升不低于5000元/10000元并点评 -> 领 **5元支付贴金券/10元支付宝红包/10元微信立减金**。\\n4. **重要规则：**\\n    * **奖励类型：** 微信立减金、支付宝红包、支付贴金券、0-88元抽奖机会。\\n    * **任务限制：** 各任务、奖励均不相通，**任务仅可参与一次，不可重复参加**。\\n    * **资产计算：** 部分任务要求计算上一个自然月末近90天日均金融资产。\\n    * **任务截止日期：** 多个任务已标明具体的截止日期（如12月3日、12月5日、12月8日等），需以页面最新信息为准"
   },
   {
     "id": "recdMkFNszLUVYH4r",
@@ -1021,8 +1102,8 @@
   },
   {
     "id": "recdO7wDicStvJOQC",
-    "name": "交行消费抽抽抽",
-    "description": "交通银行APP首页搜“消费抽抽抽”，三个任务，每完成1次皆可抽奖，每周重复做",
+    "name": "交通银行｜消费抽最高68元",
+    "description": "每周消费达标，获得3次抽奖，最高68元支付券。",
     "icon": "❓",
     "link": "https://mbank.95559.com.cn/mobs6/tangram8/TG0/NTG0001.html?promoteCode=20250427AYGUR006&channelShare=wxhy-20250424AFGCR007",
     "category": [
@@ -1033,12 +1114,12 @@
     "specialNote": null,
     "targetApp": "交通银行APP",
     "endDate": "2025-12-28T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 登录交通银行 App（需8.4.5及以上版本），进入“消费抽抽抽”活动页面。\\n2. **完成任务获取抽奖机会（每周更新）：**\\n   * 使用交行卡完成微信/支付宝/京东/美团/拼多多/抖音三方支付，最多获1次抽奖机会。\\n   * 使用交行卡完成云网线上支付或交行App付款码支付，最多获2次抽奖机会。\\n3. 在当周内使用抽奖机会，有机会赢取0.1元至68元不等的扫码支付券或云网券。\\n4. 获奖券将在3个工作日内发放至交行App“我的-优惠券”。\\n5. 使用借记卡在对应的扫码或云网支付场景（如美团、12306等）消费时抵扣。"
   },
   {
     "id": "recddVoV9L6Kmuk2m",
-    "name": "邮储云网支付笔笔减",
-    "description": "满5-1，每天最多3次，每月最多5次。",
+    "name": "邮储银行｜云网支付满5减1",
+    "description": "满5元立减1元，每日限3次，每月限5次优惠",
     "icon": "❓",
     "link": "https://u.psbc.com/2FTsz9",
     "category": [
@@ -1050,12 +1131,25 @@
     "specialNote": null,
     "targetApp": "邮储银行APP",
     "endDate": "2026-09-13T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 确保邮储银行借记卡/信用卡（62开头）已开通手机银行云网支付功能。\n2. 在支持云网支付的线上商户 APP 进行消费。\n3. 使用邮储手机银行云网支付方式，单笔支付金额满5元。\n4. 交易成功后，有机会享受立减1元优惠。"
+  },
+  {
+    "id": "receVFZhl6EGiu6ms",
+    "name": "建设银行｜转入资金12月升金礼第1期",
+    "description": "12月5日至12月15日期间，最高250元。本期活动是系列活动的第一期，总计最高可领550元。\",",
+    "icon": "❓",
+    "link": "https://syx6.dmsp.ccb.com/ccbact/m393/AP010202512011533924-act.html#/home",
+    "category": [],
+    "sourceApp": "建行生活APP",
+    "specialNote": null,
+    "targetApp": "建行生活APP",
+    "endDate": "2025-12-14T20:52:00.000Z",
+    "StepsText": "\"1. **活动对象：** 建行 **定向邀请** 客户（成功报名即为受邀）。报名限额 **25万人**，满员即止。\\n2. **活动时间：** \\n    * **报名期/资产提升期：** 2025年12月5日 - 2025年12月15日。\\n    * **领奖期：** 2026年1月8日 11:00 - 2026年1月31日。\\n3. **达标任务：** \\n    * 报名客户需满足：**2025年12月15日日终金融资产余额** 较 **2025年11月30日日终金融资产余额** 达到对应提升档位。\\n4. **奖励设置（本期最高250元）：**\\n    | 资产提升金额 | 微信立减金（元） |\\n    |:---|:---|\\n    | 1万（含） - 5万（不含） | 10 |\\n    | 5万（含） - 10万（不含） | 30 |\\n    | 10万（含） - 20万（不含） | 60 |\\n    | 20万（含） - 50万（不含） | 100 |\\n    | **50万（含）及以上** | **250** |\\n5. **活动流程及领奖：**\\n    * 客户需在12月15日前报名（预留手机号和证件号后六位）。\\n    * 在12月15日日终资产达标后，在2026年1月8日11点后，通过建行生活App或指定小程序回到活动页面 **领取奖励**。\\n    * 奖励拆分多张券发放，需 **全部点击领取**，否则视为放弃。\\n6. **立减金使用规则：**\\n    * **有效期：** 领取至微信卡包后 **15日内有效**，过期不补。\\n    * **使用要求：** 领取和使用时需选择 **建设银行储蓄卡或信用卡**。\\n    * **注意：** 领奖时，客户【登录微信的手机号】、【参加活动的手机号】和【微信支付绑定的手机号】需保持一致。\","
   },
   {
     "id": "recebQ1qVVPkZJ05e",
-    "name": "交行福利季财富多多",
-    "description": "领2-288元支付贴金券",
+    "name": "交通银行｜“财富多多”理财活动",
+    "description": "领2-288元支付贴金券\n",
     "icon": "❓",
     "link": "#",
     "category": [
@@ -1070,8 +1164,8 @@
   },
   {
     "id": "recevjZ0xcvUS3WsQ",
-    "name": "建行惠省钱",
-    "description": "随机购买16立减金和20建行生活满减券",
+    "name": "建设银行｜惠省钱卡",
+    "description": "每月可买36元的微信立减金券包，16元通用券和20元建行生活平台券",
     "icon": "❓",
     "link": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=422bedb407714b079403e8ba6cb771ea&crypt_type=1&cryptParam=817oUbFF4rUQ17MOtV3nE3sO4bDkCkkPPbs3nPwKopEL9ruQYH3wxtCeds3GNW2yQmPKNvjEKPSUZrvMyDPRuv8LP2eqBaTPmtRNq5jAN3d2WIiaE0r2/dwB7xyYrsFmraZhrUtlCbG568NZ9zMfwd3u7nB0MqbY/wZMimDnwUWKW1irarOeYwCsTi0STAMsVGmUcvWtjniyeGInT5ky9mN1LMXCL073VNYTjJTCpU2Y15sNBXocM3bP/1taP7DUJKECFvhDR7Da0HeBRwb7KNcq+pZ1MimIyvtg/sWAdmn+rOKEaRLmyjLBS+YWU3YgpTQzAgqgx+8pEHZnsU0H1H7PPztBAlZr3yl6YCXDmYuqBIOx19Sw9yleip74wuFfQ/BPjALsKjqcfTwwSrf9dl2TpnSoPGZCBibteZ8gGLajBvVSGfzrV2Uj4PAKPMi1tMQzzgwI5vjBOg0/GDWuqpKy5HXaK6c6Kx3wZdHRX9RJpE8s4jyAQVjxNtOQ44zXxEv+UinWrXK2UpOrzl0gJmrNmmI+ExYsL7GmA/5VYe9hggIzSTRRMbloGB3QNkbqQ2fc9h0eEec=",
     "category": [
@@ -1082,7 +1176,7 @@
     "specialNote": null,
     "targetApp": "中国建设银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. **参与：** 进入建行手机银行App“惠省钱”活动页面。\\n2. **购买：** 抽取购买价格，并成功支付页面显示的金额。\\n3. **获得奖励：** 购买成功后，立即获得总价值36元的微信立减金券包。\\n    * **通用券（16元）：** 2元（满2.01元）、3元（满3.01元）、5元（满5.01元）、6元（满66元）。\\n    * **特定商户券（20元）：** 建行生活平台微信立减金，面额10元（满10.01元）和10元（满20元）。\\n4. **有效期：** 通用微信立减金及建行生活微信立减金 **30天内有效**，过期不补发。\\n5. **购买限制：** 同一用户 **每自然月内拥有1次购买机会**。\\n6. **到账查询：** 可在“惠省钱”活动页面或微信卡包中查询。若未点击支付完成页的“完成”按钮，可能需返回首页按提示领取。卡券最迟48小时内全部到账"
   },
   {
     "id": "recfGrhSb1Wse0Goa",
@@ -1102,8 +1196,8 @@
   },
   {
     "id": "rechgGetPNcrs6D4j",
-    "name": "农行省钱月卡10元立减金",
-    "description": "抖音支付，3张1元，1张7元",
+    "name": "农业银行｜特邀盲盒购券10元",
+    "description": "优惠价购买10元的抖音支付券包（含7元和3张1元立减金），每人限购1次",
     "icon": "❓",
     "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=w%2FO2bm0hmec%3D&dynamicData=dd8b2f46ad4c72c3ba51fb05e6847dbe3849eb980c9a3ba85ec1da15f9b384c0&type=new",
     "category": [
@@ -1114,7 +1208,7 @@
     "specialNote": null,
     "targetApp": "中国农业银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 登录中国农业银行掌上银行 APP。\n2. 进入“省钱月卡”活动页面。\n3. 以开盲盒确定的优惠价格购买价值10元的优惠券包。\n4. 券包内包含1张7元和3张1元的抖音支付立减金。\n5. 在掌银“我的-礼券”中领取券包，将跳转至抖音 APP 并自动发放至抖音支付账号。\n6. 使用农行借记卡通过抖音支付时，立减金自动抵扣。"
   },
   {
     "id": "reci3N9Af8gH0daar",
@@ -1134,8 +1228,8 @@
   },
   {
     "id": "recj2xKtNp5RM0yaM",
-    "name": "交行生活缴费礼遇季",
-    "description": "1-18元生活缴费券 每月一次",
+    "name": "交通银行｜生活缴费礼遇季",
+    "description": "领取一张1-18元,生活缴费或话费充值，每月1次。",
     "icon": "❓",
     "link": "#",
     "category": [
@@ -1166,8 +1260,8 @@
   },
   {
     "id": "recjMc4PWFJgh0BMt",
-    "name": "交行开通动账提醒",
-    "description": "获取2元支付券",
+    "name": "交通银行｜开通微信动账领2元",
+    "description": "开通领2元支付券",
     "icon": "❓",
     "link": "#",
     "category": [
@@ -1182,10 +1276,10 @@
   },
   {
     "id": "recjuc7wii3jTW2Me",
-    "name": "建行财富会员礼",
+    "name": "建设银行｜财富会员等级",
     "description": "财富会员，财富等级礼、资产保有礼、等级晋升礼。每月10号，每月1次",
     "icon": "❓",
-    "link": "https://syx6.dmsp.ccb.com/ccbact/m3810/AP010202509121445154-act.html#/home",
+    "link": "https://syx6.dmsp.ccb.com/ccbact/m4011/AP010202208051029712-act.html?shareMDID=ZHCMD_2691edf0-aa71-44f5-86c9-9410d1b1adc7&shareDepth=1&CCB_Chnl=6000197#/",
     "category": [
       "Bank",
       "DailyTask"
@@ -1194,11 +1288,11 @@
     "specialNote": null,
     "targetApp": "建行生活APP",
     "endDate": null,
-    "StepsText": null
+    "StepsText": "1. **等级划分依据：** \\n    * **上月月日均金融资产金额**。计算公式为：$$ \\\\frac{\\\\text{上月每日资产之和}}{\\\\text{上月天数}} $$ \\n    * **资金计入时间：** 当天晚上20:30以后转入的资金，可能在第二天计入账户。\\n2. **等级对应资产门槛：** （以下为部分等级示例）\\n    * **潜力级：** 0元 - 1万元（不含）\\n    * **青铜级：** 1万元（含） - 5万元（不含）\\n    * **白银级：** 5万元（含） - 20万元（不含）\\n    * **黄金级：** 20万元（含） - 50万元（不含）\\n    * **私行级V：** 5000万元（含）及以上\\n3. **等级评定与有效期：**\\n    * **更新时间：** 每月 **5日-10日** 更新当月财富会员等级。\\n    * **等级有效期：** 当月等级更新后 - 次月等级更新前一天23:59。\\n4. **奖励类型：** \\n    * **固定权益服务**\\n    * **月度奖励/季度奖励/节日奖励**\\n    * **增值产品服务**\\n    * **叠加奖励：** 包括 **保有奖励**（金融资产不降低）和 **首升奖励**（首次升至更高等级）。\\n    * *（具体奖励内容需以建行APP内各活动规则为准）*\\n5. **资产参考值说明：**\\n    * App内显示的金融资产数值为日均金额 **参考值**，数据统计有2-5天延迟。\\n    * **每月10日等级更新前：** 参考值为上月完整日均数。\\n    * **每月10日等级更新后：** 参考值为当月1日 - 查询日前2-5天的日均数。"
   },
   {
     "id": "reckCZPYiFScXaxG4",
-    "name": "中行数币一触即发数币专享营销",
+    "name": "中国银行｜数币一触即发",
     "description": "0.88元购买3.88元数币红包",
     "icon": "❓",
     "link": "#",
@@ -1214,8 +1308,8 @@
   },
   {
     "id": "reckHP4e94zvMxwyQ",
-    "name": "农行月月领",
-    "description": "北京地区领5元话费、生活缴费立减金",
+    "name": "农业银行｜话费、生活缴费立减金",
+    "description": "领5元话费、生活缴费立减金，每月1次",
     "icon": "❓",
     "link": "#",
     "category": [
@@ -1230,8 +1324,8 @@
   },
   {
     "id": "reclCTZgxBaHPR0Ey",
-    "name": "银联有礼乐开花",
-    "description": "达标任务获得花朵积累，消费大于62，每天最多3笔，一周最多22躲，每周一领奖金",
+    "name": "中国银联｜有礼乐开花",
+    "description": "消费大于62，每天3笔，一周最多22，每周一领奖金",
     "icon": "❓",
     "link": "https://benefits.95516.com/upbms-web/customActivities/carveupPrize/41521/0005?channel=7",
     "category": [
@@ -1241,12 +1335,12 @@
     "sourceApp": "云闪付APP",
     "specialNote": null,
     "targetApp": "云闪付APP",
-    "endDate": null,
-    "StepsText": null
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. **参与：** 登录/注册活动页面（云闪付App或银联官方服务号），绑定卡号以 **62开头** 的银联卡或银联-Visa双标卡（最多可绑定40张）。\\n2. **累积“周花花”：** \\n    * **每日消费任务：** 每日完成一笔实付 **满62元** 的合格消费，获得 **1朵花花**（每日限3朵）。\\n    * **每周活跃任务：** 每周登录 **“银联卡礼遇”微信小程序**，获得 **1朵花花**（每周限1朵）。\\n    * **合格消费：** 线下刷卡、手机闪付（NFC）、调起云闪付App支付、二维码被扫交易等经银联网络转接清算的消费交易（不含主扫、充值、特定MCC交易）。\\n3. **瓜分红包：** 每周累积的“周花花”自动累积至“周花花池”中，用于瓜分当周活动奖池中的云闪付红包（瓜分公式：单个用户红包 = (奖池总金额 / 当周总花花数) × 用户花花数）。\\n4. **领取红包：** 瓜分后的云闪付红包需在 **次周周日23:59:59前** 完成领取。\\n5. **红包使用：** 红包有效期为 **领取之日起30天内**，可用于云闪付App的线下扫码付、线上支付等，抵扣订单金额时需至少支付0.01元。"
   },
   {
     "id": "reclPal3uQ4F6HVRl",
-    "name": "邮储惊喜福袋月月领",
+    "name": "邮储银行｜1分钱抽最高188元",
     "description": "1分购0.88-188元支付宝立减金",
     "icon": "❓",
     "link": "https://u.psbc.com/4UkMbF",
@@ -1258,12 +1352,12 @@
     "specialNote": null,
     "targetApp": "邮储银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. **参与资格：** 仅限 **邮储银行北京分行手机银行受邀网点客户**。\\n2. **基础参与：** 进入活动页面，支付 **1分钱（0.01元）** 获得基础抽奖机会。\\n3. **增加机会：** 每完成一项任务，可额外增加一次抽奖机会（无需再次支付0.01元）。\\n4. **抽奖及奖励：** 进行抽奖，有机会赢取以下五档支付宝立减金：188元、5元、3.88元、2元、0.88元。\\n    * **限制：** 同一客户 **每月限参与一次**，数量有限，先到先得。\\n5. **立减金使用：**\\n    * **领取：** 领取奖品后，点击“去使用”跳转至支付宝App完成领取。\\n    * **使用要求：** 消费金额必须 **大于** 立减金面值，且支付时必须选择 **邮储银行借记卡** 支付。\\n    * **有效期：** 奖品有效期 **15天**，过期自动作废"
   },
   {
     "id": "reclbJ14Zqp6PtVCJ",
-    "name": "农行数币新时代",
-    "description": "线下0.01元购买50-20数币立减券，线上15-10数币立减券",
+    "name": "农业银行｜数币体验金50减20",
+    "description": "领取50减20或15减10数币体验金，总量1万张，每人限领1张。",
     "icon": "❓",
     "link": "https://wx.abchina.com/webank/main-view/openTagForQD?id=OlBl7osJC%2BU%3D&dynamicData=bF8ovmELWd%2B3mBuY%2F%2BZQBZuszaavzmXemD7%2B6jsKk3g%3D&displayParam=bF8ovmELWd%2B3mBuY%2F%2BZQBZuszaavzmXemD7%2B6jsKk3g%3D",
     "category": [
@@ -1274,7 +1368,23 @@
     "specialNote": null,
     "targetApp": "中国农业银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 确保满足参与条件：北京地区掌银实名用户，且已完成农行数字人民币个人钱包实名认证及绑卡。\\n2. 活动月1日（2025年12月1日）上午10:00开始领取。\\n3. **首次登录**“北京数字人民币体验区”自动获得0.01元体验金，需先完成0.01元支付验证数字钱包。\\n4. 验证后，在20元（满50元可用）和10元（满15元可用，限线上权益月月享）中任选一档领取（不可重复领取）。\\n5. 体验金需在活动月最后一天（2025年12月31日 23:59:59）前使用。"
+  },
+  {
+    "id": "recmeFX1mZt8EskiN",
+    "name": "农业银行｜分享抽888元",
+    "description": "分享活动抽取最高888元支付宝立减金。",
+    "icon": "❓",
+    "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=KE5QI%2Fgy2No%3D&dynamicData=k77lGnRY0o7NWqLQFl02raqBcx0cg7kUh4x6JczGaI20RwUzEplF%2FDIblrAniJcgNcC7bBemeTXtEAINp8R%2B%2Bx7JnicVvzk%2FDfpWtKeAOE83O%2Bs6dFcGneUm27rYI6kBm7ddKNbslkNqwkmq52fCC85pz%2F0%2BGpTDaYwDYdgdtcyatHlcOL%2ByQQ63iMHWUUJGkF0yjeIRmD%2BPlGuDplYDtd9JJ20s0EHROanTPQC%2FFSfodM1VOvIHqMyS3E1c17ImHvyGhLB0ECEz3Fv%2BWV%2BA6Ylpx563e%2F3BE7Oae7xCw8J6usqeByTZVy8axDbYJtRK6jucx4C8Y1Ew4I2MfhR6uCYCJ%2FsXBi%2BAYSSXXx5qG7FLai4cM7rOTJrKZaCbo7nUledCq0gYRars2JeYkBJOgKe%2FTmpxFnGQvX9YTYkrr78xgdKeC1eXbVKcf93upKAUNWDBr8Kex8I4BOHxdZVvodoTuagWaWTMeLrvZCKRMtFILUuRExO1YuWp52FcJxAcKpIc2498g0GY5n%2FhaUt2P8jJItUfKYE5Osiy8hmyL%2Fie3MxoydgNA8X7%2B7LSNICXhzwzdaPXv2M7KK9d8IVIwyvn5lT5doeSjb8BzCDFp9tNnSoIklzfqgIYOHl3Xo5eePJX1HIu5PJYyZ%2Ff1v7JZA%3D%3D&qq_aio_chat_type=2",
+    "category": [
+      "Bank",
+      "MissionReward"
+    ],
+    "sourceApp": "中国农业银行APP",
+    "specialNote": "最多25次",
+    "targetApp": "中国农业银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. 确保是中国农业银行掌银注册客户。\\n2. 成功分享活动，并邀请被分享人本月首次通过分享链接访问优惠卡券专区任意活动页面。\\n3. 分享者可获得1次抽奖机会，每月最多可获得25次抽奖次数。\\n4. 在当月抽奖机会过期前，使用机会进行抽奖，有机会抽取最高888元立减金。\\n5. **中奖后：** 奖品兑换截止时间为2025年12月31日23:59:59。\\n6. 支付宝立减金兑换券自收到之日起**7天内**需兑换到支付宝卡包。\\n7. 立减金绑定成功后**7天内**有效，过期自动作废。"
   },
   {
     "id": "recnn1jTqeQ6F6BfX",
@@ -1294,8 +1404,8 @@
   },
   {
     "id": "recnyEmMQ91Qa5nBT",
-    "name": "建行数币缴费达标",
-    "description": "数字人民币购买100话费，领取5-15立减金，数字人民币购买电费50以上，领取返5-10立减金",
+    "name": "建设银行｜数币缴费领红包",
+    "description": "话费充值满100元或电费缴费满50元，每月可领取一次随机金额微信立减金。",
     "icon": "❓",
     "link": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=422bedb407714b079403e8ba6cb771ea&crypt_type=1&cryptParam=817oUbFF4rUQ17MOtV3nE3sO4bDkCkkPPbs3nPwKopEL9ruQYH3wxtCeds3GNW2yQmPKNvjEKPSUZrvMyDPRuv8LP2eqBaTPmtRNq5jAN3d2WIiaE0r2/dwB7xyYrsFmraZhrUtlCbGKbodIKTNWe+N+ErE8JexYbLXlyTc2EvUaztJ7F+EsM66tnMOA15uVd5wP4U2ks60ktpUFz04tBOxDtqH0Xye8Zdvj2E257pKG4Cgp+L/HqGhZmpcXfBt4ilsOUcoCoR0JA6lCrioeaho7lna/7e5S+oz9A4buzlN4lF424HY9BZ+CON/14T4oRL0Z4Bijo5qpEyOl41ONnmba+u4dQ86mm2KFh6Ame2i0IgCoy3CZsLqlWs4uCYZlBIfnCPl3KaHvCiZTnjtXONn2wfdYhdNkj1FeMj9iEuBQ5gaSEFKctKBVdFrXngmWVbllfYgbnbdRZandlWpWdJfWwvXBpMNP/5zXQvOIHCqC/s8wDxBzRCK91r+GhZudg7X7rhJX4pJCGR4QmwiU2RM5yj8ezIwAqJ4njCEwSBwmhZ74PrJzcUzpN1xakYJoZIp45zn0Q6zGjUiVfnZhPI9nqgH1IHOkbQV8ZpNiLSQUlzrT8vHqoPN562grhDvaCZctDD+lgbVrMpmjPWK/d70PfO9s9hxoawF5erOMXo8TrfrveUxnzcpwj3HjVxCxCPRh9xia5q0KHxmrzxswHkATjHT0lCEt4wryPaKdFc4rruSa4yGfFyRZiSm1onXq0i3Ov2PMP8zKzfVZAkr9FpswHwfu49q0GmjKGylqr9w6v/6c39WVHpXx+b5SpHwJqCgYrlCrn+2MUwP9hzlS9g==",
     "category": [
@@ -1306,12 +1416,12 @@
     "specialNote": null,
     "targetApp": "中国建设银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 通过建行官方渠道或[建行APP-生活-生活缴费]入口，进入活动专题页面并勾选同意授权书。\\n2. **任务一（话费）：** 使用数字人民币单笔充值话费满100元，可获赠5-15元随机微信立减金（每月限1次）。\\n3. **任务二（电费）：** 使用数字人民币单笔缴费电费满50元（限部分地区），可获赠5-10元随机微信立减金（每月限1次）。\\n4. 缴费达标后，系统弹窗提示，选择绑定建行卡种（借记卡/贷记卡）后领取微信立减金。\\n5. 微信立减金有效期7天，需使用微信绑定建行卡支付且实付金额大于0.01元时抵扣。"
   },
   {
     "id": "recnzm5APSC2uy69A",
-    "name": "淘宝视频",
-    "description": "看视频领金币，兑换优惠券",
+    "name": "淘宝｜看视频赚零钱",
+    "description": "获得“金豆”，可兑换红包或支付宝现金，金豆和余额有效期为14天。",
     "icon": "❓",
     "link": "https://e.tb.cn/h.SEF7ht0?tk=DB2KfOVuHaY",
     "category": [
@@ -1320,12 +1430,12 @@
     "sourceApp": "淘宝APP",
     "specialNote": null,
     "targetApp": "淘宝APP",
-    "endDate": null,
-    "StepsText": null
+    "endDate": "2026-12-31T15:30:00.000Z",
+    "StepsText": "1. 确保使用手机淘宝10.1.10及以上版本，并获得活动邀请（若无任务弹窗请等待）。\\n2. 通过淘宝首页底部“视频/逛逛”进入页面，点击任务弹窗参与活动。\\n3. **日常任务（获取金豆）：** 每日完成签到、浏览短视频、分享助力或惊喜任务。\\n4. **金豆兑换：** 积攒足够金豆后，进入提现页面兑换为淘宝零钱、手淘购物红包或支付宝现金（20元提现资格7天内限领1次）。\\n5. **注意：** 获得的金豆和活动账户余额有效期为14个自然日，期间未访问活动主页将清零。"
   },
   {
     "id": "reco75PtAVUTzSWLu",
-    "name": "中行数币新客数币见面礼",
+    "name": "中国银行｜数币新客见面礼10元数币红包",
     "description": "开通数币领取10元数币红包",
     "icon": "❓",
     "link": "#",
@@ -1341,10 +1451,10 @@
   },
   {
     "id": "recp5lFgCOZXD4Mly",
-    "name": "支付宝芝麻粒炼金",
-    "description": "15级别提现9.48元",
+    "name": "支付宝｜芝麻粒“炼金”玩法",
+    "description": "满级15级后，虚拟“黄金”按实时金价折算提现为现金，发放至支付宝余额。",
     "icon": "❓",
-    "link": "https://render.alipay.com/p/yuyan/180020010001206385/index.html?caprMode=sync&chInfo=zhima_share&activityId=zml_share_assist&token=Qz5fpZv3X7AU4321P&fxzjshareChinfo=ch_share__chsub_CopyLink&apshareid=7AB8FB1B-03F0-404D-914B-EFCB63A4003B&shareBizType=ztokenV0_nBKyZZvu&shareTimestamp=1764429324081",
+    "link": "https://render.alipay.com/p/yuyan/180020010001206385/index.html?caprMode=sync&chInfo=zhima_share&activityId=zml_share_assist&token=KbrWR3v5mEZ14321L&fxzjshareChinfo=ch_share__chsub_CopyLink&apshareid=B8500B50-2805-47A2-BFAF-C35201DC7086&shareBizType=ztokenV0_nBKyZZvu&shareTimestamp=1765722821940",
     "category": [
       "CheckIn",
       "DailyCheckin"
@@ -1352,8 +1462,8 @@
     "sourceApp": "支付宝APP",
     "specialNote": null,
     "targetApp": "支付宝APP",
-    "endDate": null,
-    "StepsText": null
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. 确保已收到活动邀请，已通过支付宝实名认证，并开通芝麻信用。\\n2. **消耗积分：** 使用 **5个芝麻粒** 兑换 **1次“炼金机会”**（每天有兑换次数上限）。\\n3. **炼金升级：** 每次“炼金”成功获得随机进度，满进度后升级，目标是达到满级 **15级**。\\n4. **现金奖励：** 达到满级15级后获得“奖励提现”机会。\\n5. **提现流程：** 提现金额按虚拟“黄金”克重乘以提现时的实时黄金收盘价折算，用户需手动点击【立即提现】。\\n6. **注意：** 连续30天未访问活动页面，已积攒的“炼金”进度将被清空，期间消耗的芝麻粒不返还。"
   },
   {
     "id": "recp7QrUCSQY7SYU6",
@@ -1370,6 +1480,22 @@
     "targetApp": "中国银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
     "StepsText": null
+  },
+  {
+    "id": "recpOOlJvJt2mT5bb",
+    "name": "农业银行｜周四掌银日",
+    "description": "每周四上午十点抢领1张5元“周四特惠券”",
+    "icon": "❓",
+    "link": "https://wx.abchina.com/webank/main-view/openTagForZHSes?id=KE5QI%2Fgy2No%3D&dynamicData=k77lGnRY0o7NWqLQFl02raqBcx0cg7kUQLejeoXbh6qdrBOLEPwko17Aer%2FKTAu2piUsz%2BWm%2Bzzm1tMbNbR75UIc1XwH%2FD%2BTBluGwMGngpJ5UIXdfC4ECQCbYPsBLqbSgV1uPEKi5uP%2BvbsmZBBjoh99OytKpQellv0lZUPfw6g%3D",
+    "category": [
+      "CheckIn",
+      "Voucher"
+    ],
+    "sourceApp": "中国农业银行APP",
+    "specialNote": "周四10点",
+    "targetApp": "中国农业银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. 确保是中国农业银行掌银注册客户。\\n2. **每周四上午十点**，进入“农行掌银APP-生活-优惠卡券栏目-周四掌银日”活动页面。\\n3. 领取1张 **5元“周四特惠券”**。\\n4. **使用规则：** 特惠券领取成功后立即生效，有效期为**7日**。\\n5. 仅可用于购买“优惠卡券栏目-周四掌银日”活动页面中的指定商品，每笔订单限使用1张，不可叠加其他优惠。\\n6. **名额：** 每周发放5万张，总计265万张，数量有限，先到先得。"
   },
   {
     "id": "recprUFGaK8dKhOyz",
@@ -1389,23 +1515,23 @@
   },
   {
     "id": "recqz6CIOYISgbH0Y",
-    "name": "美团视频",
-    "description": "看视频领金币，可提现微信",
+    "name": "美团｜美团视频",
+    "description": "现金余额满足提现要求（金额、观看时长、连续登录天数等）后可提现。",
     "icon": "❓",
-    "link": "http://dpurl.cn/5KlzRKIz",
+    "link": "http://dpurl.cn/qkuhU9Cz",
     "category": [
       "Video"
     ],
     "sourceApp": "美团APP",
     "specialNote": null,
     "targetApp": "美团APP",
-    "endDate": null,
-    "StepsText": null
+    "endDate": "2026-12-31T15:44:00.000Z",
+    "StepsText": "1. 确保已收到邀请，并登录美团手机客户端进入“美团视频”服务。\\n2. **积累奖励：** 通过**浏览视频**（注意避免同一视频观看时间过长）、**按期签到**及**其他任务**获取金币、现金和优惠券。\\n3. **金币兑换：** 金币可兑换成现金，兑换比例浮动（活动提供不少于100万元兑换权益）。\\n4. **提现条件：** 首次进入次日解锁提现功能；账户余额需满足提现门槛，同时满足**看视频个数/时长或连续登录天数**要求。\\n5. **签到额外奖励：** 签到时获得的额外奖励金需**当日完成指定行为且当日未解除**（如开通月付、绑定银行卡等）才能提现，否则视为放弃。\\n6. **提现操作：** 每次提现可选择不同档位，提现至已实名的微信账号（通常1小时内到账）。\\n7. **风险注意：** 连续20天未登录美团App，账户余额将清空。作弊行为可能导致需连续登录50天或100天才可提现，甚至无法提现。"
   },
   {
     "id": "recr8qz0pVCFqg1fo",
-    "name": "建行支付一分钱出行优惠",
-    "description": "4张5折(最高1元)支付宝乘车专用券",
+    "name": "建设银行｜支付宝乘车码5折",
+    "description": "一分钱领取4张支付宝乘车优惠券，享受5折出行（单笔优惠最高1元）。",
     "icon": "❓",
     "link": "https://mobile.ccb.com/e_report/outlink/index.html?link_id=422bedb407714b079403e8ba6cb771ea&crypt_type=1&cryptParam=817oUbFF4rUQ17MOtV3nE3sO4bDkCkkPPbs3nPwKopEL9ruQYH3wxtCeds3GNW2yQmPKNvjEKPSUZrvMyDPRuv8LP2eqBaTPmtRNq5jAN3d2WIiaE0r2/dwB7xyYrsFmraZhrUtlCbG568NZ9zMfwd3u7nB0MqbY/wZMimDnwUWKW1irarOeYwCsTi0STAMsVGmUcvWtjniyeGInT5ky9mN1LMXCL073VNYTjJTCpU2Y15sNBXocM3bP/1taP7DUJKECFvhDR7Da0HeBRwb7KNcq+pZ1MimIyvtg/sWAdmn+rOKEaRLmyjLBS+YWU3YgpTQzAgqgx+8pEHZnsU0H1H7PPztBAlZr3yl6YCXDmYuqBIOx19Sw9yleip74wuFfQ/BPjALsKjqcfTwwSrf9dl2TpnSoPGZCBibteZ8gGLajBvVSGfzrV2Uj4PAKPMi1tMQzzgwI5vjBOg0/GDWuqpKy5HXaK6c6Kx3wZdHRX9RJpE8s4jyAQVjxNtOQ44zXxEv+UinWrXK2UpOrzl0gJmrNmmI+ExYsL7GmA/5VYe9hggIzSTRRMcr6fpZYI9m/udMBDEpPy3s=",
     "category": [
@@ -1416,12 +1542,12 @@
     "specialNote": null,
     "targetApp": "中国建设银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 确保是中国建设银行受邀借记卡或信用卡客户。\\n2. 登录建行手机银行，进入“惠省钱”频道。\\n3. **支付1分钱** 领取支付宝优惠出行券 **4张**（每月限领1次）。\\n4. **使用设置：** 在支付宝App中将建行卡设置为乘车码的首选支付卡。\\n5. **使用支付：** 使用支付宝App-出行-乘车码支付时，自动抵扣（5折优惠，单笔最高1元）。\\n6. **注意：** 优惠券领取后14天内有效，不可与支付宝卡包内其他折扣卡叠加使用。每月名额60万个，先到先得。"
   },
   {
     "id": "recrNGMUNkBAKQkHf",
-    "name": "交行扫码付周周惠美食",
-    "description": "领1-8.8美食生鲜券周周领",
+    "name": "交通银行｜扫码付周周惠美食",
+    "description": "每周领美食生鲜券1张，随机1-8.8元",
     "icon": "❓",
     "link": "https://mbank.95559.com.cn/mobs6/tangram/TG0/NTG0001.html?promoteCode=20250109AZXPB001&realPage=NTG0001&channelShare=wxhy-20250109AZXPB001",
     "category": [
@@ -1432,12 +1558,12 @@
     "specialNote": null,
     "targetApp": "交通银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 登录交通银行 APP（8.4.5及以上版本）或在指定商户线下扫描二维码。\\n2. 进入“扫码付周周惠”活动页面领取贴金券。\\n3. 每周一零点释放名额，每人每周可领取美食生鲜券和商超券各1张（随机1-8.8元）。\\n4. 领券后，在指定商户线下支付时，打开交通银行APP出示付款码，使用交行借记卡支付。\\n5. 满足用券条件（如满2减1，满18减8.8等）即可享受优惠。"
   },
   {
     "id": "recrSLr8HZoHjgXVX",
-    "name": "邮储工资客户万元小目标",
-    "description": "达标抽好礼，保持1万以上可以领取",
+    "name": "邮储银行｜工资卡达标抽166",
+    "description": "日终资产达1万元，赢取最高166.66元云网红包（每日限量1016份）",
     "icon": "❓",
     "link": "https://wap.psbc.com/mobilebank/skipCellPhoneAPPToActivityPage.do?pageId=1145&isLinkShared=1&source=0&activityId=122513948598272",
     "category": [
@@ -1448,11 +1574,27 @@
     "specialNote": null,
     "targetApp": "邮储银行APP",
     "endDate": "2026-04-15T15:30:00.000Z",
-    "StepsText": null
+    "StepsText": "1. 确保持有邮储银联借记卡（62开头）且为代发工资客户。\n2. 确保邮储手机银行已更新至最新版并开通云闪付网络支付授权。\n3. 在登录活动页面时，上一日日终资产总金额不低于10000元，即可获取1次抽奖机会。\n4. 参与抽奖，有机会赢取6.66元、66.66元或166.66元云网支付红包。\n5. 红包有效期15天，需使用邮储银联借记卡在支持云网支付的线上/线下商户支付时使用。"
+  },
+  {
+    "id": "recri9KYGQHc4VLsP",
+    "name": "建设银行｜资产提升达标礼(北京)",
+    "description": "最高4000元立减金",
+    "icon": "❓",
+    "link": "https://syx6.dmsp.ccb.com/ccbact/m393/DP211425112515027K6B-act.html#/home",
+    "category": [
+      "Bank",
+      "Deposit"
+    ],
+    "sourceApp": "建行生活APP",
+    "specialNote": null,
+    "targetApp": "建行生活APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. **活动对象：** 客户归属为 **北京分行** 的客户。\\n2. **活动时间：** \\n    * **报名时间：** 2025年12月1日 0:00 - 12月31日 20:30。\\n    * **资产提升期：** 2025年12月1日 - 12月31日。\\n    * **发奖时间：** 2026年1月12日 10:00 - 1月31日 23:59。\\n3. **参与步骤：** \\n    * **STEP01 成功参与：** 输入在建行预留手机号和身份证号码后六位进行报名认证。\\n    * **STEP02 完成任务：** 在12月内提升建行金融资产，使 **12月月日均资产较上月（11月）的提升金额** 达到奖励档次。\\n    * **STEP03 领奖：** 达标结果于2026年1月12日公布后，客户需回到活动页面 **依次点击领取** 相应档位的微信立减金权益。未领、少领、漏领无法补发。\\n4. **奖励设置（总数8055份，先到先得）：**\\n    | 提升金额（万元） | 微信立减金（元） | 微信立减金面额及张数 | 12月奖励份数 |\\n    |:---|:---|:---|:---|\\n    | 1万 - 5万（不含） | 20 | 20元\\*1张 | 1800 |\\n    | 5万 - 10万（不含） | 50 | 50元\\*1张 | 1800 |\\n    | 10万 - 30万（不含） | 100 | 100元\\*1张 | 1500 |\\n    | 30万 - 50万（不含） | 260 | 260元\\*1张 | 950 |\\n    | 50万 - 100万（不含） | 500 | 400元\\*1张+100元\\*1张 | 800 |\\n    | 100万 - 200万（不含） | 800 | 400元\\*2张 | 700 |\\n    | 200万 - 400万（不含） | 1600 | 400元\\*4张 | 300 |\\n    | 400万 - 600万（不含） | 2400 | 400元\\*6张 | 115 |\\n    | 600万以上 | 4000 | 400元\\*10张 | 90 |\\n5. **立减金使用规则：**\\n    * **有效期：** 领取至微信卡包后 **20个自然日**。\\n    * **使用要求：** 仅限 **建设银行借记卡** 支付，且支付金额需 **大于** 立减金面额。\\n    * **限制：** 每笔订单仅限使用一张，不可叠加使用 "
   },
   {
     "id": "recs5dX12KSsFUCEj",
-    "name": "多多视频",
+    "name": "拼多多｜看视频领现金",
     "description": "看视频领金币，20元可提现微信",
     "icon": "❓",
     "link": "https://mobile.yangkeduo.com/fyxmkief.html?_wv=41729&_wvx=10&needs_login=1&page_from=602277&shared_time=1763058808131&shared_sign=cf9389c8c69f58de0255066a82c72ca4&invite_round_id=invite_money_1_11&channel=1&mission_code=invite&refer_share_uin=FOXYC5DMBVEMOFAZ6VIPQTZ4UI_GEXDA&activity_code=invite_money&feed_id=6749417913932317712&new_ui=1&refer_share_id=qe4dopav9kndemqgus4m0i5uuqxd9od7&refer_share_channel=message&__wls_rt=1&__wls_lt=1&__wls_fm=n",
@@ -1463,7 +1605,7 @@
     "specialNote": null,
     "targetApp": "拼多多APP",
     "endDate": null,
-    "StepsText": null
+    "StepsText": "1. **参与：** 进入拼多多App的“多多视频”Tab页，找到并点击“小财神”即可开始活动（活动正在内测中，部分用户可能无法看到）。\\n2. **赚取金币：** 在“多多视频”Tab内观看短视频，金币会自动积累。\\n    * **金币限制：** 同一视频重复观看、观看时长过长、视频卡顿、或当日金币达到上限时，将无法获得金币。\\n3. **兑换现金：** 金币可以兑换成现金，但兑换汇率每日浮动。\\n4. **提现要求：** 提现前，需要完成一次 **分享任务**。\\n    * **分享成功规则：** 好友需通过您的分享链接，打开拼多多App，并进入“多多视频”页面，才算分享成功。\\n    * **提现额度：** 每天限量发放，有“最高”字样的提现金额以实际到账为准。\\n5. **提现到账：** 正常情况下，提现请求后会在 **72小时内到账** 微信或多多钱包。\\n6. **特殊情况（发放优惠券）：** 如因用户未通过微信登录、微信未实名认证、未开通多多钱包等自身原因导致转账失败，平台有权以 **发放优惠券** 形式补偿。\\n7. **账户清空风险：** 长期不活跃、长期未完成提现任务或活动调整/下线，账户现金和金币可能会被清空，建议尽快提现"
   },
   {
     "id": "recsTNmsoWWEeVcPu",
@@ -1483,8 +1625,8 @@
   },
   {
     "id": "rectnNcX8juUmHqxQ",
-    "name": "中行福仔云游签到",
-    "description": "福仔云游记连续签到7天得2支付宝红包",
+    "name": "中国银行｜签到赢福气值",
+    "description": "连续签到7天可获得1张“连签卡”，用于兑换支付宝2元立减金",
     "icon": "❓",
     "link": "https://mbas.mbs.boc.cn/WeiBankFront/weixinVue/openApp/index.html#/openApp?lastShortUrl=BCxiPVJuLi",
     "category": [
@@ -1494,13 +1636,13 @@
     "sourceApp": "中国银行APP",
     "specialNote": null,
     "targetApp": "中国银行APP",
-    "endDate": null,
-    "StepsText": null
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. 登录中国银行手机银行，进入签到活动页面。\n2. 每日点击“立即签到”或通过自动签到获取 10福气值。\n3. 连续签到奖励：当月连续签到达7天及以上，可获得 1张连签卡（每月上限1张）。\n4. 获取补签卡：可通过分享活动（每月1张）、完成月度任务（风险测评、访问消保学堂）或一次性任务（微银行首次绑卡、个人养老金开户等）获取补签卡（每月上限6张）。\n5. 兑换奖励： 使用连签卡在【兑换中心】兑换奖品，具体奖品和数量以页面展示为准。"
   },
   {
     "id": "recuOVGaplkd1buRE",
-    "name": "淘宝签到领现金",
-    "description": "每天完成任务10元可提现",
+    "name": "淘宝｜签到领现金",
+    "description": "元宝可兑换为淘宝专享红包或现金奖励，提现门槛包括10元/30元。",
     "icon": "❓",
     "link": "https://m.tb.cn/h.SAzLvWX",
     "category": [
@@ -1510,13 +1652,13 @@
     "sourceApp": "淘宝APP",
     "specialNote": null,
     "targetApp": "淘宝APP",
-    "endDate": null,
-    "StepsText": null
+    "endDate": "2026-12-31T15:30:00.000Z",
+    "StepsText": "1. 登录淘宝APP最新版，点击首页【签到】进入活动页面（限受邀用户）。\n2. 积累奖励（元宝/红包）：签到/连签/累签任务：每日签到赚取元宝，完成连签/累签任务可获额外提现奖励。浏览/定时任务： 完成30秒浏览任务或等待倒计时，获取元宝。下单任务： 在指定页面下单，完成后获取元宝（退款会扣回元宝）。\n3. 兑换提现：红包：兑换频道专享红包或组合红包（每周最多7次机会）现金：积攒元宝达10万/30万，有机会兑换10元/30元现金奖励（每天限量，先到先得），或通过下单提现玩法获得10元提现资格。\n4. 提现说明：提现至淘宝绑定的支付宝/微信账户，提现资格有效期为30个自然日，元宝连续30天未访问活动主页将清零。"
   },
   {
     "id": "recvK9WgG6RTeE6oD",
-    "name": "交行资产提升有好礼",
-    "description": "达标40-600支付贴金券",
+    "name": "交通银行｜资产提升有好礼11-12月",
+    "description": "达标40-600支付贴金券\n",
     "icon": "❓",
     "link": "https://mbank.95559.com.cn/mobs6/tangram8/TG0/NTG0001.html?promoteCode=20250826AUHGB004&channelShare=wxhy-20250905AGGCZ009",
     "category": [
@@ -1592,5 +1734,6 @@
     "targetApp": "中国建设银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
     "StepsText": null
+    "StepsText": "1. **参与：** 登录交通银行手机银行，进入活动页面即视为自动报名成功。\\n2. **确定基准资产：** 报名次日，系统将确定报名前一天的“近30天日均资产”作为“基准资产”。\\n3. **提升资产：** 在活动期间，通过存入或购买储蓄存款、理财、基金、保险、贵金属等金融资产，提升近30天日均资产。\\n4. **达标任务及奖励：** 根据提升的金额，客户可领取对应档次的支付贴金券，每个任务仅可领取一次（总价值最高600元）。\\n    * 提升 ≥ 5万元：40元券（满40.01元可用），限22万份。\\n    * 提升 ≥ 10万元：50元券（满50.01元可用），限12万份。\\n    * 提升 ≥ 20万元：70元券（满70.01元可用），限6万份。\\n    * 提升 ≥ 50万元：160元券（满160.01元可用），限2万份。\\n    * 提升 ≥ 100万元：280元券（满280.01元可用），限5千份。\\n5. **领取奖励：** 任务达标后，需在 **2026年1月31日24时前** 登录活动页面点击“立即领取”。奖励将在5个工作日内到账。\\n6. **贴金券使用：**\\n    * **有效期：** 自发放成功之日（含）起 **30天有效**，过期作废，不予补发。\\n    * **使用场景：** 仅限交通银行手机银行扫码付在线下商户消费，或在话费充值、生活缴费、娱乐充值等场景使用。\\n    * **限制：** 每次支付仅能使用一张，不可叠加。发生部分退款，贴金券不退回"
   }
 ]
