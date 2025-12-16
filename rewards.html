@@ -641,10 +641,106 @@
             }
         });
 
-        function handleBtnClick(el) { const link = el.getAttribute('data-link'); const name = el.getAttribute('data-name'); if (!link || link === '#') return; const lower = link.toLowerCase().trim(); const blockList = ['#', '小程序', 'miniprogram', 'micromessenger', 'weixin://', 'wx.abchina', 'wbs.icbc']; const isBlocked = blockList.some(k => lower.includes(k)); if (isBlocked) doCopy(link, lower); else window.open(link, '_blank'); if (window.umami) umami.track('click_action', { name: name || 'unknown', type: isBlocked ? 'copy' : 'jump' }); }
-        function doCopy(text, lowerLink) { let appName = '微信'; if (lowerLink && lowerLink.includes('icbc')) appName = '工行App'; else if (lowerLink && lowerLink.includes('abchina')) appName = '农行App'; if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(() => showMyToast(`链接已复制！\n请打开【${appName}】粘贴访问`)).catch(() => fallbackCopy(text, appName)); else fallbackCopy(text, appName); }
-        function fallbackCopy(text, appName) { const textArea = document.createElement("textarea"); textArea.value = text; textArea.readOnly = true; textArea.style.cssText = "position:fixed;top:0;left:0;opacity:0;pointer-events:none;"; document.body.appendChild(textArea); textArea.focus({ preventScroll: true }); textArea.select(); try { document.execCommand('copy'); showMyToast(`链接已复制！\n请打开【${appName}】粘贴访问`); } catch (err) { prompt("请全选复制：", text); } document.body.removeChild(textArea); }
-        function handleShareBtn(el) { const id = el.getAttribute('data-id'); const act = ALL.find(a => a.id === id); if (!act) return; let shareText = `【NEX AI | ${act.sourceApp || '福利'}】${act.name}\n${act.description || '点击查看'}`; if (act.link && act.link !== '#') shareText += `\n传送门：${act.link}`; doCopy(shareText, ''); if (navigator.share) navigator.share({ title: 'NEX AI', text: shareText, url: (act.link && act.link !== '#') ? act.link : window.location.href }).catch(e => console.log(e)); showMyToast('文案已复制\n请去微信粘贴'); }
+        function robustFallbackCopy(text, customMessage) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.readOnly = true;
+            // 确保 textarea 不可见且不影响布局
+            textArea.style.cssText = "position:fixed;top:0;left:0;opacity:0;pointer-events:none;z-index:-1;";
+            document.body.appendChild(textArea);
+            textArea.focus({ preventScroll: true });
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showMyToast(customMessage); // 调用您现有的 showMyToast 函数
+            } catch (err) {
+                // 如果 execCommand('copy') 失败，则弹出 prompt 框让用户手动复制 (保持与原始逻辑一致的最终兜底)
+                prompt("复制失败，请全选复制：", text);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // --- 策略 I：定义强制复制的链接类型（基于银行行为） ---
+        // 凡是会打开一个网页中间页，但该网页依赖特定 App 环境/Session而导致白屏或卡住的，一律强制复制
+        function mustCopyLink(link) {
+            const l = link.toLowerCase();
+            return (
+                l.startsWith('#小程序://') ||
+                l.startsWith('weixin://') ||
+                l.includes('wbs.icbc.com.cn') ||
+                l.includes('abchina.com') ||
+                l.includes('jumptoapp') ||
+                l.includes('sessionidnull')
+            );
+        }
+
+
+        // --- 策略 II：链接复制的逻辑和 Toast 提示 (Link Copy) ---
+        function doLinkCopyAndPrompt(link, name, reason = 'forced') {
+            const l = link.toLowerCase();
+            let msg = `已复制【${name}】链接，请在对应 App 中粘贴打开。`;
+
+            if (l.startsWith('#小程序://') || l.startsWith('weixin://')) {
+                msg = `已复制【${name}】小程序链接，请在微信中粘贴打开。`;
+            } else if (reason === 'fallback') {
+                msg = `【${name}】未能成功打开，已复制链接，请手动粘贴访问。`;
+            }
+
+            robustFallbackCopy(link, msg);
+        }
+
+
+        // --- 核心点击处理逻辑 (三段式模型) - 替换原有的 handleBtnClick ---
+        function handleBtnClick(el) {
+            const link = el.getAttribute('data-link');
+            const name = el.getAttribute('data-name') || '活动';
+
+            if (!link || link === '#') return;
+
+            // 第一段：明确禁止直跳的
+            if (mustCopyLink(link)) {
+                doLinkCopyAndPrompt(link, name, 'forced');
+                umami?.track('click_action', { name, type: 'copy_forced' });
+                return;
+            }
+
+            // 第二段：尝试打开（不承诺成功）
+            let opened = false;
+            try {
+                const win = window.open(link, '_blank');
+                if (win) opened = true;
+            } catch (e) { }
+
+            showMyToast(`正在尝试打开【${name}】…如未成功请使用复制方式`);
+
+            // 第三段：兜底
+            if (!opened) {
+                doLinkCopyAndPrompt(link, name, 'fallback');
+                umami?.track('click_action', { name, type: 'copy_fallback' });
+            } else {
+                umami?.track('click_action', { name, type: 'jump_attempt' });
+            }
+        }
+
+        function handleShareBtn(el) {
+            const id = el.getAttribute('data-id');
+            const act = ALL.find(a => a.id === id);
+            if (!act) return;
+
+            let shareText = `【NEX AI | ${act.sourceApp || '福利'}】${act.name}\n${act.description || '点击查看'}`;
+            if (act.link && act.link !== '#') shareText += `\n传送门：${act.link}`;
+
+            // 使用可靠的复制函数
+            robustFallbackCopy(shareText, '文案已复制\n请去微信粘贴');
+
+            // 尝试调用原生分享 (此功能在 iFrame 中可能被阻止)
+            if (navigator.share) navigator.share({
+                title: 'NEX AI',
+                text: shareText,
+                url: (act.link && act.link !== '#') ? act.link : window.location.href
+            }).catch(e => console.log(e));
+        }
+
         function showMyToast(msg) { const box = document.getElementById('toast-box'); const txt = document.getElementById('toast-text'); if (!box || !txt) return; txt.innerText = msg; txt.style.whiteSpace = 'pre-line'; box.classList.add('active'); if (toastTimer) clearTimeout(toastTimer); toastTimer = setTimeout(() => box.classList.remove('active'), 2500); }
         function initUI() { const bar = document.getElementById('filter-bar'); let html = `<button class="chip chip-trigger ${selBank === 'All' ? 'active' : ''}" onclick="toggleSidebar()"><i class="fas fa-compass text-lg"></i></button>`; CAT_FILTERS.forEach(f => { html += `<button class="chip ${selCategory === f.v ? 'active' : ''}" onclick="setCat('${f.v}')">${f.t}</button>`; }); bar.innerHTML = html; const sb = document.getElementById('sidebar-content'); const ps = new Set(); ALL.forEach(a => ps.add(a.sourceApp)); let sideHtml = `<div class="sidebar-item" onclick="setBk('All')"><div class="sidebar-icon-box"><i class="fas fa-border-all"></i></div> 全部平台</div>`; ps.forEach(p => { if (p) sideHtml += `<div class="sidebar-item" onclick="setBk('${p}')"><div class="sidebar-icon-box"><i class="fas fa-mobile-alt"></i></div> ${p}</div>` }); sb.innerHTML = sideHtml; }
         function toggleSidebar() { document.body.classList.toggle('sidebar-open'); }
