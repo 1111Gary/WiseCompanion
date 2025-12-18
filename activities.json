@@ -493,6 +493,22 @@
     "StepsText": "进入中国农业银行APP首页，页面中间点击全部，点击生活，点击热门活动，点击每日签到抽小豆，点击抽奖"
   },
   {
+    "id": "recGBJMfIrW4RrpoY",
+    "name": "云闪付｜投好品享收益",
+    "description": "持有期基金（7/30/60天）最高得红包448元",
+    "icon": "❓",
+    "link": "https://base.cup.com.cn/s/wl/WebAPP/helpAgree/page/share/shareH5ToNative.html?params=eyJkZXN0Ijoib3Blbi45NTUxNi5jb20vcy9vcGVuL2h0bWwvb2F1dGguaHRtbD9hcHBJZD05NzNkYjFmMTY4ODI0MDg3YmFkN2E0MTMzNmMzNDE5NSZyZWRpcmVjdFVyaT1odHRwcyUzQSUyRiUyRndhbGxldC45NTUxNi5jb20lMkZmaW5hbmNlJTJGZmluQ2FyZE1hbmFnZXJOZXclMkYlMjMlMkZhY3Rpdml0eXNoYXJlJTNGcHJvZHVjdElkJTNEV0owMDAxJnJlc3BvbnNlVHlwZT1jb2RlJnNjb3BlPXVwYXBpX3F1aWNrJnN0YXRlPXVwIiwiaG9zdCI6Imh0bWwifQ%3D%3D&channel=7",
+    "category": [
+      "Bank",
+      "Deposit"
+    ],
+    "sourceApp": "云闪付APP",
+    "specialNote": null,
+    "targetApp": "云闪付APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. **前置任务：** 活动期间完成一笔任意金额的云闪付转账。\\n2. **选购产品：** 在活动页选择同业存单基金（7天）或债券基金（30/60天）。\\n3. **进行投资：** 单笔投资金额需 ≥ 1000元。注意每个产品档位有20万元的奖励计算上限。\\n4. **等待确认：** 确认基金份额并持有至锁定期结束。系统将在活动结束后7个工作日内统计福气值并自动发放红包。\\n5. **红包使用：** 红包到账后30天内有效，可在缴费、充值或线下消费时抵扣。"
+  },
+  {
     "id": "recHsykt7FWAjum3F",
     "name": "支付宝｜碰碰街区",
     "description": "连续签到14天，可领3元碰一下红包",
@@ -731,6 +747,22 @@
     "targetApp": "交通银行APP",
     "endDate": "2025-12-31T15:30:00.000Z",
     "StepsText": "进入交通银行APP首页，页面中间点击全部，点击活动权益，点击活动中心，点击全部活动，找到企业微信见面礼，完成三步，领取2元支付立券。"
+  },
+  {
+    "id": "recSGbp4i32QXcsCC",
+    "name": "邮储银行｜数币“笔笔金”随机返",
+    "description": "消费满10元，返0.66元至16.66元随机数币红包。每日限领1个，每月最高可领10个。\",",
+    "icon": "❓",
+    "link": "https://u.psbc.com/1T17X5",
+    "category": [
+      "Shopping",
+      "PaymentDiscount"
+    ],
+    "sourceApp": "邮储银行APP",
+    "specialNote": null,
+    "targetApp": "邮储银行APP",
+    "endDate": "2025-12-31T15:30:00.000Z",
+    "StepsText": "1. **活动对象：** 已开通邮储数币钱包并绑定邮储借记卡的二类及以上钱包客户。\\n2. **活动时间：** 2025年12月1日 至 2025年12月31日。\\n3. **消费达标：** 在邮储数币收款商户（可在APP“周边商户”查询）单笔消费 **≥ 10元**。\\n4. **奖励逻辑：** \\n   - 支付后进入“待返还”状态。\\n   - 满足“1个自然日内未退款且未解绑卡”条件后，红包转为“已返还”。\\n5. **奖励额度：** 随机获得 **0.66—16.66元** 数字人民币消费红包。\\n6. **领取限制：** 每日限1,0800名额；每人每日限1个，每月限10个。先到先得。\\n7. **红包使用：** 有效期至2026年1月15日。可在所有支持数币支付的商户使用，不可提现或转赠。\","
   },
   {
     "id": "recTFxH18FKjyiPjj",
@@ -1560,37 +1592,5 @@
     "targetApp": "拼多多APP",
     "endDate": null,
     "StepsText": "1. **参与：** 进入拼多多App的“多多视频”Tab页，找到并点击“小财神”即可开始活动（活动正在内测中，部分用户可能无法看到）。\\n2. **赚取金币：** 在“多多视频”Tab内观看短视频，金币会自动积累。\\n    * **金币限制：** 同一视频重复观看、观看时长过长、视频卡顿、或当日金币达到上限时，将无法获得金币。\\n3. **兑换现金：** 金币可以兑换成现金，但兑换汇率每日浮动。\\n4. **提现要求：** 提现前，需要完成一次 **分享任务**。\\n    * **分享成功规则：** 好友需通过您的分享链接，打开拼多多App，并进入“多多视频”页面，才算分享成功。\\n    * **提现额度：** 每天限量发放，有“最高”字样的提现金额以实际到账为准。\\n5. **提现到账：** 正常情况下，提现请求后会在 **72小时内到账** 微信或多多钱包。\\n6. **特殊情况（发放优惠券）：** 如因用户未通过微信登录、微信未实名认证、未开通多多钱包等自身原因导致转账失败，平台有权以 **发放优惠券** 形式补偿。\\n7. **账户清空风险：** 长期不活跃、长期未完成提现任务或活动调整/下线，账户现金和金币可能会被清空，建议尽快提现"
-  },
-  {
-    "id": "recsTNmsoWWEeVcPu",
-    "name": "中国银行｜领数币8-4元京东券",
-    "description": "月月领券8-4元数字人民币优惠券",
-    "icon": "❓",
-    "link": "#",
-    "category": [
-      "Bank",
-      "DailyTask"
-    ],
-    "sourceApp": "中国银行APP",
-    "specialNote": null,
-    "targetApp": "中国银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": "进入中国银行APP首页，搜索京东超级省，点击月月领券，点击领取8-4元数字人民币优惠券"
-  },
-  {
-    "id": "rectnNcX8juUmHqxQ",
-    "name": "中国银行｜签到赢福气值",
-    "description": "连续签到7天可获得1张“连签卡”，用于兑换支付宝2元立减金",
-    "icon": "❓",
-    "link": "https://mbas.mbs.boc.cn/WeiBankFront/weixinVue/openApp/index.html#/openApp?lastShortUrl=BCxiPVJuLi",
-    "category": [
-      "CheckIn",
-      "DailyCheckin"
-    ],
-    "sourceApp": "中国银行APP",
-    "specialNote": null,
-    "targetApp": "中国银行APP",
-    "endDate": "2025-12-31T15:30:00.000Z",
-    "StepsText": "1. 登录中国银行手机银行，进入签到活动页面。\n2. 每日点击“立即签到”或通过自动签到获取 10福气值。\n3. 连续签到奖励：当月连续签到达7天及以上，可获得 1张连签卡（每月上限1张）。\n4. 获取补签卡：可通过分享活动（每月1张）、完成月度任务（风险测评、访问消保学堂）或一次性任务（微银行首次绑卡、个人养老金开户等）获取补签卡（每月上限6张）。\n5. 兑换奖励： 使用连签卡在【兑换中心】兑换奖品，具体奖品和数量以页面展示为准。"
   }
 ]
