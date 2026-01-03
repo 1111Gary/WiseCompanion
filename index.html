@@ -3,223 +3,826 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-    <title>奈斯</title>
-
-    <!-- Umami 统计 -->
-    <script async defer src="https://umami.example.com/script.js" data-website-id="7b5c80e8-218d-4850-a9f3-d3764a059fed"
-        data-do-not-track="true" data-domains="1111gary.github.io">
-        </script>
-
-    <!-- Tailwind -->
+    <title>NEX AI - 奈斯</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- Manifest + Icons -->
-    <link rel="manifest" href="/manifest.json?v=5">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icon_apple.png?v=5">
-
     <style>
+        /* ====================
+            基础样式
+            ==================== */
+        :root {
+            --bg-surface: #0f1115;
+            --surface-container: #1e2024;
+            --primary: #A8C7FA;
+            /* 主色 */
+            --on-surface: #E2E2E2;
+            --tertiary-container: #2D313C;
+            --accent-decision: #D3E3FD;
+            --success-text: #86EFAC;
+            --success-bg: rgba(134, 239, 172, 0.1);
+        }
+
         body {
-            background-color: #0B1120;
-            color: #F1F5F9;
-            font-family: 'Inter', sans-serif;
-            padding: 20px;
-            padding-top: max(20px, env(safe-area-inset-top));
-            padding-bottom: 40px;
+            background-color: var(--bg-surface);
+            color: var(--on-surface);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            padding: env(safe-area-inset-top) 20px 40px;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .hero-card {
-            background: linear-gradient(135deg, #8B5CF6, #F43F5E);
-            border-radius: 24px;
-            padding: 40px 20px;
-            text-align: center;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
-            animation: pulse 4s infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 0.6;
-            }
-
-            50% {
-                opacity: 1;
-            }
-        }
-
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .nav-card {
-            background: #1E293B;
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            text-decoration: none;
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        /* 顶部品牌区 */
+        .brand-area {
             display: flex;
             flex-direction: column;
             align-items: center;
-            aspect-ratio: 1/1;
-            justify-content: center;
-            transition: transform 0.2s;
+            margin-top: 20px;
+            margin-bottom: 24px;
         }
 
-        .nav-card:active {
-            transform: scale(0.98);
-            background: #27354F;
+        .brand-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #000;
+            padding: 4px;
         }
 
-        .icon-box {
-            width: 54px;
-            height: 54px;
-            border-radius: 16px;
+        .agent-greeting {
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .agent-date {
+            font-family: 'SF Mono', 'Roboto Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--primary);
+            opacity: 0.8;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: rgba(168, 199, 250, 0.1);
+            padding: 4px 12px;
+            border-radius: 99px;
+        }
+
+        /* 分区标题 */
+        .section-label {
+            font-size: 0.95rem;
+            color: var(--primary);
+            margin: 32px 0 12px;
+            font-weight: 700;
             display: flex;
             align-items: center;
+            gap: 8px;
+        }
+
+        /* 卡片通用样式 */
+        .task-card {
+            background: var(--surface-container);
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            position: relative;
+            margin-bottom: 16px;
+            transition: transform 0.1s;
+        }
+
+        .task-card:active {
+            transform: scale(0.98);
+        }
+
+        .task-card.ongoing-style {
+            background: var(--tertiary-container);
+            border: 1px solid rgba(168, 199, 250, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 徽章 */
+        .rec-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 4px 12px;
+            border-bottom-left-radius: 16px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .rec-badge.today {
+            background: var(--primary);
+            color: #042F5E;
+        }
+
+        .rec-badge.ongoing {
+            background: #34D399;
+            color: #064E3B;
+        }
+
+        .rec-badge.video {
+            background: #FF4D4F;
+            color: #fff;
+        }
+
+        /* 提示语区域 */
+        .agent-hints {
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .hint-decision {
+            font-size: 0.8rem;
+            color: var(--accent-decision);
+            font-weight: 600;
+            background: rgba(168, 199, 250, 0.1);
+            padding: 6px 10px;
+            border-radius: 8px;
+            width: fit-content;
+        }
+
+        .hint-success {
+            font-size: 0.8rem;
+            color: var(--success-text);
+            font-weight: 600;
+            background: var(--success-bg);
+            padding: 6px 10px;
+            border-radius: 8px;
+            width: fit-content;
+        }
+
+        .agent-hints.urgency-today .hint-success {
+            color: #ff5c5c;
+        }
+
+        .agent-hints.urgency-soon .hint-success {
+            color: #ff9f43;
+        }
+
+        .agent-hints.urgency-normal .hint-success {
+            color: #9aa0a6;
+        }
+
+        /* ====================
+            按钮系统
+            ==================== */
+        .nex-btn-primary {
+            background: var(--primary);
+            color: #042F5E;
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 99px;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
             justify-content: center;
-            font-size: 1.6rem;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(168, 199, 250, 0.25);
         }
 
-        .icon-checkin {
-            background: linear-gradient(135deg, #10B981, #34D399);
+        .nex-btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid rgba(168, 199, 250, 0.6);
+            font-weight: 600;
+            padding: 8px 14px;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            cursor: pointer;
         }
 
-        .icon-video {
-            background: linear-gradient(135deg, #F43F5E, #FB7185);
+        .nex-btn-tertiary {
+            background: transparent;
+            color: #9AA0A6;
+            border: 1px solid transparent;
+            font-weight: 500;
+            padding: 8px 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
         }
 
-        .icon-rewards {
-            background: linear-gradient(135deg, #3B82F6, #60A5FA);
+        .nex-btn-tertiary:hover {
+            color: #fff;
         }
 
-        .icon-shopping {
-            background: linear-gradient(135deg, #8B5CF6, #C084FC);
+        .action-chip {
+            background: var(--primary);
+            color: #042F5E;
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 99px;
+            border: none;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
         }
 
-        .premium-card {
-            display: block;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border-radius: 20px;
-            padding: 25px 20px;
+        /* ====================
+            NEW: 统一底部 Footer 结构
+            ==================== */
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 12px;
+            /* 增加一点间距 */
+            padding-top: 12px;
+            /* 保留之前的分割线设计，保持视觉统一 */
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card-footer-left {
+            font-size: 12px;
+            color: #888;
+            line-height: 1;
+            /* 即使为空，也能占位保持高度 */
+            min-height: 12px;
+        }
+
+        .card-footer-right {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        /* ---------------------------
+            弹窗样式
+            --------------------------- */
+        #guide-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            display: none;
+            flex-direction: column;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
             text-align: center;
-            border: 2px solid transparent;
-            border-image: linear-gradient(135deg, #FACC15, #F43F5E);
-            border-image-slice: 1;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            margin-top: 30px;
-            text-decoration: none;
         }
 
-        .premium-card h2 {
+        .modal-title {
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .trust-hint {
+            color: #9AA0A6;
+            font-size: 0.85rem;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .step-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .step-item {
+            background: var(--surface-container);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px;
+            border-radius: 16px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .step-item:active {
+            background: rgba(168, 199, 250, 0.1);
+        }
+
+        .step-icon {
+            color: var(--primary);
             font-size: 1.2rem;
-            font-weight: 800;
-            background: linear-gradient(to right, #FACC15, #F43F5E);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 0;
+            margin-top: 2px;
         }
 
-        .brand-logo svg {
-            width: 64px;
-            height: 64px;
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+        .step-text {
+            color: #E2E2E2;
+            font-size: 1rem;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .modal-close-btn {
+            background: var(--surface-container);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: bold;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        #toast-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            z-index: 10001;
+            display: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        #toast-box.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
         }
     </style>
 </head>
 
-<body>  
+<body>
 
-    <!-- 首页内容 -->
-    <div class="hero-card">
-        <div class="brand-logo mx-auto mb-4">
-            <svg viewBox="0 0 24 24" fill="white">
-                <path
-                    d="M6 4v16a2 2 0 0 0 2 2h.5a2 2 0 0 0 1.6-.8l6.8-10.4V18a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-.5a2 2 0 0 0-1.6.8L10.1 13.2V4a2 2 0 0 0-2-2H7a2 2 0 0 0-1 2z" />
-            </svg>
+    <div class="brand-area">
+        <img src="./assets/icon_apple.png" class="brand-logo"
+            onerror="this.src='https://placehold.co/48x48/000000/ffffff?text=N'">
+        <div class="agent-greeting" id="greeting-text">...</div>
+        <div class="agent-date" id="date-text">...</div>
+    </div>
+
+    <div id="ongoing-section" style="display: none;">
+        <div class="section-label"><i class="fas fa-play-circle"></i> 正在进行中</div>
+        <div id="ongoing-container"></div>
+    </div>
+
+    <div id="recommend-section">
+        <div class="section-label"><i class="fas fa-star"></i> 为你精选</div>
+        <div id="recommend-list">
+            <div class="p-10 text-center text-gray-600"><i class="fas fa-circle-notch fa-spin"></i> 加载中...</div>
         </div>
-        <h1 class="text-3xl font-black tracking-tight">NEX AI</h1>
-        <p class="opacity-90 mt-2 text-sm font-medium tracking-wide">核心纽带 · 链接未来</p>
     </div>
 
-    <div class="nav-grid">
-        <a href="./checkin.html" class="nav-card">
-            <div class="icon-box icon-checkin"><i class="fas fa-calendar-check"></i></div>
-            <h3 class="font-bold text-lg">天天有奖</h3>
-            <p class="text-xs text-gray-400 mt-1">每日签到“捡”</p>
-        </a>
-
-        <a href="./video.html" class="nav-card">
-            <div class="icon-box icon-video"><i class="fas fa-play-circle"></i></div>
-            <h3 class="font-bold text-lg">看视频赚</h3>
-            <p class="text-xs text-gray-400 mt-1">观看视频“捡”</p>
-        </a>
-
-        <a href="./rewards.html" class="nav-card">
-            <div class="icon-box icon-rewards"><i class="fas fa-hand-holding-usd"></i></div>
-            <h3 class="font-bold text-lg">捡钱任务</h3>
-            <p class="text-xs text-gray-400 mt-1">平台活动“捡”</p>
-        </a>
-
-        <a href="./shopping.html" class="nav-card">
-            <div class="icon-box icon-shopping"><i class="fas fa-tags"></i></div>
-            <h3 class="font-bold text-lg">省钱秘籍</h3>
-            <p class="text-xs text-gray-400 mt-1">省钱即是“捡”</p>
-        </a>
+    <div id="video-section">
+        <div class="section-label"><i class="fas fa-video"></i> 视频任务</div>
+        <div id="video-list"></div>
     </div>
 
-    <a href="./premium.html" class="premium-card">
-        <h2><i class="fas fa-crown mr-2"></i> 高级会员专区</h2>
-        <p class="text-gray-400 text-xs mt-2">解锁 AI 自动代理 · 释放双手</p>
-    </a>
+    <div id="toast-box"></div>
 
-    <div class="text-center mt-10 text-gray-600 text-xs">
-        &copy; 2025 NEX AI Inc.
+    <div id="guide-modal">
+        <div class="modal-header">
+            <div id="modal-title" class="modal-title"></div>
+            <div class="trust-hint">
+                <i class="fas fa-history"></i> 您可以随时切回来，点当前步骤再听，不用记。
+            </div>
+        </div>
+
+        <div id="step-list-container" class="step-list">
+        </div>
+
+        <button onclick="TaskController.closeGuide()" class="modal-close-btn">
+            关闭
+        </button>
     </div>
 
-    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="./js/supabase_client.js"></script>
-
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (window.NexBackend) {
-                NexBackend.activities.getAll().then(d => {
-                    // 你的首页渲染逻辑...
-                    // 记得把首页的 bank.html 链接改成 rewards.html
-                });
-            }
-        });
-        
-    </script>
+        // ==========================================
+        // 0. 工程配置
+        // ==========================================
+        const SUPABASE_URL = "https://ymmouqgcprrhhmirhtan.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltbW91cWdjcHJyaGhtaXJodGFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NTQyMzQsImV4cCI6MjA4MDQzMDIzNH0.8NG9FSpDBkulyFU05pRzFf36_i4nl5Bo5hLjaUi75tY"; // ⚠️ 填入真实 Key
 
+        const USER_ID = 'user_001';
+        function getLocalDateKey() {
+            const d = new Date();
+            const yyyy = d.getFullYear();
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const dd = String(d.getDate()).padStart(2, '0');
+            return `${yyyy}-${mm}-${dd}`;
+        }
+
+        const TODAY_KEY = getLocalDateKey();
+        const LS_ONGOING_KEY = `nex_ongoing_${USER_ID}_${TODAY_KEY}`;
+        const AGENT_INTRO_VOICE = "好的，这个任务很简单，跟我来。";
+
+        let supabaseClient = null;
+
+        function getDB() {
+            if (!supabaseClient && window.supabase) {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            }
+            return supabaseClient;
+        }
+
+        // ==========================================
+        // 问候语生成规则
+        // ==========================================
+        function genGreeting(ctx) {
+            const hour = new Date().getHours();
+            let timeText = "你好";
+
+            if (hour < 6) timeText = "凌晨好";
+            else if (hour < 11) timeText = "上午好";
+            else if (hour < 14) timeText = "中午好";
+            else if (hour < 18) timeText = "下午好";
+            else timeText = "晚上好";
+
+            if (ctx.isFirstVisit) return `${timeText}，我会一步步提醒你可以做哪些银行活动`;
+            if (ctx.ongoingCount > 0) return `${timeText}，上次的任务还没做完，点一下就能继续`;
+            if (ctx.recommendCount > 0) return `${timeText}，今天有几个活动可以顺手做一下`;
+
+            return `${timeText}，今天暂时没什么需要做的`;
+        }
+
+        // ==========================================
+        // 1. 本地状态 (Ongoing)
+        // ==========================================
+        const LocalState = {
+            getList(key) {
+                try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch { return []; }
+            },
+            saveList(key, list) {
+                localStorage.setItem(key, JSON.stringify(list));
+            },
+            getOngoingIds() { return this.getList(LS_ONGOING_KEY); },
+            addToOngoing(id) {
+                const list = this.getOngoingIds();
+                if (!list.includes(String(id))) {
+                    list.unshift(String(id));
+                    this.saveList(LS_ONGOING_KEY, list);
+                }
+            },
+            removeFromOngoing(id) {
+                const list = this.getOngoingIds().filter(x => String(x) !== String(id));
+                this.saveList(LS_ONGOING_KEY, list);
+            }
+        };
+
+        // ==========================================
+        // 2. Voice Engine
+        // ==========================================
+        const VoiceEngine = {
+            play(text) {
+                if (!text) return;
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(text);
+                u.lang = 'zh-CN';
+                u.rate = 0.95;
+                window.speechSynthesis.speak(u);
+            }
+        };
+
+        function genAgentReason(t) {
+            if (t.agent_reason_short) return t.agent_reason_short;
+            if (t.agent_risk_level >= 2) return "有一定门槛，建议看清步骤再做";
+            if (t.urgency >= 2) return "今天有效，不做就没了";
+            if (t.is_high_value) return "顺手做一下，性价比不错";
+            if (t.success_probability >= 0.85) return "成功率很高，大多数人都能完成";
+            if (t.task_type === 'OneTime') return "一次操作，做完就结束";
+            return "操作不复杂，可以试试";
+        };
+
+        // ==========================================
+        // 3. Task Controller
+        // ==========================================
+        window.TaskController = {
+            start(id, link) {
+                const t = window.ALL_TASKS.find(x => x.id == id);
+                if (!t) return;
+                LocalState.addToOngoing(id);
+                if (link && link.length > 5) {
+                    window.open(link, '_blank');
+                } else {
+                    VoiceEngine.play(AGENT_INTRO_VOICE);
+                    this.openGuide(t);
+                }
+                RenderEngine.refresh();
+            },
+            continueTask(id) {
+                const t = window.ALL_TASKS.find(x => x.id == id);
+                if (!t) return;
+                if (t.link && t.link.length > 5) {
+                    window.open(t.link, '_blank');
+                } else {
+                    this.openGuide(t);
+                }
+            },
+            async skipToday(id) {
+                const db = getDB();
+                if (!db) return;
+                LocalState.removeFromOngoing(id);
+                UIUtils.toast("正在同步...");
+                await db.from('skip_state').insert({
+                    user_key: USER_ID,
+                    task_id: id,
+                    date_key: TODAY_KEY
+                });
+                UIUtils.toast("已暂放，今天不再出现");
+                RenderEngine.refresh();
+            },
+            async complete(id) {
+                const db = getDB();
+                if (db) {
+                    UIUtils.toast("正在提交...");
+                    await db.from('user_task_status').upsert({
+                        user_key: USER_ID,
+                        cycle_key: TODAY_KEY,
+                        task_id: id,
+                        status: 'COMPLETED',
+                        completed_at: new Date().toISOString()
+                    }, { onConflict: 'user_key,cycle_key,task_id' });
+                    LocalState.removeFromOngoing(id);
+                    UIUtils.toast("本期已完成 🎉");
+                    RenderEngine.refresh();
+                }
+            },
+            openVideo(link) {
+                if (link) window.open(link, '_blank');
+            },
+            openGuide(t) {
+                document.getElementById('modal-title').innerText = t.title;
+                const listContainer = document.getElementById('step-list-container');
+                listContainer.innerHTML = '';
+                let steps = [];
+                if (t.agent_steps_json && Array.isArray(t.agent_steps_json)) {
+                    steps = t.agent_steps_json;
+                } else if (typeof t.voice_steps === 'string' && t.voice_steps.length > 0) {
+                    steps = [{ step: 1, text: t.voice_steps }];
+                }
+                steps.forEach((s, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'step-item';
+                    div.innerHTML = `
+                        <div class="step-icon"><i class="fas fa-volume-high"></i></div>
+                        <div class="step-text">
+                            <span class="text-xs text-gray-500 font-bold block mb-1">STEP ${idx + 1}</span>
+                            ${s.text}
+                        </div>
+                    `;
+                    div.onclick = () => {
+                        VoiceEngine.play(s.text);
+                        document.querySelectorAll('.step-item').forEach(el => el.style.borderColor = 'rgba(255,255,255,0.1)');
+                        div.style.borderColor = '#A8C7FA';
+                    };
+                    listContainer.appendChild(div);
+                });
+                document.getElementById('guide-modal').style.display = 'flex';
+            },
+            closeGuide() {
+                window.speechSynthesis.cancel();
+                document.getElementById('guide-modal').style.display = 'none';
+            }
+        };
+
+        // ==========================================
+        // 4. Render Engine
+        // ==========================================
+        const RenderEngine = {
+            async refresh() {
+                const db = getDB();
+                if (!db) return;
+
+                const pTasks = db.from('tasks_view').select('*');
+                const pStatus = db.from('user_task_status')
+                    .select('task_id')
+                    .eq('user_key', USER_ID)
+                    .eq('cycle_key', TODAY_KEY)
+                    .eq('status', 'COMPLETED');
+                const pSkipped = db.from('skip_state')
+                    .select('task_id')
+                    .eq('user_key', USER_ID)
+                    .eq('date_key', TODAY_KEY);
+
+                const [resTasks, resStatus, resSkipped] = await Promise.all([pTasks, pStatus, pSkipped]);
+
+                const rawTasks = resTasks.data || [];
+                const completedSet = new Set((resStatus.data || []).map(r => r.task_id));
+                const skippedSet = new Set((resSkipped.data || []).map(r => r.task_id));
+                const ongoingIds = LocalState.getOngoingIds();
+
+                function calcDaysLeft(validTo) {
+                    const today = new Date();
+                    const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                    const end = new Date(validTo);
+                    const endStart = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+
+                    return Math.floor((endStart - todayStart) / (1000 * 60 * 60 * 24));
+                };
+
+                window.ALL_TASKS = rawTasks.map(t => {
+                    let successHint = "";
+                    let urgencyLevel = "normal";
+
+                    if (t.valid_to) {
+                        const daysLeft = calcDaysLeft(t.valid_to);
+
+                        if (daysLeft <= 1) {
+                            successHint = "今天不做就没了";
+                            urgencyLevel = "today";   // 红色
+                        } else if (daysLeft <= 3) {
+                            successHint = "快结束了，别忘了";
+                            urgencyLevel = "soon";    // 橙色
+                        }
+                    }
+
+                    if (!successHint) {
+                        if (t.success_probability >= 0.95) {
+                            successHint = "成功率很高";
+                        } else if (t.is_high_value) {
+                            successHint = "值得顺手做一下";
+                        }
+                    }
+
+                    t.agent_urgency_level = urgencyLevel;
+
+                    return {
+                        id: t.id,
+                        title: t.title,
+                        link: t.deep_link,
+                        voice_steps: t.voice_steps,
+                        agent_steps_json: t.agent_steps_json,
+                        agent_need_voice: (t.voice_steps && t.voice_steps.length > 0),
+                        agent_priority: t.urgency || 0,
+                        agent_open_mode: (t.title.includes('视频') || t.title.includes('看')) ? 'video' : 'normal',
+                        agent_base_score: (t.agent_base_score || 0) + (t.urgency || 0) + (t.freshness_weight || 0) + (t.success_probability || 0) * 10,
+                        agent_reason: genAgentReason(t),
+                        agent_success_hint: successHint,
+                        agent_urgency_level: urgencyLevel,
+
+                        // NEW: 映射 estimated_time 字段
+                        estimated_time: t.estimated_time,
+
+                        isCompleted: completedSet.has(t.id),
+                        isOngoing: ongoingIds.includes(String(t.id)),
+                        isSkipped: skippedSet.has(t.id)
+                    };
+                });
+
+                const videos = [];
+                const ongoing = [];
+                const recommend = [];
+
+                window.ALL_TASKS.forEach(t => {
+                    if (t.isCompleted) return;
+                    if (t.agent_open_mode === 'video') {
+                        videos.push(t);
+                        return;
+                    }
+                    if (t.isOngoing) {
+                        ongoing.push(t);
+                        return;
+                    }
+                    if (!t.isSkipped && t.agent_need_voice) {
+                        recommend.push(t);
+                    }
+                });
+
+                // 问候语逻辑
+                const visitKey = 'nex_has_visited_app';
+                const isFirstVisit = !localStorage.getItem(visitKey);
+                if (isFirstVisit) localStorage.setItem(visitKey, '1');
+
+                const greetCtx = {
+                    isFirstVisit: isFirstVisit,
+                    ongoingCount: ongoing.length,
+                    recommendCount: recommend.length
+                };
+
+                const greetingText = genGreeting(greetCtx);
+                document.getElementById('greeting-text').innerText = greetingText;
+
+                const greetPlayedKey = `greet_played_${TODAY_KEY}`;
+                if (!localStorage.getItem(greetPlayedKey)) {
+                    if (greetingText) {
+                        VoiceEngine.play(greetingText);
+                        localStorage.setItem(greetPlayedKey, "1");
+                    }
+                }
+
+                this.renderSection('ongoing', ongoing);
+                this.renderSection('recommend', recommend.sort((a, b) => b.agent_base_score - a.agent_base_score).slice(0, 3));
+                this.renderSection('video', videos.slice(0, 5));
+            },
+
+            renderSection(type, tasks) {
+                const container = document.getElementById(`${type}-list`) || document.getElementById(`${type}-container`);
+                const section = document.getElementById(`${type}-section`);
+
+                if (tasks.length === 0) {
+                    if (type === 'ongoing') section.style.display = 'none';
+                    else container.innerHTML = '<div class="text-gray-500 text-center py-8 text-xs opacity-40">暂无任务，休息一下吧</div>';
+                    return;
+                }
+
+                if (type === 'ongoing') section.style.display = 'block';
+                container.innerHTML = tasks.map(t => this.createCard(t, type)).join('');
+            },
+
+            // ==========================================
+            // NEW: 修复后的 createCard
+            // ==========================================
+            createCard(t, type) {
+                const isOngoing = type === 'ongoing';
+                const isVideo = type === 'video';
+                const isRec = type === 'recommend';
+
+                let badge = isVideo ? '视频' : (isOngoing ? '进行中' : '精选');
+                let badgeClass = isVideo ? 'video' : (isOngoing ? 'ongoing' : 'today');
+
+                let hintHtml = `<div class="hint-decision">🧠 ${t.agent_reason}</div>`;
+                if (isRec) hintHtml += `<div class="hint-success">✅ ${t.agent_success_hint}</div>`;
+
+                // 1. 生成按钮内容
+                let buttonsHtml = '';
+
+                if (isVideo) {
+                    buttonsHtml = `<button class="action-chip" onclick="TaskController.openVideo('${t.link}')">▶ 去看看</button>`;
+                } else if (isOngoing) {
+                    buttonsHtml = `
+                        <button onclick="TaskController.complete('${t.id}')" class="nex-btn-secondary">本期完成</button>
+                        <button onclick="TaskController.skipToday('${t.id}')" class="nex-btn-tertiary">今天先不做</button>
+                        <button onclick="TaskController.continueTask('${t.id}')" class="nex-btn-primary">继续做 <i class="fas fa-arrow-right ml-1 text-xs"></i></button>
+                    `;
+                } else {
+                    // Recommend
+                    buttonsHtml = `
+                        <button class="action-chip" onclick="TaskController.start('${t.id}', '${t.link}')">
+                            ${t.link ? '去完成' : '听指引'}
+                        </button>
+                    `;
+                }
+
+                // 2. 生成时间提示
+                const timeHtml = t.estimated_time ? `预计 ${t.estimated_time} 分钟` : '';
+
+                // 3. 统一返回结构
+                return `
+                <div class="task-card ${isOngoing ? 'ongoing-style' : ''}">
+                    <div class="rec-badge ${badgeClass}">${badge}</div>
+                    <div style="font-weight:600; color:#fff; font-size:1.1rem; margin-bottom:8px;">${t.title}</div>
+                    <div class="agent-hints urgency-${t.agent_urgency_level || 'normal'} ${isOngoing ? 'mb-0' : ''}">
+                        ${hintHtml}
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="card-footer-left">
+                            ${timeHtml}
+                        </div>
+                        <div class="card-footer-right">
+                            ${buttonsHtml}
+                        </div>
+                    </div>
+                </div>`;
+            }
+        };
+
+        const UIUtils = {
+            toast(msg) {
+                const b = document.getElementById('toast-box');
+                b.innerText = msg;
+                b.classList.add('active');
+                setTimeout(() => b.classList.remove('active'), 2000);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const d = new Date();
+            const dateStr = `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
+            document.getElementById('date-text').innerText = dateStr;
+            RenderEngine.refresh();
+        });
+
+    </script>
 </body>
 
 </html>
