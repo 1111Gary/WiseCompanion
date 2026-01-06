@@ -4,31 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>NEX AI - 奈斯</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>奈斯智能助手</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="一步就会的智能任务助手">
+    <meta property="og:description" content="帮你完成任务的智能向导，安全、省心的长期工具。">
+    <meta property="og:image" content="https://nex-ai.top/assets/icon_apple.png">
+    <meta itemprop="name" content="奈斯">
+    <meta itemprop="image" content="./assets/icon_apple.png">
+
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
     <meta name="apple-mobile-web-app-title" content="奈斯">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="icon" href="/assets/icon_apple.png">
-
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
         /* ====================
             基础样式
-            ==================== */
+           ==================== */
         :root {
             --bg-surface: #0f1115;
             --surface-container: #1e2024;
             --primary: #A8C7FA;
-            /* 主色 */
             --on-surface: #E2E2E2;
             --tertiary-container: #2D313C;
             --accent-decision: #D3E3FD;
             --success-text: #86EFAC;
             --success-bg: rgba(134, 239, 172, 0.1);
+            --landing-bg: #050608;
         }
 
         body {
@@ -37,6 +43,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             padding: env(safe-area-inset-top) 20px 40px;
             -webkit-tap-highlight-color: transparent;
+            overscroll-behavior-y: none;
         }
 
         /* 顶部品牌区 */
@@ -46,6 +53,7 @@
             align-items: center;
             margin-top: 20px;
             margin-bottom: 24px;
+            position: relative;
         }
 
         .brand-logo {
@@ -76,9 +84,36 @@
             background: rgba(168, 199, 250, 0.1);
             padding: 4px 12px;
             border-radius: 99px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* 分区标题 */
+        /* === PWA 安装按钮 (适配品牌色) === */
+        #pwa-install-btn {
+            display: none;
+            /* 默认隐藏，JS 控制显示 */
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--primary);
+            font-size: 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-left: 8px;
+            text-transform: none;
+            /* 防止被父级样式影响 */
+            letter-spacing: 0;
+        }
+
+        #pwa-install-btn:active {
+            background: rgba(168, 199, 250, 0.2);
+        }
+
+        /* 分区与卡片样式 (保持不变) */
         .section-label {
             font-size: 0.95rem;
             color: var(--primary);
@@ -89,7 +124,6 @@
             gap: 8px;
         }
 
-        /* 卡片通用样式 */
         .task-card {
             background: var(--surface-container);
             border-radius: 24px;
@@ -110,7 +144,6 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
-        /* 徽章 */
         .rec-badge {
             position: absolute;
             top: 0;
@@ -136,7 +169,7 @@
             color: #fff;
         }
 
-        /* 提示语区域 */
+        /* 提示语 */
         .agent-hints {
             margin-bottom: 16px;
             display: flex;
@@ -176,9 +209,7 @@
             color: #9aa0a6;
         }
 
-        /* ====================
-            按钮系统
-            ==================== */
+        /* 按钮系统 */
         .nex-btn-primary {
             background: var(--primary);
             color: #042F5E;
@@ -233,17 +264,12 @@
             cursor: pointer;
         }
 
-        /* ====================
-            NEW: 统一底部 Footer 结构
-            ==================== */
         .card-footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-top: 12px;
-            /* 增加一点间距 */
             padding-top: 12px;
-            /* 保留之前的分割线设计，保持视觉统一 */
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -251,7 +277,6 @@
             font-size: 12px;
             color: #888;
             line-height: 1;
-            /* 即使为空，也能占位保持高度 */
             min-height: 12px;
         }
 
@@ -261,9 +286,7 @@
             align-items: center;
         }
 
-        /* ---------------------------
-            弹窗样式
-            --------------------------- */
+        /* 弹窗样式 (任务指引) */
         #guide-modal {
             position: fixed;
             inset: 0;
@@ -374,18 +397,281 @@
                 transform: translateX(-50%) translateY(0);
             }
         }
+
+        /* ====================
+           NEW: 引导页与安装弹窗样式
+           ==================== */
+        #landing-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: var(--landing-bg);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #landing-overlay.slide-up {
+            transform: translateY(-100%);
+        }
+
+        .landing-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .landing-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 24px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(168, 199, 250, 0.15);
+        }
+
+        .landing-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .landing-subtitle {
+            font-size: 1rem;
+            color: #9AA0A6;
+            margin-bottom: 40px;
+        }
+
+        .landing-features {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .feat-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .feat-icon {
+            color: var(--primary);
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .feat-text h4 {
+            color: #E2E2E2;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .feat-text p {
+            color: #888;
+            font-size: 0.75rem;
+            margin: 2px 0 0;
+        }
+
+        .landing-btn {
+            background: var(--primary);
+            color: #042F5E;
+            font-size: 1.1rem;
+            font-weight: 700;
+            width: 100%;
+            padding: 16px;
+            border-radius: 99px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(168, 199, 250, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .pwa-hint {
+            font-size: 0.75rem;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* 安装引导弹窗 */
+        .guide-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 20000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /*opacity: 0; animation: fadeIn 0.3s forwards;控制布局 */
+        }
+
+        .guide-content {
+            background: #fff;
+            width: calc(100% - 32px);
+            max-width: 400px;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
+            color: #333;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .guide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .guide-header h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+        }
+
+        .guide-body {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .guide-intro {
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .guide-step {
+            margin-bottom: 16px;
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .guide-step h4 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+            color: #000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .guide-step ol {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .guide-step li {
+            margin-bottom: 6px;
+        }
+
+        .divider {
+            height: 1px;
+            background: #eee;
+            margin: 16px 0;
+        }
+
+        .i-got-it-btn {
+            width: 100%;
+            padding: 12px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .i-got-it-btn:active {
+            opacity: 0.8;
+        }
     </style>
 </head>
 
 <body>
+    <div style="display:none;"><img src="./assets/icon_apple.png" alt="logo"></div>
+
+    <div id="landing-overlay" style="display: none;">
+        <div class="landing-content">
+            <img src="./assets/icon_apple.png" class="landing-logo"
+                onerror="this.src='https://placehold.co/80x80/000000/ffffff?text=N'">
+
+            <div class="landing-title">一步就会的<br>智能任务助手</div>
+            <div class="landing-subtitle">复杂操作看不懂？我来一步步带你做。</div>
+
+            <div class="landing-features">
+                <div class="feat-item">
+                    <div class="feat-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="feat-text">
+                        <h4>安全可靠</h4>
+                        <p>你的私人任务向导，值得信任</p>
+                    </div>
+                </div>
+                <div class="feat-item">
+                    <div class="feat-icon"><i class="fas fa-layer-group"></i></div>
+                    <div class="feat-text">
+                        <h4>长期工具</h4>
+                        <p>不用记步骤，随时回来查看</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="landing-btn" onclick="LandingController.enterApp()">
+                进入智能空间
+            </button>
+
+            <div class="pwa-hint">
+                <i class="fas fa-download"></i> 支持添加到桌面，方便下次使用
+            </div>
+        </div>
+    </div>
 
     <div class="brand-area">
         <img src="./assets/icon_apple.png" class="brand-logo"
             onerror="this.src='https://placehold.co/48x48/000000/ffffff?text=N'">
         <div class="agent-greeting" id="greeting-text">...</div>
-        <div class="agent-date" id="date-text">...</div>
+        <div class="agent-date">
+            <span id="date-text">...</span>
+            <button id="pwa-install-btn">
+                <i class="fas fa-plus"></i> 安装到桌面
+            </button>
+        </div>
     </div>
-
     <div id="ongoing-section" style="display: none;">
         <div class="section-label"><i class="fas fa-play-circle"></i> 正在进行中</div>
         <div id="ongoing-container"></div>
@@ -412,13 +698,53 @@
                 <i class="fas fa-history"></i> 您可以随时切回来，点当前步骤再听，不用记。
             </div>
         </div>
+        <div id="step-list-container" class="step-list"></div>
+        <button onclick="TaskController.closeGuide()" class="modal-close-btn">关闭</button>
+    </div>
 
-        <div id="step-list-container" class="step-list">
+    <div id="install-guide-modal" class="guide-modal" style="display: none;">
+        <div class="guide-content">
+            <div class="guide-header">
+                <h3>安装到桌面</h3>
+                <button class="close-btn" onclick="toggleGuide(false)">&times;</button>
+            </div>
+            <div class="guide-body">
+                <p class="guide-intro">为避免部分银行或平台在微信内受限，建议添加到桌面使用，可获得更完整、稳定的体验。</p>
+
+                <div id="guide-wechat" class="guide-step"
+                    style="display:none; background: #fff3cd; color:#856404; border:1px solid #ffeeba;">
+                    <p>⚠️ <strong>微信内使用说明：</strong></p>
+                    <p>1. 部分平台在微信内可能无法正常打开，<br>
+                        可通过右上角 <strong>•••</strong></p>
+                    <p>2. 选择 <strong>在浏览器打开</strong> ，或添加到桌面后使用。(Safari/Chrome)</p>
+                </div>
+
+                <div class="guide-step">
+                    <h4><span style="font-size:1.2em">🍎</span> iPhone / iPad 用户</h4>
+                    <ol>
+                        <li>点击底部工具栏的 <strong>分享图标</strong> <svg style="vertical-align:-3px" width="16" height="16"
+                                viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2">
+                                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+                                <polyline points="16 6 12 2 8 6" />
+                                <line x1="12" y1="2" x2="12" y2="15" />
+                            </svg></li>
+                        <li>向上滑动，找到并点击 <strong>“添加到主屏幕”</strong></li>
+                        <li>点击右上角的 <strong>“添加”</strong></li>
+                    </ol>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="guide-step">
+                    <h4><span style="font-size:1.2em">🤖</span> Android 用户</h4>
+                    <ol>
+                        <li>点击浏览器右上角 <strong>设置图标</strong> (•••)</li>
+                        <li>选择 <strong>“安装应用”</strong> 或 <strong>“添加到主屏幕”</strong></li>
+                    </ol>
+                </div>
+            </div>
+            <button class="i-got-it-btn" onclick="toggleGuide(false)">好的，继续使用</button>
         </div>
-
-        <button onclick="TaskController.closeGuide()" class="modal-close-btn">
-            关闭
-        </button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -428,8 +754,8 @@
         // ==========================================
         const SUPABASE_URL = "https://ymmouqgcprrhhmirhtan.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltbW91cWdjcHJyaGhtaXJodGFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NTQyMzQsImV4cCI6MjA4MDQzMDIzNH0.8NG9FSpDBkulyFU05pRzFf36_i4nl5Bo5hLjaUi75tY"; // ⚠️ 填入真实 Key
-
         const USER_ID = 'user_001';
+
         function getLocalDateKey() {
             const d = new Date();
             const yyyy = d.getFullYear();
@@ -441,7 +767,6 @@
         const TODAY_KEY = getLocalDateKey();
         const LS_ONGOING_KEY = `nex_ongoing_${USER_ID}_${TODAY_KEY}`;
         const AGENT_INTRO_VOICE = "好的，这个任务很简单，跟我来。";
-
         let supabaseClient = null;
 
         function getDB() {
@@ -452,59 +777,129 @@
         }
 
         // ==========================================
-        // 问候语生成规则
+        // NEW: 引导页控制器 (Landing Controller)
+        // ==========================================
+        const LandingController = {
+            lsKey: 'nex_has_seen_landing_v3', // 版本更新，确保旧用户也能看到新引导页
+            init() {
+                const hasSeen = localStorage.getItem(this.lsKey);
+                if (!hasSeen) {
+                    document.getElementById('landing-overlay').style.display = 'flex';
+                    return true;
+                }
+                return false;
+            },
+            enterApp() {
+                localStorage.setItem(this.lsKey, '1');
+                const overlay = document.getElementById('landing-overlay');
+                overlay.classList.add('slide-up');
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    const pendingText = document.getElementById('greeting-text').innerText;
+                    if (pendingText && pendingText !== '...') {
+                        RenderEngine.tryPlayGreeting(pendingText);
+                    }
+                }, 600);
+            },
+            isShowing() {
+                const overlay = document.getElementById('landing-overlay');
+                return overlay.style.display !== 'none' && !overlay.classList.contains('slide-up');
+            }
+        };
+
+        // ==========================================
+        // NEW: PWA 安装控制器 (核心修改部分)
+        // ==========================================
+        let deferredPrompt = null;
+        const installBtn = document.getElementById('pwa-install-btn');
+        const guideModal = document.getElementById('install-guide-modal');
+        const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+        const isIos = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+        // 1. 弹窗控制
+        window.toggleGuide = function (show) {
+            guideModal.style.display = show ? 'flex' : 'none';
+            if (show && isWeChat) {
+                document.getElementById('guide-wechat').style.display = 'block';
+            }
+        };
+
+        // 2. 初始化安装逻辑
+        function initPWA() {
+            // Android Chrome: 监听原生事件
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                installBtn.style.display = 'inline-flex';
+            });
+
+            // iOS Safari: 强制显示按钮 (如果未安装)
+            if (isIos && !window.navigator.standalone) {
+                installBtn.style.display = 'inline-flex';
+            }
+
+            // 按钮点击事件绑定
+            installBtn.onclick = async () => {
+                if (deferredPrompt) {
+                    // 原生安装流程
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    console.log(`User response: ${outcome}`);
+                    deferredPrompt = null;
+                    installBtn.style.display = 'none';
+                } else {
+                    // 兜底引导弹窗 (iOS 或 不支持原生安装的环境)
+                    toggleGuide(true);
+                }
+            };
+
+            // 点击遮罩层关闭
+            guideModal.addEventListener('click', (e) => {
+                if (e.target === guideModal) toggleGuide(false);
+            });
+        }
+        document.addEventListener('visibilitychange', () => {
+            if (
+                document.visibilityState === 'visible' &&
+                sessionStorage.getItem('need_refresh_after_task') === '1'
+            ) {
+                sessionStorage.removeItem('need_refresh_after_task');
+                RenderEngine.refresh();
+            }
+        });
+
+        // ==========================================
+        // 原有逻辑保持不变
         // ==========================================
         function genGreeting(ctx) {
             const hour = new Date().getHours();
             let timeText = "你好";
-
             if (hour < 6) timeText = "凌晨好";
             else if (hour < 11) timeText = "上午好";
             else if (hour < 14) timeText = "中午好";
             else if (hour < 18) timeText = "下午好";
             else timeText = "晚上好";
 
-            if (ctx.isFirstVisit) return `${timeText}，我会一步步提醒你可以做哪些银行活动`;
+            if (ctx.isFirstVisit) return `${timeText}，我会一步步提醒你可以做哪些活动`;
             if (ctx.ongoingCount > 0) return `${timeText}，上次的任务还没做完，点一下就能继续`;
             if (ctx.recommendCount > 0) return `${timeText}，今天有几个活动可以顺手做一下`;
-
             return `${timeText}，今天暂时没什么需要做的`;
         }
 
-        // ==========================================
-        // 1. 本地状态 (Ongoing)
-        // ==========================================
         const LocalState = {
-            getList(key) {
-                try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch { return []; }
-            },
-            saveList(key, list) {
-                localStorage.setItem(key, JSON.stringify(list));
-            },
+            getList(key) { try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch { return []; } },
+            saveList(key, list) { localStorage.setItem(key, JSON.stringify(list)); },
             getOngoingIds() { return this.getList(LS_ONGOING_KEY); },
-            addToOngoing(id) {
-                const list = this.getOngoingIds();
-                if (!list.includes(String(id))) {
-                    list.unshift(String(id));
-                    this.saveList(LS_ONGOING_KEY, list);
-                }
-            },
-            removeFromOngoing(id) {
-                const list = this.getOngoingIds().filter(x => String(x) !== String(id));
-                this.saveList(LS_ONGOING_KEY, list);
-            }
+            addToOngoing(id) { const list = this.getOngoingIds(); if (!list.includes(String(id))) { list.unshift(String(id)); this.saveList(LS_ONGOING_KEY, list); } },
+            removeFromOngoing(id) { const list = this.getOngoingIds().filter(x => String(x) !== String(id)); this.saveList(LS_ONGOING_KEY, list); }
         };
 
-        // ==========================================
-        // 2. Voice Engine
-        // ==========================================
         const VoiceEngine = {
             play(text) {
-                if (!text) return;
+                if (!text || LandingController.isShowing()) return;
                 window.speechSynthesis.cancel();
                 const u = new SpeechSynthesisUtterance(text);
-                u.lang = 'zh-CN';
-                u.rate = 0.95;
+                u.lang = 'zh-CN'; u.rate = 0.95;
                 window.speechSynthesis.speak(u);
             }
         };
@@ -519,29 +914,50 @@
             return "操作不复杂，可以试试";
         };
 
-        // ==========================================
-        // 3. Task Controller
-        // ==========================================
         window.TaskController = {
             start(id, link) {
                 const t = window.ALL_TASKS.find(x => x.id == id);
                 if (!t) return;
+
                 LocalState.addToOngoing(id);
+
                 if (link && link.length > 5) {
+
+                    if (isWeChat) {
+                        // 微信内：打标记，不刷新
+                        sessionStorage.setItem('need_refresh_after_task', '1');
+                        window.open(link, '_blank');
+                        return; // ⚠️ 关键：立刻 return
+                    }
+
+                    // 非微信：正常跳转
                     window.open(link, '_blank');
+                    RenderEngine.refresh();
+
                 } else {
                     VoiceEngine.play(AGENT_INTRO_VOICE);
                     this.openGuide(t);
+                    RenderEngine.refresh();
                 }
-                RenderEngine.refresh();
             },
             continueTask(id) {
                 const t = window.ALL_TASKS.find(x => x.id == id);
                 if (!t) return;
+
                 if (t.link && t.link.length > 5) {
+
+                    if (isWeChat) {
+                        sessionStorage.setItem('need_refresh_after_task', '1');
+                        window.open(t.link, '_blank');
+                        return;
+                    }
+
                     window.open(t.link, '_blank');
+                    RenderEngine.refresh();
+
                 } else {
                     this.openGuide(t);
+                    RenderEngine.refresh();
                 }
             },
             async skipToday(id) {
@@ -549,11 +965,7 @@
                 if (!db) return;
                 LocalState.removeFromOngoing(id);
                 UIUtils.toast("正在同步...");
-                await db.from('skip_state').insert({
-                    user_key: USER_ID,
-                    task_id: id,
-                    date_key: TODAY_KEY
-                });
+                await db.from('skip_state').insert({ user_key: USER_ID, task_id: id, date_key: TODAY_KEY });
                 UIUtils.toast("已暂放，今天不再出现");
                 RenderEngine.refresh();
             },
@@ -561,75 +973,38 @@
                 const db = getDB();
                 if (db) {
                     UIUtils.toast("正在提交...");
-                    await db.from('user_task_status').upsert({
-                        user_key: USER_ID,
-                        cycle_key: TODAY_KEY,
-                        task_id: id,
-                        status: 'COMPLETED',
-                        completed_at: new Date().toISOString()
-                    }, { onConflict: 'user_key,cycle_key,task_id' });
+                    await db.from('user_task_status').upsert({ user_key: USER_ID, cycle_key: TODAY_KEY, task_id: id, status: 'COMPLETED', completed_at: new Date().toISOString() }, { onConflict: 'user_key,cycle_key,task_id' });
                     LocalState.removeFromOngoing(id);
                     UIUtils.toast("本期已完成 🎉");
                     RenderEngine.refresh();
                 }
             },
-            openVideo(link) {
-                if (link) window.open(link, '_blank');
-            },
+            openVideo(link) { if (link) window.open(link, '_blank'); },
             openGuide(t) {
                 document.getElementById('modal-title').innerText = t.title;
                 const listContainer = document.getElementById('step-list-container');
                 listContainer.innerHTML = '';
                 let steps = [];
-                if (t.agent_steps_json && Array.isArray(t.agent_steps_json)) {
-                    steps = t.agent_steps_json;
-                } else if (typeof t.voice_steps === 'string' && t.voice_steps.length > 0) {
-                    steps = [{ step: 1, text: t.voice_steps }];
-                }
+                if (t.agent_steps_json && Array.isArray(t.agent_steps_json)) { steps = t.agent_steps_json; } else if (typeof t.voice_steps === 'string' && t.voice_steps.length > 0) { steps = [{ step: 1, text: t.voice_steps }]; }
                 steps.forEach((s, idx) => {
                     const div = document.createElement('div');
                     div.className = 'step-item';
-                    div.innerHTML = `
-                        <div class="step-icon"><i class="fas fa-volume-high"></i></div>
-                        <div class="step-text">
-                            <span class="text-xs text-gray-500 font-bold block mb-1">STEP ${idx + 1}</span>
-                            ${s.text}
-                        </div>
-                    `;
-                    div.onclick = () => {
-                        VoiceEngine.play(s.text);
-                        document.querySelectorAll('.step-item').forEach(el => el.style.borderColor = 'rgba(255,255,255,0.1)');
-                        div.style.borderColor = '#A8C7FA';
-                    };
+                    div.innerHTML = `<div class="step-icon"><i class="fas fa-volume-high"></i></div><div class="step-text"><span class="text-xs text-gray-500 font-bold block mb-1">STEP ${idx + 1}</span>${s.text}</div>`;
+                    div.onclick = () => { VoiceEngine.play(s.text); document.querySelectorAll('.step-item').forEach(el => el.style.borderColor = 'rgba(255,255,255,0.1)'); div.style.borderColor = '#A8C7FA'; };
                     listContainer.appendChild(div);
                 });
                 document.getElementById('guide-modal').style.display = 'flex';
             },
-            closeGuide() {
-                window.speechSynthesis.cancel();
-                document.getElementById('guide-modal').style.display = 'none';
-            }
+            closeGuide() { window.speechSynthesis.cancel(); document.getElementById('guide-modal').style.display = 'none'; }
         };
 
-        // ==========================================
-        // 4. Render Engine
-        // ==========================================
         const RenderEngine = {
             async refresh() {
                 const db = getDB();
                 if (!db) return;
-
                 const pTasks = db.from('tasks_view').select('*');
-                const pStatus = db.from('user_task_status')
-                    .select('task_id')
-                    .eq('user_key', USER_ID)
-                    .eq('cycle_key', TODAY_KEY)
-                    .eq('status', 'COMPLETED');
-                const pSkipped = db.from('skip_state')
-                    .select('task_id')
-                    .eq('user_key', USER_ID)
-                    .eq('date_key', TODAY_KEY);
-
+                const pStatus = db.from('user_task_status').select('task_id').eq('user_key', USER_ID).eq('cycle_key', TODAY_KEY).eq('status', 'COMPLETED');
+                const pSkipped = db.from('skip_state').select('task_id').eq('user_key', USER_ID).eq('date_key', TODAY_KEY);
                 const [resTasks, resStatus, resSkipped] = await Promise.all([pTasks, pStatus, pSkipped]);
 
                 const rawTasks = resTasks.data || [];
@@ -642,187 +1017,92 @@
                     const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
                     const end = new Date(validTo);
                     const endStart = new Date(end.getFullYear(), end.getMonth(), end.getDate());
-
                     return Math.floor((endStart - todayStart) / (1000 * 60 * 60 * 24));
                 };
 
                 window.ALL_TASKS = rawTasks.map(t => {
-                    let successHint = "";
-                    let urgencyLevel = "normal";
-
+                    let successHint = ""; let urgencyLevel = "normal";
                     if (t.valid_to) {
                         const daysLeft = calcDaysLeft(t.valid_to);
-
-                        if (daysLeft <= 1) {
-                            successHint = "今天不做就没了";
-                            urgencyLevel = "today";   // 红色
-                        } else if (daysLeft <= 3) {
-                            successHint = "快结束了，别忘了";
-                            urgencyLevel = "soon";    // 橙色
-                        }
+                        if (daysLeft <= 1) { successHint = "今天不做就没了"; urgencyLevel = "today"; }
+                        else if (daysLeft <= 3) { successHint = "快结束了，别忘了"; urgencyLevel = "soon"; }
                     }
-
                     if (!successHint) {
-                        if (t.success_probability >= 0.95) {
-                            successHint = "成功率很高";
-                        } else if (t.is_high_value) {
-                            successHint = "值得顺手做一下";
-                        }
+                        if (t.success_probability >= 0.95) { successHint = "成功率很高"; }
+                        else if (t.is_high_value) { successHint = "值得顺手做一下"; }
                     }
-
                     t.agent_urgency_level = urgencyLevel;
-
                     return {
-                        id: t.id,
-                        title: t.title,
-                        link: t.deep_link,
-                        voice_steps: t.voice_steps,
-                        agent_steps_json: t.agent_steps_json,
+                        id: t.id, title: t.title, link: t.deep_link, voice_steps: t.voice_steps, agent_steps_json: t.agent_steps_json,
                         agent_need_voice: (t.voice_steps && t.voice_steps.length > 0),
                         agent_priority: t.urgency || 0,
                         agent_open_mode: (t.title.includes('视频') || t.title.includes('看')) ? 'video' : 'normal',
                         agent_base_score: (t.agent_base_score || 0) + (t.urgency || 0) + (t.freshness_weight || 0) + (t.success_probability || 0) * 10,
-                        agent_reason: genAgentReason(t),
-                        agent_success_hint: successHint,
-                        agent_urgency_level: urgencyLevel,
-
-                        // NEW: 映射 estimated_time 字段
+                        agent_reason: genAgentReason(t), agent_success_hint: successHint, agent_urgency_level: urgencyLevel,
                         estimated_time: t.estimated_time,
-
-                        isCompleted: completedSet.has(t.id),
-                        isOngoing: ongoingIds.includes(String(t.id)),
-                        isSkipped: skippedSet.has(t.id)
+                        isCompleted: completedSet.has(t.id), isOngoing: ongoingIds.includes(String(t.id)), isSkipped: skippedSet.has(t.id)
                     };
                 });
 
-                const videos = [];
-                const ongoing = [];
-                const recommend = [];
-
+                const videos = []; const ongoing = []; const recommend = [];
                 window.ALL_TASKS.forEach(t => {
                     if (t.isCompleted) return;
-                    if (t.agent_open_mode === 'video') {
-                        videos.push(t);
-                        return;
-                    }
-                    if (t.isOngoing) {
-                        ongoing.push(t);
-                        return;
-                    }
-                    if (!t.isSkipped && t.agent_need_voice) {
-                        recommend.push(t);
-                    }
+                    if (t.agent_open_mode === 'video') { videos.push(t); return; }
+                    if (t.isOngoing) { ongoing.push(t); return; }
+                    if (!t.isSkipped && t.agent_need_voice) { recommend.push(t); }
                 });
 
-                // 问候语逻辑
                 const visitKey = 'nex_has_visited_app';
                 const isFirstVisit = !localStorage.getItem(visitKey);
                 if (isFirstVisit) localStorage.setItem(visitKey, '1');
 
-                const greetCtx = {
-                    isFirstVisit: isFirstVisit,
-                    ongoingCount: ongoing.length,
-                    recommendCount: recommend.length
-                };
-
+                const greetCtx = { isFirstVisit: isFirstVisit, ongoingCount: ongoing.length, recommendCount: recommend.length };
                 const greetingText = genGreeting(greetCtx);
                 document.getElementById('greeting-text').innerText = greetingText;
-
-                const greetPlayedKey = `greet_played_${TODAY_KEY}`;
-                if (!localStorage.getItem(greetPlayedKey)) {
-                    if (greetingText) {
-                        VoiceEngine.play(greetingText);
-                        localStorage.setItem(greetPlayedKey, "1");
-                    }
-                }
+                this.tryPlayGreeting(greetingText);
 
                 this.renderSection('ongoing', ongoing);
                 this.renderSection('recommend', recommend.sort((a, b) => b.agent_base_score - a.agent_base_score).slice(0, 3));
                 this.renderSection('video', videos.slice(0, 5));
             },
-
+            tryPlayGreeting(text) {
+                const greetPlayedKey = `greet_played_${TODAY_KEY}`;
+                if (!localStorage.getItem(greetPlayedKey)) {
+                    if (text && !LandingController.isShowing()) {
+                        VoiceEngine.play(text);
+                        localStorage.setItem(greetPlayedKey, "1");
+                    }
+                }
+            },
             renderSection(type, tasks) {
                 const container = document.getElementById(`${type}-list`) || document.getElementById(`${type}-container`);
                 const section = document.getElementById(`${type}-section`);
-
                 if (tasks.length === 0) {
                     if (type === 'ongoing') section.style.display = 'none';
-                    else container.innerHTML = '<div class="text-gray-500 text-center py-8 text-xs opacity-40">暂无任务，休息一下吧</div>';
+                    else container.innerHTML = '<div class="text-center py-10 text-sm text-gray-200 leading-relaxed">✓ 今日适合完成的任务已全部处理<br>✓ 系统将在有新任务时自动展示</div>';
                     return;
                 }
-
                 if (type === 'ongoing') section.style.display = 'block';
                 container.innerHTML = tasks.map(t => this.createCard(t, type)).join('');
             },
-
-            // ==========================================
-            // NEW: 修复后的 createCard
-            // ==========================================
             createCard(t, type) {
-                const isOngoing = type === 'ongoing';
-                const isVideo = type === 'video';
-                const isRec = type === 'recommend';
-
-                let badge = isVideo ? '视频' : (isOngoing ? '进行中' : '精选');
-                let badgeClass = isVideo ? 'video' : (isOngoing ? 'ongoing' : 'today');
-
-                let hintHtml = `<div class="hint-decision">🧠 ${t.agent_reason}</div>`;
-                if (isRec) hintHtml += `<div class="hint-success">✅ ${t.agent_success_hint}</div>`;
-
-                // 1. 生成按钮内容
+                const isOngoing = type === 'ongoing'; const isVideo = type === 'video'; const isRec = type === 'recommend';
+                let badge = isVideo ? '视频' : (isOngoing ? '进行中' : '精选'); let badgeClass = isVideo ? 'video' : (isOngoing ? 'ongoing' : 'today');
+                let hintHtml = `<div class="hint-decision">🧠 ${t.agent_reason}</div>`; if (isRec) hintHtml += `<div class="hint-success">✅ ${t.agent_success_hint}</div>`;
                 let buttonsHtml = '';
-
-                if (isVideo) {
-                    buttonsHtml = `<button class="action-chip" onclick="TaskController.openVideo('${t.link}')">▶ 去看看</button>`;
-                } else if (isOngoing) {
-                    buttonsHtml = `
-                        <button onclick="TaskController.complete('${t.id}')" class="nex-btn-secondary">本期完成</button>
-                        <button onclick="TaskController.skipToday('${t.id}')" class="nex-btn-tertiary">今天先不做</button>
-                        <button onclick="TaskController.continueTask('${t.id}')" class="nex-btn-primary">继续做 <i class="fas fa-arrow-right ml-1 text-xs"></i></button>
-                    `;
-                } else {
-                    // Recommend
-                    buttonsHtml = `
-                        <button class="action-chip" onclick="TaskController.start('${t.id}', '${t.link}')">
-                            ${t.link ? '去完成' : '听指引'}
-                        </button>
-                    `;
-                }
-
-                // 2. 生成时间提示
+                if (isVideo) { buttonsHtml = `<button class="action-chip" onclick="TaskController.openVideo('${t.link}')">▶ 去看看</button>`; }
+                else if (isOngoing) { buttonsHtml = `<button onclick="TaskController.complete('${t.id}')" class="nex-btn-secondary">本期完成</button><button onclick="TaskController.skipToday('${t.id}')" class="nex-btn-tertiary">今天先不做</button><button onclick="TaskController.continueTask('${t.id}')" class="nex-btn-primary">继续做 <i class="fas fa-arrow-right ml-1 text-xs"></i></button>`; }
+                else { buttonsHtml = `<button class="action-chip" onclick="TaskController.start('${t.id}', '${t.link}')">${t.link ? '去完成' : '听指引'}</button>`; }
                 const timeHtml = t.estimated_time ? `预计 ${t.estimated_time} 分钟` : '';
-
-                // 3. 统一返回结构
-                return `
-                <div class="task-card ${isOngoing ? 'ongoing-style' : ''}">
-                    <div class="rec-badge ${badgeClass}">${badge}</div>
-                    <div style="font-weight:600; color:#fff; font-size:1.1rem; margin-bottom:8px;">${t.title}</div>
-                    <div class="agent-hints urgency-${t.agent_urgency_level || 'normal'} ${isOngoing ? 'mb-0' : ''}">
-                        ${hintHtml}
-                    </div>
-
-                    <div class="card-footer">
-                        <div class="card-footer-left">
-                            ${timeHtml}
-                        </div>
-                        <div class="card-footer-right">
-                            ${buttonsHtml}
-                        </div>
-                    </div>
-                </div>`;
+                return `<div class="task-card ${isOngoing ? 'ongoing-style' : ''}"><div class="rec-badge ${badgeClass}">${badge}</div><div style="font-weight:600; color:#fff; font-size:1.1rem; margin-bottom:8px;">${t.title}</div><div class="agent-hints urgency-${t.agent_urgency_level || 'normal'} ${isOngoing ? 'mb-0' : ''}">${hintHtml}</div><div class="card-footer"><div class="card-footer-left">${timeHtml}</div><div class="card-footer-right">${buttonsHtml}</div></div></div>`;
             }
         };
 
-        const UIUtils = {
-            toast(msg) {
-                const b = document.getElementById('toast-box');
-                b.innerText = msg;
-                b.classList.add('active');
-                setTimeout(() => b.classList.remove('active'), 2000);
-            }
-        };
+        const UIUtils = { toast(msg) { const b = document.getElementById('toast-box'); b.innerText = msg; b.classList.add('active'); setTimeout(() => b.classList.remove('active'), 2000); } };
 
         document.addEventListener('DOMContentLoaded', () => {
+            initPWA(); // 先初始化安装按钮逻辑
+            LandingController.init();
             const d = new Date();
             const dateStr = `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
             document.getElementById('date-text').innerText = dateStr;
