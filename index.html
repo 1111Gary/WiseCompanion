@@ -1,761 +1,665 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-
+<html lang="zh-CN" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>奈斯智能助手</title>
 
+    <!-- Meta Info -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="一步就会的智能任务助手">
-    <meta property="og:description" content="帮你完成任务的智能向导，安全、省心的长期工具。">
+    <meta property="og:title" content="奈斯智能助手 - 您的专业决策顾问">
+    <meta property="og:description" content="基于数据与规则的智能向导，提供克制、专业的行动建议。">
     <meta property="og:image" content="https://nex-ai.top/assets/icon_apple.png">
-    <meta itemprop="name" content="奈斯">
-    <meta itemprop="image" content="./assets/icon_apple.png">
-
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="./assets/icon_apple.png">
-    <meta name="apple-mobile-web-app-title" content="奈斯">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Dependencies -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
-        /* ====================
-            基础样式
-           ==================== */
+        /* =================================================================
+           DESIGN SYSTEM: NEXUS DARK (Financial/Professional Tier)
+           ================================================================= */
         :root {
-            --bg-surface: #0f1115;
-            --surface-container: #1e2024;
-            --primary: #A8C7FA;
-            --on-surface: #E2E2E2;
-            --tertiary-container: #2D313C;
-            --accent-decision: #D3E3FD;
-            --success-text: #86EFAC;
-            --success-bg: rgba(134, 239, 172, 0.1);
-            --landing-bg: #050608;
+            /* 核心背景色 - 使用冷色调深灰，非纯黑 */
+            --bg-app: #09090b;          /* 整体背景 */
+            --bg-surface: #121214;      /* 一级卡片 */
+            --bg-elevated: #1c1c1f;     /* 悬浮/二级卡片 */
+            --bg-modal: #18181b;        /* 弹窗背景 */
+            
+            /* 边框与分割线 - 极细、低透明度 */
+            --border-light: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.12);
+            --border-active: rgba(168, 199, 250, 0.3);
+
+            /* 文字层级 */
+            --text-primary: #f4f4f5;    /* 标题/正文 */
+            --text-secondary: #a1a1aa;  /* 辅助说明 */
+            --text-tertiary: #52525b;   /* 占位符/禁用 */
+
+            /* 功能色 (克制使用) */
+            --color-primary: #A8C7FA;   /* 品牌/引导 (保持原有蓝色，但更冷) */
+            --color-primary-dim: rgba(168, 199, 250, 0.1);
+            
+            --color-success: #34d399;   /* 行动/安全 */
+            --color-success-bg: rgba(52, 211, 153, 0.1);
+            
+            --color-risk: #fb7185;      /* 风险/警告 */
+            --color-risk-bg: rgba(251, 113, 133, 0.1);
+
+            --color-gold: #fbbf24;      /* 会员/锁定 */
+            --color-gold-bg: rgba(251, 191, 36, 0.1);
+
+            /* 动效 */
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        /* 基础重置 */
         body {
-            background-color: var(--bg-surface);
-            color: var(--on-surface);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            padding: env(safe-area-inset-top) 20px 40px;
+            background-color: var(--bg-app);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+            padding: env(safe-area-inset-top) 16px 40px; /* 移动端边距优化 */
+            margin: 0;
+            -webkit-font-smoothing: antialiased;
             -webkit-tap-highlight-color: transparent;
-            overscroll-behavior-y: none;
+            line-height: 1.5;
         }
 
-        /* 顶部品牌区 */
+        /* 通用工具类 */
+        .glass-panel {
+            background: var(--bg-surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-light);
+        }
+
+        /* 滚动条隐藏 */
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+
+        /* =================================================================
+           MODULE 1: 品牌头部 (Brand Area)
+           ================================================================= */
         .brand-area {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 20px;
-            margin-bottom: 24px;
+            margin: 24px 0 32px;
             position: relative;
         }
 
         .brand-logo {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            box-shadow: 0 0 0 1px var(--border-light), 0 8px 20px rgba(0,0,0,0.3);
             background: #000;
-            padding: 4px;
         }
 
         .agent-greeting {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
             text-align: center;
-            color: #fff;
-            margin-bottom: 6px;
         }
 
-        .agent-date {
-            font-family: 'SF Mono', 'Roboto Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--primary);
-            opacity: 0.8;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            background: rgba(168, 199, 250, 0.1);
-            padding: 4px 12px;
+        .agent-date-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-elevated);
+            padding: 4px 4px 4px 12px;
             border-radius: 99px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* === PWA 安装按钮 (适配品牌色) === */
-        #pwa-install-btn {
-            display: none;
-            /* 默认隐藏，JS 控制显示 */
-            align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--primary);
+            border: 1px solid var(--border-light);
             font-size: 0.75rem;
-            border-radius: 6px;
+            color: var(--text-secondary);
+            font-family: 'SF Mono', 'Roboto Mono', monospace;
+        }
+
+        #pwa-install-btn {
+            background: var(--text-primary);
+            color: var(--bg-app);
+            border: none;
+            padding: 4px 10px;
+            border-radius: 99px;
+            font-weight: 600;
+            font-size: 0.7rem;
             cursor: pointer;
-            transition: all 0.2s;
-            margin-left: 8px;
-            text-transform: none;
-            /* 防止被父级样式影响 */
-            letter-spacing: 0;
+            display: none; /* JS控制显示 */
+            align-items: center;
+            gap: 4px;
         }
 
-        #pwa-install-btn:active {
-            background: rgba(168, 199, 250, 0.2);
-        }
-
-        /* 分区与卡片样式 (保持不变) */
+        /* =================================================================
+           MODULE 2: 核心卡片系统 (Cards & Lists)
+           ================================================================= */
         .section-label {
-            font-size: 0.95rem;
-            color: var(--primary);
-            margin: 32px 0 12px;
-            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 32px 4px 12px;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
         }
+        
+        .section-label i { color: var(--color-primary); }
 
         .task-card {
-            background: var(--surface-container);
-            border-radius: 24px;
+            background: var(--bg-surface);
+            border-radius: 20px;
             padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-light);
             position: relative;
-            margin-bottom: 16px;
-            transition: transform 0.1s;
+            margin-bottom: 12px;
+            transition: transform 0.2s var(--ease-out), border-color 0.2s;
         }
 
         .task-card:active {
             transform: scale(0.98);
+            background: var(--bg-elevated);
         }
 
+        /* 进行中状态 - 高亮边框 */
         .task-card.ongoing-style {
-            background: var(--tertiary-container);
-            border: 1px solid rgba(168, 199, 250, 0.3);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(145deg, var(--bg-elevated) 0%, var(--bg-surface) 100%);
+            border: 1px solid rgba(168, 199, 250, 0.2);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
         }
 
+        /* 推荐角标 */
         .rec-badge {
             position: absolute;
-            top: 0;
-            right: 0;
-            padding: 4px 12px;
-            border-bottom-left-radius: 16px;
+            top: 16px; right: 16px;
+            padding: 4px 8px;
+            border-radius: 6px;
             font-size: 0.7rem;
             font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
+        .rec-badge.today { background: var(--color-primary); color: #000; }
+        .rec-badge.ongoing { background: var(--color-success); color: #000; }
+        .rec-badge.video { background: #e11d48; color: #fff; }
 
-        .rec-badge.today {
-            background: var(--primary);
-            color: #042F5E;
-        }
-
-        .rec-badge.ongoing {
-            background: #34D399;
-            color: #064E3B;
-        }
-
-        .rec-badge.video {
-            background: #FF4D4F;
-            color: #fff;
-        }
-
-        /* 提示语 */
+        /* 提示语区域 */
         .agent-hints {
-            margin-bottom: 16px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
-        }
-
-        .hint-decision {
-            font-size: 0.8rem;
-            color: var(--accent-decision);
-            font-weight: 600;
-            background: rgba(168, 199, 250, 0.1);
-            padding: 6px 10px;
-            border-radius: 8px;
-            width: fit-content;
-        }
-
-        .hint-success {
-            font-size: 0.8rem;
-            color: var(--success-text);
-            font-weight: 600;
-            background: var(--success-bg);
-            padding: 6px 10px;
-            border-radius: 8px;
-            width: fit-content;
-        }
-
-        .agent-hints.urgency-today .hint-success {
-            color: #ff5c5c;
-        }
-
-        .agent-hints.urgency-soon .hint-success {
-            color: #ff9f43;
-        }
-
-        .agent-hints.urgency-normal .hint-success {
-            color: #9aa0a6;
-        }
-
-        /* 按钮系统 */
-        .nex-btn-primary {
-            background: var(--primary);
-            color: #042F5E;
-            font-weight: 700;
-            padding: 8px 16px;
-            border-radius: 99px;
-            font-size: 0.85rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--primary);
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(168, 199, 250, 0.25);
-        }
-
-        .nex-btn-secondary {
-            background: transparent;
-            color: var(--primary);
-            border: 1px solid rgba(168, 199, 250, 0.6);
-            font-weight: 600;
-            padding: 8px 14px;
-            border-radius: 99px;
-            font-size: 0.8rem;
-            cursor: pointer;
-        }
-
-        .nex-btn-tertiary {
-            background: transparent;
-            color: #9AA0A6;
-            border: 1px solid transparent;
-            font-weight: 500;
-            padding: 8px 10px;
-            font-size: 0.8rem;
-            cursor: pointer;
-        }
-
-        .nex-btn-tertiary:hover {
-            color: #fff;
-        }
-
-        .action-chip {
-            background: var(--primary);
-            color: #042F5E;
-            font-weight: 700;
-            padding: 8px 16px;
-            border-radius: 99px;
-            border: none;
-            font-size: 0.85rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-        }
-
-        .card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .card-footer-left {
-            font-size: 12px;
-            color: #888;
-            line-height: 1;
-            min-height: 12px;
-        }
-
-        .card-footer-right {
-            display: flex;
             gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .hint-tag {
+            display: inline-flex;
             align-items: center;
-        }
-
-        /* 弹窗样式 (任务指引) */
-        #guide-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 10000;
-            display: none;
-            flex-direction: column;
-            padding: 24px;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .modal-title {
-            color: #fff;
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .trust-hint {
-            color: #9AA0A6;
-            font-size: 0.85rem;
-            background: rgba(255, 255, 255, 0.08);
-            padding: 8px 12px;
-            border-radius: 8px;
-            display: inline-block;
-        }
-
-        .step-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-
-        .step-item {
-            background: var(--surface-container);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 16px;
-            border-radius: 16px;
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .step-item:active {
-            background: rgba(168, 199, 250, 0.1);
-        }
-
-        .step-icon {
-            color: var(--primary);
-            font-size: 1.2rem;
-            margin-top: 2px;
-        }
-
-        .step-text {
-            color: #E2E2E2;
-            font-size: 1rem;
-            line-height: 1.5;
-            flex: 1;
-        }
-
-        .modal-close-btn {
-            background: var(--surface-container);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: bold;
-            width: 100%;
-            margin-top: auto;
-        }
-
-        #toast-box {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.9);
-            color: #000;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: 600;
-            z-index: 10001;
-            display: none;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        #toast-box.active {
-            display: block;
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
-
-        /* ====================
-           NEW: 引导页与安装弹窗样式
-           ==================== */
-        #landing-overlay {
-            position: fixed;
-            inset: 0;
-            background-color: var(--landing-bg);
-            z-index: 99999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px;
-            text-align: center;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        #landing-overlay.slide-up {
-            transform: translateY(-100%);
-        }
-
-        .landing-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 320px;
-        }
-
-        .landing-logo {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 24px;
-            border-radius: 20px;
-            box-shadow: 0 0 30px rgba(168, 199, 250, 0.15);
-        }
-
-        .landing-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 12px;
-            line-height: 1.2;
-        }
-
-        .landing-subtitle {
-            font-size: 1rem;
-            color: #9AA0A6;
-            margin-bottom: 40px;
-        }
-
-        .landing-features {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            width: 100%;
-            margin-bottom: 40px;
-        }
-
-        .feat-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 12px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-align: left;
-        }
-
-        .feat-icon {
-            color: var(--primary);
-            font-size: 1.2rem;
-            width: 24px;
-            text-align: center;
-        }
-
-        .feat-text h4 {
-            color: #E2E2E2;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .feat-text p {
-            color: #888;
+            padding: 4px 10px;
+            border-radius: 6px;
             font-size: 0.75rem;
-            margin: 2px 0 0;
+            font-weight: 600;
+            width: fit-content;
         }
 
-        .landing-btn {
-            background: var(--primary);
-            color: #042F5E;
-            font-size: 1.1rem;
+        .hint-decision { background: var(--color-primary-dim); color: var(--color-primary); }
+        .hint-success { background: var(--bg-elevated); color: var(--text-secondary); border: 1px solid var(--border-light); }
+        
+        /* 紧急程度文字颜色覆盖 */
+        .agent-hints.urgency-today .hint-success { color: var(--color-risk); border-color: rgba(251, 113, 133, 0.3); }
+
+        /* Agent 核心判断文案 (永久展示区) */
+        .agent-judgement {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background: rgba(255,255,255,0.03);
+            border-left: 2px solid var(--border-light);
+            padding: 8px 12px;
+            border-radius: 0 8px 8px 0;
+            line-height: 1.5;
+        }
+        .agent-judgement .highlight { color: #fff; font-weight: 500; }
+
+        /* 折叠区样式 (JS Controlled) */
+        .agent-expand { margin-top: 8px; font-size: 0.85rem; color: var(--text-tertiary); }
+        .agent-expand-toggle { cursor: pointer; opacity: 0.8; padding: 4px 0; transition: color 0.2s; display: flex; align-items: center; gap: 4px; }
+        .agent-expand-toggle:hover { color: var(--text-secondary); }
+        .agent-expand-body { display: none; margin-top: 8px; padding-left: 12px; border-left: 1px dashed var(--border-light); color: var(--text-secondary); }
+        .agent-expand-body.open { display: block; animation: fadeIn 0.3s; }
+
+        .member-entry {
+            margin-top: 8px;
+            cursor: pointer;
+            color: var(--color-gold);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--color-gold-bg);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        /* 按钮组 */
+        .card-footer {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-footer-left { font-size: 0.75rem; color: var(--text-tertiary); }
+        .card-footer-right { display: flex; gap: 8px; align-items: center; }
+        
+        /* 按钮统一样式 */
+        .action-chip {
+            background: var(--text-primary);
+            color: var(--bg-app);
+            font-size: 0.8rem;
             font-weight: 700;
-            width: 100%;
-            padding: 16px;
+            padding: 8px 16px;
             border-radius: 99px;
             border: none;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(168, 199, 250, 0.3);
-            margin-bottom: 20px;
-        }
-
-        .pwa-hint {
-            font-size: 0.75rem;
-            color: #555;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
         }
+        
+        .btn-secondary { background: transparent; border: 1px solid var(--border-hover); color: var(--text-primary); padding: 7px 14px; border-radius: 99px; font-size: 0.8rem; font-weight: 600; }
+        .btn-tertiary { background: transparent; border: none; color: var(--text-tertiary); padding: 8px; font-size: 0.8rem; }
 
-        /* 安装引导弹窗 */
-        .guide-modal {
+        /* =================================================================
+           MODULE 3: 模态框系统 (Unified Modals)
+           ================================================================= */
+        .modal-overlay {
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 20000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /*opacity: 0; animation: fadeIn 0.3s forwards;控制布局 */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex; 
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s var(--ease-out);
+        }
+        
+        .modal-overlay.active, .modal-overlay[style*="display: flex"] {
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        .guide-content {
-            background: #fff;
-            width: calc(100% - 32px);
-            max-width: 400px;
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            position: relative;
-            max-height: 85vh;
-            overflow-y: auto;
-            color: #333;
-            -webkit-overflow-scrolling: touch;
+        /* 1. Guide Modal */
+        #guide-modal { z-index: 10000; justify-content: flex-end; }
+        @media (min-width: 640px) {
+            #guide-modal { justify-content: center; align-items: center; }
+            #guide-modal .modal-container { max-width: 480px; border-radius: 24px; max-height: 80vh; }
         }
 
-        .guide-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .guide-header h3 {
-            margin: 0;
-            font-size: 18px;
-            color: #333;
-            font-weight: 700;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: #999;
-            cursor: pointer;
-        }
-
-        .guide-body {
-            font-size: 14px;
-            color: #555;
-            line-height: 1.6;
-        }
-
-        .guide-intro {
-            margin-bottom: 20px;
-            font-weight: 500;
-            color: #333;
-        }
-
-        .guide-step {
-            margin-bottom: 16px;
-            padding: 12px;
-            background: #f9f9f9;
-            border-radius: 8px;
-        }
-
-        .guide-step h4 {
-            margin: 0 0 8px 0;
-            font-size: 15px;
-            color: #000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 600;
-        }
-
-        .guide-step ol {
-            padding-left: 20px;
-            margin: 0;
-        }
-
-        .guide-step li {
-            margin-bottom: 6px;
-        }
-
-        .divider {
-            height: 1px;
-            background: #eee;
-            margin: 16px 0;
-        }
-
-        .i-got-it-btn {
+        .modal-container {
+            background: var(--bg-modal);
             width: 100%;
-            padding: 12px;
-            background: #000;
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            margin-top: 10px;
-            cursor: pointer;
+            border-radius: 24px 24px 0 0;
+            padding: 24px 20px;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
+            border-top: 1px solid var(--border-light);
         }
 
-        .i-got-it-btn:active {
-            opacity: 0.8;
+        .modal-header { text-align: left; margin-bottom: 24px; flex-shrink: 0; }
+        .modal-title { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+        .trust-hint { font-size: 0.8rem; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; }
+
+        .modal-scroll-area { flex: 1; overflow-y: auto; margin-bottom: 20px; padding-right: 4px; }
+
+        /* 步骤条目 */
+        .step-list { display: flex; flex-direction: column; gap: 12px; }
+        
+        .step-item {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            gap: 14px;
+            transition: background 0.2s;
+            cursor: pointer;
         }
+        .step-item:active { background: var(--border-light); }
+        .step-icon { color: var(--color-primary); font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+        .step-text { color: var(--text-primary); font-size: 0.95rem; line-height: 1.5; }
+
+        /* === Pro Mode: Immersive Cards === */
+        .pro-judge-wrapper {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .pro-judge-header {
+            background: var(--bg-elevated);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .pro-judge-content { padding: 24px; display: flex; flex-direction: column; gap: 24px; }
+        
+        .pro-judge-section-title {
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
+        }
+        
+        .pro-judge-section.verdict .pro-judge-section-title { color: var(--color-gold); }
+        .pro-judge-section.verdict .content { border-left: 3px solid var(--color-gold); padding-left: 12px; color: #fff; font-size: 1rem; }
+
+        .pro-judge-section.risk { background: var(--color-risk-bg); padding: 12px; border-radius: 8px; border: 1px solid rgba(251,113,133,0.2); }
+        .pro-judge-section.risk .pro-judge-section-title { color: var(--color-risk); }
+        .pro-judge-section.risk .content { color: #fca5a5; font-size: 0.9rem; }
+
+        .pro-judge-section.action { }
+        .pro-judge-section.action .pro-judge-section-title { color: var(--color-success); }
+        .pro-judge-section.action .content { color: #d1fae5; font-size: 0.95rem; }
+
+        /* Locked State */
+        .member-lock-box {
+            text-align: center;
+            padding: 40px 24px;
+            background: repeating-linear-gradient(45deg, var(--bg-surface), var(--bg-surface) 10px, var(--bg-elevated) 10px, var(--bg-elevated) 20px);
+            border-radius: 16px;
+            border: 1px dashed var(--border-hover);
+        }
+        .member-lock-title { font-size: 1.1rem; font-weight: 700; color: var(--color-gold); margin-bottom: 16px; }
+        .member-lock-desc { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.6; text-align: left; background: var(--bg-surface); padding: 16px; border-radius: 12px; }
+        
+        .invite-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--color-gold);
+            color: #000;
+            border: none;
+            border-radius: 99px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+        }
+
+        .pro-empty-state { text-align: center; padding: 40px; color: var(--text-tertiary); }
+
+        .modal-close-btn {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid var(--border-light);
+            font-weight: 600;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* 2. Invite Modal */
+        #invite-modal { align-items: center; justify-content: center; display: none; }
+        .invite-box {
+            width: 85%; max-width: 340px; background: #18181b; border: 1px solid var(--border-light);
+            border-radius: 20px; padding: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .invite-title { font-size: 1.1rem; color: #fff; font-weight: 600; margin-bottom: 8px; }
+        .invite-desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.4; }
+        .invite-input { width: 100%; background: #000; border: 1px solid var(--border-hover); color: #fff; padding: 12px 16px; border-radius: 12px; font-size: 1rem; outline: none; }
+        .invite-input:focus { border-color: var(--color-primary); }
+        .invite-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; }
+        .btn-cancel { color: var(--text-secondary); background: none; border: none; font-weight: 500; cursor: pointer; }
+        .btn-confirm { background: var(--text-primary); color: #000; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+
+        /* 3. Install Guide Modal */
+        #install-guide-modal { z-index: 20000; align-items: center; justify-content: center; }
+        #install-guide-modal .guide-content { background: var(--bg-modal); border: 1px solid var(--border-light); color: var(--text-primary); }
+        #install-guide-modal h3 { color: #fff; }
+        #install-guide-modal .guide-step { background: var(--bg-elevated); border: 1px solid var(--border-light); }
+        #install-guide-modal .guide-step h4 { color: #fff; }
+        #install-guide-modal .i-got-it-btn { background: var(--color-primary); color: #000; }
+        #guide-wechat { background: rgba(251, 191, 36, 0.1) !important; border: 1px solid rgba(251, 191, 36, 0.2) !important; color: #fbbf24 !important; }
+
+        /* 4. Landing Overlay */
+        #landing-overlay { background-color: #050505; }
+        .landing-title { font-size: 2rem; letter-spacing: -1px; margin-bottom: 16px; color: #fff; }
+        .landing-subtitle { color: var(--text-secondary); font-size: 1rem; font-weight: 400; }
+        .feat-item { background: var(--bg-surface); border: 1px solid var(--border-light); color: var(--text-primary); padding: 16px; border-radius: 12px; display: flex; gap: 16px; align-items: center; }
+        .feat-icon { color: var(--color-primary); font-size: 1.2rem; }
+        .landing-btn { background: var(--text-primary); color: #000; box-shadow: 0 0 20px rgba(255,255,255,0.1); width: 100%; padding: 16px; border-radius: 99px; font-weight: 700; font-size: 1.1rem; border: none; cursor: pointer; margin-top: 24px; margin-bottom: 24px; }
+        .pwa-hint { color: var(--text-tertiary); font-size: 0.8rem; display: flex; gap: 8px; align-items: center; }
+
+        /* Toast */
+        #toast-box { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.9); color: #000; box-shadow: 0 4px 20px rgba(0,0,0,0.5); backdrop-filter: blur(10px); padding: 10px 20px; border-radius: 20px; font-weight: 600; z-index: 10001; display: none; }
+        #toast-box.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(-50%) translateY(-20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+
     </style>
 </head>
 
 <body>
+    <!-- 隐藏资源预加载 -->
     <div style="display:none;"><img src="./assets/icon_apple.png" alt="logo"></div>
 
-    <div id="landing-overlay" style="display: none;">
-        <div class="landing-content">
-            <img src="./assets/icon_apple.png" class="landing-logo"
-                onerror="this.src='https://placehold.co/80x80/000000/ffffff?text=N'">
+    <!-- 1. 开屏引导 (Landing) -->
+    <div id="landing-overlay" class="modal-overlay" style="display: none; opacity: 1; pointer-events: auto; z-index: 99999;">
+        <div class="landing-content" style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; width:100%; max-width:320px;">
+            <img src="./assets/icon_apple.png" class="brand-logo" style="width:80px; height:80px; margin-bottom:24px;" onerror="this.src='https://placehold.co/80x80/18181b/ffffff?text=N'">
+            <div class="landing-title">智能决策助手</div>
+            <div class="landing-subtitle" style="margin-bottom:40px;">复杂任务的专业向导，安全、克制、可信赖。</div>
 
-            <div class="landing-title">一步就会的<br>智能任务助手</div>
-            <div class="landing-subtitle">复杂操作看不懂？我来一步步带你做。</div>
-
-            <div class="landing-features">
+            <div style="display:flex; flex-direction:column; gap:16px; width:100%;">
                 <div class="feat-item">
                     <div class="feat-icon"><i class="fas fa-shield-alt"></i></div>
                     <div class="feat-text">
-                        <h4>安全可靠</h4>
-                        <p>你的私人任务向导，值得信任</p>
+                        <h4 style="font-weight:600; margin:0;">决策辅助</h4>
+                        <p style="font-size:0.8rem; color:var(--text-secondary); margin:4px 0 0;">基于规则的风险预判与执行建议</p>
                     </div>
                 </div>
                 <div class="feat-item">
                     <div class="feat-icon"><i class="fas fa-layer-group"></i></div>
                     <div class="feat-text">
-                        <h4>长期工具</h4>
-                        <p>不用记步骤，随时回来查看</p>
+                        <h4 style="font-weight:600; margin:0;">长期记忆</h4>
+                        <p style="font-size:0.8rem; color:var(--text-secondary); margin:4px 0 0;">自动保存进度，随时回溯</p>
                     </div>
                 </div>
             </div>
 
-            <button class="landing-btn" onclick="LandingController.enterApp()">
-                进入智能空间
-            </button>
+            <button class="landing-btn" onclick="LandingController.enterApp()">进入工作台</button>
 
             <div class="pwa-hint">
-                <i class="fas fa-download"></i> 支持添加到桌面，方便下次使用
+                <i class="fas fa-download"></i> 建议添加到主屏幕使用
             </div>
         </div>
     </div>
 
+    <!-- 2. 顶部品牌区 -->
     <div class="brand-area">
-        <img src="./assets/icon_apple.png" class="brand-logo"
-            onerror="this.src='https://placehold.co/48x48/000000/ffffff?text=N'">
-        <div class="agent-greeting" id="greeting-text">...</div>
-        <div class="agent-date">
-            <span id="date-text">...</span>
-            <button id="pwa-install-btn">
-                <i class="fas fa-plus"></i> 安装到桌面
-            </button>
+        <div class="brand-logo-wrapper">
+             <img src="./assets/icon_apple.png" class="brand-logo" onerror="this.src='https://placehold.co/56x56/000000/ffffff?text=N'">
+        </div>
+        <div class="agent-greeting" id="greeting-text">Nex Agent</div>
+        
+        <div class="agent-date-pill">
+            <i class="far fa-clock"></i>
+            <span id="date-text">LOADING...</span>
+            <button id="pwa-install-btn"><i class="fas fa-plus"></i> 安装</button>
         </div>
     </div>
+
+    <!-- 3. 任务列表区 -->
     <div id="ongoing-section" style="display: none;">
-        <div class="section-label"><i class="fas fa-play-circle"></i> 正在进行中</div>
+        <div class="section-label"><i class="fas fa-play"></i> 当前处理中</div>
         <div id="ongoing-container"></div>
     </div>
 
     <div id="recommend-section">
-        <div class="section-label"><i class="fas fa-star"></i> 为你精选</div>
+        <div class="section-label"><i class="fas fa-layer-group"></i> 当前事项</div>
         <div id="recommend-list">
-            <div class="p-10 text-center text-gray-600"><i class="fas fa-circle-notch fa-spin"></i> 加载中...</div>
+            <div class="p-10 text-center text-gray-600" style="font-size: 0.9rem;">
+                <i class="fas fa-circle-notch fa-spin"></i> 系统初始化中...
+            </div>
         </div>
     </div>
 
     <div id="video-section">
-        <div class="section-label"><i class="fas fa-video"></i> 视频任务</div>
+        <div class="section-label"><i class="fas fa-video"></i> 相关内容</div>
         <div id="video-list"></div>
     </div>
 
+    <!-- 4. 全局 Toast -->
     <div id="toast-box"></div>
 
-    <div id="guide-modal">
-        <div class="modal-header">
-            <div id="modal-title" class="modal-title"></div>
-            <div class="trust-hint">
-                <i class="fas fa-history"></i> 您可以随时切回来，点当前步骤再听，不用记。
+    <!-- =======================================================
+         MODALS (Unified)
+         ======================================================= -->
+    
+    <!-- Guide Modal -->
+    <div id="guide-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div id="modal-title" class="modal-title">任务标题</div>
+                <div class="trust-hint">
+                    <i class="fas fa-shield-check" style="color: var(--color-success)"></i> 
+                    <span>专业版指引模式已开启</span>
+                </div>
             </div>
+            
+            <div id="step-list-container" class="modal-scroll-area step-list">
+                <!-- JS Generated Content -->
+            </div>
+            
+            <button onclick="TaskController.closeGuide()" class="modal-close-btn">
+                关闭面板
+            </button>
         </div>
-        <div id="step-list-container" class="step-list"></div>
-        <button onclick="TaskController.closeGuide()" class="modal-close-btn">关闭</button>
     </div>
 
-    <div id="install-guide-modal" class="guide-modal" style="display: none;">
-        <div class="guide-content">
-            <div class="guide-header">
-                <h3>安装到桌面</h3>
-                <button class="close-btn" onclick="toggleGuide(false)">&times;</button>
+    <!-- Invite Modal -->
+    <div id="invite-modal" class="modal-overlay">
+        <div class="invite-box">
+            <div class="invite-title">解锁专家判断</div>
+            <div class="invite-desc">
+                请输入访问密钥以查看“老手判断”数据。此操作将解锁包含风险评估与判断结论建议的完整报告。
             </div>
-            <div class="guide-body">
-                <p class="guide-intro">为避免部分银行或平台在微信内受限，建议添加到桌面使用，可获得更完整、稳定的体验。</p>
 
-                <div id="guide-wechat" class="guide-step"
-                    style="display:none; background: #fff3cd; color:#856404; border:1px solid #ffeeba;">
-                    <p>⚠️ <strong>微信内使用说明：</strong></p>
-                    <p>1. 部分平台在微信内可能无法正常打开，<br>
-                        可通过右上角 <strong>•••</strong></p>
-                    <p>2. 选择 <strong>在浏览器打开</strong> ，或添加到桌面后使用。(Safari/Chrome)</p>
+            <input id="invite-code-input" class="invite-input" placeholder="输入密钥..." type="text" autocomplete="off" />
+
+            <div class="invite-actions">
+                <button class="btn-cancel" onclick="closeInviteModal()">取消</button>
+                <button class="btn-confirm" onclick="submitInviteCode()">验证并解锁</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Install Guide Modal -->
+    <div id="install-guide-modal" class="modal-overlay" style="display: none;">
+        <div class="guide-content" style="width: calc(100% - 32px); max-width: 400px; border-radius: 20px; padding: 24px;">
+            <div class="guide-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h3 style="margin:0; font-size:1.1rem; font-weight:700;">添加到桌面</h3>
+                <button class="close-btn" onclick="toggleGuide(false)" style="color:var(--text-secondary); background:none; border:none; font-size:24px;">&times;</button>
+            </div>
+            
+            <div class="guide-body" style="font-size:0.9rem; line-height:1.6; color:var(--text-secondary);">
+                <p class="guide-intro" style="margin-bottom:16px;">获得更完整、沉浸的决策辅助体验，建议添加至主屏幕。</p>
+
+                <div id="guide-wechat" class="guide-step" style="display:none; padding:12px; border-radius:12px; margin-bottom:16px;">
+                    <p style="margin:0 0 4px;">⚠️ <strong>微信限制提示</strong></p>
+                    <p style="margin:0; font-size:0.85rem;">请点击右上角 <strong>•••</strong> 选择“在浏览器打开”，随后进行添加。</p>
                 </div>
 
-                <div class="guide-step">
-                    <h4><span style="font-size:1.2em">🍎</span> iPhone / iPad 用户</h4>
-                    <ol>
-                        <li>点击底部工具栏的 <strong>分享图标</strong> <svg style="vertical-align:-3px" width="16" height="16"
-                                viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2">
-                                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-                                <polyline points="16 6 12 2 8 6" />
-                                <line x1="12" y1="2" x2="12" y2="15" />
-                            </svg></li>
-                        <li>向上滑动，找到并点击 <strong>“添加到主屏幕”</strong></li>
-                        <li>点击右上角的 <strong>“添加”</strong></li>
+                <div class="guide-step" style="padding:12px; border-radius:12px; margin-bottom:12px;">
+                    <h4 style="margin:0 0 8px; font-size:0.95rem;"> iOS (Safari)</h4>
+                    <ol style="padding-left:20px; margin:0;">
+                        <li>点击底部 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> 分享按钮</li>
+                        <li>上滑选择 <strong>“添加到主屏幕”</strong></li>
                     </ol>
                 </div>
 
-                <div class="divider"></div>
-
-                <div class="guide-step">
-                    <h4><span style="font-size:1.2em">🤖</span> Android 用户</h4>
-                    <ol>
-                        <li>点击浏览器右上角 <strong>设置图标</strong> (•••)</li>
+                <div class="guide-step" style="padding:12px; border-radius:12px;">
+                    <h4 style="margin:0 0 8px; font-size:0.95rem;">🤖 Android</h4>
+                    <ol style="padding-left:20px; margin:0;">
+                        <li>点击右上角 <strong>•••</strong> 菜单</li>
                         <li>选择 <strong>“安装应用”</strong> 或 <strong>“添加到主屏幕”</strong></li>
                     </ol>
                 </div>
             </div>
-            <button class="i-got-it-btn" onclick="toggleGuide(false)">好的，继续使用</button>
+            
+            <button class="i-got-it-btn" onclick="toggleGuide(false)" style="width:100%; margin-top:20px; padding:12px; border-radius:12px; font-weight:600; border:none;">
+                知道了
+            </button>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- =================================================================
+         LOGIC LAYER (Strictly Preserved Logic, Style Cleaned)
+         ================================================================= -->
     <script>
         // ==========================================
         // 0. 工程配置
         // ==========================================
         const SUPABASE_URL = "https://ymmouqgcprrhhmirhtan.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltbW91cWdjcHJyaGhtaXJodGFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NTQyMzQsImV4cCI6MjA4MDQzMDIzNH0.8NG9FSpDBkulyFU05pRzFf36_i4nl5Bo5hLjaUi75tY"; // ⚠️ 填入真实 Key
-        const USER_ID = 'user_001';
+        const USER_ID =
+            localStorage.getItem('nex_user_id') ||
+            (() => {
+                const id = 'u_' + Math.random().toString(36).slice(2, 10);
+                localStorage.setItem('nex_user_id', id);
+                return id;
+            })();
 
+        let IS_MEMBER = localStorage.getItem('IS_MEMBER') === 'true';
+
+        const INVITE_CODES = {
+            'VIP498': { label: '核心体验会员', expires: '2026-12-31' },
+            'FOUNDING2026': { label: '内测会员', expires: '2026-06-30' }
+        };
+
+        function activateInviteCode(code) {
+            const invite = INVITE_CODES[code.trim()];
+
+            if (!invite) {
+                alert('邀请码无效，请确认是否输入正确');
+                return;
+            }
+
+            // 可选：过期判断
+            if (invite.expires && new Date() > new Date(invite.expires)) {
+                alert('该邀请码已过期');
+                return;
+            }
+
+            // 激活会员
+            localStorage.setItem('IS_MEMBER', 'true');
+            localStorage.setItem('MEMBER_CODE', code);
+            localStorage.setItem('MEMBER_LABEL', invite.label);
+
+            IS_MEMBER = true;
+
+            alert('老手判断已解锁');
+            location.reload(); // 让 UI 立即切换
+        }
+        
         function getLocalDateKey() {
             const d = new Date();
             const yyyy = d.getFullYear();
@@ -766,7 +670,7 @@
 
         const TODAY_KEY = getLocalDateKey();
         const LS_ONGOING_KEY = `nex_ongoing_${USER_ID}_${TODAY_KEY}`;
-        const AGENT_INTRO_VOICE = "好的，这个任务很简单，跟我来。";
+        const AGENT_INTRO_VOICE = "好的，这个活动很简单，跟我来。";
         let supabaseClient = null;
 
         function getDB() {
@@ -792,23 +696,23 @@
             enterApp() {
                 localStorage.setItem(this.lsKey, '1');
                 const overlay = document.getElementById('landing-overlay');
-                overlay.classList.add('slide-up');
+                overlay.style.opacity = '0';
                 setTimeout(() => {
                     overlay.style.display = 'none';
                     const pendingText = document.getElementById('greeting-text').innerText;
                     if (pendingText && pendingText !== '...') {
                         RenderEngine.tryPlayGreeting(pendingText);
                     }
-                }, 600);
+                }, 400);
             },
             isShowing() {
                 const overlay = document.getElementById('landing-overlay');
-                return overlay.style.display !== 'none' && !overlay.classList.contains('slide-up');
+                return overlay.style.display !== 'none' && overlay.style.opacity !== '0';
             }
         };
 
         // ==========================================
-        // NEW: PWA 安装控制器 (核心修改部分)
+        // NEW: PWA 安装控制器
         // ==========================================
         let deferredPrompt = null;
         const installBtn = document.getElementById('pwa-install-btn');
@@ -816,7 +720,6 @@
         const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
         const isIos = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-        // 1. 弹窗控制
         window.toggleGuide = function (show) {
             guideModal.style.display = show ? 'flex' : 'none';
             if (show && isWeChat) {
@@ -824,40 +727,34 @@
             }
         };
 
-        // 2. 初始化安装逻辑
         function initPWA() {
-            // Android Chrome: 监听原生事件
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
                 deferredPrompt = e;
                 installBtn.style.display = 'inline-flex';
             });
 
-            // iOS Safari: 强制显示按钮 (如果未安装)
             if (isIos && !window.navigator.standalone) {
                 installBtn.style.display = 'inline-flex';
             }
 
-            // 按钮点击事件绑定
             installBtn.onclick = async () => {
                 if (deferredPrompt) {
-                    // 原生安装流程
                     deferredPrompt.prompt();
                     const { outcome } = await deferredPrompt.userChoice;
                     console.log(`User response: ${outcome}`);
                     deferredPrompt = null;
                     installBtn.style.display = 'none';
                 } else {
-                    // 兜底引导弹窗 (iOS 或 不支持原生安装的环境)
                     toggleGuide(true);
                 }
             };
 
-            // 点击遮罩层关闭
             guideModal.addEventListener('click', (e) => {
                 if (e.target === guideModal) toggleGuide(false);
             });
         }
+        
         document.addEventListener('visibilitychange', () => {
             if (
                 document.visibilityState === 'visible' &&
@@ -880,10 +777,10 @@
             else if (hour < 18) timeText = "下午好";
             else timeText = "晚上好";
 
-            if (ctx.isFirstVisit) return `${timeText}，我会一步步提醒你可以做哪些活动`;
-            if (ctx.ongoingCount > 0) return `${timeText}，上次的任务还没做完，点一下就能继续`;
-            if (ctx.recommendCount > 0) return `${timeText}，今天有几个活动可以顺手做一下`;
-            return `${timeText}，今天暂时没什么需要做的`;
+            if (ctx.isFirstVisit) return `${timeText}，我已经替你筛过了，下面这些事，投入产出是成立的`;
+            if (ctx.ongoingCount > 0) return `${timeText}，我已经替你筛过了，下面这些事，投入产出是成立的`;
+            if (ctx.recommendCount > 0) return `${timeText}，今天有几件事，正常做下来不容易白忙`;
+            return `${timeText}，今天没有明显划算的事，可以不用管我`;
         }
 
         const LocalState = {
@@ -906,34 +803,58 @@
 
         function genAgentReason(t) {
             if (t.agent_reason_short) return t.agent_reason_short;
-            if (t.agent_risk_level >= 2) return "有一定门槛，建议看清步骤再做";
-            if (t.urgency >= 2) return "今天有效，不做就没了";
-            if (t.is_high_value) return "顺手做一下，性价比不错";
-            if (t.success_probability >= 0.85) return "成功率很高，大多数人都能完成";
-            if (t.task_type === 'OneTime') return "一次操作，做完就结束";
-            return "操作不复杂，可以试试";
+            if (t.agent_risk_level >= 2) return "存在一定门槛，建议谨慎按指引操作";
+            if (t.urgency <= 1 && t.task_type !== 'OneTime') return "时间压力不大，可自行安排";
+            if (t.is_high_value && t.estimated_time <= 2) return "时间成本可控";
+            if (t.success_probability >= 0.85) return "成功路径相对清晰";
+            if (t.task_type === 'OneTime') return "做完即结束，无后续牵扯";
+            return "整体流程清晰，按指引操作即可";
         };
+        
+        function getCycleEndTime(task) {
+            const now = new Date();
+            if (task.reset_rule === 'DailyReset') {
+                const end = new Date(now); end.setHours(23, 59, 59, 999); return end;
+            }
+            if (task.reset_rule === 'WeeklyReset') {
+                const end = new Date(now); const day = end.getDay(); const diff = day === 0 ? 0 : 7 - day;
+                end.setDate(end.getDate() + diff); end.setHours(23, 59, 59, 999); return end;
+            }
+            if (task.reset_rule === 'MonthlyReset') {
+                return new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+            }
+            return new Date('2999-12-31');
+        }
+        
+        function openInviteModal() {
+            const guide = document.getElementById('guide-modal');
+            if (guide) guide.style.display = 'none';
+            document.getElementById('invite-modal').style.display = 'flex';
+            document.getElementById('invite-code-input').value = '';
+        }
+        function closeInviteModal() {
+            document.getElementById('invite-modal').style.display = 'none';
+        }
+        function submitInviteCode() {
+            const code = document.getElementById('invite-code-input').value.trim();
+            if (!code) { alert('请输入邀请码'); return; }
+            activateInviteCode(code);
+            closeInviteModal();
+        }
 
         window.TaskController = {
             start(id, link) {
                 const t = window.ALL_TASKS.find(x => x.id == id);
                 if (!t) return;
-
                 LocalState.addToOngoing(id);
-
                 if (link && link.length > 5) {
-
                     if (isWeChat) {
-                        // 微信内：打标记，不刷新
                         sessionStorage.setItem('need_refresh_after_task', '1');
                         window.open(link, '_blank');
-                        return; // ⚠️ 关键：立刻 return
+                        return; 
                     }
-
-                    // 非微信：正常跳转
                     window.open(link, '_blank');
                     RenderEngine.refresh();
-
                 } else {
                     VoiceEngine.play(AGENT_INTRO_VOICE);
                     this.openGuide(t);
@@ -943,26 +864,21 @@
             continueTask(id) {
                 const t = window.ALL_TASKS.find(x => x.id == id);
                 if (!t) return;
-
                 if (t.link && t.link.length > 5) {
-
                     if (isWeChat) {
                         sessionStorage.setItem('need_refresh_after_task', '1');
                         window.open(t.link, '_blank');
                         return;
                     }
-
                     window.open(t.link, '_blank');
                     RenderEngine.refresh();
-
                 } else {
                     this.openGuide(t);
                     RenderEngine.refresh();
                 }
             },
             async skipToday(id) {
-                const db = getDB();
-                if (!db) return;
+                const db = getDB(); if (!db) return;
                 LocalState.removeFromOngoing(id);
                 UIUtils.toast("正在同步...");
                 await db.from('skip_state').insert({ user_key: USER_ID, task_id: id, date_key: TODAY_KEY });
@@ -980,21 +896,114 @@
                 }
             },
             openVideo(link) { if (link) window.open(link, '_blank'); },
-            openGuide(t) {
+            
+            // 🧠 CORE REFRACTORING FOR PRO UI
+            openGuide(t, mode = 'normal') {
                 document.getElementById('modal-title').innerText = t.title;
-                const listContainer = document.getElementById('step-list-container');
-                listContainer.innerHTML = '';
+                const box = document.getElementById('step-list-container');
+                box.innerHTML = '';
+
+                // 🧠 模式一：Pro 老手判断模式
+                if (mode === 'pro') {
+                    // 1. 非会员：显示高端锁定邀请卡
+                    if (!IS_MEMBER) {
+                        box.innerHTML = `
+                            <div class="member-lock-box">
+                                <div style="font-size: 36px; margin-bottom: 16px; opacity: 0.8;">🔒</div>
+                                <div class="member-lock-title">老手判断（会员专属）</div>
+                                
+                                <div class="member-lock-desc">
+                                    <p style="margin: 0 0 10px 0;">用于判断是否值得投入时间与精力<strong>判断型结论</strong>。</p>
+                                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                                        <div>⚖️ <strong>判断：</strong> 真实收益与投入产出比</div>
+                                        <div>⚠️ <strong>风险：</strong> 普通人容易踩的隐形坑</div>
+                                        <div>🚀 <strong>行动：</strong> 现在的最佳切入姿势</div>
+                                    </div>
+                                </div>
+
+                                <button class="invite-btn" onclick="openInviteModal()">
+                                    👉 解锁判断视角
+                                </button>
+                            </div>
+                        `;
+                        document.getElementById('guide-modal').style.display = 'flex';
+                        return;
+                    }
+
+                    // 2. 会员但无数据：显示空状态
+                    if (!Array.isArray(t.agent_pro_tip_steps) || t.agent_pro_tip_steps.length === 0) {
+                        box.innerHTML = `
+                            <div class="pro-empty-state">
+                                <div style="font-size: 40px; margin-bottom: 12px; filter: grayscale(1);">⏳</div>
+                                <div style="font-size: 14px;">本活动暂未产出老手判断结论</div>
+                            </div>
+                        `;
+                        document.getElementById('guide-modal').style.display = 'flex';
+                        return;
+                    }
+
+                    // 3. 会员且有数据：渲染高端判断卡 (CSS Class Based)
+                    const verdict = t.agent_pro_tip_steps.find(x => x.type === 'verdict');
+                    const risk = t.agent_pro_tip_steps.find(x => x.type === 'risk');
+                    const action = t.agent_pro_tip_steps.find(x => x.type === 'action');
+
+                    box.innerHTML = `
+                        <div class="pro-judge-wrapper">
+                            <div class="pro-judge-header">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="font-size: 18px;">🧐</span>
+                                    <span style="color: var(--text-primary); font-size: 16px;">老手判断 · 判断结果</span>
+                                </div>
+                                <span style="font-size: 10px; color: var(--color-gold); border: 1px solid var(--color-gold); padding: 2px 6px; border-radius: 4px; opacity: 0.8;">PRO</span>
+                            </div>
+
+                            <div class="pro-judge-content">
+                                ${verdict ? `
+                                <div class="pro-judge-section verdict">
+                                    <div class="pro-judge-section-title">🧠 判断结论</div>
+                                    <div class="content">${verdict.text}</div>
+                                </div>` : ''}
+
+                                ${risk ? `
+                                <div class="pro-judge-section risk">
+                                    <div class="pro-judge-section-title">⚠️ 风险与限制</div>
+                                    <div class="content">${risk.text}</div>
+                                </div>` : ''}
+
+                                ${action ? `
+                                <div class="pro-judge-section action">
+                                    <div class="pro-judge-section-title">🚀 行动建议</div>
+                                    <div class="content">${action.text}</div>
+                                </div>` : ''}
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('guide-modal').style.display = 'flex';
+                    return;
+                }
+
+                // 🧠 模式二：Normal 普通步骤模式
                 let steps = [];
-                if (t.agent_steps_json && Array.isArray(t.agent_steps_json)) { steps = t.agent_steps_json; } else if (typeof t.voice_steps === 'string' && t.voice_steps.length > 0) { steps = [{ step: 1, text: t.voice_steps }]; }
-                steps.forEach((s, idx) => {
+                if (Array.isArray(t.agent_steps_json)) {
+                    steps = t.agent_steps_json;
+                } else if (typeof t.voice_steps === 'string') {
+                    steps = [{ text: t.voice_steps }];
+                }
+
+                steps.forEach((s) => {
                     const div = document.createElement('div');
                     div.className = 'step-item';
-                    div.innerHTML = `<div class="step-icon"><i class="fas fa-volume-high"></i></div><div class="step-text"><span class="text-xs text-gray-500 font-bold block mb-1">STEP ${idx + 1}</span>${s.text}</div>`;
-                    div.onclick = () => { VoiceEngine.play(s.text); document.querySelectorAll('.step-item').forEach(el => el.style.borderColor = 'rgba(255,255,255,0.1)'); div.style.borderColor = '#A8C7FA'; };
-                    listContainer.appendChild(div);
+                    div.innerHTML = `
+                        <div class="step-icon"><i class="fas fa-volume-high"></i></div>
+                        <div class="step-text">${s.text || s.description}</div>
+                    `;
+                    div.onclick = () => VoiceEngine.play(s.text || s.description);
+                    box.appendChild(div);
                 });
+
                 document.getElementById('guide-modal').style.display = 'flex';
             },
+
             closeGuide() { window.speechSynthesis.cancel(); document.getElementById('guide-modal').style.display = 'none'; }
         };
 
@@ -1019,28 +1028,29 @@
                     const endStart = new Date(end.getFullYear(), end.getMonth(), end.getDate());
                     return Math.floor((endStart - todayStart) / (1000 * 60 * 60 * 24));
                 };
+                const now = new Date();
 
                 window.ALL_TASKS = rawTasks.map(t => {
                     let successHint = ""; let urgencyLevel = "normal";
                     if (t.valid_to) {
                         const daysLeft = calcDaysLeft(t.valid_to);
-                        if (daysLeft <= 1) { successHint = "今天不做就没了"; urgencyLevel = "today"; }
-                        else if (daysLeft <= 3) { successHint = "快结束了，别忘了"; urgencyLevel = "soon"; }
+                        if (daysLeft <= 1) { successHint = "⏰临近截止，需立即评估是否介入"; urgencyLevel = "today"; }
+                        else if (daysLeft <= 3) { successHint = "⏰接近截止，注意时间安排"; urgencyLevel = "soon"; }
                     }
                     if (!successHint) {
-                        if (t.success_probability >= 0.95) { successHint = "成功率很高"; }
-                        else if (t.is_high_value) { successHint = "值得顺手做一下"; }
+                        if (t.success_probability >= 0.95) { successHint = "👥成功路径明确，操作确定性较高"; }
+                        else if (t.is_high_value) { successHint = "⚖️投入产出比相对较优"; }
                     }
                     t.agent_urgency_level = urgencyLevel;
                     return {
-                        id: t.id, title: t.title, link: t.deep_link, voice_steps: t.voice_steps, agent_steps_json: t.agent_steps_json,
+                        id: t.id, title: t.title, link: t.deep_link, voice_steps: t.voice_steps, agent_steps_json: t.agent_steps_json, ...t,
                         agent_need_voice: (t.voice_steps && t.voice_steps.length > 0),
                         agent_priority: t.urgency || 0,
                         agent_open_mode: (t.title.includes('视频') || t.title.includes('看')) ? 'video' : 'normal',
                         agent_base_score: (t.agent_base_score || 0) + (t.urgency || 0) + (t.freshness_weight || 0) + (t.success_probability || 0) * 10,
                         agent_reason: genAgentReason(t), agent_success_hint: successHint, agent_urgency_level: urgencyLevel,
                         estimated_time: t.estimated_time,
-                        isCompleted: completedSet.has(t.id), isOngoing: ongoingIds.includes(String(t.id)), isSkipped: skippedSet.has(t.id)
+                        isCompleted: completedSet.has(t.id), isOngoing: ongoingIds.includes(String(t.id)) && now < getCycleEndTime(t), isSkipped: skippedSet.has(t.id)
                     };
                 });
 
@@ -1079,29 +1089,113 @@
                 const section = document.getElementById(`${type}-section`);
                 if (tasks.length === 0) {
                     if (type === 'ongoing') section.style.display = 'none';
-                    else container.innerHTML = '<div class="text-center py-10 text-sm text-gray-200 leading-relaxed">✓ 今日适合完成的任务已全部处理<br>✓ 系统将在有新任务时自动展示</div>';
+                    else container.innerHTML = '<div class="text-center py-10 text-sm text-gray-500 leading-relaxed">✓ 今日适合完成的任务已全部处理<br>✓ 系统将在有新任务时自动展示</div>';
                     return;
                 }
                 if (type === 'ongoing') section.style.display = 'block';
                 container.innerHTML = tasks.map(t => this.createCard(t, type)).join('');
             },
             createCard(t, type) {
-                const isOngoing = type === 'ongoing'; const isVideo = type === 'video'; const isRec = type === 'recommend';
-                let badge = isVideo ? '视频' : (isOngoing ? '进行中' : '精选'); let badgeClass = isVideo ? 'video' : (isOngoing ? 'ongoing' : 'today');
-                let hintHtml = `<div class="hint-decision">🧠 ${t.agent_reason}</div>`; if (isRec) hintHtml += `<div class="hint-success">✅ ${t.agent_success_hint}</div>`;
+                const isOngoing = type === 'ongoing';
+                const isVideo = type === 'video';
+                const isRec = type === 'recommend';
+
+                let badge = isVideo ? '视频' : (isOngoing ? '进行中' : '精选');
+                let badgeClass = isVideo ? 'video' : (isOngoing ? 'ongoing' : 'today');
+
+                // Hint Tags
+                let hintHtml = `<div class="hint-tag hint-decision">🧠 ${t.agent_reason_short || ''}</div>`;
+                if (isRec) {
+                    hintHtml += `<div class="hint-tag hint-success">✅ ${t.agent_success_hint}</div>`;
+                }
+
+                // Agent Judgement (Permanent)
+                const agentJudgement = t.agent_suitable_user
+                    ? `<div class="agent-judgement">                        
+                        ${t.agent_suitable_user ? `<div class="agent-user" style="margin-top:4px;">👤 适合：${t.agent_suitable_user}</div>` : ''}
+                       </div>`
+                    : '';
+                
+                // Execution (Expandable)
+                const executionBlock = (t.agent_reward_desc || t.agent_deadline || t.agent_time_cost)
+                    ? `<div class="agent-expand">
+                        <div class="agent-expand-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
+                            <i class="fas fa-chevron-right text-xs"></i> 投入与回报
+                        </div>
+                        <div class="agent-expand-body">
+                            ${t.agent_reward_desc ? `<div>🎁 奖励：${t.agent_reward_desc}</div>` : ''}
+                            ${t.agent_deadline ? `<div>⏰ 时效：${t.agent_deadline}</div>` : ''}
+                            ${t.agent_time_cost ? `<div>⏱ 成本：${t.agent_time_cost}</div>` : ''}
+                        </div>
+                       </div>`
+                    : '';
+                
+                // Risk (Expandable)
+                const riskBlock = (t.agent_pitfall || t.agent_pro_tip)
+                    ? `<div class="agent-expand secondary">
+                        <div class="agent-expand-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
+                             <i class="fas fa-chevron-right text-xs"></i> 可能踩坑的地方
+                        </div>
+                        <div class="agent-expand-body">
+                            ${t.agent_pitfall ? `<div>⚠️ 注意：${t.agent_pitfall}</div>` : ''}
+                            ${t.agent_pro_tip ? `
+                                <div class="member-entry" onclick="TaskController.openGuide(window.ALL_TASKS.find(t => t.id === '${t.id}'), 'pro')">
+                                    💡 老手判断
+                                </div>` : ''}
+                        </div>
+                       </div>`
+                    : '';
+                
+                // Buttons
                 let buttonsHtml = '';
-                if (isVideo) { buttonsHtml = `<button class="action-chip" onclick="TaskController.openVideo('${t.link}')">▶ 去看看</button>`; }
-                else if (isOngoing) { buttonsHtml = `<button onclick="TaskController.complete('${t.id}')" class="nex-btn-secondary">本期完成</button><button onclick="TaskController.skipToday('${t.id}')" class="nex-btn-tertiary">今天先不做</button><button onclick="TaskController.continueTask('${t.id}')" class="nex-btn-primary">继续做 <i class="fas fa-arrow-right ml-1 text-xs"></i></button>`; }
-                else { buttonsHtml = `<button class="action-chip" onclick="TaskController.start('${t.id}', '${t.link}')">${t.link ? '去完成' : '听指引'}</button>`; }
-                const timeHtml = t.estimated_time ? `预计 ${t.estimated_time} 分钟` : '';
-                return `<div class="task-card ${isOngoing ? 'ongoing-style' : ''}"><div class="rec-badge ${badgeClass}">${badge}</div><div style="font-weight:600; color:#fff; font-size:1.1rem; margin-bottom:8px;">${t.title}</div><div class="agent-hints urgency-${t.agent_urgency_level || 'normal'} ${isOngoing ? 'mb-0' : ''}">${hintHtml}</div><div class="card-footer"><div class="card-footer-left">${timeHtml}</div><div class="card-footer-right">${buttonsHtml}</div></div></div>`;
+                if (isVideo) {
+                    buttonsHtml = `<button class="action-chip" onclick="TaskController.openVideo('${t.link}')">▶ 浏览内容</button>`;
+                } else if (isOngoing) {
+                    buttonsHtml = `
+                    <button onclick="TaskController.complete('${t.id}')" class="btn-secondary">本期已处理</button>
+                    <button onclick="TaskController.skipToday('${t.id}')" class="btn-tertiary">暂不处理</button>
+                    <button onclick="TaskController.continueTask('${t.id}')" class="action-chip">
+                        继续处理 <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                    </button>
+                `;
+                } else {
+                    buttonsHtml = `<button class="action-chip" onclick="TaskController.start('${t.id}', '${t.link}')">
+                        ${t.link ? '🔗 查看指引' : '🔊 查看指引'}
+                    </button>`;
+                }
+
+                const timeHtml = t.estimated_time ? `<i class="far fa-clock"></i> ${t.estimated_time}m` : '';
+
+                return `
+                    <div class="task-card ${isOngoing ? 'ongoing-style' : ''}">
+                        <div class="rec-badge ${badgeClass}">${badge}</div>
+                        
+                        <div style="font-weight:600; color:var(--text-primary); font-size:1.1rem; margin-bottom:12px; padding-right:60px;">
+                            ${t.title}
+                        </div>
+
+                        <div class="agent-hints urgency-${t.agent_urgency_level || 'normal'} ${isOngoing ? 'mb-0' : ''}">
+                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                ${hintHtml}
+                            </div>
+                            ${agentJudgement}
+                            ${executionBlock}
+                            ${riskBlock}
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="card-footer-left">${timeHtml}</div>
+                            <div class="card-footer-right">${buttonsHtml}</div>
+                        </div>
+                    </div>
+                `;
             }
         };
 
         const UIUtils = { toast(msg) { const b = document.getElementById('toast-box'); b.innerText = msg; b.classList.add('active'); setTimeout(() => b.classList.remove('active'), 2000); } };
 
         document.addEventListener('DOMContentLoaded', () => {
-            initPWA(); // 先初始化安装按钮逻辑
+            initPWA();
             LandingController.init();
             const d = new Date();
             const dateStr = `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
@@ -1111,5 +1205,4 @@
 
     </script>
 </body>
-
 </html>
