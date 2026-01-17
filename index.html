@@ -297,16 +297,14 @@
         }
 
         .agent-expand-body {
-            display: none;
-            margin-top: 8px;
-            padding-left: 12px;
-            border-left: 1px dashed var(--border-light);
-            color: var(--text-secondary);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.25s ease;
+            box-sizing: border-box;
         }
 
         .agent-expand-body.open {
-            display: block;
-            animation: fadeIn 0.3s;
+            max-height: 300px;
         }
 
         .member-entry {
@@ -822,6 +820,19 @@
                 transform: translateX(-50%) translateY(0);
             }
         }
+
+        /* 夜间判断模式 */
+        .night-judgement {
+            color: #fbbf24;
+            /* 温和偏警示，不是红 */
+            letter-spacing: 0.2px;
+        }
+
+        .night-hint {
+            margin-top: 6px;
+            font-size: 0.75rem;
+            opacity: 0.6;
+        }
     </style>
 </head>
 
@@ -838,13 +849,15 @@
                 onerror="this.src='https://placehold.co/80x80/18181b/ffffff?text=N'">
             <div class="landing-title">奈斯 · 判断助手</div>
             <div class="landing-subtitle" style="margin-bottom:40px;">🧠不是教你怎么做，先帮你判断值不值得</div>
-            <div style="font-size:0.75rem; color:var(--text-secondary); margin:-28px 0 32px 0; text-align:center;">多数后悔，都发生在“当时觉得没问题”的决定之后</div>
+            <div style="font-size:0.75rem; color:var(--text-secondary); margin:-28px 0 32px 0; text-align:center;">
+                多数后悔，都发生在“当时觉得没问题”的决定之后</div>
             <div style="display:flex; flex-direction:column; gap:16px; width:100%;">
                 <div class="feat-item">
                     <div class="feat-icon"><i class="fas fa-shield-alt"></i></div>
                     <div class="feat-text">
                         <h4 style="font-weight:600; margin:0;">少走弯路</h4>
-                        <p style="font-size:0.8rem; color:var(--text-secondary); margin:4px 0 0;">已帮你过滤掉一批“算下来不划算”的选项</p>
+                        <p style="font-size:0.8rem; color:var(--text-secondary); margin:4px 0 0;">已帮你过滤掉一批“算下来不划算”的选项
+                        </p>
                     </div>
                 </div>
                 <div class="feat-item">
@@ -871,7 +884,10 @@
                 onerror="this.src='https://placehold.co/56x56/000000/ffffff?text=N'">
         </div>
         <div class="agent-greeting" id="greeting-text">Nex Agent</div>
-
+        <div class="agent-msg" id="agent-msg"></div>
+        <div id="night-hint" class="night-hint" style="display:none;">
+            这个时间点，最容易做出后来会后悔的决定。
+        </div>
         <div class="agent-date-pill">
             <i class="far fa-clock"></i>
             <span id="date-text">LOADING...</span>
@@ -1152,52 +1168,89 @@
         // ==========================================
         function genGreeting(ctx) {
             const hour = new Date().getHours();
-            let timeText = "你好";
+            const isNight = hour >= 19 || hour < 6;
 
+            let timeText = "你好";
             if (hour < 6) timeText = "凌晨好";
             else if (hour < 11) timeText = "上午好";
             else if (hour < 14) timeText = "中午好";
             else if (hour < 18) timeText = "下午好";
             else timeText = "晚上好";
 
-            // 主线 2：回忆 / 代价 / 判断
-            const morningPain = [
-                "很多人不是没机会，是每次都在“当时看起来对，后来全错”。",
-                "如果回头看十年，很多选择其实一开始就不值得。",
-                "真正的损失，往往不是当下看见的，而是后来才发现的。"
-            ];
+            const judgementLine = pickJudgementLine({ ...ctx, isNight });
+            applyNightModeUI(isNight);
+            return `${timeText}，${judgementLine}`;
+        }
 
-            const noonPain = [
-                "当时看着没问题的决定，往往才是后来最贵的。",
-                "你以为是在选择，其实是在为未来埋单。",
-                "很多坑，踩进去的时候看不出来，爬出来已经太晚。"
-            ];
+        const JUDGEMENT_POOLS = {
+            core: [
+                "这一步你如果做错，后面再努力也只是补窟窿。",
+                "不是这件事坑你，是你当时没停下来判断。",
+                "多数人不是输在能力，是输在“以为没事”。",
+                "今天这一步看似小，结果会被放大。",
+                "真正要命的决定，都是当时没人提醒的。",
+                "如果这一步不稳，后面再顺也没用。",
+                "后悔的瞬间，通常会想起“当时要是多想一分钟”。",
+                "错的不是结果，是你当时没判断。",
+                "这不是机会问题，是方向问题。",
+                "判断清楚，比动作快更重要。"
+            ],
 
-            const afternoonPain = [
-                "问题不在有没有选项，而在你每次都选了最差的那个。",
-                "真正拉开差距的，不是努力，而是少犯几次致命判断错误。",
-                "大多数决定，当时都觉得合理，事后才发现代价很大。"
-            ];
+            money: [
+                "钱不会立刻出问题，判断错了才会。",
+                "真正亏钱，往往发生在“觉得不至于吧”的那一步。",
+                "如果这笔钱不好撤，那你就不该现在进去。",
+                "不是收益低，是风险被你忽略了。",
+                "能不能赚钱不重要，能不能全身而退更重要。",
+                "判断失误，才是最贵的成本。",
+                "真正的坑，从来不写在规则第一页。",
+                "如果你需要自我安慰，这件事大概率不稳。"
+            ],
 
-            // 主线 3：低频致命判断
-            const deepPain = [
-                "真正让人变穷的，不是没机会，是每次都判断错。",
-                "判断错误，比什么都贵。"
-            ];
+            night: [
+                "夜里做的决定，白天很少感谢自己。",
+                "晚上最容易为了“别白忙”而继续错。",
+                "现在这个点，最不适合追加投入。",
+                "夜里冲动的一步，明天撤不回来。",
+                "如果你现在犹豫，其实已经有答案了。",
+                "多半错误决定，发生在“差一点就完成”的时候。",
+                "现在不停，明天就要止损。",
+                "夜深了，更应该判断，而不是推进。",
+                "今天已经够累了，不要再给自己埋雷。"
+            ],
 
-            const today = new Date().getDate();
-            let pool;
+            soft: [
+                "停下来判断，不是浪费时间。",
+                "你不是慢，是在减少未来麻烦。",
+                "今天少做一步，可能省下很多。",
+                "不急着动手，也是一种进展。"
+            ]
+        };
 
-            if (hour < 11) pool = morningPain;
-            else if (hour < 14) pool = noonPain;
-            else if (hour < 18) pool = afternoonPain;
-            else {
-                // 晚上：每 7 天插一次主线 3
-                pool = (today % 7 === 0) ? deepPain : afternoonPain;
+        function pickJudgementLine(ctx = {}) {
+            let pool = [];
+
+            if (ctx.isNight) {
+                pool = JUDGEMENT_POOLS.night.concat(JUDGEMENT_POOLS.core);
+            } else if (ctx.recommendCount > 0) {
+                pool = JUDGEMENT_POOLS.money.concat(JUDGEMENT_POOLS.core);
+            } else {
+                pool = JUDGEMENT_POOLS.core.concat(JUDGEMENT_POOLS.soft);
             }
 
-            const line = pool[today % pool.length];
-            return timeText + "，" + line;
+            return pool[Math.floor(Math.random() * pool.length)];
+        }
+        function applyNightModeUI(isNight) {
+            const titleEl = document.querySelector('.agent-msg');
+            const nightHint = document.getElementById('night-hint');
+
+            if (isNight) {
+                titleEl?.classList.add('night-judgement');
+                if (nightHint) nightHint.style.display = 'block';
+            } else {
+                titleEl?.classList.remove('night-judgement');
+                if (nightHint) nightHint.style.display = 'none';
+            }
         }
 
         const LocalState = {
@@ -1618,6 +1671,7 @@
             const dateStr = `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
             document.getElementById('date-text').innerText = dateStr;
             RenderEngine.refresh();
+            applyNightModeUI();
         });
 
     </script>
