@@ -833,6 +833,22 @@
             font-size: 0.75rem;
             opacity: 0.6;
         }
+
+        .agent-core.locked {
+            color: var(--text-secondary);
+            opacity: 1;
+            position: relative;
+            padding-left: 18px;
+        }
+
+        .agent-core.locked::before {
+            content: "🔒";
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 0.9em;
+            opacity: 0.85;
+        }
     </style>
 </head>
 
@@ -842,7 +858,7 @@
 
     <!-- 1. 开屏引导 (Landing) -->
     <div id="landing-overlay" class="modal-overlay"
-        style="display: none;opacity: 1;pointer-events: auto;z-index: 99999;position: fixed;inset: 0;width: 100vw;height: 100vh;left: 0;top: 0;display: flex;justify-content: center;align-items: center;">
+        style="display: none;opacity: 1;pointer-events: auto;z-index: 99999;position: fixed;inset: 0;width: 100vw;height: 100vh;left: 0;top: 0;justify-content: center;align-items: center;">
         <div class="landing-content"
             style="display:flex; flex-direction:column; align-items:center; width:100%; max-width:320px;">
             <img src="./assets/icon_apple.png" class="brand-logo" style="width:80px; height:80px; margin-bottom:24px;"
@@ -1082,24 +1098,51 @@
         // NEW: 引导页控制器 (Landing Controller)
         // ==========================================
         const LandingController = {
-            lsKey: 'nex_has_seen_landing_v3', // 版本更新，确保旧用户也能看到新引导页
+            // 本地持久：当天是否展示过
+            lsKey: 'nex_landing_last_shown_date',
+
+            // 会话级：本次打开是否已经判断过
+            sessionKey: 'nex_landing_session_checked',
+
+            getToday() {
+                return getLocalDateKey(); // 必须是本地日期
+            },
+
             init() {
-                const hasSeen = localStorage.getItem(this.lsKey);
-                if (!hasSeen) {
-                    document.getElementById('landing-overlay').style.display = 'flex';
+                // 防止同一会话反复触发
+                if (sessionStorage.getItem(this.sessionKey)) {
+                    return false;
+                }
+                sessionStorage.setItem(this.sessionKey, 'true');
+
+                const today = this.getToday();
+                const lastShown = localStorage.getItem(this.lsKey);
+
+                if (lastShown !== today) {
+                    const overlay = document.getElementById('landing-overlay');
+                    if (overlay) {
+                        overlay.style.display = 'flex';
+                        overlay.style.opacity = '1';
+                    }
                     return true;
                 }
                 return false;
             },
+
             enterApp() {
-                localStorage.setItem(this.lsKey, '1');
+                localStorage.setItem(this.lsKey, this.getToday());
+
                 const overlay = document.getElementById('landing-overlay');
+                if (!overlay) return;
+
                 overlay.style.opacity = '0';
                 setTimeout(() => {
                     overlay.style.display = 'none';
-                    const pendingText = document.getElementById('greeting-text').innerText;
+
+                    const pendingText =
+                        document.getElementById('greeting-text')?.innerText;
                     if (pendingText && pendingText !== '...') {
-                        RenderEngine.tryPlayGreeting(pendingText);
+                        RenderEngine?.tryPlayGreeting?.(pendingText);
                     }
                 }, 400);
             },
@@ -1580,11 +1623,16 @@
                 }
 
                 // Agent Judgement (Permanent)
-                const agentJudgement = t.agent_suitable_user
-                    ? `<div class="agent-judgement">                        
-                        ${t.agent_suitable_user ? `<div class="agent-user" style="margin-top:4px;">👤 适合：${t.agent_suitable_user}</div>` : ''}
-                       </div>`
-                    : '';
+                const agentJudgement =
+                    (t.agent_combo_hint || t.agent_core_judgement || t.agent_suitable_user)
+                        ? `
+                        <div class="agent-judgement">
+                            ${t.agent_combo_hint ? (IS_MEMBER === true ? `<div class="agent-core">🧠 ${t.agent_combo_hint}</div>` : `<div class="agent-core locked">🧠 高阶组合判断（会员解锁 · 放大收益用）</div>`) : ''}
+                            ${(!t.agent_combo_hint && t.agent_core_judgement) ? `<div class="agent-core">🧠 ${t.agent_core_judgement}</div>` : ''}
+                            ${t.agent_suitable_user ? `<div class="agent-user">👤 适合人群：${t.agent_suitable_user}</div>` : ''}
+                        </div>
+                        `
+                        : '';
 
                 // Execution (Expandable)
                 const executionBlock = (t.agent_reward_desc || t.agent_deadline || t.agent_time_cost)
