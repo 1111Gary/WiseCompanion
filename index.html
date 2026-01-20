@@ -1520,207 +1520,207 @@
             closeGuide() { window.speechSynthesis.cancel(); document.getElementById('guide-modal').style.display = 'none'; }
         };
 
-        const RenderEngine = {
-            async refresh() {
-                const db = getDB();
-                if (!db) return;
-                const pTasks = db.from('tasks_view').select('*');
-                const pStatus = db.from('user_task_status').select('task_id').eq('user_key', USER_ID).eq('cycle_key', TODAY_KEY).eq('status', 'COMPLETED');
-                const pSkipped = db.from('skip_state').select('task_id').eq('user_key', USER_ID).eq('date_key', TODAY_KEY);
-                const [resTasks, resStatus, resSkipped] = await Promise.all([pTasks, pStatus, pSkipped]);
+            const RenderEngine = {
+                async refresh() {
+                    const db = getDB();
+                    if (!db) return;
+                    const pTasks = db.from('tasks_view').select('*');
+                    const pStatus = db.from('user_task_status').select('task_id').eq('user_key', USER_ID).eq('cycle_key', TODAY_KEY).eq('status', 'COMPLETED');
+                    const pSkipped = db.from('skip_state').select('task_id').eq('user_key', USER_ID).eq('date_key', TODAY_KEY);
+                    const [resTasks, resStatus, resSkipped] = await Promise.all([pTasks, pStatus, pSkipped]);
 
-                const rawTasks = resTasks.data || [];
-                const completedSet = new Set((resStatus.data || []).map(r => r.task_id));
-                const skippedSet = new Set((resSkipped.data || []).map(r => r.task_id));
-                const ongoingIds = LocalState.getOngoingIds();
+                    const rawTasks = resTasks.data || [];
+                    const completedSet = new Set((resStatus.data || []).map(r => r.task_id));
+                    const skippedSet = new Set((resSkipped.data || []).map(r => r.task_id));
+                    const ongoingIds = LocalState.getOngoingIds();
 
-                function calcDaysLeft(validTo) {
-                    const today = new Date();
-                    const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-                    const end = new Date(validTo);
-                    const endStart = new Date(end.getFullYear(), end.getMonth(), end.getDate());
-                    return Math.floor((endStart - todayStart) / (1000 * 60 * 60 * 24));
-                };
-                const now = new Date();
-
-                window.ALL_TASKS = rawTasks.map(t => {
-                    let successHint = ""; let urgencyLevel = "normal";
-                    if (t.valid_to) {
-                        const daysLeft = calcDaysLeft(t.valid_to);
-                        if (daysLeft <= 1) { successHint = "⏰临近截止，需立即评估是否介入"; urgencyLevel = "today"; }
-                        else if (daysLeft <= 3) { successHint = "⏰接近截止，注意时间安排"; urgencyLevel = "soon"; }
-                    }
-                    if (!successHint) {
-                        if (t.success_probability >= 0.95) { successHint = "👥成功路径明确，操作确定性较高"; }
-                        else if (t.is_high_value) { successHint = "⚖️投入产出比相对较优"; }
-                    }
-                    t.agent_urgency_level = urgencyLevel;
-                    return {
-                        id: t.id, title: t.title, link: t.deep_link, voice_steps: t.voice_steps, agent_steps_json: t.agent_steps_json, ...t,
-                        agent_need_voice: (t.voice_steps && t.voice_steps.length > 0),
-                        agent_priority: t.urgency || 0,
-                        agent_open_mode: (t.title.includes('视频') || t.title.includes('看')) ? 'video' : 'normal',
-                        agent_base_score: (t.agent_base_score || 0) + (t.urgency || 0) + (t.freshness_weight || 0) + (t.success_probability || 0) * 10,
-                        agent_reason: genAgentReason(t), agent_success_hint: successHint, agent_urgency_level: urgencyLevel,
-                        estimated_time: t.estimated_time,
-                        isCompleted: completedSet.has(t.id), isOngoing: ongoingIds.includes(String(t.id)) && now < getCycleEndTime(t), isSkipped: skippedSet.has(t.id)
+                    function calcDaysLeft(validTo) {
+                        const today = new Date();
+                        const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                        const end = new Date(validTo);
+                        const endStart = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+                        return Math.floor((endStart - todayStart) / (1000 * 60 * 60 * 24));
                     };
-                });
+                    const now = new Date();
 
-                const videos = []; const ongoing = []; const recommend = [];
-                window.ALL_TASKS.forEach(t => {
-                    if (t.isCompleted) return;
-                    if (t.agent_open_mode === 'video') { videos.push(t); return; }
-                    if (t.isOngoing) { ongoing.push(t); return; }
-                    if (!t.isSkipped && t.agent_need_voice) { recommend.push(t); }
-                });
+                    window.ALL_TASKS = rawTasks.map(t => {
+                        let successHint = ""; let urgencyLevel = "normal";
+                        if (t.valid_to) {
+                            const daysLeft = calcDaysLeft(t.valid_to);
+                            if (daysLeft <= 1) { successHint = "⏰临近截止，需立即评估是否介入"; urgencyLevel = "today"; }
+                            else if (daysLeft <= 3) { successHint = "⏰接近截止，注意时间安排"; urgencyLevel = "soon"; }
+                        }
+                        if (!successHint) {
+                            if (t.success_probability >= 0.95) { successHint = "👥成功路径明确，操作确定性较高"; }
+                            else if (t.is_high_value) { successHint = "⚖️投入产出比相对较优"; }
+                        }
+                        t.agent_urgency_level = urgencyLevel;
+                        return {
+                            id: t.id, title: t.title, link: t.deep_link, voice_steps: t.voice_steps, agent_steps_json: t.agent_steps_json, ...t,
+                            agent_need_voice: (t.voice_steps && t.voice_steps.length > 0),
+                            agent_priority: t.urgency || 0,
+                            agent_open_mode: (t.title.includes('视频') || t.title.includes('看')) ? 'video' : 'normal',
+                            agent_base_score: (t.agent_base_score || 0) + (t.urgency || 0) + (t.freshness_weight || 0) + (t.success_probability || 0) * 10,
+                            agent_reason: genAgentReason(t), agent_success_hint: successHint, agent_urgency_level: urgencyLevel,
+                            estimated_time: t.estimated_time,
+                            isCompleted: completedSet.has(t.id), isOngoing: ongoingIds.includes(String(t.id)), isSkipped: skippedSet.has(t.id)
+                        };
+                    });
 
-                const visitKey = 'nex_has_visited_app';
-                const isFirstVisit = !localStorage.getItem(visitKey);
-                if (isFirstVisit) localStorage.setItem(visitKey, '1');
+                    const videos = []; const ongoing = []; const recommend = [];
+                    window.ALL_TASKS.forEach(t => {
+                        if (t.isCompleted) return;
+                        if (t.agent_open_mode === 'video') { videos.push(t); return; }
+                        if (t.isOngoing) { ongoing.push(t); return; }
+                        if (!t.isSkipped && t.agent_need_voice) { recommend.push(t); }
+                    });
 
-                const greetCtx = { isFirstVisit: isFirstVisit, ongoingCount: ongoing.length, recommendCount: recommend.length };
-                const greetingText = genGreeting(greetCtx);
-                document.getElementById('greeting-text').innerText = greetingText;
-                this.tryPlayGreeting(greetingText);
+                    const visitKey = 'nex_has_visited_app';
+                    const isFirstVisit = !localStorage.getItem(visitKey);
+                    if (isFirstVisit) localStorage.setItem(visitKey, '1');
 
-                this.renderSection('ongoing', ongoing);
-                this.renderSection('recommend', recommend.sort((a, b) => b.agent_base_score - a.agent_base_score).slice(0, 3));
-                this.renderSection('video', videos.slice(0, 5));
-            },
-            tryPlayGreeting(text) {
-                const greetPlayedKey = `greet_played_${TODAY_KEY}`;
-                if (!localStorage.getItem(greetPlayedKey)) {
-                    if (text && !LandingController.isShowing()) {
-                        VoiceEngine.play(text);
-                        localStorage.setItem(greetPlayedKey, "1");
+                    const greetCtx = { isFirstVisit: isFirstVisit, ongoingCount: ongoing.length, recommendCount: recommend.length };
+                    const greetingText = genGreeting(greetCtx);
+                    document.getElementById('greeting-text').innerText = greetingText;
+                    this.tryPlayGreeting(greetingText);
+
+                    this.renderSection('ongoing', ongoing);
+                    this.renderSection('recommend', recommend.sort((a, b) => b.agent_base_score - a.agent_base_score).slice(0, 3));
+                    this.renderSection('video', videos.slice(0, 5));
+                },
+                tryPlayGreeting(text) {
+                    const greetPlayedKey = `greet_played_${TODAY_KEY}`;
+                    if (!localStorage.getItem(greetPlayedKey)) {
+                        if (text && !LandingController.isShowing()) {
+                            VoiceEngine.play(text);
+                            localStorage.setItem(greetPlayedKey, "1");
+                        }
                     }
-                }
-            },
-            renderSection(type, tasks) {
-                const container = document.getElementById(`${type}-list`) || document.getElementById(`${type}-container`);
-                const section = document.getElementById(`${type}-section`);
-                if (tasks.length === 0) {
-                    if (type === 'ongoing') section.style.display = 'none';
-                    else container.innerHTML = '<div class="text-center py-10 text-sm text-gray-500 leading-relaxed">✓ 今日适合完成的任务已全部处理<br>✓ 系统将在有新任务时自动展示</div>';
-                    return;
-                }
-                if (type === 'ongoing') section.style.display = 'block';
-                container.innerHTML = tasks.map(t => this.createCard(t, type)).join('');
-            },
-            createCard(t, type) {
-                const isOngoing = type === 'ongoing';
-                const isVideo = type === 'video';
-                const isRec = type === 'recommend';
+                },
+                renderSection(type, tasks) {
+                    const container = document.getElementById(`${type}-list`) || document.getElementById(`${type}-container`);
+                    const section = document.getElementById(`${type}-section`);
+                    if (tasks.length === 0) {
+                        if (type === 'ongoing') section.style.display = 'none';
+                        else container.innerHTML = '<div class="text-center py-10 text-sm text-gray-500 leading-relaxed">✓ 今日适合完成的任务已全部处理<br>✓ 系统将在有新任务时自动展示</div>';
+                        return;
+                    }
+                    if (type === 'ongoing') section.style.display = 'block';
+                    container.innerHTML = tasks.map(t => this.createCard(t, type)).join('');
+                },
+                createCard(t, type) {
+                    const isOngoing = type === 'ongoing';
+                    const isVideo = type === 'video';
+                    const isRec = type === 'recommend';
 
-                let badge = isVideo ? '视频' : (isOngoing ? '进行中' : '精选');
-                let badgeClass = isVideo ? 'video' : (isOngoing ? 'ongoing' : 'today');
+                    let badge = isVideo ? '视频' : (isOngoing ? '进行中' : '精选');
+                    let badgeClass = isVideo ? 'video' : (isOngoing ? 'ongoing' : 'today');
 
-                // Hint Tags
-                let hintHtml = `<div class="hint-tag hint-decision">🧠 ${t.agent_reason_short || ''}</div>`;
-                if (isRec) {
-                    hintHtml += `<div class="hint-tag hint-success">✅ ${t.agent_success_hint}</div>`;
-                }
+                    // Hint Tags
+                    let hintHtml = `<div class="hint-tag hint-decision">🧠 ${t.agent_reason_short || ''}</div>`;
+                    if (isRec) {
+                        hintHtml += `<div class="hint-tag hint-success">✅ ${t.agent_success_hint}</div>`;
+                    }
 
-                // Agent Judgement (Permanent)
-                const agentJudgement =
-                    (t.agent_combo_hint || t.agent_core_judgement || t.agent_suitable_user)
-                        ? `
-                        <div class="agent-judgement">
-                            ${t.agent_combo_hint ? (IS_MEMBER === true ? `<div class="agent-core">🧠 ${t.agent_combo_hint}</div>` : `<div class="agent-core locked">🧠 高阶组合判断（会员解锁 · 放大收益用）</div>`) : ''}
-                            ${(!t.agent_combo_hint && t.agent_core_judgement) ? `<div class="agent-core">🧠 ${t.agent_core_judgement}</div>` : ''}
-                            ${t.agent_suitable_user ? `<div class="agent-user">👤 适合人群：${t.agent_suitable_user}</div>` : ''}
-                        </div>
-                        `
+                    // Agent Judgement (Permanent)
+                    const agentJudgement =
+                        (t.agent_combo_hint || t.agent_core_judgement || t.agent_suitable_user)
+                            ? `
+                            <div class="agent-judgement">
+                                ${t.agent_combo_hint ? (IS_MEMBER === true ? `<div class="agent-core">🧠 ${t.agent_combo_hint}</div>` : `<div class="agent-core locked">🧠 高阶组合判断（会员解锁 · 放大收益用）</div>`) : ''}
+                                ${(!t.agent_combo_hint && t.agent_core_judgement) ? `<div class="agent-core">🧠 ${t.agent_core_judgement}</div>` : ''}
+                                ${t.agent_suitable_user ? `<div class="agent-user">👤 适合人群：${t.agent_suitable_user}</div>` : ''}
+                            </div>
+                            `
+                            : '';
+
+                    // Execution (Expandable)
+                    const executionBlock = (t.agent_reward_desc || t.agent_deadline || t.agent_time_cost)
+                        ? `<div class="agent-expand">
+                            <div class="agent-expand-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
+                                <i class="fas fa-chevron-right text-xs"></i> 投入与回报
+                            </div>
+                            <div class="agent-expand-body">
+                                ${t.agent_reward_desc ? `<div>🎁 奖励：${t.agent_reward_desc}</div>` : ''}
+                                ${t.agent_deadline ? `<div>⏰ 时效：${t.agent_deadline}</div>` : ''}
+                                ${t.agent_time_cost ? `<div>⏱ 成本：${t.agent_time_cost}</div>` : ''}
+                            </div>
+                        </div>`
                         : '';
 
-                // Execution (Expandable)
-                const executionBlock = (t.agent_reward_desc || t.agent_deadline || t.agent_time_cost)
-                    ? `<div class="agent-expand">
-                        <div class="agent-expand-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
-                            <i class="fas fa-chevron-right text-xs"></i> 投入与回报
-                        </div>
-                        <div class="agent-expand-body">
-                            ${t.agent_reward_desc ? `<div>🎁 奖励：${t.agent_reward_desc}</div>` : ''}
-                            ${t.agent_deadline ? `<div>⏰ 时效：${t.agent_deadline}</div>` : ''}
-                            ${t.agent_time_cost ? `<div>⏱ 成本：${t.agent_time_cost}</div>` : ''}
-                        </div>
-                       </div>`
-                    : '';
-
-                // Risk (Expandable)
-                const riskBlock = (t.agent_pitfall || t.agent_pro_tip)
-                    ? `<div class="agent-expand secondary">
-                        <div class="agent-expand-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
-                             <i class="fas fa-chevron-right text-xs"></i> 可能踩坑的地方
-                        </div>
-                        <div class="agent-expand-body">
-                            ${t.agent_pitfall ? `<div>⚠️ 注意：${t.agent_pitfall}</div>` : ''}
-                            ${t.agent_pro_tip ? `
-                                <div class="member-entry" onclick="TaskController.openGuide(window.ALL_TASKS.find(t => t.id === '${t.id}'), 'pro')">
-                                    💡 老手判断
-                                </div>` : ''}
-                        </div>
-                       </div>`
-                    : '';
-
-                // Buttons
-                let buttonsHtml = '';
-                if (isVideo) {
-                    buttonsHtml = `<button class="action-chip" onclick="TaskController.openVideo('${t.link}')">▶ 浏览内容</button>`;
-                } else if (isOngoing) {
-                    buttonsHtml = `
-                    <button onclick="TaskController.complete('${t.id}')" class="btn-secondary">本期已处理</button>
-                    <button onclick="TaskController.skipToday('${t.id}')" class="btn-tertiary">暂不处理</button>
-                    <button onclick="TaskController.continueTask('${t.id}')" class="action-chip">
-                        继续处理 <i class="fas fa-arrow-right ml-1 text-xs"></i>
-                    </button>
-                `;
-                } else {
-                    buttonsHtml = `<button class="action-chip" onclick="TaskController.start('${t.id}', '${t.link}')">
-                        ${t.link ? '🔗 查看指引' : '🔊 查看指引'}
-                    </button>`;
-                }
-
-                const timeHtml = t.estimated_time ? `<i class="far fa-clock"></i> ${t.estimated_time}m` : '';
-
-                return `
-                    <div class="task-card ${isOngoing ? 'ongoing-style' : ''}">
-                        <div class="rec-badge ${badgeClass}">${badge}</div>
-                        
-                        <div style="font-weight:600; color:var(--text-primary); font-size:1.1rem; margin-bottom:12px; padding-right:60px;">
-                            ${t.title}
-                        </div>
-
-                        <div class="agent-hints urgency-${t.agent_urgency_level || 'normal'} ${isOngoing ? 'mb-0' : ''}">
-                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                                ${hintHtml}
+                    // Risk (Expandable)
+                    const riskBlock = (t.agent_pitfall || t.agent_pro_tip)
+                        ? `<div class="agent-expand secondary">
+                            <div class="agent-expand-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
+                                <i class="fas fa-chevron-right text-xs"></i> 可能踩坑的地方
                             </div>
-                            ${agentJudgement}
-                            ${executionBlock}
-                            ${riskBlock}
+                            <div class="agent-expand-body">
+                                ${t.agent_pitfall ? `<div>⚠️ 注意：${t.agent_pitfall}</div>` : ''}
+                                ${t.agent_pro_tip ? `
+                                    <div class="member-entry" onclick="TaskController.openGuide(window.ALL_TASKS.find(t => t.id === '${t.id}'), 'pro')">
+                                        💡 老手判断
+                                    </div>` : ''}
+                            </div>
+                        </div>`
+                        : '';
+
+                    // Buttons
+                    let buttonsHtml = '';
+                    if (isVideo) {
+                        buttonsHtml = `<button class="action-chip" onclick="TaskController.openVideo('${t.link}')">▶ 浏览内容</button>`;
+                    } else if (isOngoing) {
+                        buttonsHtml = `
+                        <button onclick="TaskController.complete('${t.id}')" class="btn-secondary">本期已处理</button>
+                        <button onclick="TaskController.skipToday('${t.id}')" class="btn-tertiary">暂不处理</button>
+                        <button onclick="TaskController.continueTask('${t.id}')" class="action-chip">
+                            继续处理 <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                        </button>
+                    `;
+                    } else {
+                        buttonsHtml = `<button class="action-chip" onclick="TaskController.start('${t.id}', '${t.link}')">
+                            ${t.link ? '🔗 查看指引' : '🔊 查看指引'}
+                        </button>`;
+                    }
+
+                    const timeHtml = t.estimated_time ? `<i class="far fa-clock"></i> ${t.estimated_time}m` : '';
+
+                    return `
+                        <div class="task-card ${isOngoing ? 'ongoing-style' : ''}">
+                            <div class="rec-badge ${badgeClass}">${badge}</div>
+                            
+                            <div style="font-weight:600; color:var(--text-primary); font-size:1.1rem; margin-bottom:12px; padding-right:60px;">
+                                ${t.title}
+                            </div>
+
+                            <div class="agent-hints urgency-${t.agent_urgency_level || 'normal'} ${isOngoing ? 'mb-0' : ''}">
+                                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                    ${hintHtml}
+                                </div>
+                                ${agentJudgement}
+                                ${executionBlock}
+                                ${riskBlock}
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="card-footer-left">${timeHtml}</div>
+                                <div class="card-footer-right">${buttonsHtml}</div>
+                            </div>
                         </div>
+                    `;
+                }
+            };
 
-                        <div class="card-footer">
-                            <div class="card-footer-left">${timeHtml}</div>
-                            <div class="card-footer-right">${buttonsHtml}</div>
-                        </div>
-                    </div>
-                `;
-            }
-        };
+            const UIUtils = { toast(msg) { const b = document.getElementById('toast-box'); b.innerText = msg; b.classList.add('active'); setTimeout(() => b.classList.remove('active'), 2000); } };
 
-        const UIUtils = { toast(msg) { const b = document.getElementById('toast-box'); b.innerText = msg; b.classList.add('active'); setTimeout(() => b.classList.remove('active'), 2000); } };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            initPWA();
-            LandingController.init();
-            const d = new Date();
-            const dateStr = `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
-            document.getElementById('date-text').innerText = dateStr;
-            RenderEngine.refresh();
-            applyNightModeUI();
-        });
+            document.addEventListener('DOMContentLoaded', () => {
+                initPWA();
+                LandingController.init();
+                const d = new Date();
+                const dateStr = `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
+                document.getElementById('date-text').innerText = dateStr;
+                RenderEngine.refresh();
+                applyNightModeUI();
+            });
 
     </script>
 </body>
