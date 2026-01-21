@@ -1074,15 +1074,40 @@
             location.reload(); // 让 UI 立即切换
         }
 
-        function getLocalDateKey() {
-            const d = new Date();
-            const yyyy = d.getFullYear();
-            const mm = String(d.getMonth() + 1).padStart(2, '0');
+        // --- 核心修复：周期 Key 计算逻辑 ---
+        function getCycleKey(resetRule, dateObj = new Date()) {
+            const d = new Date(dateObj);
+            d.setHours(0, 0, 0, 0); // 抹平时间差异
+            
+            // 1. 月维度 (yyyy-mm)
+            if (resetRule === 'MonthlyReset') {
+                const y = d.getFullYear();
+                const m = String(d.getMonth() + 1).padStart(2, '0');
+                return `${y}-${m}`;
+            }
+
+            // 2. 周维度 (周一为起始日)
+            if (resetRule === 'WeeklyReset') {
+                const day = d.getDay(); // 0(周日) - 6(周六)
+                // 计算距离本周一的差值：周日(0)推前6天，其他推前 day-1 天
+                const diff = d.getDate() - (day === 0 ? 6 : day - 1);
+                const monday = new Date(d);
+                monday.setDate(diff);
+                
+                const y = monday.getFullYear();
+                const m = String(monday.getMonth() + 1).padStart(2, '0');
+                const dd = String(monday.getDate()).padStart(2, '0');
+                return `${y}-${m}-${dd}`;
+            }
+
+            // 3. 日维度 (默认 yyyy-mm-dd)
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
             const dd = String(d.getDate()).padStart(2, '0');
-            return `${yyyy}-${mm}-${dd}`;
+            return `${y}-${m}-${dd}`;
         }
 
-        const TODAY_KEY = getLocalDateKey();
+        const TODAY_KEY = getCycleKey('DailyReset'); // 用于 Skip 等非周期性业务
         const LS_ONGOING_KEY = `nex_ongoing_${USER_ID}_${TODAY_KEY}`;
         const AGENT_INTRO_VOICE = "好的，这个活动很简单，跟我来。";
         let supabaseClient = null;
@@ -1098,21 +1123,13 @@
         // NEW: 引导页控制器 (Landing Controller)
         // ==========================================
         const LandingController = {
-            // 本地持久：当天是否展示过
             lsKey: 'nex_landing_last_shown_date',
-
-            // 会话级：本次打开是否已经判断过
             sessionKey: 'nex_landing_session_checked',
 
-            getToday() {
-                return getLocalDateKey(); // 必须是本地日期
-            },
+            getToday() { return getCycleKey('DailyReset'); },
 
             init() {
-                // 防止同一会话反复触发
-                if (sessionStorage.getItem(this.sessionKey)) {
-                    return false;
-                }
+                if (sessionStorage.getItem(this.sessionKey)) return false;
                 sessionStorage.setItem(this.sessionKey, 'true');
 
                 const today = this.getToday();
@@ -1131,16 +1148,12 @@
 
             enterApp() {
                 localStorage.setItem(this.lsKey, this.getToday());
-
                 const overlay = document.getElementById('landing-overlay');
                 if (!overlay) return;
-
                 overlay.style.opacity = '0';
                 setTimeout(() => {
                     overlay.style.display = 'none';
-
-                    const pendingText =
-                        document.getElementById('greeting-text')?.innerText;
+                    const pendingText = document.getElementById('greeting-text')?.innerText;
                     if (pendingText && pendingText !== '...') {
                         RenderEngine?.tryPlayGreeting?.(pendingText);
                     }
@@ -1153,7 +1166,7 @@
         };
 
         // ==========================================
-        // NEW: PWA 安装控制器
+        // PWA 安装控制器
         // ==========================================
         let deferredPrompt = null;
         const installBtn = document.getElementById('pwa-install-btn');
@@ -1163,21 +1176,14 @@
 
         window.toggleGuide = function (show) {
             guideModal.style.display = show ? 'flex' : 'none';
-            if (show && isWeChat) {
-                document.getElementById('guide-wechat').style.display = 'block';
-            }
+            if (show && isWeChat) document.getElementById('guide-wechat').style.display = 'block';
         };
 
         function initPWA() {
             window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                installBtn.style.display = 'inline-flex';
+                e.preventDefault(); deferredPrompt = e; installBtn.style.display = 'inline-flex';
             });
-
-            if (isIos && !window.navigator.standalone) {
-                installBtn.style.display = 'inline-flex';
-            }
+            if (isIos && !window.navigator.standalone) installBtn.style.display = 'inline-flex';
 
             installBtn.onclick = async () => {
                 if (deferredPrompt) {
@@ -1190,36 +1196,24 @@
                     toggleGuide(true);
                 }
             };
-
-            guideModal.addEventListener('click', (e) => {
-                if (e.target === guideModal) toggleGuide(false);
-            });
+            guideModal.addEventListener('click', (e) => { if (e.target === guideModal) toggleGuide(false); });
         }
 
         document.addEventListener('visibilitychange', () => {
-            if (
-                document.visibilityState === 'visible' &&
-                sessionStorage.getItem('need_refresh_after_task') === '1'
-            ) {
+            if (document.visibilityState === 'visible' && sessionStorage.getItem('need_refresh_after_task') === '1') {
                 sessionStorage.removeItem('need_refresh_after_task');
                 RenderEngine.refresh();
             }
         });
 
         // ==========================================
-        // 原有逻辑保持不变
+        // 问候与判断逻辑
         // ==========================================
         function genGreeting(ctx) {
             const hour = new Date().getHours();
             const isNight = hour >= 19 || hour < 6;
-
-            let timeText = "你好";
-            if (hour < 6) timeText = "凌晨好";
-            else if (hour < 11) timeText = "上午好";
-            else if (hour < 14) timeText = "中午好";
-            else if (hour < 18) timeText = "下午好";
-            else timeText = "晚上好";
-
+            let timeText = hour < 6 ? "凌晨好" : hour < 11 ? "上午好" : hour < 14 ? "中午好" : hour < 18 ? "下午好" : "晚上好";
+            
             const judgementLine = pickJudgementLine({ ...ctx, isNight });
             applyNightModeUI(isNight);
             return `${timeText}，${judgementLine}`;
@@ -1227,73 +1221,43 @@
 
         const JUDGEMENT_POOLS = {
             core: [
-                "这一步你如果做错，后面再努力也只是补窟窿。",
-                "不是这件事坑你，是你当时没停下来判断。",
-                "多数人不是输在能力，是输在“以为没事”。",
-                "今天这一步看似小，结果会被放大。",
-                "真正要命的决定，都是当时没人提醒的。",
-                "如果这一步不稳，后面再顺也没用。",
-                "后悔的瞬间，通常会想起“当时要是多想一分钟”。",
-                "错的不是结果，是你当时没判断。",
-                "这不是机会问题，是方向问题。",
-                "判断清楚，比动作快更重要。"
+                "这一步你如果做错，后面再努力也只是补窟窿。", "不是这件事坑你，是你当时没停下来判断。",
+                "多数人不是输在能力，是输在“以为没事”。", "今天这一步看似小，结果会被放大。",
+                "真正要命的决定，都是当时没人提醒的。", "如果这一步不稳，后面再顺也没用。",
+                "后悔的瞬间，通常会想起“当时要是多想一分钟”。", "错的不是结果，是你当时没判断。",
+                "这不是机会问题，是方向问题。", "判断清楚，比动作快更重要。"
             ],
-
             money: [
-                "钱不会立刻出问题，判断错了才会。",
-                "真正亏钱，往往发生在“觉得不至于吧”的那一步。",
-                "如果这笔钱不好撤，那你就不该现在进去。",
-                "不是收益低，是风险被你忽略了。",
-                "能不能赚钱不重要，能不能全身而退更重要。",
-                "判断失误，才是最贵的成本。",
-                "真正的坑，从来不写在规则第一页。",
-                "如果你需要自我安慰，这件事大概率不稳。"
+                "钱不会立刻出问题，判断错了才会。", "真正亏钱，往往发生在“觉得不至于吧”的那一步。",
+                "如果这笔钱不好撤，那你就不该现在进去。", "不是收益低，是风险被你忽略了。",
+                "能不能赚钱不重要，能不能全身而退更重要。", "判断失误，才是最贵的成本。",
+                "真正的坑，从来不写在规则第一页。", "如果你需要自我安慰，这件事大概率不稳。"
             ],
-
             night: [
-                "夜里做的决定，白天很少感谢自己。",
-                "晚上最容易为了“别白忙”而继续错。",
-                "现在这个点，最不适合追加投入。",
-                "夜里冲动的一步，明天撤不回来。",
-                "如果你现在犹豫，其实已经有答案了。",
-                "多半错误决定，发生在“差一点就完成”的时候。",
-                "现在不停，明天就要止损。",
-                "夜深了，更应该判断，而不是推进。",
+                "夜里做的决定，白天很少感谢自己。", "晚上最容易为了“别白忙”而继续错。",
+                "现在这个点，最不适合追加投入。", "夜里冲动的一步，明天撤不回来。",
+                "如果你现在犹豫，其实已经有答案了。", "多半错误决定，发生在“差一点就完成”的时候。",
+                "现在不停，明天就要止损。", "夜深了，更应该判断，而不是推进。",
                 "今天已经够累了，不要再给自己埋雷。"
             ],
-
             soft: [
-                "停下来判断，不是浪费时间。",
-                "你不是慢，是在减少未来麻烦。",
-                "今天少做一步，可能省下很多。",
-                "不急着动手，也是一种进展。"
+                "停下来判断，不是浪费时间。", "你不是慢，是在减少未来麻烦。",
+                "今天少做一步，可能省下很多。", "不急着动手，也是一种进展。"
             ]
         };
 
         function pickJudgementLine(ctx = {}) {
             let pool = [];
-
-            if (ctx.isNight) {
-                pool = JUDGEMENT_POOLS.night.concat(JUDGEMENT_POOLS.core);
-            } else if (ctx.recommendCount > 0) {
-                pool = JUDGEMENT_POOLS.money.concat(JUDGEMENT_POOLS.core);
-            } else {
-                pool = JUDGEMENT_POOLS.core.concat(JUDGEMENT_POOLS.soft);
-            }
-
+            if (ctx.isNight) pool = JUDGEMENT_POOLS.night.concat(JUDGEMENT_POOLS.core);
+            else if (ctx.recommendCount > 0) pool = JUDGEMENT_POOLS.money.concat(JUDGEMENT_POOLS.core);
+            else pool = JUDGEMENT_POOLS.core.concat(JUDGEMENT_POOLS.soft);
             return pool[Math.floor(Math.random() * pool.length)];
         }
         function applyNightModeUI(isNight) {
             const titleEl = document.querySelector('.agent-msg');
             const nightHint = document.getElementById('night-hint');
-
-            if (isNight) {
-                titleEl?.classList.add('night-judgement');
-                if (nightHint) nightHint.style.display = 'block';
-            } else {
-                titleEl?.classList.remove('night-judgement');
-                if (nightHint) nightHint.style.display = 'none';
-            }
+            if (isNight) { titleEl?.classList.add('night-judgement'); if (nightHint) nightHint.style.display = 'block'; }
+            else { titleEl?.classList.remove('night-judgement'); if (nightHint) nightHint.style.display = 'none'; }
         }
 
         const LocalState = {
@@ -1345,9 +1309,7 @@
             document.getElementById('invite-modal').style.display = 'flex';
             document.getElementById('invite-code-input').value = '';
         }
-        function closeInviteModal() {
-            document.getElementById('invite-modal').style.display = 'none';
-        }
+        function closeInviteModal() { document.getElementById('invite-modal').style.display = 'none'; }
         function submitInviteCode() {
             const code = document.getElementById('invite-code-input').value.trim();
             if (!code) { alert('请输入邀请码'); return; }
@@ -1355,19 +1317,18 @@
             closeInviteModal();
         }
 
+        // ==========================================
+        // TaskController
+        // ==========================================
         window.TaskController = {
             start(id, link) {
                 const t = window.ALL_TASKS.find(x => x.id == id);
                 if (!t) return;
                 LocalState.addToOngoing(id);
                 if (link && link.length > 5) {
-                    if (isWeChat) {
-                        sessionStorage.setItem('need_refresh_after_task', '1');
-                        window.open(link, '_blank');
-                        return;
-                    }
+                    if (isWeChat) sessionStorage.setItem('need_refresh_after_task', '1');
                     window.open(link, '_blank');
-                    RenderEngine.refresh();
+                    if (!isWeChat) RenderEngine.refresh();
                 } else {
                     VoiceEngine.play(AGENT_INTRO_VOICE);
                     this.openGuide(t);
@@ -1378,13 +1339,9 @@
                 const t = window.ALL_TASKS.find(x => x.id == id);
                 if (!t) return;
                 if (t.link && t.link.length > 5) {
-                    if (isWeChat) {
-                        sessionStorage.setItem('need_refresh_after_task', '1');
-                        window.open(t.link, '_blank');
-                        return;
-                    }
+                    if (isWeChat) sessionStorage.setItem('need_refresh_after_task', '1');
                     window.open(t.link, '_blank');
-                    RenderEngine.refresh();
+                    if (!isWeChat) RenderEngine.refresh();
                 } else {
                     this.openGuide(t);
                     RenderEngine.refresh();
@@ -1394,6 +1351,7 @@
                 const db = getDB(); if (!db) return;
                 LocalState.removeFromOngoing(id);
                 UIUtils.toast("正在同步...");
+                // Skip 依然只针对“今天”，所以保持 TODAY_KEY
                 await db.from('skip_state').insert({ user_key: USER_ID, task_id: id, date_key: TODAY_KEY });
                 UIUtils.toast("已暂放，今天不再出现");
                 RenderEngine.refresh();
@@ -1401,8 +1359,23 @@
             async complete(id) {
                 const db = getDB();
                 if (db) {
+                    const t = window.ALL_TASKS.find(x => x.id == id);
+                    if (!t) { console.error("Task missing", id); return; }
+
                     UIUtils.toast("正在提交...");
-                    await db.from('user_task_status').upsert({ user_key: USER_ID, cycle_key: TODAY_KEY, task_id: id, status: 'COMPLETED', completed_at: new Date().toISOString() }, { onConflict: 'user_key,cycle_key,task_id' });
+                    
+                    // ⚠️ 修复点：根据任务规则生成正确的 CycleKey
+                    const rule = t.reset_rule || 'DailyReset';
+                    const correctCycleKey = getCycleKey(rule, new Date());
+
+                    await db.from('user_task_status').upsert({ 
+                        user_key: USER_ID, 
+                        cycle_key: correctCycleKey, // 使用正确的周期 Key
+                        task_id: id, 
+                        status: 'COMPLETED', 
+                        completed_at: new Date().toISOString() 
+                    }, { onConflict: 'user_key,cycle_key,task_id' });
+
                     LocalState.removeFromOngoing(id);
                     UIUtils.toast("本期已完成 🎉");
                     RenderEngine.refresh();
@@ -1410,21 +1383,17 @@
             },
             openVideo(link) { if (link) window.open(link, '_blank'); },
 
-            // 🧠 CORE REFRACTORING FOR PRO UI
             openGuide(t, mode = 'normal') {
                 document.getElementById('modal-title').innerText = t.title;
                 const box = document.getElementById('step-list-container');
                 box.innerHTML = '';
 
-                // 🧠 模式一：Pro 老手判断模式
                 if (mode === 'pro') {
-                    // 1. 非会员：显示高端锁定邀请卡
                     if (!IS_MEMBER) {
                         box.innerHTML = `
                             <div class="member-lock-box">
                                 <div style="font-size: 36px; margin-bottom: 16px; opacity: 0.8;">🔒</div>
                                 <div class="member-lock-title">老手判断（会员专属）</div>
-                                
                                 <div class="member-lock-desc">
                                     <p style="margin: 0 0 10px 0;">用于判断是否值得投入时间与精力<strong>判断型结论</strong>。</p>
                                     <div style="display: flex; flex-direction: column; gap: 6px;">
@@ -1433,33 +1402,19 @@
                                         <div>🚀 <strong>行动：</strong> 现在的最佳切入姿势</div>
                                     </div>
                                 </div>
-
-                                <button class="invite-btn" onclick="openInviteModal()">
-                                    👉 解锁判断视角
-                                </button>
-                            </div>
-                        `;
+                                <button class="invite-btn" onclick="openInviteModal()">👉 解锁判断视角</button>
+                            </div>`;
                         document.getElementById('guide-modal').style.display = 'flex';
                         return;
                     }
-
-                    // 2. 会员但无数据：显示空状态
                     if (!Array.isArray(t.agent_pro_tip_steps) || t.agent_pro_tip_steps.length === 0) {
-                        box.innerHTML = `
-                            <div class="pro-empty-state">
-                                <div style="font-size: 40px; margin-bottom: 12px; filter: grayscale(1);">⏳</div>
-                                <div style="font-size: 14px;">本活动暂未产出老手判断结论</div>
-                            </div>
-                        `;
+                        box.innerHTML = `<div class="pro-empty-state"><div style="font-size: 40px; margin-bottom: 12px; filter: grayscale(1);">⏳</div><div style="font-size: 14px;">本活动暂未产出老手判断结论</div></div>`;
                         document.getElementById('guide-modal').style.display = 'flex';
                         return;
                     }
-
-                    // 3. 会员且有数据：渲染高端判断卡 (CSS Class Based)
                     const verdict = t.agent_pro_tip_steps.find(x => x.type === 'verdict');
                     const risk = t.agent_pro_tip_steps.find(x => x.type === 'risk');
                     const action = t.agent_pro_tip_steps.find(x => x.type === 'action');
-
                     box.innerHTML = `
                         <div class="pro-judge-wrapper">
                             <div class="pro-judge-header">
@@ -1469,258 +1424,201 @@
                                 </div>
                                 <span style="font-size: 10px; color: var(--color-gold); border: 1px solid var(--color-gold); padding: 2px 6px; border-radius: 4px; opacity: 0.8;">PRO</span>
                             </div>
-
                             <div class="pro-judge-content">
-                                ${verdict ? `
-                                <div class="pro-judge-section verdict">
-                                    <div class="pro-judge-section-title">🧠 判断结论</div>
-                                    <div class="content">${verdict.text}</div>
-                                </div>` : ''}
-
-                                ${risk ? `
-                                <div class="pro-judge-section risk">
-                                    <div class="pro-judge-section-title">⚠️ 风险与限制</div>
-                                    <div class="content">${risk.text}</div>
-                                </div>` : ''}
-
-                                ${action ? `
-                                <div class="pro-judge-section action">
-                                    <div class="pro-judge-section-title">🚀 行动建议</div>
-                                    <div class="content">${action.text}</div>
-                                </div>` : ''}
+                                ${verdict ? `<div class="pro-judge-section verdict"><div class="pro-judge-section-title">🧠 判断结论</div><div class="content">${verdict.text}</div></div>` : ''}
+                                ${risk ? `<div class="pro-judge-section risk"><div class="pro-judge-section-title">⚠️ 风险与限制</div><div class="content">${risk.text}</div></div>` : ''}
+                                ${action ? `<div class="pro-judge-section action"><div class="pro-judge-section-title">🚀 行动建议</div><div class="content">${action.text}</div></div>` : ''}
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                     document.getElementById('guide-modal').style.display = 'flex';
                     return;
                 }
 
-                // 🧠 模式二：Normal 普通步骤模式
                 let steps = [];
-                if (Array.isArray(t.agent_steps_json)) {
-                    steps = t.agent_steps_json;
-                } else if (typeof t.voice_steps === 'string') {
-                    steps = [{ text: t.voice_steps }];
-                }
+                if (Array.isArray(t.agent_steps_json)) steps = t.agent_steps_json;
+                else if (typeof t.voice_steps === 'string') steps = [{ text: t.voice_steps }];
 
                 steps.forEach((s) => {
                     const div = document.createElement('div');
                     div.className = 'step-item';
-                    div.innerHTML = `
-                        <div class="step-icon"><i class="fas fa-volume-high"></i></div>
-                        <div class="step-text">${s.text || s.description}</div>
-                    `;
+                    div.innerHTML = `<div class="step-icon"><i class="fas fa-volume-high"></i></div><div class="step-text">${s.text || s.description}</div>`;
                     div.onclick = () => VoiceEngine.play(s.text || s.description);
                     box.appendChild(div);
                 });
-
                 document.getElementById('guide-modal').style.display = 'flex';
             },
-
             closeGuide() { window.speechSynthesis.cancel(); document.getElementById('guide-modal').style.display = 'none'; }
         };
 
-            const RenderEngine = {
-                async refresh() {
-                    const db = getDB();
-                    if (!db) return;
-                    const pTasks = db.from('tasks_view').select('*');
-                    const pStatus = db.from('user_task_status').select('task_id').eq('user_key', USER_ID).eq('cycle_key', TODAY_KEY).eq('status', 'COMPLETED');
-                    const pSkipped = db.from('skip_state').select('task_id').eq('user_key', USER_ID).eq('date_key', TODAY_KEY);
-                    const [resTasks, resStatus, resSkipped] = await Promise.all([pTasks, pStatus, pSkipped]);
+        // ==========================================
+        // RenderEngine (Core Logic Updated)
+        // ==========================================
+        const RenderEngine = {
+            async refresh() {
+                const db = getDB();
+                if (!db) return;
 
-                    const rawTasks = resTasks.data || [];
-                    const completedSet = new Set((resStatus.data || []).map(r => r.task_id));
-                    const skippedSet = new Set((resSkipped.data || []).map(r => r.task_id));
-                    const ongoingIds = LocalState.getOngoingIds();
+                const pTasks = db.from('tasks_view').select('*');
+                // ⚠️ 修复点：不再只拉取 TODAY_KEY，而是拉取用户所有的完成记录（或按需优化范围）
+                // 考虑到数据量，拉取 status='COMPLETED' 的所有记录，在前端做 Cycle 匹配
+                const pStatus = db.from('user_task_status').select('task_id, cycle_key').eq('user_key', USER_ID).eq('status', 'COMPLETED');
+                const pSkipped = db.from('skip_state').select('task_id').eq('user_key', USER_ID).eq('date_key', TODAY_KEY);
 
-                    function calcDaysLeft(validTo) {
-                        const today = new Date();
-                        const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-                        const end = new Date(validTo);
-                        const endStart = new Date(end.getFullYear(), end.getMonth(), end.getDate());
-                        return Math.floor((endStart - todayStart) / (1000 * 60 * 60 * 24));
-                    };
-                    const now = new Date();
+                const [resTasks, resStatus, resSkipped] = await Promise.all([pTasks, pStatus, pSkipped]);
 
-                    window.ALL_TASKS = rawTasks.map(t => {
-                        let successHint = ""; let urgencyLevel = "normal";
-                        if (t.valid_to) {
-                            const daysLeft = calcDaysLeft(t.valid_to);
-                            if (daysLeft <= 1) { successHint = "⏰临近截止，需立即评估是否介入"; urgencyLevel = "today"; }
-                            else if (daysLeft <= 3) { successHint = "⏰接近截止，注意时间安排"; urgencyLevel = "soon"; }
-                        }
-                        if (!successHint) {
-                            if (t.success_probability >= 0.95) { successHint = "👥成功路径明确，操作确定性较高"; }
-                            else if (t.is_high_value) { successHint = "⚖️投入产出比相对较优"; }
-                        }
-                        t.agent_urgency_level = urgencyLevel;
-                        return {
-                            id: t.id, title: t.title, link: t.deep_link, voice_steps: t.voice_steps, agent_steps_json: t.agent_steps_json, ...t,
-                            agent_need_voice: (t.voice_steps && t.voice_steps.length > 0),
-                            agent_priority: t.urgency || 0,
-                            agent_open_mode: (t.title.includes('视频') || t.title.includes('看')) ? 'video' : 'normal',
-                            agent_base_score: (t.agent_base_score || 0) + (t.urgency || 0) + (t.freshness_weight || 0) + (t.success_probability || 0) * 10,
-                            agent_reason: genAgentReason(t), agent_success_hint: successHint, agent_urgency_level: urgencyLevel,
-                            estimated_time: t.estimated_time,
-                            isCompleted: completedSet.has(t.id), isOngoing: ongoingIds.includes(String(t.id)), isSkipped: skippedSet.has(t.id)
-                        };
-                    });
-
-                    const videos = []; const ongoing = []; const recommend = [];
-                    window.ALL_TASKS.forEach(t => {
-                        if (t.isCompleted) return;
-                        if (t.agent_open_mode === 'video') { videos.push(t); return; }
-                        if (t.isOngoing) { ongoing.push(t); return; }
-                        if (!t.isSkipped && t.agent_need_voice) { recommend.push(t); }
-                    });
-
-                    const visitKey = 'nex_has_visited_app';
-                    const isFirstVisit = !localStorage.getItem(visitKey);
-                    if (isFirstVisit) localStorage.setItem(visitKey, '1');
-
-                    const greetCtx = { isFirstVisit: isFirstVisit, ongoingCount: ongoing.length, recommendCount: recommend.length };
-                    const greetingText = genGreeting(greetCtx);
-                    document.getElementById('greeting-text').innerText = greetingText;
-                    this.tryPlayGreeting(greetingText);
-
-                    this.renderSection('ongoing', ongoing);
-                    this.renderSection('recommend', recommend.sort((a, b) => b.agent_base_score - a.agent_base_score).slice(0, 3));
-                    this.renderSection('video', videos.slice(0, 5));
-                },
-                tryPlayGreeting(text) {
-                    const greetPlayedKey = `greet_played_${TODAY_KEY}`;
-                    if (!localStorage.getItem(greetPlayedKey)) {
-                        if (text && !LandingController.isShowing()) {
-                            VoiceEngine.play(text);
-                            localStorage.setItem(greetPlayedKey, "1");
-                        }
+                // 📌 硬规则：活动有效期过滤 (Fix: 已过期活动仍然显示的问题)
+                const now = new Date();
+                const nowTime = now.getTime();
+                
+                const rawTasks = (resTasks.data || []).filter(t => {
+                    // 1. 还没开始
+                    if (t.valid_from && nowTime < new Date(t.valid_from).getTime()) return false;
+                    
+                    // 2. 已经结束
+                    if (t.valid_to) {
+                        const end = new Date(t.valid_to);
+                        // 如果是纯日期 yyyy-mm-dd，默认给到当天结束
+                        if (t.valid_to.length === 10) end.setHours(23, 59, 59, 999);
+                        if (nowTime > end.getTime()) return false;
                     }
-                },
-                renderSection(type, tasks) {
-                    const container = document.getElementById(`${type}-list`) || document.getElementById(`${type}-container`);
-                    const section = document.getElementById(`${type}-section`);
-                    if (tasks.length === 0) {
-                        if (type === 'ongoing') section.style.display = 'none';
-                        else container.innerHTML = '<div class="text-center py-10 text-sm text-gray-500 leading-relaxed">✓ 今日适合完成的任务已全部处理<br>✓ 系统将在有新任务时自动展示</div>';
-                        return;
-                    }
-                    if (type === 'ongoing') section.style.display = 'block';
-                    container.innerHTML = tasks.map(t => this.createCard(t, type)).join('');
-                },
-                createCard(t, type) {
-                    const isOngoing = type === 'ongoing';
-                    const isVideo = type === 'video';
-                    const isRec = type === 'recommend';
+                    return true;
+                });
 
-                    let badge = isVideo ? '视频' : (isOngoing ? '进行中' : '精选');
-                    let badgeClass = isVideo ? 'video' : (isOngoing ? 'ongoing' : 'today');
+                const userCompletedRecords = resStatus.data || []; // [{task_id, cycle_key}, ...]
+                const skippedSet = new Set((resSkipped.data || []).map(r => r.task_id));
+                const ongoingIds = LocalState.getOngoingIds();
 
-                    // Hint Tags
-                    let hintHtml = `<div class="hint-tag hint-decision">🧠 ${t.agent_reason_short || ''}</div>`;
-                    if (isRec) {
-                        hintHtml += `<div class="hint-tag hint-success">✅ ${t.agent_success_hint}</div>`;
-                    }
-
-                    // Agent Judgement (Permanent)
-                    const agentJudgement =
-                        (t.agent_combo_hint || t.agent_core_judgement || t.agent_suitable_user)
-                            ? `
-                            <div class="agent-judgement">
-                                ${t.agent_combo_hint ? (IS_MEMBER === true ? `<div class="agent-core">🧠 ${t.agent_combo_hint}</div>` : `<div class="agent-core locked">🧠 高阶组合判断（会员解锁 · 放大收益用）</div>`) : ''}
-                                ${(!t.agent_combo_hint && t.agent_core_judgement) ? `<div class="agent-core">🧠 ${t.agent_core_judgement}</div>` : ''}
-                                ${t.agent_suitable_user ? `<div class="agent-user">👤 适合人群：${t.agent_suitable_user}</div>` : ''}
-                            </div>
-                            `
-                            : '';
-
-                    // Execution (Expandable)
-                    const executionBlock = (t.agent_reward_desc || t.agent_deadline || t.agent_time_cost)
-                        ? `<div class="agent-expand">
-                            <div class="agent-expand-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
-                                <i class="fas fa-chevron-right text-xs"></i> 投入与回报
-                            </div>
-                            <div class="agent-expand-body">
-                                ${t.agent_reward_desc ? `<div>🎁 奖励：${t.agent_reward_desc}</div>` : ''}
-                                ${t.agent_deadline ? `<div>⏰ 时效：${t.agent_deadline}</div>` : ''}
-                                ${t.agent_time_cost ? `<div>⏱ 成本：${t.agent_time_cost}</div>` : ''}
-                            </div>
-                        </div>`
-                        : '';
-
-                    // Risk (Expandable)
-                    const riskBlock = (t.agent_pitfall || t.agent_pro_tip)
-                        ? `<div class="agent-expand secondary">
-                            <div class="agent-expand-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
-                                <i class="fas fa-chevron-right text-xs"></i> 可能踩坑的地方
-                            </div>
-                            <div class="agent-expand-body">
-                                ${t.agent_pitfall ? `<div>⚠️ 注意：${t.agent_pitfall}</div>` : ''}
-                                ${t.agent_pro_tip ? `
-                                    <div class="member-entry" onclick="TaskController.openGuide(window.ALL_TASKS.find(t => t.id === '${t.id}'), 'pro')">
-                                        💡 老手判断
-                                    </div>` : ''}
-                            </div>
-                        </div>`
-                        : '';
-
-                    // Buttons
-                    let buttonsHtml = '';
-                    if (isVideo) {
-                        buttonsHtml = `<button class="action-chip" onclick="TaskController.openVideo('${t.link}')">▶ 浏览内容</button>`;
-                    } else if (isOngoing) {
-                        buttonsHtml = `
-                        <button onclick="TaskController.complete('${t.id}')" class="btn-secondary">本期已处理</button>
-                        <button onclick="TaskController.skipToday('${t.id}')" class="btn-tertiary">暂不处理</button>
-                        <button onclick="TaskController.continueTask('${t.id}')" class="action-chip">
-                            继续处理 <i class="fas fa-arrow-right ml-1 text-xs"></i>
-                        </button>
-                    `;
-                    } else {
-                        buttonsHtml = `<button class="action-chip" onclick="TaskController.start('${t.id}', '${t.link}')">
-                            ${t.link ? '🔗 查看指引' : '🔊 查看指引'}
-                        </button>`;
-                    }
-
-                    const timeHtml = t.estimated_time ? `<i class="far fa-clock"></i> ${t.estimated_time}m` : '';
-
-                    return `
-                        <div class="task-card ${isOngoing ? 'ongoing-style' : ''}">
-                            <div class="rec-badge ${badgeClass}">${badge}</div>
-                            
-                            <div style="font-weight:600; color:var(--text-primary); font-size:1.1rem; margin-bottom:12px; padding-right:60px;">
-                                ${t.title}
-                            </div>
-
-                            <div class="agent-hints urgency-${t.agent_urgency_level || 'normal'} ${isOngoing ? 'mb-0' : ''}">
-                                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                                    ${hintHtml}
-                                </div>
-                                ${agentJudgement}
-                                ${executionBlock}
-                                ${riskBlock}
-                            </div>
-
-                            <div class="card-footer">
-                                <div class="card-footer-left">${timeHtml}</div>
-                                <div class="card-footer-right">${buttonsHtml}</div>
-                            </div>
-                        </div>
-                    `;
+                // 辅助函数：判断某任务是否在【当前周期】已完成
+                function checkIsCompleted(task) {
+                    const rule = task.reset_rule || 'DailyReset';
+                    const currentCycleKey = getCycleKey(rule, now);
+                    // 检查是否存在匹配的 (task_id + currentCycleKey)
+                    return userCompletedRecords.some(r => r.task_id === task.id && r.cycle_key === currentCycleKey);
                 }
-            };
 
-            const UIUtils = { toast(msg) { const b = document.getElementById('toast-box'); b.innerText = msg; b.classList.add('active'); setTimeout(() => b.classList.remove('active'), 2000); } };
+                function calcDaysLeft(validTo) {
+                    const today = new Date();
+                    const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                    const end = new Date(validTo);
+                    const endStart = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+                    return Math.floor((endStart - todayStart) / (1000 * 60 * 60 * 24));
+                };
 
-            document.addEventListener('DOMContentLoaded', () => {
-                initPWA();
-                LandingController.init();
-                const d = new Date();
-                const dateStr = `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
-                document.getElementById('date-text').innerText = dateStr;
-                RenderEngine.refresh();
-                applyNightModeUI();
-            });
+                window.ALL_TASKS = rawTasks.map(t => {
+                    let successHint = ""; let urgencyLevel = "normal";
+                    if (t.valid_to) {
+                        const daysLeft = calcDaysLeft(t.valid_to);
+                        if (daysLeft <= 1) { successHint = "⏰临近截止，需立即评估"; urgencyLevel = "today"; }
+                        else if (daysLeft <= 3) { successHint = "⏰接近截止，注意安排"; urgencyLevel = "soon"; }
+                    }
+                    if (!successHint) {
+                        if (t.success_probability >= 0.95) { successHint = "👥成功路径明确"; }
+                        else if (t.is_high_value) { successHint = "⚖️投入产出优"; }
+                    }
+                    t.agent_urgency_level = urgencyLevel;
+                    
+                    // ⚠️ 修复点：使用新的判定函数
+                    const isCompletedNow = checkIsCompleted(t);
+
+                    return {
+                        id: t.id, title: t.title, link: t.deep_link, voice_steps: t.voice_steps, agent_steps_json: t.agent_steps_json, ...t,
+                        agent_need_voice: (t.voice_steps && t.voice_steps.length > 0),
+                        agent_priority: t.urgency || 0,
+                        agent_open_mode: (t.title.includes('视频') || t.title.includes('看')) ? 'video' : 'normal',
+                        agent_base_score: (t.agent_base_score || 0) + (t.urgency || 0) + (t.freshness_weight || 0) + (t.success_probability || 0) * 10,
+                        agent_reason: genAgentReason(t), agent_success_hint: successHint, agent_urgency_level: urgencyLevel,
+                        estimated_time: t.estimated_time,
+                        isCompleted: isCompletedNow, // 绑定修复后的状态
+                        isOngoing: ongoingIds.includes(String(t.id)) && now < getCycleEndTime(t), 
+                        isSkipped: skippedSet.has(t.id)
+                    };
+                });
+
+                const videos = []; const ongoing = []; const recommend = [];
+                window.ALL_TASKS.forEach(t => {
+                    if (t.isCompleted) return; // 完成后不再出现在任何列表
+                    if (t.agent_open_mode === 'video') { videos.push(t); return; }
+                    if (t.isOngoing) { ongoing.push(t); return; }
+                    if (!t.isSkipped && t.agent_need_voice) { recommend.push(t); }
+                });
+
+                const visitKey = 'nex_has_visited_app';
+                const isFirstVisit = !localStorage.getItem(visitKey);
+                if (isFirstVisit) localStorage.setItem(visitKey, '1');
+
+                const greetCtx = { isFirstVisit: isFirstVisit, ongoingCount: ongoing.length, recommendCount: recommend.length };
+                const greetingText = genGreeting(greetCtx);
+                document.getElementById('greeting-text').innerText = greetingText;
+                this.tryPlayGreeting(greetingText);
+
+                this.renderSection('ongoing', ongoing);
+                this.renderSection('recommend', recommend.sort((a, b) => b.agent_base_score - a.agent_base_score).slice(0, 3));
+                this.renderSection('video', videos.slice(0, 5));
+            },
+            tryPlayGreeting(text) {
+                const greetPlayedKey = `greet_played_${TODAY_KEY}`;
+                if (!localStorage.getItem(greetPlayedKey)) {
+                    if (text && !LandingController.isShowing()) {
+                        VoiceEngine.play(text);
+                        localStorage.setItem(greetPlayedKey, "1");
+                    }
+                }
+            },
+            renderSection(type, tasks) {
+                const container = document.getElementById(`${type}-list`) || document.getElementById(`${type}-container`);
+                const section = document.getElementById(`${type}-section`);
+                if (tasks.length === 0) {
+                    if (type === 'ongoing') section.style.display = 'none';
+                    else container.innerHTML = '<div class="text-center py-10 text-sm text-gray-500 leading-relaxed">✓ 今日适合完成的任务已全部处理<br>✓ 系统将在有新任务时自动展示</div>';
+                    return;
+                }
+                if (type === 'ongoing') section.style.display = 'block';
+                container.innerHTML = tasks.map(t => this.createCard(t, type)).join('');
+            },
+            createCard(t, type) {
+                const isOngoing = type === 'ongoing';
+                const isVideo = type === 'video';
+                const isRec = type === 'recommend';
+                let badge = isVideo ? '视频' : (isOngoing ? '进行中' : '精选');
+                let badgeClass = isVideo ? 'video' : (isOngoing ? 'ongoing' : 'today');
+                let hintHtml = `<div class="hint-tag hint-decision">🧠 ${t.agent_reason_short || ''}</div>`;
+                if (isRec) hintHtml += `<div class="hint-tag hint-success">✅ ${t.agent_success_hint}</div>`;
+
+                const agentJudgement = (t.agent_combo_hint || t.agent_core_judgement || t.agent_suitable_user)
+                    ? `<div class="agent-judgement">
+                        ${t.agent_combo_hint ? (IS_MEMBER === true ? `<div class="agent-core">🧠 ${t.agent_combo_hint}</div>` : `<div class="agent-core locked">🧠 高阶组合判断（会员解锁 · 放大收益用）</div>`) : ''}
+                        ${(!t.agent_combo_hint && t.agent_core_judgement) ? `<div class="agent-core">🧠 ${t.agent_core_judgement}</div>` : ''}
+                        ${t.agent_suitable_user ? `<div class="agent-user">👤 适合人群：${t.agent_suitable_user}</div>` : ''}
+                       </div>`
+                    : '';
+
+                const executionBlock = (t.agent_reward_desc || t.agent_deadline || t.agent_time_cost)
+                    ? `<div class="agent-expand"><div class="agent-expand-toggle" onclick="this.nextElementSibling.classList.toggle('open')"><i class="fas fa-chevron-right text-xs"></i> 投入与回报</div><div class="agent-expand-body">${t.agent_reward_desc ? `<div>🎁 奖励：${t.agent_reward_desc}</div>` : ''}${t.agent_deadline ? `<div>⏰ 时效：${t.agent_deadline}</div>` : ''}${t.agent_time_cost ? `<div>⏱ 成本：${t.agent_time_cost}</div>` : ''}</div></div>` : '';
+
+                const riskBlock = (t.agent_pitfall || t.agent_pro_tip)
+                    ? `<div class="agent-expand secondary"><div class="agent-expand-toggle" onclick="this.nextElementSibling.classList.toggle('open')"><i class="fas fa-chevron-right text-xs"></i> 可能踩坑的地方</div><div class="agent-expand-body">${t.agent_pitfall ? `<div>⚠️ 注意：${t.agent_pitfall}</div>` : ''}${t.agent_pro_tip ? `<div class="member-entry" onclick="TaskController.openGuide(window.ALL_TASKS.find(t => t.id === '${t.id}'), 'pro')">💡 老手判断</div>` : ''}</div></div>` : '';
+
+                let buttonsHtml = '';
+                if (isVideo) buttonsHtml = `<button class="action-chip" onclick="TaskController.openVideo('${t.link}')">▶ 浏览内容</button>`;
+                else if (isOngoing) buttonsHtml = `<button onclick="TaskController.complete('${t.id}')" class="btn-secondary">本期已处理</button><button onclick="TaskController.skipToday('${t.id}')" class="btn-tertiary">暂不处理</button><button onclick="TaskController.continueTask('${t.id}')" class="action-chip">继续处理 <i class="fas fa-arrow-right ml-1 text-xs"></i></button>`;
+                else buttonsHtml = `<button class="action-chip" onclick="TaskController.start('${t.id}', '${t.link}')">${t.link ? '🔗 查看指引' : '🔊 查看指引'}</button>`;
+
+                const timeHtml = t.estimated_time ? `<i class="far fa-clock"></i> ${t.estimated_time}m` : '';
+
+                return `<div class="task-card ${isOngoing ? 'ongoing-style' : ''}"><div class="rec-badge ${badgeClass}">${badge}</div><div style="font-weight:600; color:var(--text-primary); font-size:1.1rem; margin-bottom:12px; padding-right:60px;">${t.title}</div><div class="agent-hints urgency-${t.agent_urgency_level || 'normal'} ${isOngoing ? 'mb-0' : ''}"><div style="display:flex; gap:8px; flex-wrap:wrap;">${hintHtml}</div>${agentJudgement}${executionBlock}${riskBlock}</div><div class="card-footer"><div class="card-footer-left">${timeHtml}</div><div class="card-footer-right">${buttonsHtml}</div></div></div>`;
+            }
+        };
+
+        const UIUtils = { toast(msg) { const b = document.getElementById('toast-box'); b.innerText = msg; b.classList.add('active'); setTimeout(() => b.classList.remove('active'), 2000); } };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initPWA(); LandingController.init();
+            const d = new Date();
+            const dateStr = `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
+            document.getElementById('date-text').innerText = dateStr;
+            RenderEngine.refresh();
+            applyNightModeUI();
+        });
 
     </script>
 </body>
