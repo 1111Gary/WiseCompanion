@@ -127,6 +127,38 @@
             text-align: center;
         }
 
+        /* 全局 Pro Plus 入口按钮 (位置：Top Right, Z-Index 50 确保可点) */
+        .pp-global-entry {
+            position: absolute;
+            right: 0;
+            top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 8px 14px;
+            border-radius: 99px;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+            z-index: 50;
+            /* 提升层级，防止被误遮挡 */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .pp-global-entry span {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            letter-spacing: 0.5px;
+        }
+
+        .pp-global-entry:active {
+            transform: scale(0.95);
+            background: rgba(168, 199, 250, 0.15);
+        }
+
         .agent-date-pill {
             display: flex;
             align-items: center;
@@ -849,6 +881,255 @@
             font-size: 0.9em;
             opacity: 0.85;
         }
+
+        /* =================================================================
+           NEW MODULE: Pro Plus 执行指挥面板 (Independent & Tactical Style)
+           ================================================================= */
+        #pro-plus-modal {
+            z-index: 12000 !important;
+            /* 最高层级，强制覆盖 */
+            background: #000;
+            /* 纯黑背景 */
+        }
+
+        .pp-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .pp-sticky-header {
+            padding: 20px;
+            border-bottom: 1px solid #222;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pp-date-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pp-date-main {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+
+        .pp-date-sub {
+            color: #555;
+            font-size: 0.7rem;
+            margin-top: 2px;
+            text-transform: uppercase;
+        }
+
+        .pp-countdown {
+            background: #111;
+            color: var(--color-primary);
+            font-family: monospace;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(168, 199, 250, 0.15);
+        }
+
+        .pp-scroll-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            padding-bottom: 100px;
+        }
+
+        /* Module A: Immediate Action */
+        .pp-module-a {
+            background: linear-gradient(135deg, #2a0a0a 0%, #000 100%);
+            border: 1px solid #7f1d1d;
+            border-radius: 4px;
+            /* More angular/tactical */
+            padding: 24px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pp-module-a::before {
+            content: "COMMAND: IMMEDIATE";
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #7f1d1d;
+            color: #000;
+            font-size: 0.6rem;
+            padding: 2px 6px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .pp-action-text {
+            color: #fca5a5;
+            font-size: 1.15rem;
+            font-weight: 600;
+            line-height: 1.5;
+            letter-spacing: 0.3px;
+        }
+
+        /* Module B: Strategy Engine */
+        .pp-module-title {
+            color: #666;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pp-module-title::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: var(--color-primary);
+        }
+
+        .pp-step-flow {
+            margin-bottom: 32px;
+            border-left: 1px solid #222;
+            padding-left: 20px;
+        }
+
+        .pp-step-item {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .pp-step-item::before {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 6px;
+            width: 9px;
+            height: 9px;
+            background: #000;
+            border: 1px solid #444;
+            border-radius: 50%;
+        }
+
+        .pp-step-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .pp-step-label {
+            color: #555;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            font-family: monospace;
+        }
+
+        .pp-step-value {
+            color: #e5e5e5;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Module C: Value Summary */
+        .pp-value-box {
+            background: #0d0d0d;
+            border: 1px solid #222;
+            padding: 20px;
+            margin-bottom: 32px;
+            color: #a3a3a3;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            border-left: 2px solid var(--color-primary);
+        }
+
+        /* Module D: Family Grid */
+        .pp-family-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .pp-family-card {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 4px;
+            padding: 16px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pp-family-card.active {
+            background: rgba(52, 211, 153, 0.05);
+            border-color: var(--color-success);
+        }
+
+        .pp-fam-avatar {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            filter: grayscale(1) opacity(0.5);
+            transition: all 0.2s;
+        }
+
+        .pp-family-card.active .pp-fam-avatar {
+            filter: grayscale(0) opacity(1);
+        }
+
+        .pp-fam-name {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .pp-family-card.active .pp-fam-name {
+            color: var(--color-success);
+        }
+
+        .pp-fam-tag {
+            font-size: 0.6rem;
+            color: #444;
+            margin-top: 4px;
+            font-family: monospace;
+        }
+
+        .pp-family-card.active .pp-fam-tag {
+            color: var(--color-success);
+            opacity: 0.7;
+        }
+
+        .pp-close-btn {
+            position: absolute;
+            bottom: 30px;
+            left: 20px;
+            right: 20px;
+            background: #fff;
+            color: #000;
+            font-weight: 700;
+            padding: 16px;
+            border-radius: 4px;
+            /* Tactical squared */
+            border: none;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
 
@@ -900,6 +1181,12 @@
                 onerror="this.src='https://placehold.co/56x56/000000/ffffff?text=N'">
         </div>
         <div class="agent-greeting" id="greeting-text">Nex Agent</div>
+
+        <!-- NEW: 全局 Pro Plus 入口按钮 -->
+        <button class="pp-global-entry" onclick="ProPlusController.openGlobal()">
+            🚀 <span>执行指挥</span>
+        </button>
+
         <div class="agent-msg" id="agent-msg"></div>
         <div id="night-hint" class="night-hint" style="display:none;">
             这个时间点，最容易做出后来会后悔的决定。
@@ -926,7 +1213,7 @@
         </div>
     </div>
 
-    <div id="video-section">
+    <div id="video-section" style="opacity: 0.7;">
         <div class="section-label"><i class="fas fa-video"></i> 相关内容</div>
         <div id="video-list"></div>
     </div>
@@ -1025,6 +1312,48 @@
         </div>
     </div>
 
+    <!-- NEW: Pro Plus Modal (独立模块 #pro-plus-modal) -->
+    <div id="pro-plus-modal" class="modal-overlay" style="display: none;">
+        <div class="pp-container">
+            <!-- 1. Sticky Bar -->
+            <div class="pp-sticky-header">
+                <div class="pp-date-info">
+                    <div id="pp-date-main" class="pp-date-main">--.--</div>
+                    <div id="pp-date-sub" class="pp-date-sub">SYNCING...</div>
+                </div>
+                <div class="pp-countdown">CUTOFF 15:00</div>
+            </div>
+
+            <div class="pp-scroll-body">
+                <!-- Module A: Immediate Action -->
+                <div class="pp-module-title">⚠️ 指挥官指令</div>
+                <div id="pp-module-a" class="pp-module-a">
+                    <div id="pp-action-text" class="pp-action-text">...</div>
+                </div>
+
+                <!-- Module B: Strategy Engine -->
+                <div class="pp-module-title">⚙️ 执行方案</div>
+                <div id="pp-step-flow" class="pp-step-flow">
+                    <!-- JS Rendered -->
+                </div>
+
+                <!-- Module C: Value Summary -->
+                <div class="pp-module-title">💎 核心价值</div>
+                <div id="pp-value-box" class="pp-value-box">
+                    ...
+                </div>
+
+                <!-- Module D: Family Grid -->
+                <div class="pp-module-title">👥 执行分配 (点击切换)</div>
+                <div id="pp-family-grid" class="pp-family-grid">
+                    <!-- JS Rendered -->
+                </div>
+            </div>
+
+            <button class="pp-close-btn" onclick="ProPlusController.close()">执行确认，返回</button>
+        </div>
+    </div>
+
     <!-- =================================================================
          LOGIC LAYER (Strictly Preserved Logic, Style Cleaned)
          ================================================================= -->
@@ -1078,7 +1407,7 @@
         function getCycleKey(resetRule, dateObj = new Date()) {
             const d = new Date(dateObj);
             d.setHours(0, 0, 0, 0); // 抹平时间差异
-            
+
             // 1. 月维度 (yyyy-mm)
             if (resetRule === 'MonthlyReset') {
                 const y = d.getFullYear();
@@ -1093,7 +1422,7 @@
                 const diff = d.getDate() - (day === 0 ? 6 : day - 1);
                 const monday = new Date(d);
                 monday.setDate(diff);
-                
+
                 const y = monday.getFullYear();
                 const m = String(monday.getMonth() + 1).padStart(2, '0');
                 const dd = String(monday.getDate()).padStart(2, '0');
@@ -1165,6 +1494,145 @@
             }
         };
 
+        // Pro Plus Controller（精简 · 可直接用 · 唯一版本）     
+        const ProPlusController = {
+            configKey: 'nex_pro_plus_family_config',
+            SUPABASE_URL,
+            SUPABASE_ANON_KEY,
+
+            init() {
+                console.log('ProPlusController initialized');
+            },
+
+            // ===== 家庭配置（仅本地） =====
+            getFamilyConfig(reset = false) {
+                if (!reset) {
+                    const raw = localStorage.getItem(this.configKey);
+                    if (raw) return JSON.parse(raw);
+                }
+                const def = [
+                    { id: 'A', name: '主理人', active: true },
+                    { id: 'B', name: '队友', active: false },
+                    { id: 'C', name: '长辈', active: false }
+                ];
+                localStorage.setItem(this.configKey, JSON.stringify(def));
+                return def;
+            },
+
+            // ===== 拉取最新策略 =====
+            async fetchLatestStrategy() {
+                const url = `${this.SUPABASE_URL}/rest/v1/pro_plus_strategies?select=payload&order=created_at.desc&limit=1`;
+                const res = await fetch(url, {
+                    headers: {
+                        apikey: this.SUPABASE_ANON_KEY,
+                        Authorization: `Bearer ${this.SUPABASE_ANON_KEY}`
+                    }
+                });
+                const rows = await res.json();
+                if (!rows || !rows.length) throw new Error('No strategy');
+                const payload = rows[0].payload;
+                return typeof payload === 'string' ? JSON.parse(payload) : payload;
+            },
+
+            // ===== 打开 Pro Plus =====
+            async openGlobal() {
+                let data;
+                try {
+                    data = await this.fetchLatestStrategy();
+                } catch (e) {
+                    alert('暂无可用策略');
+                    return;
+                }
+
+                window.currentStrategy = data;  
+                this.getFamilyConfig(true); // 每次打开强制重置为主理人
+
+                const now = new Date();
+                document.getElementById('pp-date-main').innerText = `${now.getMonth() + 1}.${now.getDate()}`;
+                document.getElementById('pp-date-sub').innerText = '实时策略';
+
+                document.getElementById('pp-action-text').innerText = data.agent_pro_tip || '—';
+                document.getElementById('pp-value-box').innerText = data.agent_strategy_summary || '—';
+
+                this.renderStrategySteps(data.agent_strategy_engine || {});
+                this.renderFamilyGrid();
+
+                const modal = document.getElementById('pro-plus-modal');
+                modal.style.display = 'flex';
+                modal.classList.add('active');
+            },
+            // ===== 关闭 Pro Plus =====
+            close() {
+                const modal = document.getElementById('pro-plus-modal');
+                modal.classList.remove('active');
+                modal.style.display = 'none';
+            },
+
+            // ===== 策略步骤 =====
+            renderStrategySteps(engine) {
+                const stepMap = [
+                    { k: 'executor', label: '1. 执行主体' },
+                    { k: 'capital_allocation', label: '2. 资金规模' },
+                    { k: 'destination', label: '3. 资金去向' },
+                    { k: 'holding_period', label: '4. 持有周期' },
+                    { k: 'exit_schedule', label: '5. 撤离计划' }
+                ];
+                document.getElementById('pp-step-flow').innerHTML = stepMap.map(s => `
+            <div class="pp-step-item">
+                <div class="pp-step-label">${s.label}</div>
+                <div class="pp-step-value">${engine[s.k] || '—'}</div>
+            </div>
+        `).join('');
+            },
+
+            // ===== 家庭渲染 =====
+            renderFamilyGrid() {
+                const cfg = this.getFamilyConfig();
+                const box = document.getElementById('pp-family-grid');
+                box.innerHTML = cfg.map((m, i) => `
+            <div class="pp-family-card ${m.active ? 'active' : ''}"
+                 onclick="ProPlusController.onFamilyMemberClick('${m.id}', ${i})">
+                <div class="pp-fam-avatar">👤</div>
+                <div class="pp-fam-name">${m.name}</div>
+                <div class="pp-fam-tag">${m.active ? '执行中' : '待命'}</div>
+            </div>
+        `).join('');
+            },
+
+            // ===== 家庭点击（唯一入口） =====
+            onFamilyMemberClick(memberId, index) {
+                const cfg = this.getFamilyConfig();
+                cfg.forEach((m, i) => m.active = i === index);
+                localStorage.setItem(this.configKey, JSON.stringify(cfg));
+
+                const strategy = window.currentStrategy;
+                if (!strategy) return;
+
+                const engine = strategy.agent_strategy_engine || {};
+                const tipEl = document.getElementById('pp-action-text');
+                const stepEl = document.getElementById('pp-step-flow');
+
+                        if (memberId === 'A') {
+                    tipEl.innerText = '主理人当前仅作为策略锚点，不执行任何动作。';
+                    stepEl.innerHTML = `<div class="pp-step-item muted">保持资金稳定，等待下一时点</div>`;
+                } else if (memberId === 'B') {
+                    tipEl.innerText = '队友仅用于辅助与低风险协作动作。';
+                    stepEl.innerHTML = `<div class="pp-step-item muted">无独立主线策略</div>`;
+                } else if (memberId === 'C') {
+                    tipEl.innerText = strategy.agent_pro_tip || '—';
+                    stepEl.innerHTML = `
+                        <div class="pp-step-item">💰 ${engine.capital_allocation || '—'}</div>
+                        <div class="pp-step-item">🏦 ${engine.destination || '—'}</div>
+                        <div class="pp-step-item">⏱ ${engine.holding_period || '—'}</div>
+                        <div class="pp-step-item">🚪 ${engine.exit_schedule || '—'}</div>
+                    `;
+                }
+
+                this.renderFamilyGrid();
+            }
+        };
+
+
         // ==========================================
         // PWA 安装控制器
         // ==========================================
@@ -1213,7 +1681,7 @@
             const hour = new Date().getHours();
             const isNight = hour >= 19 || hour < 6;
             let timeText = hour < 6 ? "凌晨好" : hour < 11 ? "上午好" : hour < 14 ? "中午好" : hour < 18 ? "下午好" : "晚上好";
-            
+
             const judgementLine = pickJudgementLine({ ...ctx, isNight });
             applyNightModeUI(isNight);
             return `${timeText}，${judgementLine}`;
@@ -1245,6 +1713,26 @@
                 "今天少做一步，可能省下很多。", "不急着动手，也是一种进展。"
             ]
         };
+        // ===== 倒计时（15:00 / 00:00） =====pro plus
+        function startCountdown() {
+            const el = document.querySelector('.pp-countdown');
+            if (!el) return;
+
+            setInterval(() => {
+                const now = new Date();
+                const today15 = new Date(); today15.setHours(15, 0, 0, 0);
+                const nextMidnight = new Date(); nextMidnight.setHours(24, 0, 0, 0);
+
+                let target = now < today15 ? today15 : nextMidnight;
+                let diff = Math.max(0, target - now);
+
+                const h = String(Math.floor(diff / 3600000)).padStart(2, '0');
+                const m = String(Math.floor(diff % 3600000 / 60000)).padStart(2, '0');
+                const s = String(Math.floor(diff % 60000 / 1000)).padStart(2, '0');
+
+                el.textContent = `NEXT ${target === today15 ? '15:00' : '00:00'}  ${h}:${m}:${s}`;
+            }, 1000);
+        }
 
         function pickJudgementLine(ctx = {}) {
             let pool = [];
@@ -1363,17 +1851,17 @@
                     if (!t) { console.error("Task missing", id); return; }
 
                     UIUtils.toast("正在提交...");
-                    
+
                     // ⚠️ 修复点：根据任务规则生成正确的 CycleKey
                     const rule = t.reset_rule || 'DailyReset';
                     const correctCycleKey = getCycleKey(rule, new Date());
 
-                    await db.from('user_task_status').upsert({ 
-                        user_key: USER_ID, 
+                    await db.from('user_task_status').upsert({
+                        user_key: USER_ID,
                         cycle_key: correctCycleKey, // 使用正确的周期 Key
-                        task_id: id, 
-                        status: 'COMPLETED', 
-                        completed_at: new Date().toISOString() 
+                        task_id: id,
+                        status: 'COMPLETED',
+                        completed_at: new Date().toISOString()
                     }, { onConflict: 'user_key,cycle_key,task_id' });
 
                     LocalState.removeFromOngoing(id);
@@ -1469,11 +1957,11 @@
                 // 📌 硬规则：活动有效期过滤 (Fix: 已过期活动仍然显示的问题)
                 const now = new Date();
                 const nowTime = now.getTime();
-                
+
                 const rawTasks = (resTasks.data || []).filter(t => {
                     // 1. 还没开始
                     if (t.valid_from && nowTime < new Date(t.valid_from).getTime()) return false;
-                    
+
                     // 2. 已经结束
                     if (t.valid_to) {
                         const end = new Date(t.valid_to);
@@ -1516,7 +2004,7 @@
                         else if (t.is_high_value) { successHint = "⚖️投入产出优"; }
                     }
                     t.agent_urgency_level = urgencyLevel;
-                    
+
                     // ⚠️ 修复点：使用新的判定函数
                     const isCompletedNow = checkIsCompleted(t);
 
@@ -1529,7 +2017,7 @@
                         agent_reason: genAgentReason(t), agent_success_hint: successHint, agent_urgency_level: urgencyLevel,
                         estimated_time: t.estimated_time,
                         isCompleted: isCompletedNow, // 绑定修复后的状态
-                        isOngoing: ongoingIds.includes(String(t.id)) && now < getCycleEndTime(t), 
+                        isOngoing: ongoingIds.includes(String(t.id)) && now < getCycleEndTime(t),
                         isSkipped: skippedSet.has(t.id)
                     };
                 });
@@ -1613,6 +2101,9 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             initPWA(); LandingController.init();
+            // 显式调用 Pro Plus 初始化
+            ProPlusController.init();
+            startCountdown();
             const d = new Date();
             const dateStr = `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
             document.getElementById('date-text').innerText = dateStr;
