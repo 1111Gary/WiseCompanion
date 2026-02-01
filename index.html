@@ -1536,6 +1536,12 @@
 
             // ===== 打开 Pro Plus =====
             async openGlobal() {
+                // 1. 权限拦截 (复用 invite 逻辑)
+                if (!IS_MEMBER) {
+                    openInviteModal();
+                    return;
+                }
+
                 let data;
                 try {
                     data = await this.fetchLatestStrategy();
