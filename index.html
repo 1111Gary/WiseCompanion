@@ -1550,7 +1550,7 @@
                     return;
                 }
 
-                window.currentStrategy = data;  
+                window.currentStrategy = data;
                 this.getFamilyConfig(true); // 每次打开强制重置为主理人
 
                 const now = new Date();
@@ -1618,7 +1618,7 @@
                 const tipEl = document.getElementById('pp-action-text');
                 const stepEl = document.getElementById('pp-step-flow');
 
-                        if (memberId === 'A') {
+                if (memberId === 'A') {
                     tipEl.innerText = '主理人当前仅作为策略锚点，不执行任何动作。';
                     stepEl.innerHTML = `<div class="pp-step-item muted">保持资金稳定，等待下一时点</div>`;
                 } else if (memberId === 'B') {
@@ -1774,28 +1774,52 @@
 
         function genAgentReason(t) {
             if (t.agent_reason_short) return t.agent_reason_short;
-            if (t.agent_risk_level >= 2) return "存在一定门槛，建议谨慎按指引操作";
-            if (t.urgency <= 1 && t.task_type !== 'OneTime') return "时间压力不大，可自行安排";
-            if (t.is_high_value && t.estimated_time <= 2) return "时间成本可控";
-            if (t.success_probability >= 0.85) return "成功路径相对清晰";
-            if (t.task_type === 'OneTime') return "做完即结束，无后续牵扯";
-            return "整体流程清晰，按指引操作即可";
-        };
+
+            if (t.agent_risk_level >= 2)
+                return "存在一定门槛，建议按指引谨慎操作";
+
+            if (t.reset_rule === 'NoReset')
+                return "一次性活动，完成后无需反复操作";
+
+            if (t.reset_rule === 'DailyReset' && t.estimated_time <= 2)
+                return "日常顺手型活动，耗时很低";
+
+            if (t.reset_rule === 'MonthlyReset' && t.urgency <= 2)
+                return "周期较长，可分散时间完成";
+
+            if (t.is_high_value && t.success_probability >= 0.85)
+                return "收益确定性较高，值得优先考虑";
+
+            return "整体流程清晰，按步骤完成即可";
+        }
 
         function getCycleEndTime(task) {
             const now = new Date();
-            if (task.reset_rule === 'DailyReset') {
-                const end = new Date(now); end.setHours(23, 59, 59, 999); return end;
+
+            switch (task.reset_rule) {
+                case 'DailyReset': {
+                    const end = new Date(now);
+                    end.setHours(23, 59, 59, 999);
+                    return end;
+                }
+                case 'WeeklyReset': {
+                    const end = new Date(now);
+                    const day = end.getDay(); // 0=周日
+                    const diff = day === 0 ? 0 : 7 - day;
+                    end.setDate(end.getDate() + diff);
+                    end.setHours(23, 59, 59, 999);
+                    return end;
+                }
+                case 'MonthlyReset':
+                    return new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+
+                case 'NoReset':
+                case 'SpecificDate':
+                default:
+                    return new Date('2999-12-31');
             }
-            if (task.reset_rule === 'WeeklyReset') {
-                const end = new Date(now); const day = end.getDay(); const diff = day === 0 ? 0 : 7 - day;
-                end.setDate(end.getDate() + diff); end.setHours(23, 59, 59, 999); return end;
-            }
-            if (task.reset_rule === 'MonthlyReset') {
-                return new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
-            }
-            return new Date('2999-12-31');
         }
+
 
         function openInviteModal() {
             const guide = document.getElementById('guide-modal');
