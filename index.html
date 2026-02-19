@@ -256,6 +256,27 @@
             color: #fff;
         }
 
+        #video-section.collapsed #video-list {
+            display: none;
+        }
+
+        .video-day {
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-night {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .night-tip {
+            font-size: 12px;
+            color: #888;
+            margin-top: 6px;
+        }
+
+
         /* 提示语区域 */
         .agent-hints {
             display: flex;
@@ -951,6 +972,69 @@
             padding-bottom: 100px;
         }
 
+        .pp-tactical-card {
+            background: rgba(255, 180, 0, 0.05);
+            border: 1px dashed rgba(255, 180, 0, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .pp-input-group {
+            margin-bottom: 12px;
+        }
+
+        .pp-input-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 4px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pp-field-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255, 180, 0, 0.2);
+            color: #fff;
+            width: 100%;
+            padding: 4px 0;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .pp-field-input:focus {
+            border-bottom-color: #ffb400;
+        }
+
+        .pp-account-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .pp-account-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .pp-sync-btn {
+            width: 100%;
+            background: #ffb400;
+            color: #000;
+            font-weight: 800;
+            padding: 8px;
+            border-radius: 6px;
+            margin-top: 15px;
+            cursor: pointer;
+            font-size: 13px;
+            border: none;
+        }
+
         /* Module A: Immediate Action */
         .pp-module-a {
             background: linear-gradient(135deg, #2a0a0a 0%, #000 100%);
@@ -1057,62 +1141,6 @@
             border-left: 2px solid var(--color-primary);
         }
 
-        /* Module D: Family Grid */
-        .pp-family-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
-        .pp-family-card {
-            background: #0a0a0a;
-            border: 1px solid #222;
-            border-radius: 4px;
-            padding: 16px 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .pp-family-card.active {
-            background: rgba(52, 211, 153, 0.05);
-            border-color: var(--color-success);
-        }
-
-        .pp-fam-avatar {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-            filter: grayscale(1) opacity(0.5);
-            transition: all 0.2s;
-        }
-
-        .pp-family-card.active .pp-fam-avatar {
-            filter: grayscale(0) opacity(1);
-        }
-
-        .pp-fam-name {
-            font-size: 0.8rem;
-            color: #666;
-            font-weight: 600;
-        }
-
-        .pp-family-card.active .pp-fam-name {
-            color: var(--color-success);
-        }
-
-        .pp-fam-tag {
-            font-size: 0.6rem;
-            color: #444;
-            margin-top: 4px;
-            font-family: monospace;
-        }
-
-        .pp-family-card.active .pp-fam-tag {
-            color: var(--color-success);
-            opacity: 0.7;
-        }
-
         .pp-close-btn {
             position: absolute;
             bottom: 30px;
@@ -1129,6 +1157,292 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        /* 覆盖层 */
+        #pro-plus-modal.modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(6px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 主容器 */
+        #pro-plus-modal .pp-container {
+            width: 92%;
+            max-width: 420px;
+            height: 90%;
+            background: #0e0f12;
+            color: #eaeaea;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        /* ================= Sticky Header ================= */
+        #pro-plus-modal .pp-sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: linear-gradient(180deg, #14161b, #0e0f12);
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .pp-date-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pp-date-main {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .pp-date-sub {
+            font-size: 11px;
+            color: #8b8f9c;
+        }
+
+        .pp-countdown {
+            font-size: 11px;
+            color: #ffb400;
+            font-weight: 600;
+        }
+
+        /* ================= Scroll Body ================= */
+        #pro-plus-modal .pp-scroll-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 14px 14px 80px;
+        }
+
+        /* ================= Tactical Config Card ================= */
+        .pp-tactical-card {
+            background: #151821;
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* 输入组 */
+        .pp-input-group {
+            margin-bottom: 12px;
+        }
+
+        .pp-input-label {
+            display: block;
+            font-size: 11px;
+            color: #9aa0ad;
+            margin-bottom: 4px;
+        }
+
+        .pp-field-input {
+            width: 100%;
+            background: #0f1117;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #fff;
+            padding: 8px 10px;
+            border-radius: 8px;
+        }
+
+        /* 账户网格 */
+        .pp-account-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .pp-account-item {
+            background: #0f1117;
+            border-radius: 10px;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* 同步按钮 */
+        .pp-sync-btn {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            background: linear-gradient(135deg, #ffb400, #ff9800);
+            color: #000;
+            font-weight: 700;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        /* ================= Module Titles ================= */
+        .pp-module-title {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #c9ccd6;
+            margin: 18px 4px 8px;
+        }
+
+        /* ================= Module A ================= */
+        .pp-module-a {
+            background: #1a1f2b;
+            border-left: 4px solid #ffb400;
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .pp-action-text {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* ================= Module B – Strategy List ================= */
+        .pp-step-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .pp-step-item {
+            background: #12141a;
+            border-radius: 10px;
+            padding: 10px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .pp-step-item div:first-child {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .pp-step-item div:last-child {
+            font-size: 12px;
+            color: #9aa0ad;
+            margin-top: 4px;
+        }
+
+        /* ================= Module C ================= */
+        .pp-value-box {
+            background: #10131a;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 13px;
+            color: #cfd3dc;
+        }
+
+
+        /* ================= Close Button ================= */
+        .pp-close-btn {
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+            padding: 14px;
+            background: #1e2230;
+            color: #fff;
+            border: none;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* =============================
+   Cash Structure Score Card
+   ============================= */
+
+        .score-card {
+            background: linear-gradient(145deg, #121214, #1c1c1f);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 16px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .score-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .score-title {
+            font-size: 14px;
+            color: #aaa;
+            letter-spacing: 1px;
+        }
+
+        .score-number {
+            font-size: 42px;
+            font-weight: 700;
+            color: #f5d78e;
+        }
+
+        .score-level {
+            margin-top: 6px;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .score-divider {
+            margin: 16px 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .score-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .score-label {
+            flex: 1;
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .score-bar {
+            flex: 3;
+            height: 6px;
+            background: #2a2a2d;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0 10px;
+        }
+
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #d4af37, #f5d78e);
+            transition: width 0.6s ease;
+        }
+
+        .score-value {
+            font-size: 11px;
+            color: #888;
+        }
+
+        /* 状态颜色 */
+        .score-excellent {
+            border-left: 4px solid #4ade80;
+        }
+
+        .score-stable {
+            border-left: 4px solid #60a5fa;
+        }
+
+        .score-risk {
+            border-left: 4px solid #f87171;
         }
     </style>
 </head>
@@ -1198,6 +1512,9 @@
         </div>
     </div>
 
+    <div id="score-card-wrapper"></div>
+
+
     <!-- 3. 任务列表区 -->
     <div id="ongoing-section" style="display: none;">
         <div class="section-label"><i class="fas fa-play"></i> 当前处理中</div>
@@ -1213,10 +1530,17 @@
         </div>
     </div>
 
-    <div id="video-section" style="opacity: 0.7;">
-        <div class="section-label"><i class="fas fa-video"></i> 相关内容</div>
+    <div id="video-section" class="video-day">
+        <div class="section-label" onclick="toggleVideoSection()">
+            <i class="fas fa-video"></i> 相关内容
+            <span id="video-toggle-icon">▼</span>
+        </div>
+
         <div id="video-list"></div>
+
+        <div id="night-whisper" class="night-tip"></div>
     </div>
+
 
     <!-- 4. 全局 Toast -->
     <div id="toast-box"></div>
@@ -1325,6 +1649,62 @@
             </div>
 
             <div class="pp-scroll-body">
+                <div class="pp-tactical-card" id="pp-tactical-config">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <div style="font-weight: 800; color: #ffb400; font-size: 14px;">🛡️ 战术画像校准 (LOCAL)</div>
+                        <div style="font-size: 10px; color: #666;">上次更新: <span id="pp-last-sync">--:--</span></div>
+                    </div>
+
+                    <!-- 总作战资金 -->
+                    <div class="pp-input-group">
+                        <label class="pp-input-label">当前总可用作战资金 (CNY)</label>
+                        <input type="number" id="pp-local-total" placeholder="输入总资金" class="pp-field-input"
+                            style="font-family: 'Courier New', monospace; font-size: 20px;">
+                    </div>
+
+                    <div class="pp-account-grid">
+                        <!-- 账户 A 配置 -->
+                        <div class="pp-account-item">
+                            <div
+                                style="color: #4a9eff; font-size: 11px; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center;">
+                                <span
+                                    style="width: 6px; height: 6px; background: #4a9eff; border-radius: 50%; margin-right: 6px;"></span>
+                                账户 A (低基准)
+                            </div>
+                            <div class="pp-input-group">
+                                <label class="pp-input-label">工行 1月基准</label>
+                                <input type="number" id="pp-base-a-icbc" class="pp-field-input"
+                                    style="font-size: 13px;">
+                            </div>
+                            <div class="pp-input-group">
+                                <label class="pp-input-label">建行 1月基准</label>
+                                <input type="number" id="pp-base-a-ccb" class="pp-field-input" style="font-size: 13px;">
+                            </div>
+                        </div>
+
+                        <!-- 账户 B 配置 -->
+                        <div class="pp-account-item">
+                            <div
+                                style="color: #52c41a; font-size: 11px; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center;">
+                                <span
+                                    style="width: 6px; height: 6px; background: #52c41a; border-radius: 50%; margin-right: 6px;"></span>
+                                账户 B (高基准)
+                            </div>
+                            <div class="pp-input-group">
+                                <label class="pp-input-label">工行 1月基准</label>
+                                <input type="number" id="pp-base-b-icbc" class="pp-field-input"
+                                    style="font-size: 13px;">
+                            </div>
+                            <div class="pp-input-group">
+                                <label class="pp-input-label">建行 1月基准</label>
+                                <input type="number" id="pp-base-b-ccb" class="pp-field-input" style="font-size: 13px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="pp-sync-btn" onclick="TacticalManager.sync()">同步至本地精算引擎</button>
+                </div>
                 <!-- Module A: Immediate Action -->
                 <div class="pp-module-title">⚠️ 指挥官指令</div>
                 <div id="pp-module-a" class="pp-module-a">
@@ -1341,12 +1721,6 @@
                 <div class="pp-module-title">💎 核心价值</div>
                 <div id="pp-value-box" class="pp-value-box">
                     ...
-                </div>
-
-                <!-- Module D: Family Grid -->
-                <div class="pp-module-title">👥 执行分配 (点击切换)</div>
-                <div id="pp-family-grid" class="pp-family-grid">
-                    <!-- JS Rendered -->
                 </div>
             </div>
 
@@ -1370,6 +1744,326 @@
                 localStorage.setItem('nex_user_id', id);
                 return id;
             })();
+
+        const TacticalManager = {
+            KEY: 'NEX_AI_TACTICAL_PROFILE',
+
+            get() {
+                return JSON.parse(localStorage.getItem(this.KEY)) || {
+                    total: 350000,
+                    A: { icbc: 1000, ccb: 1000 },
+                    B: { icbc: 55500, ccb: 7700 },
+                    ts: '--'
+                };
+            },
+
+            init() {
+                const data = this.get();
+                const map = {
+                    'pp-local-total': data.total,
+                    'pp-base-a-icbc': data.A.icbc,
+                    'pp-base-a-ccb': data.A.ccb,
+                    'pp-base-b-icbc': data.B.icbc,
+                    'pp-base-b-ccb': data.B.ccb,
+                    'pp-last-sync': data.ts
+                };
+
+                Object.entries(map).forEach(([id, val]) => {
+                    const el = document.getElementById(id);
+                    if (!el) return;
+                    if (el.tagName === 'INPUT') el.value = val;
+                    else el.innerText = val;
+                });
+
+                const btn = document.getElementById('pp-sync-trigger');
+                if (btn) btn.onclick = () => this.sync();
+            },
+
+            /**
+             * ⚠️ 影子 Worker：只给建议，不裁决
+             */
+            runShadowWorker(tasks, userStatuses = []) {
+                return tasks.map(task => {
+                    const advice = this.calculateAdvice(task, userStatuses);
+                    return {
+                        ...task,
+                        _tactical: advice   // 只挂载影子字段
+                    };
+                });
+            },
+
+            /**
+             * 核心精算（安全版）
+             */
+            calculateAdvice(task, userStatuses) {
+                const profile = this.get();
+                const threshold = task.agent_capital_threshold || 0;
+                const bank = task.source_app || '';
+                const resetRule = task.reset_rule || 'DailyReset';
+
+                const cycleKey = getCycleKey(resetRule);
+                const isFinished = userStatuses.some(s =>
+                    String(s.task_id) === String(task.id) &&
+                    s.cycle_key === cycleKey &&
+                    s.status === 'COMPLETED'
+                );
+
+                let advice = {
+                    feasible: true,        // 是否建议执行
+                    executor: 'A',
+                    channel: 'APP',
+                    note: ''
+                };
+
+                if (isFinished) {
+                    return {
+                        skip: true,              // ← Controller 只看这个
+                        is_locked: false,        // ← 已完成不锁资金
+                        executor: null,
+                        channel: null,
+                        note: '本周期已完成'
+                    };
+                }
+
+                // === 2. 是否资金不足（影子提示，不裁决）===
+                if (threshold > 0 && profile.total < threshold) {
+                    return {
+                        skip: false,             // ⚠️ 不 skip，只提示
+                        is_locked: false,
+                        executor: null,
+                        channel: null,
+                        note: '资金不足（仅提示）'
+                    };
+                }
+                // === 3. 是否锁定资金（唯一 is_locked 定义）===
+                const is_locked =
+                    task.task_type === 'M2' &&
+                    Number(task.t_plus_n || 0) > 0;
+
+                // === 4. 执行人建议（不强制）===
+                let executor = 'A';
+                let channel = 'APP';
+
+                if (bank.includes('建设银行') || bank.includes('建行')) {
+                    executor = profile.A.ccb <= profile.B.ccb ? 'A' : 'B';
+                    channel = '建行APP';
+                } else if (bank.includes('工商银行') || bank.includes('工行')) {
+                    executor = profile.A.icbc <= profile.B.icbc ? 'A' : 'B';
+                    channel = '工银APP';
+                }
+
+
+                // === 5. M2 回笼提示（给人看）===
+                let note = '';
+                if (is_locked) {
+                    const d = DateUtils.getRealReturnDate(task.t_plus_n);
+                    note = `预计 ${d.getMonth() + 1}/${d.getDate()} 回笼`;
+                }
+
+                return {
+                    skip: false,                 // ← Controller
+                    is_locked: is_locked,         // ← Aggregator
+                    executor,
+                    channel,
+                    note
+                };
+            },
+
+            sync() {
+                const v = id => parseFloat(document.getElementById(id)?.value) || 0;
+                const data = {
+                    total: v('pp-local-total'),
+                    A: { icbc: v('pp-base-a-icbc'), ccb: v('pp-base-a-ccb') },
+                    B: { icbc: v('pp-base-b-icbc'), ccb: v('pp-base-b-ccb') },
+                    ts: new Date().toLocaleTimeString('zh-CN', { hour12: false })
+                };
+
+                localStorage.setItem(this.KEY, JSON.stringify(data));
+                const el = document.getElementById('pp-last-sync');
+                if (el) el.innerText = data.ts;
+
+                UIUtils.toast('战术画像已同步');
+                if (window.RenderEngine) window.RenderEngine.refresh();
+            }
+        };
+
+        const TacticalEngine = {
+            evaluate(node, profile) {
+
+                let is_locked = false;
+                let skip = false;
+
+                if (node.capital_locked > 0) {
+                    is_locked = true;
+                }
+
+                return {
+                    is_locked,
+                    skip
+                };
+            }
+        };
+
+        const ProPlusAggregator = {
+            summarize(nodes, profile) {
+
+                // 🔥 在 summarize 内部最前面加这一段
+                nodes.forEach(n => {
+                    if (!n._tactical) {
+                        n._tactical = TacticalEngine.evaluate(n, profile);
+                    }
+                });
+
+                const actionable = nodes.filter(n => !n._tactical?.skip);
+
+                const m1 = actionable.filter(n =>
+                    n.type === 'M1' || n.type === 'CORE'
+                ).length;
+
+                const m2 = actionable.filter(n =>
+                    n.type === 'M2' || n.type === 'FLEX'
+                ).length;
+
+                const locked = actionable
+                    .filter(n => n._tactical?.is_locked === true)
+                    .reduce((sum, n) => {
+                        return sum + (Number(n.capital_locked) || 0);
+                    }, 0);
+
+                const loadRatio =
+                    profile.total > 0 ? locked / profile.total : 0;
+
+                let verdict = '资金流动性良好，可执行 M2。';
+
+                if (loadRatio > 0.7)
+                    verdict = '⚠️ 资金占用偏高，避免新增 M1。';
+
+                if (new Date().getDate() >= 25)
+                    verdict = '📅 月末阶段，优先保障 M1 日均任务。';
+
+                return { m1, m2, locked, loadRatio, verdict };
+            }
+        };
+
+
+
+        const Module2TimelineEngine = {
+
+            build(tasks, profile, today = new Date()) {
+
+                if (!Array.isArray(tasks)) return [];
+
+                const todayTs = today.getTime();
+
+                // STEP 1：过滤有效任务
+                const validTasks = tasks.filter(task => {
+                    const start = new Date(task.valid_from).getTime();
+                    const end = new Date(task.valid_to).getTime();
+                    return start <= todayTs && todayTs <= end;
+                });
+
+                // STEP 2：排序（核心优先 + 收益率优先）
+                validTasks.sort((a, b) => {
+                    if (a.task_type !== b.task_type) {
+                        return a.task_type === "M1" ? -1 : 1;
+                    }
+                    return (b.reward_estimate || 0) - (a.reward_estimate || 0);
+                });
+
+                // STEP 3：构建 timeline
+                const timeline = [];
+
+                validTasks.forEach(task => {
+
+                    const capital = Number(task.agent_capital_threshold || 0);
+
+                    timeline.push({
+                        node_id: task.id,
+                        bank: task.source_app || task.bank || "",
+                        title: task.title,
+                        type: task.task_type === "M1" ? "CORE" : "FLEX",
+                        capital_locked: capital,
+                        release_date: task.valid_to,
+                        reward_estimate: Number(task.reward_estimate || 0),
+                        status: "PENDING"
+                    });
+
+                });
+
+                return timeline;
+            },
+
+            /* ===============================
+               提取挡位（真实字段）
+            =============================== */
+
+            extractTiers(task) {
+
+                // 如果未来你加 tier_options 字段
+                if (Array.isArray(task.tier_options)) {
+                    return task.tier_options.map(n => Number(n)).filter(n => n > 0);
+                }
+
+                // 否则只使用当前阈值
+                const threshold = Number(task.agent_capital_threshold || 0);
+                return threshold > 0 ? [threshold] : [];
+            },
+
+            /* ===============================
+               挡位选择（最大可用原则）
+            =============================== */
+
+            pickTier(availableCapital, tiers = []) {
+
+                const sorted = tiers
+                    .map(n => Number(n))
+                    .filter(n => n > 0)
+                    .sort((a, b) => a - b);
+
+                let chosen = 0;
+
+                for (let tier of sorted) {
+                    if (availableCapital >= tier) {
+                        chosen = tier;
+                    }
+                }
+
+                return chosen;
+            },
+
+            /* ===============================
+               奖励估算（真实字段）
+            =============================== */
+
+            estimateReward(task, capital) {
+
+                if (task.agent_reward_desc) {
+                    const match = task.agent_reward_desc.match(/(\d+\.?\d*)/);
+                    if (match) return Number(match[1]);
+                }
+
+                return 0;
+            },
+
+            /* ===============================
+               工具函数
+            =============================== */
+
+            addDays(date, days) {
+                const d = new Date(date);
+                d.setDate(d.getDate() + days);
+                return d;
+            },
+
+            formatDate(date) {
+                return date.toISOString().split('T')[0];
+            }
+
+        };
+
+
+
+
 
         let IS_MEMBER = localStorage.getItem('IS_MEMBER') === 'true';
 
@@ -1402,11 +2096,25 @@
             alert('老手判断已解锁');
             location.reload(); // 让 UI 立即切换
         }
+        function getEmotionalTimeState() {
+            const hour = new Date().getHours();
+
+            if (hour >= 21 || hour < 6) {
+                return "night";
+            }
+
+            return "day";
+        }
+
 
         // --- 核心修复：周期 Key 计算逻辑 ---
         function getCycleKey(resetRule, dateObj = new Date()) {
             const d = new Date(dateObj);
             d.setHours(0, 0, 0, 0); // 抹平时间差异
+            // 【修复】NoReset 必须返回固定字符串，否则每天都会失效
+            if (resetRule === 'NoReset') {
+                return 'PERMANENT_RECORD';
+            }
 
             // 1. 月维度 (yyyy-mm)
             if (resetRule === 'MonthlyReset') {
@@ -1496,147 +2204,97 @@
 
         // Pro Plus Controller（精简 · 可直接用 · 唯一版本）     
         const ProPlusController = {
-            configKey: 'nex_pro_plus_family_config',
-            SUPABASE_URL,
-            SUPABASE_ANON_KEY,
 
-            init() {
-                console.log('ProPlusController initialized');
+            init(tasks, userStatuses) {
+
+                if (!Array.isArray(tasks)) return;
+
+                // 1️⃣ 读取战术画像
+                const profile = TacticalManager.get();
+
+                // 2️⃣ 影子层：给全部任务挂战术建议
+                const shadowTasks = TacticalManager.runShadowWorker(tasks, userStatuses);
+
+                // 3️⃣ 时间轴引擎：筛选当前主线任务
+                const timeline = Module2TimelineEngine.build(
+                    shadowTasks,
+                    profile,
+                    new Date()
+                );
+
+                console.log("时间轴输出：", timeline);
+
+                // 4️⃣ 防御数组
+                const safeTimeline = Array.isArray(timeline) ? timeline : [];
+                console.log("原始任务数：", tasks.length);
+
+                // 5️⃣ 汇总只基于“时间轴主线”
+                const summary = ProPlusAggregator.summarize(
+                    safeTimeline,
+                    profile
+                );
+                console.log(summary);
+
+                // 6️⃣ 渲染
+                this.renderOverview(summary);
+
+                // ⚠️ 这里必须渲染 timeline
+                this.renderTaskList(timeline);
             },
 
-            // ===== 家庭配置（仅本地） =====
-            getFamilyConfig(reset = false) {
-                if (!reset) {
-                    const raw = localStorage.getItem(this.configKey);
-                    if (raw) return JSON.parse(raw);
-                }
-                const def = [
-                    { id: 'A', name: '主理人', active: true },
-                    { id: 'B', name: '队友', active: false },
-                    { id: 'C', name: '长辈', active: false }
-                ];
-                localStorage.setItem(this.configKey, JSON.stringify(def));
-                return def;
+            renderOverview(summary) {
+                document.getElementById('pp-action-text').innerText = summary.verdict;
+
+                document.getElementById('pp-value-box').innerText =
+                    `M1/M2：${summary.m1}/${summary.m2} ｜ ` +
+                    `锁定 ${(summary.locked / 10000).toFixed(1)}w ｜ ` +
+                    `占用 ${(summary.loadRatio * 100).toFixed(1)}%`;
             },
 
-            // ===== 拉取最新策略 =====
-            async fetchLatestStrategy() {
-                const url = `${this.SUPABASE_URL}/rest/v1/pro_plus_strategies?select=payload&order=created_at.desc&limit=1`;
-                const res = await fetch(url, {
-                    headers: {
-                        apikey: this.SUPABASE_ANON_KEY,
-                        Authorization: `Bearer ${this.SUPABASE_ANON_KEY}`
-                    }
-                });
-                const rows = await res.json();
-                if (!rows || !rows.length) throw new Error('No strategy');
-                const payload = rows[0].payload;
-                return typeof payload === 'string' ? JSON.parse(payload) : payload;
+            renderTaskList(nodes) {
+                const box = document.getElementById('pp-step-flow');
+                if (!box) return;
+
+                box.innerHTML = nodes.map(n => {
+
+                    return `
+                    <div class="pp-step-item">
+                        <div style="font-weight:600">${n.title}</div>
+                        <div style="font-size:12px;color:#999">
+                            ${n.bank} · ${n.capital_locked}元 · ${n.type}
+                        </div>
+                    </div>
+                    `;
+
+                }).join('');
             },
 
-            // ===== 打开 Pro Plus =====
-            async openGlobal() {
-                // 1. 权限拦截 (复用 invite 逻辑)
+            openGlobal() {
                 if (!IS_MEMBER) {
                     openInviteModal();
                     return;
                 }
 
-                let data;
-                try {
-                    data = await this.fetchLatestStrategy();
-                } catch (e) {
-                    alert('暂无可用策略');
-                    return;
-                }
-
-                window.currentStrategy = data;
-                this.getFamilyConfig(true); // 每次打开强制重置为主理人
-
+                this.init(window.ALL_TASKS || [], window.USER_STATUSES || []);
                 const now = new Date();
                 document.getElementById('pp-date-main').innerText = `${now.getMonth() + 1}.${now.getDate()}`;
                 document.getElementById('pp-date-sub').innerText = '实时策略';
 
-                document.getElementById('pp-action-text').innerText = data.agent_pro_tip || '—';
-                document.getElementById('pp-value-box').innerText = data.agent_strategy_summary || '—';
-
-                this.renderStrategySteps(data.agent_strategy_engine || {});
-                this.renderFamilyGrid();
-
                 const modal = document.getElementById('pro-plus-modal');
-                modal.style.display = 'flex';
-                modal.classList.add('active');
+                if (modal) {
+                    modal.style.display = 'flex';
+                    modal.classList.add('active');
+                }
             },
-            // ===== 关闭 Pro Plus =====
+
             close() {
                 const modal = document.getElementById('pro-plus-modal');
+                if (!modal) return;
                 modal.classList.remove('active');
                 modal.style.display = 'none';
-            },
-
-            // ===== 策略步骤 =====
-            renderStrategySteps(engine) {
-                const stepMap = [
-                    { k: 'executor', label: '1. 执行主体' },
-                    { k: 'capital_allocation', label: '2. 资金规模' },
-                    { k: 'destination', label: '3. 资金去向' },
-                    { k: 'holding_period', label: '4. 持有周期' },
-                    { k: 'exit_schedule', label: '5. 撤离计划' }
-                ];
-                document.getElementById('pp-step-flow').innerHTML = stepMap.map(s => `
-            <div class="pp-step-item">
-                <div class="pp-step-label">${s.label}</div>
-                <div class="pp-step-value">${engine[s.k] || '—'}</div>
-            </div>
-        `).join('');
-            },
-
-            // ===== 家庭渲染 =====
-            renderFamilyGrid() {
-                const cfg = this.getFamilyConfig();
-                const box = document.getElementById('pp-family-grid');
-                box.innerHTML = cfg.map((m, i) => `
-            <div class="pp-family-card ${m.active ? 'active' : ''}"
-                 onclick="ProPlusController.onFamilyMemberClick('${m.id}', ${i})">
-                <div class="pp-fam-avatar">👤</div>
-                <div class="pp-fam-name">${m.name}</div>
-                <div class="pp-fam-tag">${m.active ? '执行中' : '待命'}</div>
-            </div>
-        `).join('');
-            },
-
-            // ===== 家庭点击（唯一入口） =====
-            onFamilyMemberClick(memberId, index) {
-                const cfg = this.getFamilyConfig();
-                cfg.forEach((m, i) => m.active = i === index);
-                localStorage.setItem(this.configKey, JSON.stringify(cfg));
-
-                const strategy = window.currentStrategy;
-                if (!strategy) return;
-
-                const engine = strategy.agent_strategy_engine || {};
-                const tipEl = document.getElementById('pp-action-text');
-                const stepEl = document.getElementById('pp-step-flow');
-
-                if (memberId === 'A') {
-                    tipEl.innerText = '主理人当前仅作为策略锚点，不执行任何动作。';
-                    stepEl.innerHTML = `<div class="pp-step-item muted">保持资金稳定，等待下一时点</div>`;
-                } else if (memberId === 'B') {
-                    tipEl.innerText = '队友仅用于辅助与低风险协作动作。';
-                    stepEl.innerHTML = `<div class="pp-step-item muted">无独立主线策略</div>`;
-                } else if (memberId === 'C') {
-                    tipEl.innerText = strategy.agent_pro_tip || '—';
-                    stepEl.innerHTML = `
-                        <div class="pp-step-item">💰 ${engine.capital_allocation || '—'}</div>
-                        <div class="pp-step-item">🏦 ${engine.destination || '—'}</div>
-                        <div class="pp-step-item">⏱ ${engine.holding_period || '—'}</div>
-                        <div class="pp-step-item">🚪 ${engine.exit_schedule || '—'}</div>
-                    `;
-                }
-
-                this.renderFamilyGrid();
             }
         };
+
 
 
         // ==========================================
@@ -1719,6 +2377,29 @@
                 "今天少做一步，可能省下很多。", "不急着动手，也是一种进展。"
             ]
         };
+        // ===== 视频轮换 =====video
+        function getRotatedVideos(videoList, showCount = 5) {
+            if (!videoList || videoList.length <= showCount) {
+                return videoList;
+            }
+
+            // 用“年 + 第几天”做稳定种子
+            const now = new Date();
+            const startOfYear = new Date(now.getFullYear(), 0, 0);
+            const diff = now - startOfYear;
+            const oneDay = 1000 * 60 * 60 * 24;
+            const dayIndex = Math.floor(diff / oneDay);
+
+            const startIndex = dayIndex % videoList.length;
+
+            const rotated = [
+                ...videoList.slice(startIndex),
+                ...videoList.slice(0, startIndex)
+            ];
+
+            return rotated.slice(0, showCount);
+        }
+
         // ===== 倒计时（15:00 / 00:00） =====pro plus
         function startCountdown() {
             const el = document.querySelector('.pp-countdown');
@@ -1739,6 +2420,78 @@
                 el.textContent = `NEXT ${target === today15 ? '15:00' : '00:00'}  ${h}:${m}:${s}`;
             }, 1000);
         }
+
+        function getTodayKey() {
+            return new Date().toDateString();
+        }
+
+        // ===== 进行中活动 =====recommend设置
+        function buildRecommendWithRadar(recommendList, scoreData) {
+
+            if (!recommendList || recommendList.length === 0) return [];
+
+            const breakdown = scoreData?.breakdown || {};
+            const result = [];
+
+            // ① 紧急任务
+            const urgentTasks = recommendList
+                .filter(t => t.agent_urgency_level === "today")
+                .sort((a, b) => b.agent_base_score - a.agent_base_score);
+
+            if (urgentTasks.length > 0) {
+                return urgentTasks.slice(0, 3);
+            }
+
+            // ② 主结构任务（M1 / M2）
+            const structureTasks = recommendList
+                .filter(t => t.task_type === "M1" || t.task_type === "M2")
+                .sort((a, b) => b.agent_base_score - a.agent_base_score);
+
+            // ③ 日常任务（M3）
+            const dailyTasks = recommendList
+                .filter(t => t.task_type === "M3")
+                .sort((a, b) => b.agent_base_score - a.agent_base_score);
+
+            // 强制至少 1 个结构
+            if (structureTasks.length > 0) {
+                result.push(structureTasks[0]);
+            }
+
+            // 如果 global 偏低，优先再补结构
+            if ((breakdown.global || 0) < 7 && structureTasks.length > 1) {
+                result.push(structureTasks[1]);
+            }
+
+            // 用日常补足
+            for (let task of dailyTasks) {
+                if (result.length >= 3) break;
+                result.push(task);
+            }
+
+            // 如果还不足 3，再补结构
+            for (let task of structureTasks.slice(1)) {
+                if (result.length >= 3) break;
+                if (!result.includes(task)) {
+                    result.push(task);
+                }
+            }
+
+            // 兜底
+            if (result.length === 0) {
+                return recommendList
+                    .sort((a, b) => b.agent_base_score - a.agent_base_score)
+                    .slice(0, 3);
+            }
+
+            return result.slice(0, 3);
+        }
+
+
+
+
+
+
+
 
         function pickJudgementLine(ctx = {}) {
             let pool = [];
@@ -1814,7 +2567,6 @@
                     return new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
 
                 case 'NoReset':
-                case 'SpecificDate':
                 default:
                     return new Date('2999-12-31');
             }
@@ -1884,7 +2636,7 @@
 
                     // ⚠️ 修复点：根据任务规则生成正确的 CycleKey
                     const rule = t.reset_rule || 'DailyReset';
-                    const correctCycleKey = getCycleKey(rule, new Date());
+                    const correctCycleKey = getCycleKey(rule);
 
                     await db.from('user_task_status').upsert({
                         user_key: USER_ID,
@@ -2009,7 +2761,7 @@
                 // 辅助函数：判断某任务是否在【当前周期】已完成
                 function checkIsCompleted(task) {
                     const rule = task.reset_rule || 'DailyReset';
-                    const currentCycleKey = getCycleKey(rule, now);
+                    const currentCycleKey = getCycleKey(rule);
                     // 检查是否存在匹配的 (task_id + currentCycleKey)
                     return userCompletedRecords.some(r => r.task_id === task.id && r.cycle_key === currentCycleKey);
                 }
@@ -2057,8 +2809,11 @@
                     if (t.isCompleted) return; // 完成后不再出现在任何列表
                     if (t.agent_open_mode === 'video') { videos.push(t); return; }
                     if (t.isOngoing) { ongoing.push(t); return; }
-                    if (!t.isSkipped && t.agent_need_voice) { recommend.push(t); }
+                    if (!t.isSkipped && t.agent_open_mode !== 'video') {
+                        recommend.push(t);
+                    }
                 });
+
 
                 const visitKey = 'nex_has_visited_app';
                 const isFirstVisit = !localStorage.getItem(visitKey);
@@ -2070,9 +2825,62 @@
                 this.tryPlayGreeting(greetingText);
 
                 this.renderSection('ongoing', ongoing);
-                this.renderSection('recommend', recommend.sort((a, b) => b.agent_base_score - a.agent_base_score).slice(0, 3));
-                this.renderSection('video', videos.slice(0, 5));
+                // ① 计算评分
+                const scoreData = CashStructureEngine.compute();
+
+                // ② 渲染评分卡
+                window.renderScoreCard(scoreData);
+
+                // ③ 推荐候选池（用 ALL_TASKS）
+                const recommendList = recommend.slice();
+
+                // ④ 清空旧推荐
+                recommend.length = 0;
+
+                // ⑤ 构建推荐
+                const recommendResult = buildRecommendWithRadar(recommendList, scoreData);
+
+                // ⑥ 写入推荐
+                recommend.push(...recommendResult);
+
+                this.renderSection('recommend', recommend);
+                this.renderSection('video', getRotatedVideos(videos, 5));
+                const emotionState = getEmotionalTimeState();
+                const videoSection = document.getElementById("video-section");
+                const nightTip = document.getElementById("night-whisper");
+                const icon = document.getElementById("video-toggle-icon");
+
+                if (emotionState === "night") {
+                    videoSection.classList.remove("collapsed");
+                    videoSection.classList.remove("video-day");
+                    videoSection.classList.add("video-night");
+                    icon.innerText = "▲";
+
+                    nightTip.innerText = "夜深了，适合轻松处理一些低强度内容。";
+                } else {
+                    videoSection.classList.add("collapsed");
+                    videoSection.classList.add("video-day");
+                    videoSection.classList.remove("video-night");
+                    icon.innerText = "▼";
+
+                    nightTip.innerText = "";
+                }
+                window.toggleVideoSection = function () {
+                    const section = document.getElementById("video-section");
+                    const icon = document.getElementById("video-toggle-icon");
+
+                    if (section.classList.contains("collapsed")) {
+                        section.classList.remove("collapsed");
+                        icon.innerText = "▲";
+                    } else {
+                        section.classList.add("collapsed");
+                        icon.innerText = "▼";
+                    }
+                };
+
+
             },
+
             tryPlayGreeting(text) {
                 const greetPlayedKey = `greet_played_${TODAY_KEY}`;
                 if (!localStorage.getItem(greetPlayedKey)) {
@@ -2126,13 +2934,138 @@
                 return `<div class="task-card ${isOngoing ? 'ongoing-style' : ''}"><div class="rec-badge ${badgeClass}">${badge}</div><div style="font-weight:600; color:var(--text-primary); font-size:1.1rem; margin-bottom:12px; padding-right:60px;">${t.title}</div><div class="agent-hints urgency-${t.agent_urgency_level || 'normal'} ${isOngoing ? 'mb-0' : ''}"><div style="display:flex; gap:8px; flex-wrap:wrap;">${hintHtml}</div>${agentJudgement}${executionBlock}${riskBlock}</div><div class="card-footer"><div class="card-footer-left">${timeHtml}</div><div class="card-footer-right">${buttonsHtml}</div></div></div>`;
             }
         };
+        window.CashStructureEngine = (function () {
 
+            function compute() {
+
+                const profile = TacticalManager.getProfile?.() || {};
+                const tasks = window.ALL_TASKS || [];
+
+                const totalCash = profile.total || 0;
+                const icbc = profile.icbc || 0;
+                const ccb = profile.ccb || 0;
+
+                // =========================
+                // ① 收益效率 (30分)
+                // =========================
+                const effectiveYield = profile.estimatedYield || 0.028; // 可替换为真实值
+                const baseYield = 0.014;
+
+                let yieldScore = Math.min((effectiveYield / baseYield) * 15, 30);
+
+                // =========================
+                // ② 流动性 (25分)
+                // =========================
+                const liquidityRatio = profile.t0Ratio || 0.6;
+                let liquidityScore = liquidityRatio * 25;
+
+                // =========================
+                // ③ 升金效率 (20分)
+                // =========================
+                const avgReward = profile.avgRewardRate || 0.006;
+                let leverageScore = 0;
+
+                if (avgReward >= 0.008) leverageScore = 20;
+                else if (avgReward >= 0.005) leverageScore = 12;
+                else if (avgReward >= 0.002) leverageScore = 5;
+
+                // =========================
+                // ④ 集中度 (15分)
+                // =========================
+                const maxBankRatio = Math.max(icbc, ccb) / totalCash || 0;
+
+                let concentrationScore = 15;
+
+                if (maxBankRatio > 0.7) concentrationScore = 0;
+                else if (maxBankRatio > 0.6) concentrationScore = 5;
+                else if (maxBankRatio > 0.5) concentrationScore = 10;
+
+                // =========================
+                // ⑤ 全球准备 (10分)
+                // =========================
+                const usdRatio = profile.usdRatio || 0;
+                let globalScore = usdRatio > 0.2 ? 10 : usdRatio > 0 ? 8 : 6;
+
+                // =========================
+                // 总分
+                // =========================
+                const totalScore = Math.round(
+                    yieldScore +
+                    liquidityScore +
+                    leverageScore +
+                    concentrationScore +
+                    globalScore
+                );
+
+                let level = "待优化";
+                if (totalScore >= 80) level = "优秀";
+                else if (totalScore >= 60) level = "稳健";
+
+                return {
+                    totalScore,
+                    level,
+                    breakdown: {
+                        yield: Math.round(yieldScore),
+                        liquidity: Math.round(liquidityScore),
+                        leverage: leverageScore,
+                        concentration: concentrationScore,
+                        global: globalScore
+                    }
+                };
+            }
+
+            return { compute };
+
+        })(),
+            window.renderScoreCard = function (data) {
+                const container = document.getElementById("score-card-wrapper");
+                if (!container) return;
+
+                const levelClass =
+                    data.totalScore >= 80
+                        ? "score-excellent"
+                        : data.totalScore >= 60
+                            ? "score-stable"
+                            : "score-risk";
+
+                container.innerHTML = `
+                    <div class="score-card ${levelClass}">
+                    <div class="score-header">
+                        <div class="score-title">现金结构评分</div>
+                        <div class="score-number">${data.totalScore}</div>
+                    </div>
+                    <div class="score-level">${data.level}</div>
+                    <div class="score-divider"></div>
+                    <div class="score-breakdown">
+                        ${renderBar("收益效率", data.breakdown.yield, 30)}
+                        ${renderBar("流动性", data.breakdown.liquidity, 25)}
+                        ${renderBar("升金效率", data.breakdown.leverage, 20)}
+                        ${renderBar("集中度", data.breakdown.concentration, 15)}
+                        ${renderBar("全球准备", data.breakdown.global, 10)}
+                    </div>
+                    </div>
+                `;
+
+                function renderBar(label, value, max) {
+                    const percent = (value / max) * 100;
+                    return `
+                    <div class="score-row">
+                        <div class="score-label">${label}</div>
+                        <div class="score-bar">
+                        <div class="score-fill" style="width:${percent}%"></div>
+                        </div>
+                        <div class="score-value">${value}/${max}</div>
+                    </div>
+                    `;
+                }
+            };
         const UIUtils = { toast(msg) { const b = document.getElementById('toast-box'); b.innerText = msg; b.classList.add('active'); setTimeout(() => b.classList.remove('active'), 2000); } };
 
         document.addEventListener('DOMContentLoaded', () => {
             initPWA(); LandingController.init();
             // 显式调用 Pro Plus 初始化
             ProPlusController.init();
+            TacticalManager.init();
             startCountdown();
             const d = new Date();
             const dateStr = `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
