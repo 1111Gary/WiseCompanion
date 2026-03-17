@@ -1,0 +1,79 @@
+/* css/base.css */
+/* =================================================================
+           DESIGN SYSTEM: NEXUS DARK (Financial/Professional Tier)
+           ================================================================= */
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    /* 核心背景色 - 使用冷色调深灰，非纯黑 */
+    --bg-app: #09090b;
+    /* 整体背景 */
+    --bg-surface: #121214;
+    /* 一级卡片 */
+    --bg-elevated: #1c1c1f;
+    /* 悬浮/二级卡片 */
+    --bg-modal: #18181b;
+    /* 弹窗背景 */
+
+    /* 边框与分割线 - 极细、低透明度 */
+    --border-light: rgba(255, 255, 255, 0.06);
+    --border-hover: rgba(255, 255, 255, 0.12);
+    --border-active: rgba(168, 199, 250, 0.3);
+
+    /* 文字层级 */
+    --text-primary: #f4f4f5;
+    /* 标题/正文 */
+    --text-secondary: #a1a1aa;
+    /* 辅助说明 */
+    --text-tertiary: #52525b;
+    /* 占位符/禁用 */
+
+    /* 功能色 (克制使用) */
+    --color-primary: #A8C7FA;
+    /* 品牌/引导 (保持原有蓝色，但更冷) */
+    --color-primary-dim: rgba(168, 199, 250, 0.1);
+
+    --color-success: #34d399;
+    /* 行动/安全 */
+    --color-success-bg: rgba(52, 211, 153, 0.1);
+
+    --color-risk: #fb7185;
+    /* 风险/警告 */
+    --color-risk-bg: rgba(251, 113, 133, 0.1);
+
+    --color-gold: #fbbf24;
+    /* 会员/锁定 */
+    --color-gold-bg: rgba(251, 191, 36, 0.1);
+
+    /* 动效 */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 基础重置 */
+body {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    padding: env(safe-area-inset-top) 16px 40px;
+    /* 移动端边距优化 */
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    line-height: 1.5;
+}
+
+/* 通用工具类 */
+.glass-panel {
+    background: var(--bg-surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-light);
+}
+
+/* 滚动条隐藏 */
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}

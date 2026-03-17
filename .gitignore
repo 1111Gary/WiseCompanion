@@ -1,53 +1,23 @@
-----------------------------------------------------
-
-Git 忽略文件配置
-
-目的: 避免将敏感信息和自动生成的文件推送到 GitHub
-
-----------------------------------------------------
-
-1. 敏感配置文件 (SECURITY RISK)
-
-包含 Airtable 密钥，绝对不能公开
-
+# 敏感配置
 config.json
+.env
+.env.*
 
-2. 自动生成的数据文件
-
-这是由 fetch-data.js 脚本生成的最终数据文件
-
+# 数据与依赖
 activities.json
-
-3. Node.js 依赖文件夹
-
-每次安装依赖时会自动生成，无需上传
-
 node_modules/
+package-lock.json
 
-4. 忽略本地开发环境和操作系统文件
-
------------------------------------------------------
-
-忽略大型二进制文件和可执行文件
-
-这些文件通常不属于源代码控制，且体积较大
-
+# 编辑器与大型文件
+/[Mm]icrosoft\ VS\ Code/
+.vscode/
 *.exe
 *.dll
 *.pak
 *.dat
-Code.exe
-ffmpeg.dll
 
-VS Code 项目配置和缓存
-
-.vscode/
-
-Windows/macOS 操作系统生成的文件
-
+# 系统垃圾
 Thumbs.db
-npm-debug.log*
 .DS_Store
-
-.env
-.env.*
+npm-debug.log*
+.vscode/
