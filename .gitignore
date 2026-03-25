@@ -21,3 +21,7 @@ Thumbs.db
 .DS_Store
 npm-debug.log*
 .vscode/
+
+# 忽略归档的旧逻辑，防止 AI 扫描
+_archive/
+_deprecated_logic/
