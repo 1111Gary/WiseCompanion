@@ -1,42 +1,52 @@
-# 敏感配置
-config.json
+# Environment and local secrets
 .env
 .env.*
+.env*
+!.env.example
+!.env.sample
+!.env.template
+app.config.js
+app.config.local.js
+private.local.html
 
-# 数据与依赖
-activities.json
+# Dependencies
 node_modules/
-package-lock.json
 
-# 编辑器与大型文件
-/[Mm]icrosoft\ VS\ Code/
+# Logs and local temp
+npm-debug.log*
+tmp_codex_dev.db
+tmp_state_automation_check.sqlite
+tmp/
+
+# Local databases and caches
+*.db
+*.sqlite
+
+# Editor / OS noise
 .vscode/
+Thumbs.db
+.DS_Store
+
+# Large local binaries
 *.exe
 *.dll
 *.pak
 *.dat
 
-# 系统垃圾
-Thumbs.db
-.DS_Store
-npm-debug.log*
-.vscode/
-
-# 忽略归档的旧逻辑，防止 AI 扫描
+# Archived or deprecated local folders
 _archive/
 _deprecated_logic/
-# 数据库文件
-*.db
-*.sqlite
 
-# 临时或元数据文件
-manifest.json
+# Supabase local state
+supabase/.temp/
+supabase/.branches/
+supabase/functions/**/.env
+supabase/.env.local
 
-css/
-docs/
+# Public shell mode: keep the open repo thin
 modules/
-# 如果你是 Node.js 项目，通常也要加上这个
-node_modules/
-.env
-tmp_state_automation_check.sqlite
-tmp_codex_dev.db
+docs/
+supabase/
+css/base.css
+css/components/
+app.config.example.js
