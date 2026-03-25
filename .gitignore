@@ -25,3 +25,18 @@ npm-debug.log*
 # 忽略归档的旧逻辑，防止 AI 扫描
 _archive/
 _deprecated_logic/
+# 数据库文件
+*.db
+*.sqlite
+
+# 临时或元数据文件
+manifest.json
+
+css/
+docs/
+modules/
+# 如果你是 Node.js 项目，通常也要加上这个
+node_modules/
+.env
+tmp_state_automation_check.sqlite
+tmp_codex_dev.db
